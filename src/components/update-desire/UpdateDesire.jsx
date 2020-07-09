@@ -42,7 +42,7 @@ export default function UpdateForm({ locations, alert, showAlert,
         if (+cat.id === +id) {
           setSelectedCategories([...selectedCategories, cat])
         }
-      } else showAlert('Maximum 2 catgories');
+      } else showAlert('Максимум 2 категории');
     })
   }
 
@@ -56,23 +56,16 @@ export default function UpdateForm({ locations, alert, showAlert,
         if (+cat.id === +id) {
           setSelectedSubcategories([...selectedSubcategories, cat])
         }
-      } else showAlert('Maximum 2 catgories');
+      } else showAlert('Максимум 2 подкатегории');
     });
   }
 
   return (
     <div className={s.update_form}>
-      <h3>Update Desire Form</h3>
+      <h3>Изменить желание</h3>
       {alert && <Alert />}
       <form encType="multipart/form-data" onSubmit={submitHandler}>
         <label>Категория</label>
-        {/*{selectedCategories ?*/}
-        {/*  <div className={s.chips}>*/}
-        {/*    {selectedCategories.map((cat, i) => (*/}
-        {/*      <Chip label={cat.name}*/}
-        {/*        onDelete={e => deleteCategory(cat.id)}*/}
-        {/*        color="primary" key={i} />*/}
-        {/*    ))}</div> : null}*/}
         <select className="form-control" onChange={e => {
           selectCategory(e.target.value);
           getSubcategories(e.target.value);
@@ -85,13 +78,6 @@ export default function UpdateForm({ locations, alert, showAlert,
             )) : null}
         </select>
         <label>Подкатегория</label>
-        {/*{selectedSubcategories ?*/}
-        {/*  <div className={s.chips}>*/}
-        {/*    {selectedSubcategories.map((cat, i) => (*/}
-        {/*      <Chip label={cat.name}*/}
-        {/*        onDelete={e => deleteSubcategory(cat.id)}*/}
-        {/*        color="primary" key={i} />*/}
-        {/*    ))}</div> : null}*/}
         <select className="form-control" onChange={e => {
           selectSubcategory(e.target.value);
           setSubcategory_ids([...subcategory_ids, e.target.value]);
@@ -144,7 +130,7 @@ export default function UpdateForm({ locations, alert, showAlert,
           name="header"
           id="header"
           onChange={e => setHeader(e.target.value)} />
-        <label htmlFor="description">description</label>
+        <label htmlFor="description">Описание</label>
         <input className="form-control"
           type="text"
           name="description"

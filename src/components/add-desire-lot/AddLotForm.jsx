@@ -13,7 +13,7 @@ export default function AddLotForm({
   locations,
   cities,
   getCities,
-  currentGeoPosition
+  currentGeoPosition,
 }) {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -67,20 +67,25 @@ export default function AddLotForm({
     } else {
       showAlert("Bce поля должны быть заполнены");
     }
-  }
+  };
 
   useEffect(() => {
-    if (location.length &&
+    if (
+      location.length &&
       currentGeoPosition &&
-      currentGeoPosition.region_rus) {
-      locations.map(loc => {
-        if (loc.name_ru.toLowerCase() === currentGeoPosition.region_rus.toLowerCase()) {
-          setCurrGeoRegion(loc)
-          getCities(loc.id)
+      currentGeoPosition.region_rus
+    ) {
+      locations.map((loc) => {
+        if (
+          loc.name_ru.toLowerCase() ===
+          currentGeoPosition.region_rus.toLowerCase()
+        ) {
+          setCurrGeoRegion(loc);
+          getCities(loc.id);
         }
-      })
+      });
     }
-  }, [])
+  }, []);
 
   return (
     <div className={s.add_lot_form}>
@@ -89,7 +94,7 @@ export default function AddLotForm({
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>
-          <label>Заголовок</label>
+          <label>Заголовок *</label>
           <input
             type="text"
             value={title}
@@ -99,7 +104,8 @@ export default function AddLotForm({
           />
           <label>Фото</label>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
-            <input key={i}
+            <input
+              key={i}
               type="file"
               onChange={(e) => setPhotos([...photos, e.target.files[0]])}
             />
@@ -113,7 +119,7 @@ export default function AddLotForm({
             className="form-control"
             onChange={(e) => setVideo(e.target.value)}
           />
-          <label>Описание</label>
+          <label>Описание *</label>
           <textarea
             required
             value={description}
@@ -124,7 +130,7 @@ export default function AddLotForm({
         </div>
         <div>
           <fieldset>
-            <legend>Выберите категорию</legend>
+            <legend>Выберите категорию *</legend>
             <select
               required
               className="form-control"
@@ -134,14 +140,14 @@ export default function AddLotForm({
               }}
             >
               <option value="default" hidden>
-                первая категория
-							</option>
+                первая категория *
+              </option>
               {categories && categories.length
                 ? categories.map((c, i) => (
-                  <option key={i} value={c.id}>
-                    {c.name}
-                  </option>
-                ))
+                    <option key={i} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))
                 : null}
             </select>
             <select
@@ -150,14 +156,14 @@ export default function AddLotForm({
               onChange={(e) => setSubcategory([e.target.value, subcategory[1]])}
             >
               <option value="default" hidden>
-                первая подкатегория
-							</option>
+                первая подкатегория *
+              </option>
               {subcategories && subcategories.length
                 ? subcategories.map((s, i) => (
-                  <option key={i} value={s.id}>
-                    {s.name}
-                  </option>
-                ))
+                    <option key={i} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))
                 : null}
             </select>
             <br />
@@ -167,13 +173,13 @@ export default function AddLotForm({
             >
               <option value="default" hidden>
                 вторая категория
-							</option>
+              </option>
               {categories && categories.length
                 ? categories.map((c, i) => (
-                  <option key={i} value={c.id}>
-                    {c.name}
-                  </option>
-                ))
+                    <option key={i} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))
                 : null}
             </select>
             <select
@@ -185,19 +191,19 @@ export default function AddLotForm({
             >
               <option value="default" hidden>
                 вторая подкатегория
-							</option>
+              </option>
               {subcategories && subcategories.length
                 ? subcategories.map((s, i) => (
-                  <option key={i} value={s.id}>
-                    {s.name}
-                  </option>
-                ))
+                    <option key={i} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))
                 : null}
             </select>
           </fieldset>
           {/* LOCATIONS */}
           <fieldset>
-            <legend>Select a Region</legend>
+            <legend>Выберите область *</legend>
             <select
               required
               className="form-control"
@@ -207,19 +213,23 @@ export default function AddLotForm({
               }}
             >
               <option value="default" hidden>
-                regions
-							</option>
+                Область *
+              </option>
               {locations && locations.length
                 ? locations.map((c, i) => {
-                  if (currentGeoRegion && currentGeoRegion.id === c.id) {
-                    return <option selected key={i} value={c.id}>
-                      {c.name_ru}
-                    </option>
-                  }
-                  return <option key={i} value={c.id}>
-                    {c.name_ru}
-                  </option>
-                })
+                    if (currentGeoRegion && currentGeoRegion.id === c.id) {
+                      return (
+                        <option selected key={i} value={c.id}>
+                          {c.name_ru}
+                        </option>
+                      );
+                    }
+                    return (
+                      <option key={i} value={c.id}>
+                        {c.name_ru}
+                      </option>
+                    );
+                  })
                 : null}
             </select>
             <select
@@ -228,34 +238,34 @@ export default function AddLotForm({
               onChange={(e) => setCity(e.target.value)}
             >
               <option value="default" hidden>
-                cities
-							</option>
+                Город *
+              </option>
               {cities && cities.length
                 ? cities.map((s, i) => (
-                  <option key={i} value={s.id}>
-                    {s.name_ru}
-                  </option>
-                ))
+                    <option key={i} value={s.id}>
+                      {s.name_ru}
+                    </option>
+                  ))
                 : null}
             </select>
           </fieldset>
           <div className={s.condition_fieldset}>
-            <legend>Condition</legend>
+            <legend>Сроки *</legend>
             {desiresInfo.types && desiresInfo.types.length
               ? desiresInfo.types.map((t, i) => (
-                <label key={i}>
-                  {t.value}
-                  <input
-                    type="radio"
-                    name="condition"
-                    value={t.id}
-                    onChange={(e) => setCondition(e.target.value)}
-                  />
-                </label>
-              ))
+                  <label key={i}>
+                    {t.value}
+                    <input
+                      type="radio"
+                      name="condition"
+                      value={t.id}
+                      onChange={(e) => setCondition(e.target.value)}
+                    />
+                  </label>
+                ))
               : null}
           </div>
-          <label htmlFor="price">Price</label>
+          <label htmlFor="price">Цена *</label>
           <input
             type="number"
             id="price"
@@ -264,7 +274,7 @@ export default function AddLotForm({
             className="form-control"
             required
           />
-          <label htmlFor="priority">Priority</label>
+          <label htmlFor="priority">Приоритет *</label>
           <select
             id="priority"
             required
@@ -274,10 +284,10 @@ export default function AddLotForm({
             <option value="default" hidden></option>
             {desiresInfo.priorities && desiresInfo.priorities.length
               ? desiresInfo.priorities.map((p, i) => (
-                <option key={i} value={p.id}>
-                  {p.value}
-                </option>
-              ))
+                  <option key={i} value={p.id}>
+                    {p.value}
+                  </option>
+                ))
               : null}
           </select>
           <label>
@@ -289,18 +299,19 @@ export default function AddLotForm({
                 } else setIsActive(1);
               }}
             />
-						Active
-					</label>
+            Сделать активным
+          </label>
           <div className="d-flex">
             <button type="submit" className="ml-2 btn btn-secondary">
-              Publish
-						</button>
-            {loading &&
+              Опубликовать
+            </button>
+            {loading && (
               <div className="text-center py-2 pl-4">
                 <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </form>

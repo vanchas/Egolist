@@ -8,8 +8,8 @@ export default function SignIn({ alert }) {
   return (
     <div>
       <div className="alert alert-info" role="alert">
-        {/* User: Login - admin1@admin1, password - user <br /> */}
-        Admin: Login - admin@admin, password - admin
+         {/*User: Login - admin1@admin1, password - user <br /> */}
+        Admin: Login - ego@yopmail.com, password - test
       </div>
       <h2>Login</h2>
       {alert && <Alert />}

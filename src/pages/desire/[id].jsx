@@ -46,7 +46,7 @@ const Id = ({
         {desire.header && (
           <div className={s.show_offers}>
             <span className="btn" onClick={() => showOffersList(desire.id)}>
-              SHOW OFFERS
+              ПОКАЗАТЬ ПРЕДЛОЖЕНИЯ
             </span>
           </div>
         )}

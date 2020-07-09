@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities } from '../redux/actions/actions'
-import { getMyDesires, updateDesire } from '../redux/actions/userActions'
-import UpdateForm from '../components/update-desire/UpdateDesire'
+import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities } from '../../redux/actions/actions'
+import { getMyDesires, updateDesire } from '../../redux/actions/userActions'
+import UpdateForm from '../../components/update-desire/UpdateDesire'
 
-function UpdateDesire(props) {
+function Id(props) {
 
   useEffect(() => {
     props.getMyDesires();
@@ -55,4 +55,4 @@ const mapDispatchToProps = {
   getCities,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateDesire);
+export default connect(mapStateToProps, mapDispatchToProps)(Id);

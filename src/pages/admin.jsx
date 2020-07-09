@@ -16,28 +16,28 @@ const Admin = props => {
   return (
     <div>
       <div>
-        <h3>Create category</h3>
+        <h3>Создать категорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.createCategory(newCategoryName);
           setNewCategoryName('');
         }}>
-          <label>Type new category name
+          <label>Имя новой категории
           <input type="text" className="form-control" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 
       <div>
-        <h3>Edit category</h3>
+        <h3>Изменить категорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.editCategory(newCategoryId, newCategoryName);
           setNewCategoryName('');
           setNewCategoryId('');
         }}>
-          <label>Select category to edit
+          <label>Выберите категория для изменения
           <select className="form-control" onChange={e => setNewCategoryId(e.target.value)}>
               <option value="default" hidden></option>
               {props.categories && props.categories.length
@@ -46,21 +46,21 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <label>Type new category name
+          <label>Новое имя категории
             <input type="text" className="form-control" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 
       <div>
-        <h3>Delete category</h3>
+        <h3>Удалить категорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.deleteCategory(newCategoryId);
           setNewCategoryId('');
         }}>
-          <label>Select category to delete
+          <label>Выберите категорию
           <select className="form-control" onChange={e => setNewCategoryId(e.target.value)}>
               <option value="default" hidden></option>
               {props.categories && props.categories.length
@@ -69,19 +69,19 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 
       <div>
-        <h3>Create subcategory</h3>
+        <h3>Создать подкатегорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.createSubcategory(newCategoryId, newSubcategoryName);
           setNewSubcategoryName('');
           setNewCategoryId('');
         }}>
-          <label>Select category for new subcategory
+          <label>Выберите категорию для новой подкатегории
           <select className="form-control" onChange={e => setNewCategoryId(e.target.value)}>
               <option value="default" hidden></option>
               {props.categories && props.categories.length
@@ -90,15 +90,15 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <label>Type new subcategory name
+          <label>Имя новой подкатегории
           <input type="text" className="form-control" value={newSubcategoryName} onChange={e => setNewSubcategoryName(e.target.value)} />
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 
       <div>
-        <h3>Edit subcategory</h3>
+        <h3>Изменить подкатегорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.editSubcategory(newSubcategoryId, newCategoryId, newSubcategoryName);
@@ -106,7 +106,7 @@ const Admin = props => {
           setNewCategoryId('');
           setNewSubcategoryId('');
         }}>
-          <label>Select category for edit subcategory
+          <label>Выберите категорию для изменения подкатегории
           <select className="form-control" onChange={e => {
               props.getSubcategories(e.target.value);
               setNewCategoryId(e.target.value);
@@ -118,7 +118,7 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <label>Select subcategory to edit
+          <label>Выберите подкатегорию для изменения
           <select className="form-control" onChange={e => setNewSubcategoryId(e.target.value)}>
               <option value="default" hidden></option>
               {props.subcategories && props.subcategories.length
@@ -127,22 +127,22 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <label>Type new subcategory name
+          <label>Новое имя подкатегории
           <input type="text" className="form-control" value={newSubcategoryName} onChange={e => setNewSubcategoryName(e.target.value)} />
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 
       <div>
-        <h3>Delete subcategory</h3>
+        <h3>Удалить подкатегорию</h3>
         <form onSubmit={e => {
           e.preventDefault();
           props.deleteSubcategory(newSubcategoryId);
           setNewSubcategoryId('');
           setNewCategoryId('');
         }}>
-          <label>Select category for delete subcategory
+          <label>Выберите категорию для удаления подкатегории
           <select className="form-control" onChange={e => {
               props.getSubcategories(e.target.value);
               setNewCategoryId(e.target.value);
@@ -154,7 +154,7 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <label>Select subcategory to delete
+          <label>Выберите подкатегорию для удаления
           <select className="form-control" onChange={e => setNewSubcategoryId(e.target.value)}>
               <option value="default" hidden></option>
               {props.subcategories && props.subcategories.length
@@ -163,7 +163,7 @@ const Admin = props => {
                 )) : null}
             </select>
           </label>
-          <button type="submit" className="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Сохранить</button>
         </form>
       </div>
 

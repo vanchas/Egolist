@@ -69,7 +69,7 @@ export default function MyDesireItem({
 
       <div className={s.card_control_block}>
         <div className={s.price}>{desire.price} ГРН</div>
-        <Link href={{ pathname: "/updateDesire", query: { id: desire.id } }}>
+        <Link href={{ pathname: "/updateDesire", query: { id: desire.id } }} as={`/updateDesire/${desire.id}`}>
           <a className={`${s.edit} btn`}>Изменить</a>
         </Link>
         <div

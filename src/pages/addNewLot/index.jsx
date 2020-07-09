@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import AddLotForm from "../components/add-desire-lot/AddLotForm";
-import s from "../components/add-desire-lot/add-form.module.scss";
+import AddLotForm from "../../components/add-desire-lot/AddLotForm";
+import s from "../../components/add-desire-lot/add-form.module.scss";
 import { connect } from "react-redux";
 import {
   createDesire,
   getCurrentGeoPosition,
-} from "../redux/actions/userActions";
+} from "../../redux/actions/userActions";
 import {
   showAlert,
   getDesiresInfo,
   getCategories,
   getSubcategories,
   getCities,
-} from "../redux/actions/actions";
-import Success from "../components/helpers/Success";
+} from "../../redux/actions/actions";
+import Success from "../../components/helpers/Success";
 
-function AddNewLot({
+function Index({
   alert,
   showAlert,
   createDesire,
@@ -41,7 +41,6 @@ function AddNewLot({
   return (
     <div className={s.add_lot_page}>
       {success && <Success />}
-      <h3>Making New Lot</h3>
       <AddLotForm
         success={success}
         alert={alert}
@@ -81,4 +80,4 @@ const mapDispatchToProps = {
   getCurrentGeoPosition,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewLot);
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

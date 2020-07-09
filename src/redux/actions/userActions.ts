@@ -178,13 +178,13 @@ export const updateDesire = (
     }
   );
   if (response.status === 200) {
-    dispatch(showSuccess("It is DONE"));
+    dispatch(showSuccess("Желание успешно изменено"));
   }
   const promise = response.json();
   return promise
     .then((res) => {
       return dispatch({ type: UPDATE_DESIRE });
-    })
+    }).then(() => Router.push(`/desire?id=${id}`, `/desire/${id}`))
     .catch((err) => console.error("Error: ", err));
 };
 export const deleteDesire = (id: number | string) => async (
