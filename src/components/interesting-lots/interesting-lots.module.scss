@@ -1,0 +1,127 @@
+.interesting_lots_list {
+	background-color: #b9b8b8;
+	padding: 2.5em 1.5em 1em 1.5em;
+	grid-column: span 3;
+	ul {
+		position: relative;
+		list-style: none;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-gap: 1em;
+		li {
+		}
+	}
+	@media screen and (max-width: 768px) {
+		grid-column: span 1;
+		ul {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+.interesting_img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateY(-100%);
+	height: 1.5em;
+}
+
+.card {
+	color: #383b42;
+	position: relative;
+	height: 20em;
+	background-color: #d75359;
+	display: grid;
+	grid-template-rows: 3fr 1fr;
+}
+.card_header {
+	position: relative;
+}
+.card_header_control {
+	width: 100%;
+	position: absolute;
+	top: 0.5em;
+	left: 0;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: space-between;
+	span {
+		padding: 0.5em 1em;
+		img {
+			width: 1.5em;
+		}
+	}
+}
+.lot_img_holder {
+	width: 100%;
+	overflow: hidden;
+	img {
+	}
+}
+.green_sign {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: #8fb50c;
+	color: #fff;
+	padding: 0 0.5em;
+	height: 25px;
+	&::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		transform: translateX(100%);
+		display: inline-block;
+		border-top: 25px solid transparent;
+		border-left: 15px solid #8fb50c;
+	}
+}
+.card_info {
+	position: relative;
+	padding: 0.5em;
+	background-color: #fff;
+	h5 {
+		font-weight: 500;
+	}
+}
+.card_price {
+	color: #383b42;
+	font-weight: 500;
+	font-size: 1.6em;
+	font-weight: 700;
+	// letter-spacing: 7px;
+}
+.card_elipse {
+	position: absolute;
+	top: 0;
+	right: 1em;
+	width: 3em;
+	height: 3em;
+	background-color: #383b42;
+	border-radius: 50%;
+	transform: translateY(-50%);
+}
+
+.interesting_lots_list_control {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 1em;
+	padding: 2em 0 0 0;
+	span:nth-child(1),
+	span:nth-child(2),
+	span:nth-child(4) {
+		cursor: pointer;
+		text-align: center;
+		padding: 0.3em 1em;
+		font-weight: 700;
+		display: inline-block;
+		background-color: #dedede;
+		color: #000;
+	}
+	@media screen and (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}

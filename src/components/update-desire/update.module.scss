@@ -1,0 +1,18 @@
+.update_form {
+	display: grid;
+}
+.priorities,
+.types {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	div {
+		grid-column: span 3;
+	}
+}
+.chips {
+	display: flex;
+	padding-bottom: 0.5em;
+	* {
+		margin-right: 1em;
+	}
+}

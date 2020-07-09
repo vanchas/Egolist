@@ -1,0 +1,82 @@
+.desire_page {
+}
+.card {
+	display: grid;
+	background-color: #fff;
+}
+.main_image {
+	width: 100%;
+	height: 24em;
+	background-color: #0c9bb5;
+	display: grid;
+	justify-items:  center;
+	align-items: center;
+	overflow: hidden;
+	position: relative;
+	img {
+		width: 100%;
+	}
+}
+.card_info {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	grid-gap: 1em;
+	padding: 1em;
+}
+.card_control {
+	display: flex;
+	justify-content: flex-end;
+}
+.created_at {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+
+.views {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+.categories {
+	font-size: 1em;
+	font-weight: 500;
+	display: grid;
+	grid-gap: 0.5em;
+	span {
+		text-align: center;
+		padding: 0.1em 0.5em;
+		border: 1px solid #000;
+	}
+}
+.add_offer_btn {
+	text-decoration: none;
+	color: #000000;
+	text-align: center;
+	padding: 0.3em 0.5em;
+	margin-top: 1em;
+	border: 1px solid #000;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+.desire_view {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	grid-column-gap: 1em;
+}
+.show_offers {
+	background-color: #555;
+	grid-column: span 2;
+	span {
+		padding: 0.2em 1em;
+		margin: -1px 0 0 1em;
+		color: #fff;
+		background-color: chartreuse;
+		font-weight: 500;
+		height: calc(100% + 1px);
+		&:hover {
+			transition: 0.2s;
+			color: #fff;
+			background-color: #5db900;
+		}
+	}
+}

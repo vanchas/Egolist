@@ -1,0 +1,90 @@
+.sidebar {
+  position: absolute;
+	left: 0;
+	bottom: 0;
+  top: 5rem;
+  background-color: #fff;
+  box-shadow: 5px 5px 25px 3px #999;
+  padding: 1em;
+  z-index: 999;
+	display: none;
+	max-width: 90vw;
+	height: 100%;
+}
+
+.sidebar_toggler {
+  display: none;
+  position: absolute;
+  z-index: 999; 
+}
+
+@media screen and (max-width: 1024px) {
+  .sidebar,
+  .sidebar_toggler {
+    display: block;
+  }
+}
+
+.sidebar_messages {
+	padding: .5em;
+	img {
+		width: 100%;
+		background-color: #ddd;
+		border-radius: .5em;
+	}
+}
+
+
+.sidebar_user {
+	header {
+		padding: 2em 1em;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-content: center;
+		align-items: center;
+		justify-content: center;
+		grid-gap: 1em;
+	}
+}
+.user_ava {
+	border-radius: 50%;
+	overflow: hidden;
+}
+.user_info {
+	display: grid;
+	grid-gap: 0.7em;
+}
+.username {
+	font-weight: 500;
+}
+.user_rating {
+	padding-bottom: 0.3em;
+}
+.user_location {
+	font-weight: 500;
+	img {
+		margin-right: 0.6em;
+	}
+}
+
+.sidebar_user_control {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 0.1em;
+	span {
+		color: #000;
+		font-weight: 500;
+		background-color: #dedede;
+		text-align: center;
+		font-size: 0.9em;
+		padding: 0.2em 0 0.2em 0;
+		&:hover {
+			color: #fff;
+		}
+	}
+	.aside_btn_active {
+		background-color: #064d5e;
+		color: #fff;
+	}
+}
+
