@@ -8,7 +8,7 @@ import Success from "../helpers/Success";
 export default function SignUp({ alert, showAlert, success }) {
   return (
     <div>
-      <h2>Registration</h2>
+      <h2>Регистрация</h2>
       {alert && <Alert />}
       {success && <Success />}
       <Formik
@@ -50,32 +50,32 @@ export default function SignUp({ alert, showAlert, success }) {
         render={({ errors, status, touched, isSubmitting }) => (
           <Form>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Имя</label>
               <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
               <ErrorMessage name="username" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">Емейл</label>
               <Field name="email" type="email" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
               <ErrorMessage name="email" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <label htmlFor="phone">Phone</label>
+              <label htmlFor="phone">Телефон</label>
               <Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />
               <ErrorMessage name="phone" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Пароль</label>
               <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
               <ErrorMessage name="password" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <label htmlFor="password_confirmation">Confirm password</label>
+              <label htmlFor="password_confirmation">Подтверждение пароля</label>
               <Field name="password_confirmation" type="password" className={'form-control' + (errors.password_confirmation && touched.password_confirmation ? ' is-invalid' : '')} />
               <ErrorMessage name="password_confirmation" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Продолжить</button>
               {isSubmitting &&
                 <div className="spinner-border spinner-border-sm text-primary ml-3" role="status">
                   <span className="sr-only">Loading...</span>

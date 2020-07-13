@@ -32,7 +32,7 @@ export default function MyDesireList({
       <div className={s.red_list_control}>
         <span className="btn text-dark" onClick={()=>Router.back()}>Назад</span>
         <span className="btn">
-          <Link href="/addNewLot" as={`/addNewLot`}>
+          <Link href="/addNewLot">
             <a className="text-dark">Создать желание</a>
           </Link>
         </span>

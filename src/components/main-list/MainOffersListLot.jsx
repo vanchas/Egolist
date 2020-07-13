@@ -4,10 +4,10 @@ import s from "./offers-list.module.scss";
 import Burger from "../../assets/header/burger.png";
 import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
-import Success from '../helpers/Success'
 import { authenticationService } from "../../_services/authentication.service";
 import { useRouter } from "next/router";
 import Carousel from '../helpers/Carousel'
+import ReportModal from "../helpers/ReportModal";
 
 export default function MainOffersListLot({ offer, addOfferToFavorites, success }) {
   const [showToast, setShowToast] = useState(false);
@@ -26,9 +26,6 @@ export default function MainOffersListLot({ offer, addOfferToFavorites, success 
 
   return (
     <div className={s.card}>
-      <div>
-        {/* {success && <Success />} */}
-      </div>
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           {user && <>
@@ -53,7 +50,7 @@ export default function MainOffersListLot({ offer, addOfferToFavorites, success 
 
             {showToast && (
               <div className={`${s.toast}`}>
-                <span>Report</span>
+                <ReportModal userId={offer.user_id} setShowToast={setShowToast} />
               </div>
             )}
           </>}

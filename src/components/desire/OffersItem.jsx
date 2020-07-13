@@ -83,9 +83,7 @@ export default function OffersItem({
             </div>
             <div className={s.price}>{offer.price} ГРН</div>
             <Link
-              href={{ pathname: "/desire", query: { id: offer.desire_id } }}
-              as={`/desire/${offer.desire_id}`}
-            ><a>Открыть</a></Link>
+              href={{ pathname: "/desire", query: { id: offer.desire_id } }}><a>Открыть</a></Link>
           </div>
         </>
       )}

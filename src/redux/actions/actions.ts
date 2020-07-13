@@ -21,6 +21,7 @@ export const showSuccess = (text: string) => async (dispatch: Function) => {
         dispatch({ type: HIDE_SUCCESS, payload: text });
     }, 3000);
 }
+
 export const getAllDesires = () => async (dispatch: Function) => {
     const user = authenticationService.currentUserValue;
     const response = await fetch(`https://egolist.padilo.pro/api/desires`, {
@@ -36,6 +37,7 @@ export const getAllDesires = () => async (dispatch: Function) => {
         return dispatch({ type: GET_ALL_DESIRES, payload: res })
     }).catch(err => console.error('Error: ', err));
 };
+
 export const getDesireById = (id: number | string) => async (dispatch: Function) => {
     const user = authenticationService.currentUserValue;
     const response = await fetch(`https://egolist.padilo.pro/api/desires/show/${id}`, {

@@ -50,7 +50,7 @@ export default function MyDesireItem({
 
       <div className={s.card_info_block}>
         <h5>
-          <Link href={{ pathname: "/desire", query: { id: desire.id } }} as={`/desire/${desire.id}`}>
+          <Link href={{ pathname: "/desire", query: { id: desire.id } }}>
             <a>{desire.header}</a>
           </Link>
         </h5>
@@ -69,7 +69,7 @@ export default function MyDesireItem({
 
       <div className={s.card_control_block}>
         <div className={s.price}>{desire.price} ГРН</div>
-        <Link href={{ pathname: "/updateDesire", query: { id: desire.id } }} as={`/updateDesire/${desire.id}`}>
+        <Link href={{ pathname: "/updateDesire", query: { id: desire.id } }}>
           <a className={`${s.edit} btn`}>Изменить</a>
         </Link>
         <div

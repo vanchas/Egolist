@@ -84,7 +84,7 @@ export default function OfferCard({ offer, getInterestingDesiresToOffer, interes
           )}
         </div>
         <div className={s.price}>{offer.price} ГРН</div>
-        <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }} as={`/desire/${offer.desire_id}`}><a className={`btn ${s.open}`}>Открыть</a></Link>
+        <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}><a className={`btn ${s.open}`}>Открыть</a></Link>
       </div>
 
       <div className={s.card_footer}>

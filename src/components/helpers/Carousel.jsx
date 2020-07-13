@@ -60,7 +60,7 @@ export default function Carousel({ photo, video, desireId }) {
 
   const redirectToDesire = e => {
     e.preventDefault()
-    Router.push(`/desire?/id=${desireId}`, `/desire/${desireId}`)
+    Router.push(`/desire?id=${desireId}`)
   }
 
   return (

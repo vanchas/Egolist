@@ -47,24 +47,24 @@ const NavComponent = ({ locations, searchInfo, filterOffers, filterDesires }) =>
         <Collapse isOpen={isOpen} navbar>
           <Nav className={`mr-auto pb-2`} navbar>
             <NavItem className={`${s.nav_item} ${router.pathname === '/' ? s.active_yellow : null} nav-item`}>
-              <Link href={`/`} as={`/`}><a className="font-weight-bold">ЛЕНТА</a></Link>
+              <Link href={`/`}><a className="font-weight-bold">ЛЕНТА</a></Link>
             </NavItem>
             {user && user.token
               ? <NavItem className={`${s.nav_item} ${router.pathname === '/myDesires' ? s.active_red : null} nav-item`}>
-                  <Link href={`/myDesires`} as={`/myDesires`}><a className="font-weight-bold">ХОЧУ КУПИТЬ</a></Link>
+                  <Link href={`/myDesires`}><a className="font-weight-bold">ХОЧУ КУПИТЬ</a></Link>
               </NavItem> : null}
             {user && user.token
               ? <>
                 <NavItem className={`${s.nav_item} ${router.pathname === '/myOffers' ? s.active_blue : null} nav-item`}>
-                  <Link href={`/myOffers`} as={`/myOffers`}><a className="font-weight-bold">МОИ ПРЕДЛОЖЕНИЯ</a></Link>
+                  <Link href={`/myOffers`}><a className="font-weight-bold">МОИ ПРЕДЛОЖЕНИЯ</a></Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
-                  <Link href={`/`} as={`/`} ><a>
+                  <Link href={`/`}><a>
                     <img src={Libra} alt="" className={s.libra} />
                   </a></Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
-                  <Link href={`/favorites`} as={`/favorites`} >
+                  <Link href={`/favorites`}>
                     <img src={Heart} alt="" className={s.libra} />
                   </Link>
                 </NavItem>

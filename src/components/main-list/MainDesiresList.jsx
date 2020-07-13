@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react'
 import s from './desires-list.module.scss'
 import MainDesiresListLot from './MainDesiresListLot';
 import Success from '../helpers/Success'
+import {addComplaint} from "../../redux/actions/userActions";
 
-export default function MainDesiresList({ desires, hideShowDesire, addDesireToFavorites, success, deleteFavorite }) {
+export default function MainDesiresList({ desires, hideShowDesire, addDesireToFavorites, success, addComplaint }) {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export default function MainDesiresList({ desires, hideShowDesire, addDesireToFa
           ? <ul>{desires.map((des, i) => (
             <li key={i}>
               <MainDesiresListLot
-                deleteFavorite={deleteFavorite}
+                  addComplaint={addComplaint}
                 success={success}
                 addDesireToFavorites={addDesireToFavorites}
                 hideShowDesire={hideShowDesire}

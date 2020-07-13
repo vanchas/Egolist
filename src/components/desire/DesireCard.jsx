@@ -75,8 +75,7 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
                   href={{
                     pathname: "/addOffer",
                     query: { desire_id: desire.id },
-                  }} as={`/addOffer/${desire.id}`}
-                >
+                  }}>
                   <a className={s.add_offer_btn}>
                     Добавить предложение
                   </a>

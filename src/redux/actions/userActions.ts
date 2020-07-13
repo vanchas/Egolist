@@ -30,7 +30,7 @@ import {
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
   SORT_MY_OFFERS,
-  SORT_MY_DESIRES,
+  SORT_MY_DESIRES, GET_COMPLAINTS_INFO,
 } from "./types";
 import { showSuccess, showAlert } from "./actions";
 
@@ -62,7 +62,6 @@ export const updateUserInfo = (
   const response = await fetch(`https://egolist.padilo.pro/api/update_user`, {
     method: "POST",
     headers: {
-      // "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
       Accept: "application/json",
       Authorization: `${user.token_type} ${user.token}`,
@@ -184,7 +183,8 @@ export const updateDesire = (
   return promise
     .then((res) => {
       return dispatch({ type: UPDATE_DESIRE });
-    }).then(() => Router.push(`/desire?id=${id}`, `/desire/${id}`))
+    })
+    .then(() => Router.push(`/desire?id=${id}`))
     .catch((err) => console.error("Error: ", err));
 };
 export const deleteDesire = (id: number | string) => async (
@@ -207,7 +207,7 @@ export const deleteDesire = (id: number | string) => async (
     .catch((err) => console.error("Error: ", err));
 };
 export const addComplaint = (
-  id: number | string,
+  // id: number | string,
   complaint: string,
   type_id: number | string,
   complaint_to_id: number | string
@@ -219,18 +219,44 @@ export const addComplaint = (
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
+        "Content-Type": "application/json",
         Authorization: `${user.token_type} ${user.token}`,
       },
+      body: JSON.stringify({
+        complaint,
+        type_id,
+        complaint_to_id,
+      }),
     }
   );
   const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: ADD_COMPLAINT, payload: res });
-    })
-    .catch((err) => console.error("Error: ", err));
+  if (response.status === 201) {
+      return promise
+          .then((data) => {
+              dispatch(showSuccess('Жалоба успешно создана'))
+              return dispatch({ type: ADD_COMPLAINT, payload: data });
+          })
+          .catch((err) => console.error("Error: ", err));
+  } else {
+      return promise
+          .then((data) => {
+              return dispatch(showAlert('Не верно заполнена форма'));
+          })
+          .catch((err) => console.error("Error: ", err));
+  }
 };
+
+export const getComplaintsInfo = () => async (dispatch: Function) => {
+  const response = await fetch(
+      `https://egolist.padilo.pro/api/info/complaints`);
+  const promise = response.json();
+  return promise
+      .then((data) => {
+        return dispatch({ type: GET_COMPLAINTS_INFO, payload: data });
+      })
+      .catch((err) => console.error("Error: ", err));
+};
+
 export const getMyComplaints = () => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/complaints/my`, {
@@ -296,7 +322,7 @@ export const createDesire = (
       if (response.status === 201) {
         dispatch(showSuccess("Желание успешно создано"));
         setTimeout(() => {
-          Router.push(`/desire?id=${data.id}`, `/desire/${data.id}`);
+          Router.push(`/desire?id=${data.id}`);
         }, 3000);
       } else {
         dispatch(showAlert(data.message));
@@ -715,7 +741,7 @@ export const createOffer = (
         dispatch({ type: CREATE_OFFER, payload: data });
         dispatch(showSuccess("Предложение успешно создано"));
         setTimeout(() => {
-          Router.push(`/desire?id=${desireId}`, `/desire/${desireId}`);
+          Router.push(`/desire?id=${desireId}`);
         }, 3000);
       })
       .catch((err) => console.error("Error: ", err));

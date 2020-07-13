@@ -7,11 +7,11 @@ import Alert from '../helpers/Alert'
 export default function SignIn({ alert }) {
   return (
     <div>
-      <div className="alert alert-info" role="alert">
+      {/*<div className="alert alert-info" role="alert">*/}
          {/*User: Login - admin1@admin1, password - user <br /> */}
-        Admin: Login - ego@yopmail.com, password - test
-      </div>
-      <h2>Login</h2>
+        {/*Admin: Login - ego@yopmail.com, password - test*/}
+      {/*</div>*/}
+      <h2>Логин</h2>
       {alert && <Alert />}
       <Formik
         initialValues={{
@@ -40,17 +40,17 @@ export default function SignIn({ alert }) {
         render={({ errors, status, touched, isSubmitting }) => (
           <Form>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">Емейл</label>
               <Field name="email" type="email" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
               <ErrorMessage name="email" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Пароль</label>
               <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
               <ErrorMessage name="password" component="div" className="invalid-feedback" />
             </div>
             <div className="form-group">
-              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Войти</button>
               {isSubmitting &&
                 <div className="spinner-border spinner-border-sm text-primary ml-3" role="status">
                   <span className="sr-only">Loading...</span>

@@ -6,7 +6,7 @@ import MainDesiresList from '../components/main-list/MainDesiresList';
 import { getAllDesires, getAllOffers } from '../redux/actions/actions'
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
-import { hideShowDesire, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
+import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
 
 function App(props) {
 	const [visibleComponent, setVisibleComponent] = React.useState('desires');
@@ -31,12 +31,14 @@ function App(props) {
 			/>
 			{visibleComponent === 'desires' ?
 				<MainDesiresList
+					addComplaint={props.addComplaint}
 					success={props.success}
 					addDesireToFavorites={props.addDesireToFavorites}
 					hideShowDesire={props.hideShowDesire}
 					desires={props.desires}
-					deleteFavorite={props.connectdeleteFavorite} />
+					deleteFavorite={props.deleteFavorite} />
 				: <MainOffersList
+					addComplaint={props.addComplaint}
 					success={props.success}
 					addOfferToFavorites={props.addOfferToFavorites}
 					hideShowOffer={props.hideShowOffer}
@@ -49,7 +51,7 @@ function App(props) {
 const mapStateToProps = (state) => ({
 	desires: state.app.desires,
 	offers: state.app.offers,
-	success: state.app.success
+	success: state.app.success,
 });
 
 const mapDispatchToProps = {
@@ -61,7 +63,8 @@ const mapDispatchToProps = {
 	sortOffers,
 	addDesireToFavorites,
 	addOfferToFavorites,
-	deleteFavorite
+	deleteFavorite,
+	addComplaint,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

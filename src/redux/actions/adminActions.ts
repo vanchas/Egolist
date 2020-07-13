@@ -1,33 +1,30 @@
 import { authenticationService } from "../../_services/authentication.service";
-import { GET_ALL_COMPLAINTS, UPDATE_COMPLAINT, GET_INFO_COMPLAINTS, DELETE_COMPLAINT, CREATE_CATEGORY, EDIT_CATEGORY, DELETE_CATEGORY, CREATE_SUBCATEGORY, EDIT_SUBCATEGORY, DELETE_SUBCATEGORY } from "./types";
+import {
+  UPDATE_COMPLAINT,
+  DELETE_COMPLAINT,
+  CREATE_CATEGORY,
+  EDIT_CATEGORY,
+  DELETE_CATEGORY,
+  CREATE_SUBCATEGORY,
+  EDIT_SUBCATEGORY,
+  DELETE_SUBCATEGORY,
+  GET_ALL_COMPLAINTS
+} from "./types";
+import {showAlert, showSuccess} from "./actions";
 
 export const getAllComplaints = () => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/complaints`, {
+  return await fetch(`https://egolist.padilo.pro/api/complaints`, {
     method: 'GET',
     headers: {
+      'Authorization': `${user.token_type} ${user.token}`
+    }
+  }).then(res => res.json())
+      .then(data => {
+        return dispatch({ type: GET_ALL_COMPLAINTS, payload: data })
+      }).catch(err => console.error('Error: ', err));
+}
 
-      'Authorization': `${user.token_type} ${user.token}`
-    }
-  });
-  const promise = response.json();
-  return promise.then(res => {
-    return dispatch({ type: GET_ALL_COMPLAINTS, payload: res })
-  }).catch(err => console.error('Error: ', err));
-}
-export const getInfoComplaints = () => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/info/complaints`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `${user.token_type} ${user.token}`
-    }
-  });
-  const promise = response.json();
-  return promise.then(res => {
-    return dispatch({ type: GET_INFO_COMPLAINTS, payload: res })
-  }).catch(err => console.error('Error: ', err));
-}
 export const updateComplaint = (id: number | string, complaint: string, type_id: number | string, complaint_to_id: number | string) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/complaints/change/${id}`, {
@@ -42,9 +39,20 @@ export const updateComplaint = (id: number | string, complaint: string, type_id:
     })
   });
   const promise = response.json();
-  return promise.then(res => {
-    return dispatch({ type: UPDATE_COMPLAINT, payload: res })
-  }).catch(err => console.error('Error: ', err));
+  if (response.status === 200) {
+    return promise
+        .then((data) => {
+          dispatch(showSuccess('Жалоба успешно обновлена'))
+          return dispatch({ type: UPDATE_COMPLAINT, payload: data });
+        })
+        .catch((err) => console.error("Error: ", err));
+  } else {
+    return promise
+        .then((data) => {
+          return dispatch(showAlert('Не верно заполнена форма'));
+        })
+        .catch((err) => console.error("Error: ", err));
+  }
 }
 export const deleteComplaint = (id: number | string) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;

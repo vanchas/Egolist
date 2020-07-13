@@ -14,7 +14,7 @@ import {
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
-  SORT_MY_OFFERS, SORT_MY_DESIRES
+  SORT_MY_OFFERS, SORT_MY_DESIRES, GET_COMPLAINTS_INFO
 } from "../actions/types";
 
 const initialState: any = {
@@ -24,7 +24,8 @@ const initialState: any = {
   myComplaints: [],
   favoritePosts: [],
   offer: null,
-  currentUserGeoPosition: null
+  currentUserGeoPosition: null,
+  complaintsInfo: null
 };
 
 export default function userReducer(state = initialState, action: any) {
@@ -37,6 +38,9 @@ export default function userReducer(state = initialState, action: any) {
 
     case SORT_MY_DESIRES:
       return { ...state, myDesires: action.payload };
+
+    case GET_COMPLAINTS_INFO:
+      return { ...state, complaintsInfo: action.payload };
 
     case GET_CURRENT_GEO_POSITION:
       // city: "Dnipro"
