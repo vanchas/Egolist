@@ -78,7 +78,6 @@ export default function Carousel({ photo, video, desireId }) {
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
-                                        width="100%"
                                         style={loading ? { opacity: 0 } : {}}
                                         onLoad={() => setLoading(false)} />
                             </>

@@ -4,13 +4,15 @@
   overflow: hidden;
   display: grid;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+  //justify-content: center;
   width: 100%;
   iframe {
-    max-height: 24em;
+    height: 24em;
+    width: 100%;
   }
   img {
-    width: auto;
+    //width: auto;
     height: 24em;
   }
   //&::before {
