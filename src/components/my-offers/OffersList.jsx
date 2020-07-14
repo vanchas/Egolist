@@ -46,10 +46,10 @@ export default function DesireRedList({
           <option value="default" hidden>
             Сортировка
           </option>
-          <option value="rating+">Rating from big to small</option>
-          <option value="rating-">Rating from small to big</option>
-          <option value="price+">Price from big to small</option>
-          <option value="price-">Price from small to big</option>
+          <option value="rating+">Рейтинг от большего</option>
+          <option value="rating-">Рейтинг от меньшего</option>
+          <option value="price+">Цена от большей</option>
+          <option value="price-">Цена от меньшей</option>
         </select>
       </div>
 

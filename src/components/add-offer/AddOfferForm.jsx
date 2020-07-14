@@ -30,7 +30,8 @@ export default function AddLotForm({
   const [region, setRegion] = useState("");
   const [city, setCity] = useState("");
   const [isActive, setIsActive] = useState(0);
-
+  const [showSubSelect1, setShowSubSelect1] = useState(false);
+  const [showSubSelect2, setShowSubSelect2] = useState(false);
   const [subcategory1Loading, setSubcategory1Loading] = useState(false);
   const [subcategory2Loading, setSubcategory2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
@@ -72,6 +73,25 @@ export default function AddLotForm({
     } else {
       showAlert("Bce поля должны быть заполнены");
     }
+  };
+
+  const category1Handler = (e) => {
+    // setSubcat1Loading(true);
+    setCategory1(e.target.value);
+    getSubcategories(e.target.value);
+    setShowSubSelect1(true)
+  };
+  const category2Handler = (e) => {
+    // setSubcat2Loading(true);
+    getSubcategories(e.target.value);
+    setCategory2(e.target.value);
+    setShowSubSelect2(true)
+  };
+
+  const locationSelectHandler = (e) => {
+    setRegionLoading(true);
+    setRegion(e.target.value);
+    getCities(e.target.value);
   };
 
   return (
@@ -121,125 +141,137 @@ export default function AddLotForm({
         <div>
           <fieldset>
             <legend>Выберите категорию</legend>
-            {!categories || !categories.length
-            ? <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-                : <select
-              required
-              className="form-control"
-              onChange={(e) => {
-                setSubcategory1Loading(true);
-                setCategory1(e.target.value);
-                getSubcategories(e.target.value);
-              }}
-            >
-              <option value="default" hidden>
-                первая категория
-              </option>
-              {categories && categories.length
-                ? categories.map((c, i) => (
-                    <option key={i} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))
-                : null}
-            </select>}
+            {!categories || !categories.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : category1 ? (
+              <div>Выбрана категория {category1}</div>
+            ) : (
+              <select
+                required
+                className="form-control"
+                onChange={(e) => category1Handler(e)}
+              >
+                <option value="default" hidden>
+                  первая категория
+                </option>
+                {categories && categories.length
+                  ? categories.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            )}
             {!subcategories.length && subcategory1Loading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
+              showSubSelect1 &&
+              (subcategory1 ? (
+                <div>Выбрана подкатегория {subcategory1}</div>
+              ) : (
                 <select
-                required
+                  required
+                  className="form-control"
+                  onChange={(e) => setSubcategory1(e.target.value)}
+                >
+                  <option value="default" hidden>
+                    первая подкатегория
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              ))
+            )}
+            <br />
+            {!categories || !categories.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : category2 ? (
+              <div>Выбрана категория {category2}</div>
+            ) : (
+              <select
                 className="form-control"
-                onChange={(e) => setSubcategory1(e.target.value)}
+                onChange={(e) => category2Handler(e)}
               >
                 <option value="default" hidden>
-                  первая подкатегория
+                  вторая категория
                 </option>
-                {subcategories && subcategories.length
-                  ? subcategories.map((s, i) => (
-                      <option key={i} value={s.id}>
-                        {s.name}
+                {categories && categories.length
+                  ? categories.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name}
                       </option>
                     ))
                   : null}
               </select>
             )}
-            <br />
-            {!categories || !categories.length
-            ? <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-                : <select
-              className="form-control"
-              onChange={(e) => {
-                setSubcategory2Loading(true);
-                setCategory2(e.target.value);
-                getSubcategories(e.target.value);
-              }}
-            >
-              <option value="default" hidden>
-                вторая категория
-              </option>
-              {categories && categories.length
-                ? categories.map((c, i) => (
-                    <option key={i} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))
-                : null}
-            </select>}
             {!subcategories && subcategory2Loading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
+              showSubSelect2 &&
+              (subcategory2 ? (
+                <div>Выбрана подкатегория {subcategory2}</div>
+              ) : (
+                <select
+                  className="form-control"
+                  onChange={(e) => {
+                    setSubcategory2(e.target.value);
+                    getSubcategories(e.target.value);
+                  }}
+                >
+                  <option value="default" hidden>
+                    первая подкатегория
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              ))
+            )}
+          </fieldset>
+          <fieldset>
+            <legend>Выберите область</legend>
+            {!locations || !locations.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
               <select
+                required
                 className="form-control"
                 onChange={(e) => {
-                  setSubcategory2(e.target.value);
-                  getSubcategories(e.target.value);
+                  setRegionLoading(true);
+                  setRegion(e.target.value);
+                  getCities(e.target.value);
                 }}
               >
-                <option value="default" hidden>
-                  первая подкатегория
-                </option>
-                {subcategories && subcategories.length
-                  ? subcategories.map((s, i) => (
-                      <option key={i} value={s.id}>
-                        {s.name}
+                <option value="default" hidden></option>
+                {locations && locations.length
+                  ? locations.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name_ru}
                       </option>
                     ))
                   : null}
               </select>
             )}
-          </fieldset>
-          <fieldset>
-            <legend>Выберите область</legend>
-            {!locations || !locations.length
-            ? <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-                : <select
-              required
-              className="form-control"
-              onChange={(e) => {
-                setRegionLoading(true);
-                setRegion(e.target.value);
-                getCities(e.target.value);
-              }}
-            >
-              <option value="default" hidden></option>
-              {locations && locations.length
-                ? locations.map((c, i) => (
-                    <option key={i} value={c.id}>
-                      {c.name_ru}
-                    </option>
-                  ))
-                : null}
-            </select>}
             {!cities.length && regionLoading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
@@ -253,6 +285,7 @@ export default function AddLotForm({
                 <option value="default" hidden>
                   Города
                 </option>
+                <option value="default">Не важно</option>
                 {cities && cities.length
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>

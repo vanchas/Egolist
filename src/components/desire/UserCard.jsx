@@ -66,8 +66,8 @@ export default function UserCard({ user, locations }) {
             <span>{daysOnEgolist}</span>
             <span>{daysText} на EGOLIST</span>
           </div>
-          <div className="h5 text-center">Complaints 4</div>
-          <div className="h5 text-center">Adds 54</div>
+          <div className="h5 text-center">Жалобы 4</div>
+          <div className="h5 text-center">Желания 54</div>
           <a className="btn text-center" href={`tel:+${user.phone}`}>
             {user.phone}
           </a>

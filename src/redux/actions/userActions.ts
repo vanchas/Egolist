@@ -3,34 +3,35 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import { authenticationService } from "../../_services/authentication.service";
 import {
-    UPDATE_USER_INFO,
-    GET_MY_DESIRES,
-    UPDATE_DESIRE,
-    DELETE_DESIRE,
-    ADD_COMPLAINT,
-    GET_MY_COMPLAINTS,
-    CREATE_DESIRE,
-    HIDE_SHOW_DESIRE,
-    HIDE_SHOW_OFFER,
-    SORT_DESIRES,
-    SORT_OFFERS,
-    ADD_OFFER_TO_FAVORITE,
-    ADD_DESIRE_TO_FAVORITE,
-    GET_FAVORITES_BY_DESIRE,
-    GET_FAVORITES_BY_OFFER,
-    GET_FAVORITE_POSTS,
-    DELETE_FAVORITE,
-    SORT_OFFERS_BY_DESIRE_ID,
-    GET_MY_OFFERS,
-    UPDATE_OFFER,
-    GET_OFFER,
-    CREATE_OFFER,
-    GET_INTERESTING_DESIRES_TO_OFFER,
-    SORT_FAVORITE_DESIRES,
-    SORT_FAVORITE_OFFERS,
-    GET_CURRENT_GEO_POSITION,
-    SORT_MY_OFFERS,
-    SORT_MY_DESIRES, GET_COMPLAINTS_INFO,
+  UPDATE_USER_INFO,
+  GET_MY_DESIRES,
+  UPDATE_DESIRE,
+  DELETE_DESIRE,
+  ADD_COMPLAINT,
+  GET_MY_COMPLAINTS,
+  CREATE_DESIRE,
+  HIDE_SHOW_DESIRE,
+  HIDE_SHOW_OFFER,
+  SORT_DESIRES,
+  SORT_OFFERS,
+  ADD_OFFER_TO_FAVORITE,
+  ADD_DESIRE_TO_FAVORITE,
+  GET_FAVORITES_BY_DESIRE,
+  GET_FAVORITES_BY_OFFER,
+  GET_FAVORITE_POSTS,
+  DELETE_FAVORITE,
+  SORT_OFFERS_BY_DESIRE_ID,
+  GET_MY_OFFERS,
+  UPDATE_OFFER,
+  GET_OFFER,
+  CREATE_OFFER,
+  GET_INTERESTING_DESIRES_TO_OFFER,
+  SORT_FAVORITE_DESIRES,
+  SORT_FAVORITE_OFFERS,
+  GET_CURRENT_GEO_POSITION,
+  SORT_MY_OFFERS,
+  SORT_MY_DESIRES,
+  GET_COMPLAINTS_INFO,
 } from "./types";
 import { showSuccess, showAlert } from "./actions";
 
@@ -231,30 +232,31 @@ export const addComplaint = (
   );
   const promise = response.json();
   if (response.status === 201) {
-      return promise
-          .then((data) => {
-              dispatch(showSuccess('Жалоба успешно создана'))
-              return dispatch({ type: ADD_COMPLAINT, payload: data });
-          })
-          .catch((err) => console.error("Error: ", err));
+    return promise
+      .then((data) => {
+        dispatch(showSuccess("Жалоба успешно создана"));
+        return dispatch({ type: ADD_COMPLAINT, payload: data });
+      })
+      .catch((err) => console.error("Error: ", err));
   } else {
-      return promise
-          .then((data) => {
-              return dispatch(showAlert('Не верно заполнена форма'));
-          })
-          .catch((err) => console.error("Error: ", err));
+    return promise
+      .then((data) => {
+        return dispatch(showAlert("Не верно заполнена форма"));
+      })
+      .catch((err) => console.error("Error: ", err));
   }
 };
 
 export const getComplaintsInfo = () => async (dispatch: Function) => {
   const response = await fetch(
-      `https://egolist.padilo.pro/api/info/complaints`);
+    `https://egolist.padilo.pro/api/info/complaints`
+  );
   const promise = response.json();
   return promise
-      .then((data) => {
-        return dispatch({ type: GET_COMPLAINTS_INFO, payload: data });
-      })
-      .catch((err) => console.error("Error: ", err));
+    .then((data) => {
+      return dispatch({ type: GET_COMPLAINTS_INFO, payload: data });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const getMyComplaints = () => async (dispatch: Function) => {
@@ -483,10 +485,12 @@ export const addDesireToFavorites = (id: number | string) => async (
   );
   const promise = response.json();
   return promise
-    .then((res) => {
+    .then((data) => {
       if (response.status === 201) {
-        // dispatch(showSuccess("Желание добавлено в избранные"));
+        dispatch(showSuccess("Желание добавлено в избранные"));
         dispatch({ type: ADD_DESIRE_TO_FAVORITE, payload: id });
+      } else {
+        dispatch(showAlert(data.message))
       }
     })
     .catch((err) => console.error("Error: ", err));
@@ -630,26 +634,27 @@ export const updateOffer = (
   description: string,
   header: string,
   price: string,
-  priority_id: string,
-  type_id: string,
   category_ids: any,
   subcategory_ids: any,
   region_id: string,
   city_id: string,
   is_active: any
 ) => async (dispatch: Function) => {
+  // console.log(category_ids, subcategory_ids, desireId, description, header, city_id, region_id, price, is_active, photo, video, id)
   const formData = new FormData();
-  for (let p of photo) {
-    formData.append("photo[]", p);
+  if (!photo.length) {
+    formData.append("photo", "[]");
+  } else {
+    for (let p of photo) {
+      formData.append("photo[]", p);
+    }
   }
   formData.append("video", video);
   formData.append("description", description);
   formData.append("price", price);
   formData.append("header", header);
-  formData.append("priority_id", priority_id);
   formData.append("category_ids", category_ids);
   formData.append("subcategory_ids", subcategory_ids);
-  formData.append("type_id", type_id);
   formData.append("region_id", region_id);
   formData.append("city_id", city_id);
   formData.append("is_active", is_active);
@@ -660,8 +665,8 @@ export const updateOffer = (
     {
       method: "POST",
       headers: {
+        "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
         Authorization: `${user.token_type} ${user.token}`,
       },
       body: formData,
@@ -669,8 +674,13 @@ export const updateOffer = (
   );
   const promise = response.json();
   return promise
-    .then((res) => {
-      return dispatch({ type: UPDATE_OFFER });
+    .then((data) => {
+      if (response.status === 200) {
+        dispatch({ type: UPDATE_OFFER });
+        dispatch(showSuccess("Предложение успешно отредактировано"));
+      } else {
+        dispatch(showAlert(data.message));
+      }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -729,7 +739,7 @@ export const createOffer = (
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Authorization": `${user.token_type} ${user.token}`,
+        Authorization: `${user.token_type} ${user.token}`,
       },
       body: formData,
     }
@@ -764,14 +774,14 @@ export const getInterestingDesiresToOffer = (
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
-        "Authorization": `${user.token_type} ${user.token}`,
+        Authorization: `${user.token_type} ${user.token}`,
       },
     }
   );
   const promise = response.json();
   return promise
     .then((res) => {
-        dispatch({ type: GET_INTERESTING_DESIRES_TO_OFFER, payload: res });
+      dispatch({ type: GET_INTERESTING_DESIRES_TO_OFFER, payload: res });
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -791,7 +801,7 @@ export const sortMyOffers = (search_by: string) => async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `${user.token_type} ${user.token}`,
+      Authorization: `${user.token_type} ${user.token}`,
     },
     body: JSON.stringify({ search_by }),
   })
@@ -809,7 +819,7 @@ export const sortMyDesires = (search_by: string) => async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `${user.token_type} ${user.token}`,
+      Authorization: `${user.token_type} ${user.token}`,
     },
     body: JSON.stringify({ search_by }),
   })

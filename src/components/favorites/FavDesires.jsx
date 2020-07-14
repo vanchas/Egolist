@@ -14,7 +14,6 @@ export default function FavDesires({
     loading,
     setLoading
 }) {
-  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (favoritePosts && favoritePosts.length) setLoading(false);

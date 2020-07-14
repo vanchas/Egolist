@@ -1,18 +1,47 @@
-.update_form {
+
+.add_lot_form {
+	background-color: #fff;
+	padding: 1em;
 	display: grid;
-}
-.priorities,
-.types {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	div {
-		grid-column: span 3;
+	grid-gap: 1em;
+	.btn_back {
+		padding: 0.1em 1em;
+		border: 1px solid #000;
+		width: fit-content;
 	}
-}
-.chips {
-	display: flex;
-	padding-bottom: 0.5em;
-	* {
-		margin-right: 1em;
+
+	form {
+		display: grid;
+		grid-gap: 0.5em;
+		grid-gap: 1em;
+		grid-template-columns: 3fr 2fr;
+		label,
+		legend {
+			width: 100%;
+		}
+		input[type="text"],
+		input[type="url"],
+		input[type="number"],
+		textarea {
+			width: 100%;
+		}
+		select {
+			margin-bottom: 0.5em;
+		}
+
+		.condition_fieldset {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			align-items: center;
+			label {
+				white-space: nowrap;
+			}
+			legend {
+				grid-column: span 2;
+			}
+			input {
+				margin-left: 0.5em;
+			}
+		}
 	}
 }

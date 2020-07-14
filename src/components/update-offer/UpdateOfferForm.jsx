@@ -1,178 +1,326 @@
-import React, { useState } from "react";
-import Alert from '../helpers/Alert'
-import Success from '../helpers/Success'
-import { useRouter } from 'next/router'
-import s from './update.module.scss'
-// import Chip from '@material-ui/core/Chip';
+import React, {useEffect, useState} from "react";
+import s from "./update.module.scss";
+import Alert from "../helpers/Alert";
+import Success from "../helpers/Success";
+import { useRouter } from "next/router";
 
-export default function UpdateForm({ locations, alert, showAlert,
-  updateOffer, categories, subcategories, cities, types, priorities, getSubcategories, getCities, success }) {
+export default function UpdateOfferForm({
+  updateOffer,
+  alert,
+  showAlert,
+  categories,
+  subcategories,
+  getSubcategories,
+  locations,
+  cities,
+  getCities,
+  success,
+  desiresInfo,
+    offer,
+                                          getOfferById
+}) {
   const router = useRouter();
-  const [header, setHeader] = useState(null);
-  const [photo, setPhoto] = useState(null);
-  const [video, setVideo] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [priority_id, setPriority_id] = useState(null);
-  const [type_id, setType_id] = useState(null);
-  const [category_ids, setCategory_ids] = useState([]);
-  const [subcategory_ids, setSubcategory_ids] = useState([]);
-  const [region_id, setRegion_id] = useState(null);
-  const [is_active, setIs_active] = useState(1);
-  const [city_id, setCity_id] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [photos, setPhotos] = useState([]);
+  const [video, setVideo] = useState("");
+  const [description, setDescription] = useState("");
+  const [category1, setCategory1] = useState(null);
+  const [category2, setCategory2] = useState(null);
+  const [subcategory1, setSubcategory1] = useState(null);
+  const [subcategory2, setSubcategory2] = useState(null);
+  const [price, setPrice] = useState("");
+  const [region, setRegion] = useState("");
+  const [city, setCity] = useState("");
+  const [isActive, setIsActive] = useState(0);
+  const [showSubSelect1, setShowSubSelect1] = useState(false);
+  const [showSubSelect2, setShowSubSelect2] = useState(false);
+  const [subcategory1Loading, setSubcategory1Loading] = useState(false);
+  const [subcategory2Loading, setSubcategory2Loading] = useState(false);
+  const [regionLoading, setRegionLoading] = useState(false);
+  const [stateOffer, setStateOffer] = useState(null);
 
-  const submitHandler = e => {
+  useEffect(() => {
+    getOfferById(router.query.id)
+    if (offer) setStateOffer(offer)
+  }, [offer])
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    if (header && photo && video && price && description && priority_id && type_id && category_ids.length && subcategory_ids.length && region_id && is_active && city_id) {
-      updateOffer(router.query.desire_id, router.query.id, photo, video, description, header, price, priority_id, type_id, category_ids, subcategory_ids, region_id, city_id, is_active);
-    } else {
-      showAlert('Bce поля должны быть заполнены');
-    }
-  }
-
-  const deleteCategory = (id) => {
-    setSelectedCategories(selectedCategories.filter(cat => +cat.id != +id));
+    setLoading(true);
+    updateOffer(
+      router.query.desire_id,
+      router.query.id,
+      photos ? photos : stateOffer.photos,
+      video ? video : stateOffer.video,
+      description ? description : stateOffer.description,
+      title ? title : stateOffer.header,
+      price ? price : stateOffer.price,
+      category1 ? [category1] : [stateOffer.category[0].id],
+      subcategory1 ? [subcategory1] : [stateOffer.subcategory[0].id],
+      region ? region : stateOffer.region_id,
+      city ? city : stateOffer.city_id,
+      isActive ? isActive : stateOffer.is_active
+    );
+    setTitle("");
+    setPhotos([]);
+    setVideo("");
+    setDescription("");
+    setCategory1(null);
+    setCategory2(null);
+    setSubcategory1(null);
+    setSubcategory2(null);
+    setPrice("");
+    setIsActive(1);
+    setTimeout(() => setLoading(false), 5000);
   };
 
-  const selectCategory = id => {
-    categories.map(cat => {
-      if (selectedCategories.length < 2) {
-        if (+cat.id === +id) {
-          setSelectedCategories([...selectedCategories, cat])
-        }
-      } else showAlert('Maximum 2 catgories');
-    })
-  }
-
-  const deleteSubcategory = (id) => {
-    setSelectedSubcategories(selectedSubcategories.filter(cat => +cat.id != +id));
+  const category1Handler = (e) => {
+    setSubcategory1Loading(true);
+    setCategory1(e.target.value);
+    getSubcategories(e.target.value);
+    setShowSubSelect1(true);
+  };
+  const category2Handler = (e) => {
+    setSubcategory2Loading(true);
+    getSubcategories(e.target.value);
+    setCategory2(e.target.value);
+    setShowSubSelect2(true);
   };
 
-  const selectSubcategory = id => {
-    subcategories.map(cat => {
-      if (selectedSubcategories.length < 2) {
-        if (+cat.id === +id) {
-          setSelectedSubcategories([...selectedSubcategories, cat])
-        }
-      } else showAlert('Maximum 2 catgories');
-    });
-  }
+  const locationSelectHandler = (e) => {
+    setRegionLoading(true);
+    setRegion(e.target.value);
+    getCities(e.target.value);
+  };
 
   return (
-    <div className={s.update_form}>
-      <h3>Update Offer Form</h3>
+    <div className={s.add_lot_form}>
+      <h3>Создание предложения</h3>
+      <span className={s.btn_back} onClick={() => router.back()}>
+        &lt; Назад
+      </span>
       {alert && <Alert />}
-      <form encType="multipart/form-data" onSubmit={submitHandler}>
-        <label>Категории</label>
-        {/*{selectedCategories ?*/}
-        {/*  <div className={s.chips}>*/}
-        {/*    {selectedCategories.map((cat, i) => (*/}
-        {/*      <Chip label={cat.name}*/}
-        {/*        onDelete={e => deleteCategory(cat.id)}*/}
-        {/*        color="primary" key={i} />*/}
-        {/*    ))}</div> : null}*/}
-        <select className="form-control" onChange={e => {
-          selectCategory(e.target.value);
-          getSubcategories(e.target.value);
-          setCategory_ids([...category_ids, e.target.value]);
-        }}>
-          <option value="default" hidden></option>
-          {categories
-            ? categories.map((cat, i) => (
-              <option value={cat.id} key={i}>{cat.name}</option>
-            )) : null}
-        </select>
-        <label>Подкатегория</label>
-        {/*{selectedSubcategories ?*/}
-        {/*  <div className={s.chips}>*/}
-        {/*    {selectedSubcategories.map((cat, i) => (*/}
-        {/*      <Chip label={cat.name}*/}
-        {/*        onDelete={e => deleteSubcategory(cat.id)}*/}
-        {/*        color="primary" key={i} />*/}
-        {/*    ))}</div> : null}*/}
-        <select className="form-control" onChange={e => {
-          selectSubcategory(e.target.value);
-          setSubcategory_ids([...subcategory_ids, e.target.value]);
-        }}>
-          <option value="default" hidden></option>
-          {subcategories
-            ? subcategories.map((cat, i) => (
-              <option value={cat.id} key={i}>{cat.name}</option>
-            )) : null}
-        </select>
-        <label>Регион</label>
-        <select className="form-control" onChange={e => {
-          getCities(parseInt(e.target.value));
-          setRegion_id(parseInt(e.target.value));
-        }}>
-          <option value="default" hidden></option>
-          {locations
-            ? locations.map((loc, i) => (
-              <option value={loc.id} key={i}>{loc.name_ru}</option>
-            )) : null}
-        </select>
-        <label>Город</label>
-        <select className="form-control" onChange={e => setCity_id(e.target.value)}>
-          <option value="default" hidden></option>
-          {cities
-            ? cities.map((city, i) => (
-              <option value={city.id} key={i}>{city.name_ru}</option>
-            )) : null}
-        </select>
-        <div className={s.types}>
-          <div>Типы</div>
-          {types
-            ? types.map((type, i) => (
-              <label key={i}>
-                <input type="radio" value={type.id} onChange={e => setType_id(e.target.value)} name="type" />
-                {type.value}</label>
-            )) : null}
-        </div>
-        <div className={s.priorities}>
-          <div>Приоритет</div>
-          {priorities
-            ? priorities.map((priority, i) => (
-              <label key={i}>
-                <input type="radio" value={priority.id} onChange={e => setPriority_id(e.target.value)} name="priority" />
-                {priority.value}</label>
-            )) : null}
-        </div>
-        <label htmlFor="header">Заголовок</label>
-        <input className="form-control" type="text"
-          name="header"
-          id="header"
-          onChange={e => setHeader(e.target.value)} />
-        <label htmlFor="description">description</label>
-        <input className="form-control"
-          type="text"
-          name="description"
-          id="description"
-          onChange={e => setDescription(e.target.value)}
-        />
-        <label htmlFor="price">Цена</label>
-        <input className="form-control"
-          type="number"
-          name="price"
-          id="price"
-          onChange={e => setPrice(e.target.value)}
-        />
-        <label htmlFor="video">Видео</label>
-        <input className="form-control" type="url"
-          name="video"
-          id="video"
-          onChange={e => setVideo(e.target.value)} />
-        <label htmlFor="photo">Фото</label>
-        <input type="file" multiple
-          name="photo"
-          id="photo"
-          onChange={e => setPhoto(e.target.files)} />
+      {success && <Success />}
+      <form onSubmit={submitHandler} encType="multipart/form-data">
         <div>
-          {success && <Success />}
-          <button type="submit"
-            className="btn btn-primary mt-2">
-            Сохранить</button>
+          <label>Заголовок</label>
+          <input
+            type="text"
+            value={title}
+            className="form-control"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <label>Фото</label>
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
+            <input
+              key={i}
+              type="file"
+              onChange={(e) => setPhotos([...photos, e.target.files[0]])}
+            />
+          ))}
+          <label htmlFor="video">Видео (YouTube)</label>
+          <input
+            type="url"
+            value={video}
+            placeholder="https:// ...."
+            id="video"
+            className="form-control"
+            onChange={(e) => setVideo(e.target.value)}
+          />
+          <label>Описание</label>
+          <textarea
+            value={description}
+            className="form-control"
+            rows="10"
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </div>
+        <div>
+          <fieldset>
+            <legend>Выберите категорию</legend>
+            {!categories || !categories.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : category1 ? (
+              <div>Выбрана категория {category1}</div>
+            ) : (
+              <select
+                className="form-control"
+                onChange={(e) => category1Handler(e)}
+              >
+                <option value="default" hidden>
+                  первая категория
+                </option>
+                {categories && categories.length
+                  ? categories.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            )}
+            {!subcategories.length && subcategory1Loading ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              showSubSelect1 &&
+              (subcategory1 ? (
+                <div>Выбрана подкатегория {subcategory1}</div>
+              ) : (
+                <select
+                  className="form-control"
+                  onChange={(e) => setSubcategory1(e.target.value)}
+                >
+                  <option value="default" hidden>
+                    первая подкатегория
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              ))
+            )}
+            <br />
+            {!categories || !categories.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : category2 ? (
+              <div>Выбрана категория {category2}</div>
+            ) : (
+              <select
+                className="form-control"
+                onChange={(e) => category2Handler(e)}
+              >
+                <option value="default" hidden>
+                  вторая категория
+                </option>
+                {categories && categories.length
+                  ? categories.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            )}
+            {!subcategories && subcategory2Loading ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              showSubSelect2 &&
+              (subcategory2 ? (
+                <div>Выбрана подкатегория {subcategory2}</div>
+              ) : (
+                <select
+                  className="form-control"
+                  onChange={(e) => {
+                    setSubcategory2(e.target.value);
+                    getSubcategories(e.target.value);
+                  }}
+                >
+                  <option value="default" hidden>
+                    первая подкатегория
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              ))
+            )}
+          </fieldset>
+          <fieldset>
+            <legend>Выберите область</legend>
+            {!locations || !locations.length ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <select
+                className="form-control"
+                onChange={(e) => locationSelectHandler(e)}
+              >
+                <option value="default" hidden></option>
+                {locations && locations.length
+                  ? locations.map((c, i) => (
+                      <option key={i} value={c.id}>
+                        {c.name_ru}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            )}
+            {!cities.length && regionLoading ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <select
+                className="form-control"
+                onChange={(e) => setCity(e.target.value)}
+              >
+                <option value="default" hidden>
+                  Города
+                </option>
+                <option value="default">Не важно</option>
+                {cities && cities.length
+                  ? cities.map((s, i) => (
+                      <option key={i} value={s.id}>
+                        {s.name_ru}
+                      </option>
+                    ))
+                  : null}
+              </select>
+            )}
+          </fieldset>
+          <label htmlFor="price">Цена</label>
+          <input
+            type="number"
+            id="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="form-control"
+          />
+          <label>
+            <input
+              type="checkbox"
+              onChange={() => {
+                if (isActive) {
+                  setIsActive(0);
+                } else setIsActive(1);
+              }}
+            />
+            Сделать Активным
+          </label>
+          <div className="d-flex">
+            {!offer
+            ? <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+            : <button type="submit" className="ml-2 btn btn-secondary">
+              Опубликовать
+            </button>}
+            {loading && (
+              <div className="text-center py-2 pl-4">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </form>
     </div>

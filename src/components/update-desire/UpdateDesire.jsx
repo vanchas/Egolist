@@ -102,6 +102,7 @@ export default function UpdateForm({ locations, alert, showAlert,
         <label>Город</label>
         <select className="form-control" onChange={e => setCity_id(e.target.value)}>
           <option value="default" hidden></option>
+          <option value="default">Не важно</option>
           {cities
             ? cities.map((city, i) => (
               <option value={city.id} key={i}>{city.name_ru}</option>

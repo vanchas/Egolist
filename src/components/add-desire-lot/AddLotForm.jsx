@@ -31,7 +31,8 @@ export default function AddLotForm({
   const [city, setCity] = useState("");
   const [isActive, setIsActive] = useState(0);
   const [currentGeoRegion, setCurrGeoRegion] = useState(null);
-
+  const [showSubSelect1, setShowSubSelect1] = useState(false);
+  const [showSubSelect2, setShowSubSelect2] = useState(false);
   const [subcat1Loading, setSubcat1Loading] = useState(false);
   const [subcat2Loading, setSubcat2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
@@ -100,11 +101,13 @@ export default function AddLotForm({
     setSubcat1Loading(true);
     setCategory1(e.target.value);
     getSubcategories(e.target.value);
+    setShowSubSelect1(true)
   };
   const category2Handler = (e) => {
     setSubcat2Loading(true);
     getSubcategories(e.target.value);
-    setCategory1(e.target.value);
+    setCategory2(e.target.value);
+    setShowSubSelect2(true)
   };
 
   const locationSelectHandler = (e) => {
@@ -161,6 +164,8 @@ export default function AddLotForm({
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
+            ) : category1 ? (
+              <div>Выбрана категория {category1}</div>
             ) : (
               <select
                 required
@@ -183,29 +188,34 @@ export default function AddLotForm({
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            ) : (
-              <select
-                required
-                className="form-control"
-                onChange={(e) => setSubcategory1(e.target.value)}
-              >
-                <option value="default" hidden>
-                  первая подкатегория *
-                </option>
-                {subcategories && subcategories.length
-                  ? subcategories.map((s, i) => (
-                      <option key={i} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))
-                  : null}
-              </select>
+            ) : showSubSelect1 && (
+                  subcategory1 ? (
+                <div>Выбрана подкатегория {subcategory1}</div>
+              ) : (
+                <select
+                  required
+                  className="form-control"
+                  onChange={(e) => setSubcategory1(e.target.value)}
+                >
+                  <option value="default" hidden>
+                    первая подкатегория *
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>)
             )}
             <br />
             {!categories.length ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
+            ) : category2 ? (
+              <div>Выбрана категория {category2}</div>
             ) : (
               <select
                 className="form-control"
@@ -227,6 +237,9 @@ export default function AddLotForm({
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
+            ) : showSubSelect2 && (
+                subcategory2 ? (
+              <div>Выбрана подкатегория {subcategory2}</div>
             ) : (
               <select
                 className="form-control"
@@ -242,7 +255,7 @@ export default function AddLotForm({
                       </option>
                     ))
                   : null}
-              </select>
+              </select>)
             )}
           </fieldset>
           {/* LOCATIONS */}
@@ -292,6 +305,7 @@ export default function AddLotForm({
                 <option value="default" hidden>
                   Город *
                 </option>
+                <option value="default">Не важно</option>
                 {cities && cities.length
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>

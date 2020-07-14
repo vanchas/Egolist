@@ -50,18 +50,18 @@ export default function MainListControl({
           {visibleComponent === "desires" ? (
             <select onChange={(e) => sortDesiresHandler(e.target.value)}>
               <option value="default" hidden></option>
-              <option value="price+">Price from big to small</option>
-              <option value="price-">Price from small to big</option>
-              <option value="priority+">Priority from big to small</option>
-              <option value="priority-">Priority from small to big</option>
+              <option value="price+">Цена от большей к меньшей</option>
+              <option value="price-">Цена от меньшей к большей</option>
+              <option value="priority+">Приоритет от срочного</option>
+              <option value="priority-">Приоритет от не срочного</option>
             </select>
           ) : (
             <select onChange={(e) => sortOffersHandler(e.target.value)}>
               <option value="default" hidden></option>
-              <option value="rating+">Rating from big to small</option>
-              <option value="rating-">Rating from small to big</option>
-              <option value="price+">Price from big to small</option>
-              <option value="price-">Price from small to big</option>
+              <option value="rating+">Рейтинг от большего к меньшему</option>
+              <option value="rating-">Рейтинг от меньшего к большему</option>
+              <option value="price+">Цена от большей к меньшей</option>
+              <option value="price-">Цена от меньше к большей</option>
             </select>
           )}
         </label>

@@ -25,7 +25,7 @@ const Login = props => {
           $('.sign-in').slideToggle();
           $('.sign-up').slideToggle();
         }} className="text-white btn btn-secondary float-right" >
-          Sign-in / Sign-up
+          Войти / Зарегистрироваться
         </a>
       </div>
 

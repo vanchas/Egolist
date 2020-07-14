@@ -54,10 +54,10 @@ export default function MyDesireList({
             <option value="default" hidden>
               Сортировка
             </option>
-            <option value="priority+">Priority from big to small</option>
-            <option value="priority-">Priority from small to big</option>
-            <option value="price+">Price from big to small</option>
-            <option value="price-">Price from small to big</option>
+            <option value="priority+">Приоритет от срочного</option>
+            <option value="priority-">Приоритет от не срочного</option>
+            <option value="price+">Цена от большей к меньшей</option>
+            <option value="price-">Цена от меньшей к большей</option>
           </select>
         </div>
       </div>

@@ -79,20 +79,20 @@ function Favorites({
               onChange={(e) => sortDesiresHandler(userId, e.target.value)}
             >
               <option value="default" hidden></option>
-              <option value="price+">Price from big to small</option>
-              <option value="price-">Price from small to big</option>
-              <option value="priority_id+">Priority from big to small</option>
-              <option value="priority_id-">Priority from small to big</option>
+              <option value="price+">Цена от большей</option>
+              <option value="price-">Цена от меньшей</option>
+              <option value="priority_id+">Приоритет от срочного</option>
+              <option value="priority_id-">Приоритет от не срочного</option>
             </select>
           ) : (
             <select className={`form-control`}
               onChange={(e) => sortOffersHandler(userId, e.target.value)}
             >
               <option value="default" hidden></option>
-              <option value="rating+">Rating from big to small</option>
-              <option value="rating-">Rating from small to big</option>
-              <option value="price+">Price from big to small</option>
-              <option value="price-">Price from small to big</option>
+              <option value="rating+">Рейтинг от большего</option>
+              <option value="rating-">Рейтинг от меньшего</option>
+              <option value="price+">Цена от большего</option>
+              <option value="price-">Цена от меньшего</option>
             </select>
           )}
         </label>

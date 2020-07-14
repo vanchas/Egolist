@@ -35,7 +35,7 @@ function UserBar({ locations }) {
         </div>
         <span className={s.user_location}>
           <img src={Location} alt="location" />
-          {user.user.location || 'location'}
+          {user.user.location || 'регион не указан'}
         </span>
       </div>
     </> : null}
