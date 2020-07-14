@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import s from "./offers.module.scss";
 import OfferCard from "./OfferCard";
 import Router from "next/router";
+import { SORT_MY_OFFERS } from "../../redux/actions/types";
+import { useDispatch } from "react-redux";
 
 export default function DesireRedList({
   myOffers,
@@ -9,15 +11,23 @@ export default function DesireRedList({
   getInterestingDesiresToOffer,
   hideShowOffer,
   sortMyOffers,
+  showInterestingDesiresToOfferFunc,
 }) {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (myOffers && myOffers.length) {
       setLoading(false);
     }
     setTimeout(() => setLoading(false), 10000);
-  }, []);
+  }, [myOffers]);
+
+  const sortOffersHandler = (value) => {
+    setLoading(true);
+    dispatch({ type: SORT_MY_OFFERS, payload: [] });
+    sortMyOffers(value);
+  };
 
   return (
     <div className={s.offers_list}>
@@ -25,13 +35,17 @@ export default function DesireRedList({
         Вы сделали предложения на следующие лоты:
       </div>
       <div className={s.offers_list_sort}>
-        <span className={s.btn_back} onClick={()=>Router.back()}>Назад</span>
+        <span className={s.btn_back} onClick={() => Router.back()}>
+          Назад
+        </span>
 
         <select
           className="form-control"
-          onChange={(e) => sortMyOffers(e.target.value)}
+          onChange={(e) => sortOffersHandler(e.target.value)}
         >
-          <option value="default" hidden>Сортировка</option>
+          <option value="default" hidden>
+            Сортировка
+          </option>
           <option value="rating+">Rating from big to small</option>
           <option value="rating-">Rating from small to big</option>
           <option value="price+">Price from big to small</option>
@@ -62,7 +76,9 @@ export default function DesireRedList({
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
-              <div className="h5 py-5 text-center">У Вас нет активных предложений...</div>
+              <div className="h5 py-5 text-center">
+                У Вас нет активных предложений...
+              </div>
             )}
           </div>
         )}

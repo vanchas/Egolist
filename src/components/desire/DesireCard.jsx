@@ -26,7 +26,7 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
 
   return (
     <>
-      {desire.header ? (
+      {desire.header && !loading ? (
         <div className={s.card}>
           <div className={s.main_image}>
             {desire.photo || desire.video ? (

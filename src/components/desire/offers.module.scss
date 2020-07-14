@@ -16,10 +16,8 @@
 }
 .card_image {
 	background-color: #0c9bb5;
-	@media screen and (max-width: 768px) {
-		height: 18em;
-	}
-	// img {}
+	height: 18em;
+	overflow: hidden;
 }
 .card_info_block {
 	padding: 1em;
@@ -97,11 +95,15 @@
 	align-self: start;
 	justify-content: space-between;
 	span {
+		position: relative;
 		padding: 0.5em 1em;
 		img {
 			width: 1.5em;
 		}
 	}
+}
+.toast {
+	position: absolute;
 }
 .progress_bar {
 	display: grid;

@@ -10,9 +10,9 @@ export default function MainDesiresList({ desires, hideShowDesire, addDesireToFa
     useEffect(() => {
         if (desires && desires.length) {
             setLoading(false)
-        }
+        } else setLoading(true)
         setTimeout(() => setLoading(false), 5000)
-    }, [])
+    }, [desires])
 
   return (
     <div className={s.main_list_wrap}>

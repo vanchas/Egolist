@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import s from './categories.module.scss'
-import { connect } from 'react-redux';
-import { getCategories, getDesiresByCategory } from '../../redux/actions/actions'
+import {connect, useDispatch} from 'react-redux';
+import { getCategories, getDesiresByCategory, getOffersByCategory } from '../../redux/actions/actions'
+import {GET_DESIRES_BY_CATEGORY, GET_OFFERS_BY_CATEGORY} from "../../redux/actions/types";
 
-function Categories({ getCategories, categories, getDesiresByCategory }) {
+function Categories({ getCategories, categories,getOffersByCategory, getDesiresByCategory }) {
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getCategories();
   }, []);
+
+  const filterByCategotyHandler = (id) => {
+    dispatch({type: GET_OFFERS_BY_CATEGORY, payload: []})
+    dispatch({type: GET_DESIRES_BY_CATEGORY, payload: []})
+    getOffersByCategory(id)
+    getDesiresByCategory(id)
+  }
 
   return (
     <section className={s.categories}>
@@ -18,11 +27,11 @@ function Categories({ getCategories, categories, getDesiresByCategory }) {
             <ul className="categories-list">
             {categories.map((c, i) => (
               <li className="btn" key={i}
-                onClick={() => getDesiresByCategory(c.id)}>
+                onClick={() => filterByCategotyHandler(c.id)}>
                 {c.name}</li>
             ))}</ul>
               <select className={`form-control`}
-                      onChange={(e) => getDesiresByCategory(e.target.value)}>
+                      onChange={(e) => filterByCategotyHandler(e.target.value)}>
                 <option value="default" hidden>КАТЕГОРИИ</option>
                 {categories.map((c, i) => (
                     <option key={i} value={c.id}>{c.name}</option>
@@ -43,7 +52,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getCategories,
-  getDesiresByCategory
+  getDesiresByCategory,
+  getOffersByCategory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

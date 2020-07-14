@@ -4,13 +4,13 @@ import Stars from "../../assets/sidebar/stars.png";
 import s from "./fav.module.scss";
 import Rating from "../helpers/Rating";
 
-export default function FavOffers({ favoritePosts, deleteFavorite }) {
-  const [loading, setLoading] = useState(true);
+export default function FavOffers({ favoritePosts, deleteFavorite, loading, setLoading }) {
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (favoritePosts && favoritePosts.length) setLoading(false);
     setTimeout(() => setLoading(false), 5000);
-  }, []);
+  }, [loading, setLoading]);
 
   return (
     <ul className={s.fav_desires_list}>

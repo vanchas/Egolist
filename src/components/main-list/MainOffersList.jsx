@@ -11,9 +11,11 @@ export default function MainOffersList({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (offers && offers.length) setLoading(false);
+    if (offers && offers.length) {
+      setLoading(false);
+    } else setLoading(true)
     setTimeout(() => setLoading(false), 5000);
-  }, []);
+  }, [offers]);
 
   return (
     <div className={s.main_list_wrap}>

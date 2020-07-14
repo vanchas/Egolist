@@ -6,6 +6,7 @@ import Libra from "../../assets/header/libra.png";
 import s from "./offers.module.scss";
 import Link from "next/link";
 import Rating from "../helpers/Rating";
+import ReportModal from "../helpers/ReportModal";
 
 export default function OffersItem({
   offer,
@@ -14,6 +15,12 @@ export default function OffersItem({
   addOfferToFavorites,
 }) {
   const [userLocation, setUserLocation] = useState("");
+  const [showToast, setShowToast] = useState(false);
+
+  const toastHandler = (e) => {
+    e.preventDefault();
+    setShowToast(!showToast);
+  };
 
   useEffect(() => {
     locations.forEach((loc) => {
@@ -33,7 +40,7 @@ export default function OffersItem({
       {offer.user && (
         <>
           <div className={s.card_image}>
-            {offer.photo && <img src={offer.photo[0]} alt="" />}
+            {offer.photo && <img src={JSON.parse(offer.photo)[0]} alt="" />}
           </div>
 
           <div className={s.card_info_block}>
@@ -77,9 +84,14 @@ export default function OffersItem({
                   <img src={Heart} alt="" onClick={() => addToFav(offer.id)} />
                 </span>
               </div>
-              <span>
-                <img src={Burger} alt="" />
+              <span onClick={(e) => toastHandler(e)}>
+                <img src={Burger} alt=""  />
               </span>
+              {showToast && (
+                  <div className={`${s.toast}`}>
+                    <ReportModal userId={offer.user_id} setShowToast={setShowToast} />
+                  </div>
+              )}
             </div>
             <div className={s.price}>{offer.price} ГРН</div>
             <Link

@@ -1,4 +1,24 @@
-import { GET_LOCATIONS, SHOW_ALERT, HIDE_ALERT, GET_ALL_DESIRES, GET_DESIRE_BY_ID, GET_DESIRES_INFO, GET_CATEGORIES, GET_SUBCATEGORIES, GET_CITIES, GET_ALL_OFFERS, GET_OFFERS_BY_DESIRE_ID, GET_OFFER_BY_ID, GET_DESIRES_BY_CATEGORY, SEARCH_INFO, SHOW_SUCCESS, HIDE_SUCCESS, FILTER_OFFERS, FILTER_DESIRES, } from "./types"
+import {
+    GET_LOCATIONS,
+    SHOW_ALERT,
+    HIDE_ALERT,
+    GET_ALL_DESIRES,
+    GET_DESIRE_BY_ID,
+    GET_DESIRES_INFO,
+    GET_CATEGORIES,
+    GET_SUBCATEGORIES,
+    GET_CITIES,
+    GET_ALL_OFFERS,
+    GET_OFFERS_BY_DESIRE_ID,
+    GET_OFFER_BY_ID,
+    GET_DESIRES_BY_CATEGORY,
+    SEARCH_INFO,
+    SHOW_SUCCESS,
+    HIDE_SUCCESS,
+    FILTER_OFFERS,
+    FILTER_DESIRES,
+    GET_OFFERS_BY_CATEGORY,
+} from "./types"
 import fetch from 'isomorphic-unfetch'
 import { authenticationService } from "../../_services/authentication.service";
 
@@ -156,7 +176,7 @@ export const getOffersByDesireId = (desire_id: string | number) => async (dispat
 };
 export const getDesiresByCategory = (category_id: string | number) => async (dispatch: Function) => {
     const user = authenticationService.currentUserValue;
-    const response = await fetch(`https://egolist.padilo.pro/api/filter_offer`, {
+    const response = await fetch(`https://egolist.padilo.pro/api/filter_desire`, {
         method: 'POST',
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -168,6 +188,22 @@ export const getDesiresByCategory = (category_id: string | number) => async (dis
     const promise = response.json();
     return promise.then(res => {
         return dispatch({ type: GET_DESIRES_BY_CATEGORY, payload: res })
+    }).catch(err => console.error('Error: ', err));
+};
+export const getOffersByCategory = (category_id: string | number) => async (dispatch: Function) => {
+    const user = authenticationService.currentUserValue;
+    const response = await fetch(`https://egolist.padilo.pro/api/filter_offer`, {
+        method: 'POST',
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+            'Authorization': `${user.token_type} ${user.token}`
+        },
+        body: JSON.stringify({ category_ids: [category_id] })
+    });
+    const promise = response.json();
+    return promise.then(res => {
+        return dispatch({ type: GET_OFFERS_BY_CATEGORY, payload: res })
     }).catch(err => console.error('Error: ', err));
 };
 export const filterOffers = (key: string, value: string) => async (dispatch: Function) => {

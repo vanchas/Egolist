@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import FavDesires from "../components/favorites/FavDesires";
 import FavOffers from "../components/favorites/FavOffers";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../redux/actions/userActions";
 import { getCities, showSuccess } from "../redux/actions/actions";
 import { authenticationService } from "../_services/authentication.service";
+import {SORT_FAVORITE_DESIRES, SORT_FAVORITE_OFFERS} from "../redux/actions/types";
 
 function Favorites({
   showSuccess,
@@ -25,6 +26,8 @@ function Favorites({
 }) {
   const [visibleComponent, setVisibleComponent] = useState("desires");
   const [userId, setUserId] = useState(null);
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true);
 
   const changeVisibleComponent = (ref) => {
     setVisibleComponent(ref);
@@ -38,6 +41,18 @@ function Favorites({
     }
   }, []);
 
+  const sortDesiresHandler = (userId, value) => {
+    setLoading(true)
+    dispatch({type: SORT_FAVORITE_DESIRES, payload: []})
+    sortFavoriteDesires(userId, value)
+  }
+
+  const sortOffersHandler = (userId, value) => {
+    setLoading(true)
+    dispatch({type: SORT_FAVORITE_OFFERS, payload: []})
+    sortFavoriteDesires(userId, value)
+  }
+
   return (
     <div>
       <div>
@@ -47,7 +62,7 @@ function Favorites({
             visibleComponent === "desires" ? "btn-dark" : "btn-secondary"
           }`}
         >
-          Favorite Desires
+          Избранные желания
         </span>
         <span
           className={`btn ${
@@ -55,13 +70,13 @@ function Favorites({
           }`}
           onClick={() => changeVisibleComponent("offers")}
         >
-          Favorite Offers
+          Избранные предложения
         </span>
-        <label className="form-group float-right">
+        <label className="form-group float-right d-flex">
           <span className="mr-3">Сортировка</span>
           {visibleComponent === "desires" ? (
-            <select
-              onChange={(e) => sortFavoriteDesires(userId, e.target.value)}
+            <select className={`form-control`}
+              onChange={(e) => sortDesiresHandler(userId, e.target.value)}
             >
               <option value="default" hidden></option>
               <option value="price+">Price from big to small</option>
@@ -70,8 +85,8 @@ function Favorites({
               <option value="priority_id-">Priority from small to big</option>
             </select>
           ) : (
-            <select
-              onChange={(e) => sortFavoriteOffers(userId, e.target.value)}
+            <select className={`form-control`}
+              onChange={(e) => sortOffersHandler(userId, e.target.value)}
             >
               <option value="default" hidden></option>
               <option value="rating+">Rating from big to small</option>
@@ -92,6 +107,8 @@ function Favorites({
           getCities={getCities}
           showSuccess={showSuccess}
           success={success}
+          loading={loading}
+          setLoading={setLoading}
         />
       ) : (
         <FavOffers
@@ -100,6 +117,8 @@ function Favorites({
           deleteFavorite={deleteFavorite}
           showSuccess={showSuccess}
           success={success}
+          loading={loading}
+          setLoading={setLoading}
         />
       )}
     </div>

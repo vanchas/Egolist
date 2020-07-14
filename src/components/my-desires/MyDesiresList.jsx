@@ -3,6 +3,9 @@ import s from "./my-desire.module.scss";
 import MyDesireItem from "./MyDesireItem";
 import Link from "next/link";
 import Router from "next/router";
+import {useDispatch} from "react-redux";
+import {SORT_MY_DESIRES} from "../../redux/actions/types";
+import myDesires from "../../pages/myDesires";
 
 export default function MyDesireList({
   sortMyDesires,
@@ -16,13 +19,20 @@ export default function MyDesireList({
   sortOffersByDesireId,
 }) {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (desires && desires.length) {
       setLoading(false);
     }
     setTimeout(() => setLoading(false), 10000);
-  }, []);
+  }, [myDesires]);
+
+  const sortDesiresHandler = (value) => {
+    setLoading(true)
+    dispatch({type: SORT_MY_DESIRES, payload: []})
+    sortMyDesires(value)
+  }
 
   return (
     <div className={s.red_list}>
@@ -39,7 +49,7 @@ export default function MyDesireList({
         <div className={s.desires_list_sort}>
           <select
             className="form-control"
-            onChange={(e) => sortMyDesires(e.target.value)}
+            onChange={(e) => sortDesiresHandler(e.target.value)}
           >
             <option value="default" hidden>
               Сортировка

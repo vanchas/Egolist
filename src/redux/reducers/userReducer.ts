@@ -25,7 +25,8 @@ const initialState: any = {
   favoritePosts: [],
   offer: null,
   currentUserGeoPosition: null,
-  complaintsInfo: null
+  complaintsInfo: null,
+  showInterestingDesires: false
 };
 
 export default function userReducer(state = initialState, action: any) {

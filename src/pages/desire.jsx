@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import s from "../components/desire/desire.module.scss";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {
   getDesireById,
   getOffersByDesireId,
@@ -12,6 +12,7 @@ import DesireCard from "../components/desire/DesireCard";
 import UserCard from "../components/desire/UserCard";
 import OffersList from "../components/desire/OffersList";
 import Success from "../components/helpers/Success";
+import {GET_DESIRE_BY_ID} from "../redux/actions/types";
 
 const Desire = ({
   getDesireById,
@@ -24,10 +25,18 @@ const Desire = ({
   success,
 }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showOffers, setShowOffers] = useState(false);
 
   useEffect(() => {
-    getDesireById(router.query.id);
+    new Promise(res => {
+      dispatch({type: GET_DESIRE_BY_ID, payload: {}})
+      res()
+    }).then(() => getDesireById(router.query.id))
+        .catch(err => err);
+    return () => {
+      dispatch({type: GET_DESIRE_BY_ID, payload: {}})
+    }
   }, []);
 
   const showOffersList = (id) => {

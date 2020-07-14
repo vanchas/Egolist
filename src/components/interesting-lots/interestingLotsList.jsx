@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import InterestingLot from './InterestingLot';
 import s from './interesting-lots.module.scss'
 import SignNew from '../../assets/lot/sign-new.png'
-// import { CircularProgress } from '@material-ui/core'
 
 export default function InterestingLotsList({ interestingDesires }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 10000);
   }, []);
 
   return (
@@ -35,7 +34,7 @@ export default function InterestingLotsList({ interestingDesires }) {
               <span className="sr-only">Loading...</span>
             </div>
           </div>}
-          {!loading && <div className="text-center h5 py-5">No interesting desires for selected offer...</div>}
+          {!loading && <div className="text-center h5 py-5">Нет интересных желаний к этому предложению...</div>}
         </>}
 
     </div>

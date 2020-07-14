@@ -1,4 +1,26 @@
-import { GET_LOCATIONS, SHOW_ALERT, HIDE_ALERT, GET_ALL_DESIRES, GET_DESIRE_BY_ID, GET_DESIRES_INFO, GET_CATEGORIES, GET_SUBCATEGORIES, GET_CITIES, GET_ALL_OFFERS, GET_OFFERS_BY_DESIRE_ID, SORT_DESIRES, SORT_OFFERS, SORT_OFFERS_BY_DESIRE_ID, GET_DESIRES_BY_CATEGORY, SEARCH_INFO, SHOW_SUCCESS, HIDE_SUCCESS, FILTER_DESIRES, FILTER_OFFERS } from "../actions/types";
+import {
+    GET_LOCATIONS,
+    SHOW_ALERT,
+    HIDE_ALERT,
+    GET_ALL_DESIRES,
+    GET_DESIRE_BY_ID,
+    GET_DESIRES_INFO,
+    GET_CATEGORIES,
+    GET_SUBCATEGORIES,
+    GET_CITIES,
+    GET_ALL_OFFERS,
+    GET_OFFERS_BY_DESIRE_ID,
+    SORT_DESIRES,
+    SORT_OFFERS,
+    SORT_OFFERS_BY_DESIRE_ID,
+    GET_DESIRES_BY_CATEGORY,
+    SEARCH_INFO,
+    SHOW_SUCCESS,
+    HIDE_SUCCESS,
+    FILTER_DESIRES,
+    FILTER_OFFERS,
+    GET_OFFERS_BY_CATEGORY
+} from "../actions/types";
 
 const initialState: any = {
     locations: [],
@@ -65,6 +87,9 @@ export default function counterReducer(state = initialState, action: any) {
 
         case GET_DESIRES_BY_CATEGORY:
             return { ...state, desires: action.payload };
+
+        case GET_OFFERS_BY_CATEGORY:
+            return { ...state, offers: action.payload };
 
         case FILTER_DESIRES:
             return { ...state, desires: action.payload };

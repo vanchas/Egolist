@@ -11,13 +11,15 @@ export default function FavDesires({
   locations,
   cities,
   getCities,
+    loading,
+    setLoading
 }) {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (favoritePosts && favoritePosts.length) setLoading(false);
     setTimeout(() => setLoading(false), 5000);
-  }, []);
+  }, [loading, setLoading]);
 
   const deleteFormFav = (e, id) => {
     e.preventDefault();
