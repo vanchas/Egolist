@@ -17,10 +17,11 @@
 .card {
 	color: #383b42;
 	position: relative;
-	height: 25em;
+	height: 29em;
 	background-color: #0c9bb5;
 	display: grid;
 	grid-template-rows: 3fr 1fr;
+	overflow: hidden;
 }
 .card_header {
 }
@@ -44,6 +45,7 @@
 }
 .lot_img_holder {
 	width: 100%;
+	height: 20em;
 	overflow: hidden;
 	display: grid;
 	justify-content: center;

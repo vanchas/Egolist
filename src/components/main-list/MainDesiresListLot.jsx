@@ -32,7 +32,7 @@ export default function MainDesiresListLot({
         <div className={s.card_header_control}>
           {user && (
             <>
-              <div>
+              {/*<div>*/}
                 <span>
                   <img src={Libra} alt="" />
                 </span>
@@ -53,7 +53,7 @@ export default function MainDesiresListLot({
                     }
                   />
                 </span>
-              </div>
+              {/*</div>*/}
               <span onClick={(e) => toastHandler(e)}>
                 <img src={Burger} alt="" />
               </span>
