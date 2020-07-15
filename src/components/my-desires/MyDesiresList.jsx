@@ -4,7 +4,7 @@ import MyDesireItem from "./MyDesireItem";
 import Link from "next/link";
 import Router from "next/router";
 import {useDispatch} from "react-redux";
-import {SORT_MY_DESIRES} from "../../redux/actions/types";
+import {GET_OFFERS_BY_DESIRE_ID, SORT_MY_DESIRES} from "../../redux/actions/types";
 import myDesires from "../../pages/myDesires";
 
 export default function MyDesireList({
@@ -23,6 +23,7 @@ export default function MyDesireList({
 
   useEffect(() => {
     if (desires && desires.length) {
+      dispatch({type: GET_OFFERS_BY_DESIRE_ID, payload: []})
       setLoading(false);
     }
     setTimeout(() => setLoading(false), 10000);
@@ -36,9 +37,6 @@ export default function MyDesireList({
 
   return (
     <div className={s.red_list}>
-      <div className={s.red_list_heading}>
-        Вы сделали предложения на следующие лоты:
-      </div>
       <div className={s.red_list_control}>
         <span className="btn text-dark" onClick={()=>Router.back()}>Назад</span>
         <span className="btn">

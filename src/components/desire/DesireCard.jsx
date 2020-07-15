@@ -16,8 +16,8 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
     const user = authenticationService.currentUserValue;
     if (user.token) setUser(user);
     if (desire.id) setLoading(false);
-    setTimeout(() => setLoading(false), 5000);
-  }, []);
+    setTimeout(() => setLoading(false), 10000);
+  }, [desire]);
 
   const setNewFavDesire = (id) => {
     addDesireToFavorites(id)

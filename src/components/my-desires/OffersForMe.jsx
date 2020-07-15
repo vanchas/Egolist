@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import s from './offers-for-me.module.scss'
 import OfferForMeItem from './OfferForMeItem';
+import {useDispatch} from "react-redux";
+// import {SORT_OFFERS_BY_DESIRE_ID} from "../../redux/actions/types";
 
 export default function OffersForMe({ offers, locations, sortOffersByDesireId, desireId }) {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+// const dispatch = useDispatch()
 
     useEffect(() => {
+        // dispatch({type: SORT_OFFERS_BY_DESIRE_ID, payload: []})
         if (offers && offers.length) setLoading(false)
         setTimeout(() => setLoading(false), 5000)
-    }, [])
+    }, [offers])
 
   return (
     <div className={s.blue_list}>

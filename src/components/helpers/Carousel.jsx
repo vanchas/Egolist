@@ -3,7 +3,6 @@ import s from './carousel.module.scss'
 import Router from 'next/router'
 
 export default function Carousel({ photo, video, desireId }) {
-  // const router = useRouter()
   const [array, setArray] = useState(null)
   const [index, setIndex] = useState(0)
   const [loading, setLoading] = useState(true)

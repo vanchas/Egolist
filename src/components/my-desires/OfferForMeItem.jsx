@@ -55,7 +55,6 @@ export default function OfferForMeItem({ offer, locations }) {
               </div>
               <div>
                 <Rating rating={offer.rating} />
-                {/* <img src={Stars} alt="" className={s.stars_img} /> */}
               </div>
             </div>
           </div>

@@ -11,6 +11,8 @@ import {
 import { getCities, showSuccess } from "../redux/actions/actions";
 import { authenticationService } from "../_services/authentication.service";
 import {SORT_FAVORITE_DESIRES, SORT_FAVORITE_OFFERS} from "../redux/actions/types";
+import Alert from "../components/helpers/Alert";
+import Success from "../components/helpers/Success";
 
 function Favorites({
   showSuccess,
@@ -22,7 +24,8 @@ function Favorites({
   deleteFavorite,
   sortFavoriteDesires,
   sortFavoriteOffers,
-    success
+    success,
+    alert
 }) {
   const [visibleComponent, setVisibleComponent] = useState("desires");
   const [userId, setUserId] = useState(null);
@@ -55,6 +58,8 @@ function Favorites({
 
   return (
     <div>
+      {alert && <Alert />}
+      {success && <Success />}
       <div>
         <span
           onClick={() => changeVisibleComponent("desires")}
@@ -129,7 +134,8 @@ const mapStateToProps = (state) => ({
   favoritePosts: state.user.favoritePosts,
   locations: state.app.locations,
   cities: state.app.cities,
-  success: state.app.success
+  success: state.app.success,
+  alert: state.app.alert
 });
 
 const mapDispatchToProps = {

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import s from "./offers.module.scss";
 import Location from "../../assets/sidebar/Location.png";
 import Burger from "../../assets/header/burger.png";
-import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import ArrowDown from "../../assets/lot/arrow-btn.png";
 import InterestingLotsList from "../interesting-lots/interestingLotsList";
@@ -36,7 +35,7 @@ export default function OfferCard({
       }
     >
       <div className={s.card_image}>
-        <span>{offer.place}</span>
+        <span className={s.offer_place}>{offer.place}</span>
         {offer.photo || offer.video ? (
           <Carousel
             desireId={offer.desire_id}
@@ -82,9 +81,6 @@ export default function OfferCard({
           <div>
             {/*<span>*/}
             {/*  <img src={Libra} alt="" />*/}
-            {/*</span>*/}
-            {/*<span>*/}
-            {/*  <img src={Heart} alt="" />*/}
             {/*</span>*/}
           </div>
           <span onClick={(e) => toastHandler(e)}>

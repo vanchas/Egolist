@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
 import Alert from "../helpers/Alert";
+import inputValidateHandler from "../helpers/FieldsValidator";
 
 export default function AddLotForm({
   desiresInfo,
@@ -36,14 +37,15 @@ export default function AddLotForm({
   const [subcat1Loading, setSubcat1Loading] = useState(false);
   const [subcat2Loading, setSubcat2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
+  const [warning, setWarning] = useState(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (
       title.trim().length &&
       description.trim().length &&
-      category1.length &&
-      subcategory1.length &&
+      category1 &&
+      subcategory1 &&
       price > 0
     ) {
       setLoading(true);
@@ -55,8 +57,8 @@ export default function AddLotForm({
         price,
         priority,
         condition,
-        [category1, category2],
-        [subcategory1, subcategory2],
+        [category1 ? category1.id : null, category2 ? category2.id : null],
+        [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
         region,
         city,
         isActive
@@ -80,6 +82,7 @@ export default function AddLotForm({
   };
 
   useEffect(() => {
+    setTimeout(() => setWarning(null), 10000);
     if (
       location.length &&
       currentGeoPosition &&
@@ -95,19 +98,19 @@ export default function AddLotForm({
         }
       });
     }
-  }, []);
+  }, [warning]);
 
-  const category1Handler = (e) => {
+  const category1Handler = (category) => {
     setSubcat1Loading(true);
-    setCategory1(e.target.value);
-    getSubcategories(e.target.value);
-    setShowSubSelect1(true)
+    setCategory1(JSON.parse(category));
+    getSubcategories(JSON.parse(category).id);
+    setShowSubSelect1(true);
   };
-  const category2Handler = (e) => {
+  const category2Handler = (category) => {
     setSubcat2Loading(true);
-    getSubcategories(e.target.value);
-    setCategory2(e.target.value);
-    setShowSubSelect2(true)
+    getSubcategories(JSON.parse(category).id);
+    setCategory2(JSON.parse(category));
+    setShowSubSelect2(true);
   };
 
   const locationSelectHandler = (e) => {
@@ -118,18 +121,28 @@ export default function AddLotForm({
 
   return (
     <div className={s.add_lot_form}>
-      <span className={s.btn_back}>&lt; back</span>
+      {warning && (
+        <div className="alert alert-danger" role="alert">
+          {warning}
+        </div>
+      )}
+
+      <span className={s.btn_back}>&lt; Назад</span>
       {alert && <Alert />}
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>
           <label>Заголовок *</label>
           <input
+            name={`header`}
+            maxLength={`50`}
             type="text"
             value={title}
             required
             className="form-control"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              if (inputValidateHandler(e, setWarning)) setTitle(e.target.value);
+            }}
           />
           <label>Фото</label>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
@@ -150,12 +163,17 @@ export default function AddLotForm({
           />
           <label>Описание *</label>
           <textarea
+            name={`description`}
+            maxLength={`1000`}
             required
             value={description}
             className="form-control"
             rows="10"
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+            onChange={(e) => {
+              if (inputValidateHandler(e, setWarning))
+                setDescription(e.target.value);
+            }}
+          />
         </div>
         <div>
           <fieldset>
@@ -165,19 +183,31 @@ export default function AddLotForm({
                 <span className="sr-only">Loading...</span>
               </div>
             ) : category1 ? (
-              <div>Выбрана категория {category1}</div>
+              <div>
+                Выбрана категория {category1.name}
+                <span
+                  className={`btn btn-danger ml-2`}
+                  onClick={() => {
+                    setCategory1(null);
+                    setSubcategory1(null);
+                    setShowSubSelect1(false);
+                  }}
+                >
+                  X
+                </span>
+              </div>
             ) : (
               <select
                 required
                 className="form-control"
-                onChange={(e) => category1Handler(e)}
+                onChange={(e) => category1Handler(e.target.value)}
               >
                 <option value="default" hidden>
                   первая категория *
                 </option>
                 {categories && categories.length
                   ? categories.map((c, i) => (
-                      <option key={i} value={c.id}>
+                      <option key={i} value={JSON.stringify(c)}>
                         {c.name}
                       </option>
                     ))
@@ -188,26 +218,36 @@ export default function AddLotForm({
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            ) : showSubSelect1 && (
-                  subcategory1 ? (
-                <div>Выбрана подкатегория {subcategory1}</div>
+            ) : (
+              showSubSelect1 &&
+              (subcategory1 ? (
+                <div>
+                  Выбрана подкатегория {subcategory1.name}{" "}
+                  <span
+                    className={`btn btn-danger ml-2`}
+                    onClick={() => setSubcategory1(null)}
+                  >
+                    X
+                  </span>
+                </div>
               ) : (
                 <select
                   required
                   className="form-control"
-                  onChange={(e) => setSubcategory1(e.target.value)}
+                  onChange={(e) => setSubcategory1(JSON.parse(e.target.value))}
                 >
                   <option value="default" hidden>
                     первая подкатегория *
                   </option>
                   {subcategories && subcategories.length
                     ? subcategories.map((s, i) => (
-                        <option key={i} value={s.id}>
+                        <option key={i} value={JSON.stringify(s)}>
                           {s.name}
                         </option>
                       ))
                     : null}
-                </select>)
+                </select>
+              ))
             )}
             <br />
             {!categories.length ? (
@@ -215,18 +255,30 @@ export default function AddLotForm({
                 <span className="sr-only">Loading...</span>
               </div>
             ) : category2 ? (
-              <div>Выбрана категория {category2}</div>
+              <div>
+                Выбрана категория {category2.name}{" "}
+                <span
+                  className={`btn btn-danger ml-2`}
+                  onClick={() => {
+                    setCategory2(null);
+                    setSubcategory2(null);
+                    setShowSubSelect2(false);
+                  }}
+                >
+                  X
+                </span>
+              </div>
             ) : (
               <select
                 className="form-control"
-                onChange={(e) => category2Handler(e)}
+                onChange={(e) => category2Handler(e.target.value)}
               >
                 <option value="default" hidden>
                   вторая категория
                 </option>
                 {categories && categories.length
                   ? categories.map((c, i) => (
-                      <option key={i} value={c.id}>
+                      <option key={i} value={JSON.stringify(c)}>
                         {c.name}
                       </option>
                     ))
@@ -237,25 +289,35 @@ export default function AddLotForm({
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            ) : showSubSelect2 && (
-                subcategory2 ? (
-              <div>Выбрана подкатегория {subcategory2}</div>
             ) : (
-              <select
-                className="form-control"
-                onChange={(e) => setSubcategory2(e.target.value)}
-              >
-                <option value="default" hidden>
-                  вторая подкатегория
-                </option>
-                {subcategories && subcategories.length
-                  ? subcategories.map((s, i) => (
-                      <option key={i} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))
-                  : null}
-              </select>)
+              showSubSelect2 &&
+              (subcategory2 ? (
+                <div>
+                  Выбрана подкатегория {subcategory2.name}{" "}
+                  <span
+                    className={`btn btn-danger ml-2`}
+                    onClick={() => setSubcategory2(null)}
+                  >
+                    X
+                  </span>
+                </div>
+              ) : (
+                <select
+                  className="form-control"
+                  onChange={(e) => setSubcategory2(JSON.parse(e.target.value))}
+                >
+                  <option value="default" hidden>
+                    вторая подкатегория
+                  </option>
+                  {subcategories && subcategories.length
+                    ? subcategories.map((s, i) => (
+                        <option key={i} value={JSON.stringify(s)}>
+                          {s.name}
+                        </option>
+                      ))
+                    : null}
+                </select>
+              ))
             )}
           </fieldset>
           {/* LOCATIONS */}
@@ -338,7 +400,11 @@ export default function AddLotForm({
           </div>
           <label htmlFor="price">Цена *</label>
           <input
+            name={`price`}
             type="number"
+            min={`1`}
+            max={`999999999999`}
+            maxLength={12}
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}

@@ -11,7 +11,6 @@ export default function DesireRedList({
   getInterestingDesiresToOffer,
   hideShowOffer,
   sortMyOffers,
-  showInterestingDesiresToOfferFunc,
 }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();

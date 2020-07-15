@@ -7,12 +7,13 @@ export default function InterestingLotsList({ interestingDesires }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 10000);
-  }, []);
+    if (interestingDesires && interestingDesires.length) setLoading(false)
+    setTimeout(() => setLoading(false), 8000);
+  }, [interestingDesires]);
 
   return (
     <div className={`interesting-lots-list ${s.interesting_lots_list}`}>
-
+      {console.log(interestingDesires)}
       {interestingDesires && interestingDesires.length
         ? <>
           <ul >

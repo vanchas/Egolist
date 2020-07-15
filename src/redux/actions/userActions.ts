@@ -33,6 +33,7 @@ import {
   SORT_MY_DESIRES,
   GET_COMPLAINTS_INFO,
 } from "./types";
+
 import { showSuccess, showAlert } from "./actions";
 
 export const updateUserInfo = (
@@ -96,6 +97,7 @@ export const updateUserInfo = (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const getMyDesires = () => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/desires/my`, {
@@ -113,6 +115,7 @@ export const getMyDesires = () => async (dispatch: Function) => {
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const getMyOffers = () => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(
@@ -133,6 +136,7 @@ export const getMyOffers = () => async (dispatch: Function) => {
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const updateDesire = (
   id: number | string,
   photo: any,
@@ -188,6 +192,7 @@ export const updateDesire = (
     .then(() => Router.push(`/desire?id=${id}`))
     .catch((err) => console.error("Error: ", err));
 };
+
 export const deleteDesire = (id: number | string) => async (
   dispatch: Function
 ) => {
@@ -207,6 +212,7 @@ export const deleteDesire = (id: number | string) => async (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const addComplaint = (
   // id: number | string,
   complaint: string,
@@ -276,6 +282,7 @@ export const getMyComplaints = () => async (dispatch: Function) => {
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const createDesire = (
   photo: any,
   video: string,
@@ -333,6 +340,7 @@ export const createDesire = (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const hideShowDesire = (id: number | string) => async (
   dispatch: Function
 ) => {
@@ -355,6 +363,7 @@ export const hideShowDesire = (id: number | string) => async (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const hideShowOffer = (id: number | string) => async (
   dispatch: Function
 ) => {
@@ -377,6 +386,7 @@ export const hideShowOffer = (id: number | string) => async (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const sortDesires = (sortValue: string) => async (
   dispatch: Function
 ) => {
@@ -398,6 +408,7 @@ export const sortDesires = (sortValue: string) => async (
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const sortOffers = (sortValue: string) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/sort_offers`, {
@@ -417,6 +428,7 @@ export const sortOffers = (sortValue: string) => async (dispatch: Function) => {
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const sortOffersByDesireId = (
   id: string | number,
   sortValue: string
@@ -460,10 +472,12 @@ export const addOfferToFavorites = (id: number | string) => async (
   );
   const promise = response.json();
   return promise
-    .then((res) => {
+    .then((data) => {
       if (response.status === 201) {
-        // dispatch(showSuccess("Предложение добавлено в избранные"));
+        dispatch(showSuccess("Предложение добавлено в избранные"));
         dispatch({ type: ADD_OFFER_TO_FAVORITE, payload: id });
+      } else {
+        dispatch(showAlert(data.message))
       }
     })
     .catch((err) => console.error("Error: ", err));

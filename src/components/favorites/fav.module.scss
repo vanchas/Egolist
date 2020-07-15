@@ -18,16 +18,17 @@
 .card_image {
 	background-color: grey;
 	grid-column: span 1;
-	height: 100%;
 	display: grid;
-	justify-content: center;
+	//justify-content: center;
 	align-items: center;
+	position: relative;
 	overflow: hidden;
+	height: 20em;
 	@media screen and (max-width: 768px) {
 		grid-column: span 1;
 	}
 	img {
-		max-height: 20em;
+		//max-height: 20em;
 	}
 }
 .card_info_block {

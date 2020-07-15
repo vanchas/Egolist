@@ -7,6 +7,7 @@ import s from "./offers.module.scss";
 import Link from "next/link";
 import Rating from "../helpers/Rating";
 import ReportModal from "../helpers/ReportModal";
+import Carousel from "../helpers/Carousel";
 
 export default function OffersItem({
   offer,
@@ -40,7 +41,14 @@ export default function OffersItem({
       {offer.user && (
         <>
           <div className={s.card_image}>
-            {offer.photo && <img src={JSON.parse(offer.photo)[0]} alt="" />}
+            {offer.photo || offer.video ? (
+                <Carousel
+                    desireId={offer.desire_id}
+                    photo={JSON.parse(offer.photo)}
+                    video={offer.video}
+                />
+            ) : null}
+            {/*{offer.photo && <img src={JSON.parse(offer.photo)[0]} alt="" />}*/}
           </div>
 
           <div className={s.card_info_block}>
@@ -94,8 +102,6 @@ export default function OffersItem({
               )}
             </div>
             <div className={s.price}>{offer.price} ГРН</div>
-            <Link
-              href={{ pathname: "/desire", query: { id: offer.desire_id } }}><a>Открыть</a></Link>
           </div>
         </>
       )}

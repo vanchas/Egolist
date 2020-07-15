@@ -42,7 +42,8 @@
 .card {
 	color: #383b42;
 	display: grid;
-	grid-template-columns: 3fr 4fr 2fr;
+	grid-template-columns: 35% 45% 20%;
+	overflow: hidden;
 	@media screen and (max-width: 768px) {
 		grid-template-columns: 1fr;
 	}
@@ -50,17 +51,17 @@
 .card_image {
 	background-color: #d75359;
 	grid-column: span 1;
-	height: 100%;
 	display: grid;
-	justify-content: center;
+	position: relative;
+	//justify-content: center;
 	align-items: center;
 	overflow: hidden;
+	height: 20em;
 	@media screen and (max-width: 768px) {
-		height: 20em;
 		grid-column: span 1;
 	}
 	img {
-		max-height: 20em;
+		//max-height: 20em;
 	}
 }
 .card_info_block {
@@ -127,6 +128,9 @@
 	}
 }
 .price {
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
 	font-size: 2em;
 	font-weight: 700;
 	white-space: nowrap;

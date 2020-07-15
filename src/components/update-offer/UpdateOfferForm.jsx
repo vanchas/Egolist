@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import s from "./update.module.scss";
 import Alert from "../helpers/Alert";
 import Success from "../helpers/Success";
 import { useRouter } from "next/router";
+import inputValidateHandler from "../helpers/FieldsValidator";
 
 export default function UpdateOfferForm({
   updateOffer,
@@ -16,8 +17,8 @@ export default function UpdateOfferForm({
   getCities,
   success,
   desiresInfo,
-    offer,
-                                          getOfferById
+  offer,
+  getOfferById,
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -39,11 +40,13 @@ export default function UpdateOfferForm({
   const [subcategory2Loading, setSubcategory2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [stateOffer, setStateOffer] = useState(null);
+  const [warning, setWarning] = useState(null);
 
   useEffect(() => {
-    getOfferById(router.query.id)
-    if (offer) setStateOffer(offer)
-  }, [offer])
+    setTimeout(() => setWarning(null), 10000);
+    getOfferById(router.query.id);
+    if (offer) setStateOffer(offer);
+  }, [offer, warning]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -97,6 +100,12 @@ export default function UpdateOfferForm({
   return (
     <div className={s.add_lot_form}>
       <h3>Создание предложения</h3>
+      {warning && (
+        <div className="alert alert-danger" role="alert">
+          {warning}
+        </div>
+      )}
+
       <span className={s.btn_back} onClick={() => router.back()}>
         &lt; Назад
       </span>
@@ -108,8 +117,12 @@ export default function UpdateOfferForm({
           <input
             type="text"
             value={title}
+            name={`header`}
+            maxLength={`50`}
             className="form-control"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              if (inputValidateHandler(e, setWarning)) setTitle(e.target.value);
+            }}
           />
           <label>Фото</label>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
@@ -131,10 +144,15 @@ export default function UpdateOfferForm({
           <label>Описание</label>
           <textarea
             value={description}
+            name={`description`}
             className="form-control"
             rows="10"
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+            maxLength={`10000`}
+            onChange={(e) => {
+              if (inputValidateHandler(e, setWarning))
+                setDescription(e.target.value);
+            }}
+          />
         </div>
         <div>
           <fieldset>
@@ -290,6 +308,9 @@ export default function UpdateOfferForm({
           <input
             type="number"
             id="price"
+            min={`1`}
+            max={`999999999999`}
+            maxLength={`12`}
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             className="form-control"
@@ -297,22 +318,22 @@ export default function UpdateOfferForm({
           <label>
             <input
               type="checkbox"
-              onChange={() => {
-                if (isActive) {
-                  setIsActive(0);
-                } else setIsActive(1);
-              }}
+              onChange={() => (isActive)
+                  ? setIsActive(0)
+                  : setIsActive(1)}
             />
             Сделать Активным
           </label>
           <div className="d-flex">
-            {!offer
-            ? <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-            : <button type="submit" className="ml-2 btn btn-secondary">
-              Опубликовать
-            </button>}
+            {!offer ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <button type="submit" className="ml-2 btn btn-secondary">
+                Опубликовать
+              </button>
+            )}
             {loading && (
               <div className="text-center py-2 pl-4">
                 <div className="spinner-border text-primary" role="status">

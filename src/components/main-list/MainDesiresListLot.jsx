@@ -9,12 +9,10 @@ import Router from "next/router";
 import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 
-export default function MainDesiresListLot({
-  desire,
-  addDesireToFavorites,
-}) {
+export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -26,41 +24,54 @@ export default function MainDesiresListLot({
     if (user.token) setUser(user);
   }, []);
 
+  const likeClickHandler = (id) => {
+    if (!user.token) {
+      Router.push("login");
+    } else {
+      setLoading(true);
+      addDesireToFavorites(id);
+      setTimeout(() => setLoading(false), 3000);
+    }
+  };
+
   return (
     <div className={s.card}>
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           {user && (
             <>
-              {/*<div>*/}
-                <span>
-                  <img src={Libra} alt="" />
-                </span>
-                <span
-                  onClick={() => {
-                    !user.token
-                      ? Router.push("/login")
-                      : addDesireToFavorites(desire.id);
-                  }}
-                >
-                  <img
-                    src={Heart}
-                    alt=""
-                    style={
-                      user.user.id === desire.user_id
-                        ? { visibility: "hidden" }
-                        : {}
-                    }
-                  />
-                </span>
-              {/*</div>*/}
+              {loading ? (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              ) : (
+                <>
+                  <span>
+                    <img src={Libra} alt="" />
+                  </span>
+                  <span onClick={() => likeClickHandler(desire.id)}>
+                    <img
+                      src={Heart}
+                      alt=""
+                      style={
+                        user.user.id === desire.user_id
+                          ? { display: "none" }
+                          : {}
+                      }
+                    />
+                  </span>
+                </>
+              )}
               <span onClick={(e) => toastHandler(e)}>
                 <img src={Burger} alt="" />
               </span>
 
               {showToast && (
                 <div className={`${s.toast}`}>
-                  <ReportModal userId={desire.user_id} setShowToast={setShowToast} />
+                  <ReportModal
+                    userId={desire.user_id}
+                    setShowToast={setShowToast}
+                  />
                 </div>
               )}
             </>

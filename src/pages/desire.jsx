@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import s from "../components/desire/desire.module.scss";
-import {connect, useDispatch} from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
   getDesireById,
   getOffersByDesireId,
   showSuccess,
 } from "../redux/actions/actions";
 import { addOfferToFavorites } from "../redux/actions/userActions";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import DesireCard from "../components/desire/DesireCard";
 import UserCard from "../components/desire/UserCard";
 import OffersList from "../components/desire/OffersList";
 import Success from "../components/helpers/Success";
-import {GET_DESIRE_BY_ID} from "../redux/actions/types";
+import {
+  GET_DESIRE_BY_ID,
+  GET_OFFERS_BY_DESIRE_ID,
+} from "../redux/actions/types";
 
 const Desire = ({
   getDesireById,
@@ -24,22 +27,20 @@ const Desire = ({
   addOfferToFavorites,
   success,
 }) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const [showOffers, setShowOffers] = useState(false);
 
   useEffect(() => {
-    new Promise(res => {
-      dispatch({type: GET_DESIRE_BY_ID, payload: {}})
-      res()
-    }).then(() => getDesireById(router.query.id))
-        .catch(err => err);
+    dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
+    getDesireById(Router.query.id);
     return () => {
-      dispatch({type: GET_DESIRE_BY_ID, payload: {}})
-    }
+      dispatch({ type: GET_OFFERS_BY_DESIRE_ID, payload: [] });
+      dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
+    };
   }, []);
 
   const showOffersList = (id) => {
+    dispatch({ type: GET_OFFERS_BY_DESIRE_ID, payload: [] });
     if (!showOffers) {
       getOffersByDesireId(id);
     }

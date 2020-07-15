@@ -6,12 +6,17 @@ import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import { authenticationService } from "../../_services/authentication.service";
 import { useRouter } from "next/router";
-import Carousel from '../helpers/Carousel'
+import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 
-export default function MainOffersListLot({ offer, addOfferToFavorites, success }) {
+export default function MainOffersListLot({
+  offer,
+  addOfferToFavorites,
+  success,
+}) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const toastHandler = (e) => {
@@ -24,45 +29,67 @@ export default function MainOffersListLot({ offer, addOfferToFavorites, success 
     if (user.token) setUser(user);
   }, []);
 
+  const likeClickHandler = (id) => {
+    if (!user.token) {
+      router.push("login");
+    } else {
+      setLoading(true);
+      addOfferToFavorites(id);
+      setTimeout(() => setLoading(false), 3000);
+    }
+  };
+
   return (
     <div className={s.card}>
       <div className={s.card_header}>
         <div className={s.card_header_control}>
-          {user && <>
-            <div>
-              <span>
-                <img src={Libra} alt="" />
+          {user && (
+            <>
+              {!loading ? (
+                <>
+                  <span>
+                    <img src={Libra} alt="" />
+                  </span>
+                  <span onClick={() => likeClickHandler(offer.id)}>
+                    <img
+                      src={Heart}
+                      alt=""
+                      style={
+                        user.user.id === offer.user_id
+                          ? { visibility: "hidden" }
+                          : {}
+                      }
+                    />
+                  </span>
+                </>
+              ) : (
+                <div className="spinner-border text-warning" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
+              <span onClick={(e) => toastHandler(e)}>
+                <img src={Burger} alt="" />
               </span>
-              <span onClick={() => {
-                !user.token
-                  ? router.push('login')
-                  : addOfferToFavorites(offer.id)
-              }}>
-                <img src={Heart} alt="" style={
-                  user.user.id === offer.user_id
-                    ? { filter: 'invert(0.9)' } : {}
-                } />
-              </span>
-            </div>
-            <span onClick={(e) => toastHandler(e)}>
-              <img src={Burger} alt="" />
-            </span>
 
-            {showToast && (
-              <div className={`${s.toast}`}>
-                <ReportModal userId={offer.user_id} setShowToast={setShowToast} />
-              </div>
-            )}
-          </>}
+              {showToast && (
+                <div className={`${s.toast}`}>
+                  <ReportModal
+                    userId={offer.user_id}
+                    setShowToast={setShowToast}
+                  />
+                </div>
+              )}
+            </>
+          )}
         </div>
         <div className={s.lot_img_holder}>
-          {offer.photo || offer.video
-            ? <Carousel
+          {offer.photo || offer.video ? (
+            <Carousel
               desireId={offer.desire_id}
               photo={JSON.parse(offer.photo)}
               video={offer.video}
             />
-            : null}
+          ) : null}
         </div>
       </div>
       <div className={s.card_info}>
