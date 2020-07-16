@@ -7,8 +7,6 @@ import { useDispatch } from "react-redux";
 
 export default function DesireRedList({
   myOffers,
-  interestingDesires,
-  getInterestingDesiresToOffer,
   hideShowOffer,
   sortMyOffers,
 }) {
@@ -31,7 +29,7 @@ export default function DesireRedList({
   return (
     <div className={s.offers_list}>
       <div className={s.offers_list_heading}>
-        Вы сделали предложения на следующие лоты:
+        Ваши предложения:
       </div>
       <div className={s.offers_list_sort}>
         <span className={s.btn_back} onClick={() => Router.back()}>
@@ -45,10 +43,10 @@ export default function DesireRedList({
           <option value="default" hidden>
             Сортировка
           </option>
-          <option value="rating+">Рейтинг от большего</option>
-          <option value="rating-">Рейтинг от меньшего</option>
-          <option value="price+">Цена от большей</option>
-          <option value="price-">Цена от меньшей</option>
+          <option value="rating+">Рейтинг от меньшего</option>
+          <option value="rating-">Рейтинг от большего</option>
+          <option value="price+">Цена от меньшей</option>
+          <option value="price-">Цена от большей</option>
         </select>
       </div>
 
@@ -60,9 +58,7 @@ export default function DesireRedList({
                 <li key={i}>
                   <OfferCard
                     hideShowOffer={hideShowOffer}
-                    interestingDesires={interestingDesires}
                     offer={offer}
-                    getInterestingDesiresToOffer={getInterestingDesiresToOffer}
                   />
                 </li>
               );

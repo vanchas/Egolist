@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import OffersList from '../components/my-offers/OffersList'
 import { connect } from 'react-redux'
-import { getMyOffers, getInterestingDesiresToOffer, hideShowOffer, sortMyOffers } from '../redux/actions/userActions'
+import { getMyOffers, hideShowOffer, sortMyOffers } from '../redux/actions/userActions'
 
-function MyOffers({ getMyOffers, myOffers, getInterestingDesiresToOffer, interestingDesires, hideShowOffer, sortMyOffers }) {
+function MyOffers({ getMyOffers, myOffers, hideShowOffer, sortMyOffers }) {
   useEffect(() => {
     getMyOffers();
   }, []);
@@ -11,8 +11,6 @@ function MyOffers({ getMyOffers, myOffers, getInterestingDesiresToOffer, interes
   return (
     <div>
       <OffersList
-        interestingDesires={interestingDesires}
-        getInterestingDesiresToOffer={getInterestingDesiresToOffer}
         myOffers={myOffers}
         hideShowOffer={hideShowOffer}
         sortMyOffers={sortMyOffers}
@@ -23,12 +21,10 @@ function MyOffers({ getMyOffers, myOffers, getInterestingDesiresToOffer, interes
 
 const mapStateToProps = (state) => ({
   myOffers: state.user.myOffers,
-  interestingDesires: state.user.interestingDesires
 })
 
 const mapDispatchToProps = {
   getMyOffers,
-  getInterestingDesiresToOffer,
   hideShowOffer,
   sortMyOffers
 }

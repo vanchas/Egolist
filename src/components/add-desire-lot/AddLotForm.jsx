@@ -367,7 +367,6 @@ export default function AddLotForm({
                 <option value="default" hidden>
                   Город *
                 </option>
-                <option value="default">Не важно</option>
                 {cities && cities.length
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>

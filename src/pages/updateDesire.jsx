@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getDesireById } from '../redux/actions/actions'
 import { getMyDesires, updateDesire } from '../redux/actions/userActions'
-import UpdateForm from '../components/update-desire/UpdateDesire'
+import UpdateForm from '../components/update-desire/UpdateDesireForm'
 
 function UpdateDesire(props) {
 

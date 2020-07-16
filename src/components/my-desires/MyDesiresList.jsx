@@ -4,8 +4,7 @@ import MyDesireItem from "./MyDesireItem";
 import Link from "next/link";
 import Router from "next/router";
 import {useDispatch} from "react-redux";
-import {GET_OFFERS_BY_DESIRE_ID, SORT_MY_DESIRES} from "../../redux/actions/types";
-import myDesires from "../../pages/myDesires";
+import { SORT_MY_DESIRES} from "../../redux/actions/types";
 
 export default function MyDesireList({
   sortMyDesires,
@@ -14,20 +13,16 @@ export default function MyDesireList({
   locations,
   cities,
   getCities,
-  getOffersByDesireId,
-  offers,
-  sortOffersByDesireId,
 }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (desires && desires.length) {
-      dispatch({type: GET_OFFERS_BY_DESIRE_ID, payload: []})
       setLoading(false);
     }
     setTimeout(() => setLoading(false), 10000);
-  }, [myDesires]);
+  }, []);
 
   const sortDesiresHandler = (value) => {
     setLoading(true)
@@ -37,6 +32,8 @@ export default function MyDesireList({
 
   return (
     <div className={s.red_list}>
+      <div className={s.desires_list_heading}>
+      </div>
       <div className={s.red_list_control}>
         <span className="btn text-dark" onClick={()=>Router.back()}>Назад</span>
         <span className="btn">
@@ -52,10 +49,10 @@ export default function MyDesireList({
             <option value="default" hidden>
               Сортировка
             </option>
-            <option value="priority+">Приоритет от срочного</option>
-            <option value="priority-">Приоритет от не срочного</option>
-            <option value="price+">Цена от большей к меньшей</option>
-            <option value="price-">Цена от меньшей к большей</option>
+            <option value="priority+">Приоритет от не срочного</option>
+            <option value="priority-">Приоритет от срочного</option>
+            <option value="price+">Цена от меньшей к большей</option>
+            <option value="price-">Цена от большей к меньшей</option>
           </select>
         </div>
       </div>
@@ -70,10 +67,7 @@ export default function MyDesireList({
                   hideShowDesire={hideShowDesire}
                   locations={locations}
                   cities={cities}
-                  offers={offers}
                   getCities={getCities}
-                  getOffersByDesireId={getOffersByDesireId}
-                  sortOffersByDesireId={sortOffersByDesireId}
                 />
               </li>
             ))}

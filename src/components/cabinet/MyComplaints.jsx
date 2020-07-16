@@ -1,4 +1,13 @@
+import {useEffect, useState} from "react";
+
 export default function MyComplaints(props) {
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if (props.myComplaints) setLoading(false)
+        setTimeout(() => setLoading(false), 10000)
+    }, [props.myComplaints])
+
   return (
     <div>
       <h3>Мои Жалобы</h3>
@@ -8,7 +17,11 @@ export default function MyComplaints(props) {
             <li key={i}>{c.complaint}</li>
           ))}
         </ul>
-      ) : <div>Жалоб нет</div>}
+      ) : loading
+          ? <div className="spinner-border text-primary" role="status">
+              <span className="sr-only">Loading...</span>
+          </div>
+          : <div>Жалоб нет</div>}
     </div>
   );
 }

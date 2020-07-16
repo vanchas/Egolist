@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {updateUserInfo} from "../../redux/actions/userActions";
 import {authenticationService} from "../../_services/authentication.service";
+import {getCities} from "../../redux/actions/actions";
 
 function UpdateProfile(props) {
     const [name, setName] = useState(null)
@@ -14,6 +15,12 @@ function UpdateProfile(props) {
     const [site, setSite] = useState(null)
     const [avatar, setAvatar] = useState(null)
     const [regionId, setRegionId] = useState(null)
+    const [cityId, setCityId] = useState(null)
+    const [cityLoading, setCityLoading] = useState(false)
+
+    useEffect(() => {
+        if (props.cities && props.cities.length) setCityLoading(false)
+    }, [props.cities])
 
     const submitHandler = (e) => {
        e.preventDefault()
@@ -29,7 +36,19 @@ function UpdateProfile(props) {
             site ? site : user.site,
             avatar ? avatar : user.avatar,
             regionId ? regionId : user.region_id,
+            cityId ? cityId : user.city_id,
         )
+        setName(null)
+        setSecondName(null)
+        setEmail(null)
+        setPhone(null)
+        setTelegram(null)
+        setViber(null)
+        setWhatsapp(null)
+        setSite(null)
+        setAvatar(null)
+        setRegionId(null)
+        setCityId(null)
     }
 
   return (
@@ -74,7 +93,11 @@ function UpdateProfile(props) {
         </label>
           <label>
               Регион
-              <select onChange={e=>setRegionId(e.target.value)} className={`form-control`}>
+              <select onChange={e=>{
+                  props.getCities(e.target.value)
+                  setRegionId(e.target.value)
+                  setCityLoading(true)
+              }} className={`form-control`}>
                   <option hidden value={`default`}></option>
                   {props.locations && props.locations.length
                   ? props.locations.map((loc, i) => (
@@ -83,6 +106,23 @@ function UpdateProfile(props) {
                       : null}
               </select>
           </label>
+          {cityLoading
+          ? <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+              </div>
+              : <label>
+              Город
+              <select onChange={e=>{
+                  setCityId(e.target.value)
+              }} className={`form-control`}>
+                  <option hidden value={`default`}></option>
+                  {props.cities && props.cities.length
+                      ? props.cities.map((city, i) => (
+                          <option key={i} value={city.id}>{city.name_ru}</option>
+                      ))
+                      : null}
+              </select>
+          </label>}
           <div>
               <button className={`btn btn-primary`} type="submit">Сохранить</button>
           </div>
@@ -92,10 +132,12 @@ function UpdateProfile(props) {
 }
 
 const mapStateToProps = (state) => ({
-    locations: state.app.locations
+    locations: state.app.locations,
+    cities: state.app.cities
 });
 
 const mapDispatchToProps = {
-    updateUserInfo
+    updateUserInfo,
+    getCities
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile);

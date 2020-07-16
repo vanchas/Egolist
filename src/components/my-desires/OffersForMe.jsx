@@ -1,35 +1,77 @@
 import React, {useEffect, useState} from 'react'
 import s from './offers-for-me.module.scss'
 import OfferForMeItem from './OfferForMeItem';
-import {useDispatch} from "react-redux";
-// import {SORT_OFFERS_BY_DESIRE_ID} from "../../redux/actions/types";
+import fetch from "isomorphic-unfetch";
+import {authenticationService} from "../../_services/authentication.service";
 
-export default function OffersForMe({ offers, locations, sortOffersByDesireId, desireId }) {
+export default function OffersForMe({ locations, desireId: desire_id }) {
     const [loading, setLoading] = useState(true)
-// const dispatch = useDispatch()
+    const [offersForCurrentDesire, setOffersForCurrentDesire] = useState(null)
 
     useEffect(() => {
-        // dispatch({type: SORT_OFFERS_BY_DESIRE_ID, payload: []})
-        if (offers && offers.length) setLoading(false)
-        setTimeout(() => setLoading(false), 5000)
-    }, [offers])
+        const user = authenticationService.currentUserValue;
+        (async function loadData() {
+            await fetch(`https://egolist.padilo.pro/api/filter_offer`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `${user.token_type} ${user.token}`
+                },
+                body: JSON.stringify({desire_id})
+            }).then(res => res.json())
+            .then(data => {
+                setLoading(false)
+                setOffersForCurrentDesire(data)
+            }).catch(err => {
+                setLoading(false)
+                console.error('Error: ', err)
+            });
+        })()
+        setTimeout(() => setLoading(false), 10000)
+    }, [])
+
+    const sortOffersByDesireId = async (id, sortValue) => {
+        const user = authenticationService.currentUserValue;
+        const response = await fetch(
+            `https://egolist.padilo.pro/api/sort_offers/${id}`,
+            {
+                method: "POST",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
+                    "Authorization": `${user.token_type} ${user.token}`,
+                },
+                body: JSON.stringify({ search_by: sortValue }),
+            }
+        );
+        const promise = response.json();
+        return promise
+            .then((data) => {
+                setLoading(false)
+                setOffersForCurrentDesire(data)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.error("Error: ", err)
+            });
+    };
 
   return (
     <div className={s.blue_list}>
       <div className={s.blue_list_sort}>
         <span>Сортировка</span>
-        <select onChange={e => sortOffersByDesireId(desireId, e.target.value)}>
+        <select onChange={e => sortOffersByDesireId(desire_id, e.target.value)}>
           <option value="default" hidden>По рейтингу</option>
-          <option value="rating+">Рейтинг от большего</option>
-          <option value="rating-">Рейтинг от меньшего</option>
-          <option value="price+">Цена от большей</option>
-          <option value="price-">Цена от меньшей</option>
+          <option value="rating+">Рейтинг от меньшего</option>
+          <option value="rating-">Рейтинг от большего</option>
+          <option value="price+">Цена от меньшей</option>
+          <option value="price-">Цена от большей</option>
         </select>
       </div>
 
       <div className={s.blue_list_items}>
-        {offers && offers.length
-          ? <ul>{offers.map((offer, i) => (
+        {offersForCurrentDesire && offersForCurrentDesire.length
+          ? <ul>{offersForCurrentDesire.map((offer, i) => (
             <li key={i}>
               <OfferForMeItem
                 offer={offer}

@@ -89,7 +89,7 @@ export default function MainOffersListLot({
               photo={JSON.parse(offer.photo)}
               video={offer.video}
             />
-          ) : null}
+          ) : <Link href={`/desire?id=${offer.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
         </div>
       </div>
       <div className={s.card_info}>

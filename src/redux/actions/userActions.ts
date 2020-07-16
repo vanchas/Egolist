@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import { authenticationService } from "../../_services/authentication.service";
 import {
-  UPDATE_USER_INFO,
+  // UPDATE_USER_INFO,
   GET_MY_DESIRES,
   UPDATE_DESIRE,
   DELETE_DESIRE,
@@ -31,7 +31,7 @@ import {
   GET_CURRENT_GEO_POSITION,
   SORT_MY_OFFERS,
   SORT_MY_DESIRES,
-  GET_COMPLAINTS_INFO,
+  GET_COMPLAINTS_INFO, GET_USER_INFO,
 } from "./types";
 
 import { showSuccess, showAlert } from "./actions";
@@ -46,7 +46,8 @@ export const updateUserInfo = (
   whatsapp: string,
   site: string,
   avatar: any,
-  region_id: string
+  region_id: string,
+  city_id: string
 ) => async (dispatch: Function) => {
   const formData = new FormData();
   formData.append("name", name);
@@ -59,41 +60,35 @@ export const updateUserInfo = (
   formData.append("site", site);
   formData.append("avatar", avatar);
   formData.append("region_id", region_id);
+  formData.append("city_id", city_id);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/update_user`, {
     method: "POST",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
+      // "Accept": "application/json",
       Authorization: `${user.token_type} ${user.token}`,
     },
     body: formData,
-    // body: JSON.stringify({
-    //   name: 'string',
-    //   second_name: 'string',
-    //   email: 'string@asd',
-    //   phone: '3801236547789',
-    //   telegram: 'string',
-    //   viber: 'string',
-    //   whatsapp: 'string',
-    //   site: 'string',
-    //   avatar: null,
-    //   region_id: 1
-    // })
   });
   const promise = response.json();
   return promise
-    .then((res) => {
-      Cookies.set(
-        "currentUser",
-        JSON.stringify({
-          ...res,
-          token: user.token,
-          token_type: user.token_type,
-        })
-      );
-      return dispatch({ type: UPDATE_USER_INFO });
+    .then((data) => {
+      if (response.status === 200) {
+        dispatch(showSuccess('Успешно изменено'))
+        Cookies.set(
+            "currentUser",
+            JSON.stringify({
+              ...data,
+              token: data.token,
+              token_type: data.token_type,
+            })
+        );
+      } else {
+        dispatch(showAlert(data.message))
+        // dispatch({ type: UPDATE_USER_INFO });
+      }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -153,8 +148,12 @@ export const updateDesire = (
   is_active: any
 ) => async (dispatch: Function) => {
   const formData = new FormData();
-  for (let p of photo) {
-    formData.append("photo[]", p);
+  if (!photo && photo.length) {
+    formData.append("photo", JSON.stringify(null));
+  } else {
+    for (let p of photo) {
+      formData.append("photo[]", p);
+    }
   }
   formData.append("video", video);
   formData.append("description", description);
@@ -181,15 +180,20 @@ export const updateDesire = (
       body: formData,
     }
   );
-  if (response.status === 200) {
-    dispatch(showSuccess("Желание успешно изменено"));
-  }
   const promise = response.json();
   return promise
-    .then((res) => {
-      return dispatch({ type: UPDATE_DESIRE });
+    .then((data) => {
+      if (response.status === 200) {
+        dispatch(showSuccess("Желание успешно изменено"));
+        dispatch({ type: UPDATE_DESIRE });
+        setTimeout(() => {
+          Router.push(`/desire?id=${id}`)
+        }, 3000)
+      } else {
+        dispatch(showAlert(data.message))
+      }
     })
-    .then(() => Router.push(`/desire?id=${id}`))
+    // .then(() => Router.push(`/desire?id=${id}`))
     .catch((err) => console.error("Error: ", err));
 };
 
@@ -657,7 +661,7 @@ export const updateOffer = (
   // console.log(category_ids, subcategory_ids, desireId, description, header, city_id, region_id, price, is_active, photo, video, id)
   const formData = new FormData();
   if (!photo.length) {
-    formData.append("photo", "[]");
+    formData.append("photo", JSON.stringify(null));
   } else {
     for (let p of photo) {
       formData.append("photo[]", p);
@@ -679,8 +683,9 @@ export const updateOffer = (
     {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
+        // "Content-Type": "multipart/form-data",
+        // "Access-Control-Allow-Origin": "*",
+        "Accept": "application/json",
         Authorization: `${user.token_type} ${user.token}`,
       },
       body: formData,
@@ -718,6 +723,7 @@ export const getOffer = (id: number | string) => async (dispatch: Function) => {
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const createOffer = (
   desireId: number | string,
   photo: any,
@@ -777,6 +783,7 @@ export const createOffer = (
       .catch((err) => console.error("Error: ", err));
   }
 };
+
 export const getInterestingDesiresToOffer = (
   offerId: number | string
 ) => async (dispatch: Function) => {
@@ -842,4 +849,27 @@ export const sortMyDesires = (search_by: string) => async (
       return dispatch({ type: SORT_MY_DESIRES, payload: data });
     })
     .catch((err) => console.error("Error:", err));
+};
+
+export const getUserInfo = () => async (
+    dispatch: Function
+) => {
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`https://egolist.padilo.pro/api/details`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${user.token_type} ${user.token}`,
+    }
+  });
+     const promise = response.json();
+     return promise.then((data) => {
+       if (response.status === 200) {
+         dispatch(showSuccess(data.message))
+         return dispatch({ type: GET_USER_INFO, payload: data });
+       } else {
+         return dispatch(showAlert(data.message));
+       }
+      })
+      .catch((err) => console.error("Error:", err));
 };

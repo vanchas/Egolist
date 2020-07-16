@@ -4,6 +4,7 @@ import s from "./fav.module.scss";
 import Rating from "../helpers/Rating";
 import Carousel from "../helpers/Carousel";
 import {showSuccess} from "../../redux/actions/actions";
+import Link from "next/link";
 
 export default function FavOfferItem({ deleteFavorite, post }) {
   const [stateLoading, setStateLoading] = useState(false);
@@ -24,11 +25,13 @@ export default function FavOfferItem({ deleteFavorite, post }) {
             photo={JSON.parse(post.sentense.photo)}
             video={post.sentense.video}
           />
-        ) : null}
+        ) : <Link href={`/desire?=id${post.sentense.desire_id}`}><a className={`h-100 w-100`}></a></Link>}
       </div>
 
       <div className={s.card_info_block}>
-        <h5>{post.sentense.header}</h5>
+          <h5><Link href={`/desire?id=${post.sentense.desire_id}`}>
+              <a>{post.sentense.header}</a>
+          </Link></h5>
         <p>{post.sentense.description}</p>
         <div className={s.card_info_block_footer}>
           <div>

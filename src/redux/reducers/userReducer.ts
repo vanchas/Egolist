@@ -14,25 +14,29 @@ import {
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
-  SORT_MY_OFFERS, SORT_MY_DESIRES, GET_COMPLAINTS_INFO
+  SORT_MY_OFFERS, SORT_MY_DESIRES, GET_COMPLAINTS_INFO, GET_USER_INFO
 } from "../actions/types";
 
 const initialState: any = {
   myDesires: [],
   interestingDesires: [],
   myOffers: [],
-  myComplaints: [],
+  myComplaints: null,
   favoritePosts: [],
   offer: null,
   currentUserGeoPosition: null,
   complaintsInfo: null,
-  showInterestingDesires: false
+  showInterestingDesires: false,
+  user: null
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
+
+    case GET_USER_INFO:
+      return { ...state, user: action.payload };
 
     case SORT_MY_OFFERS:
       return { ...state, myOffers: action.payload };

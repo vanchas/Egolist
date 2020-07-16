@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import s from "./my-desire.module.scss";
 import Location from "../../assets/sidebar/Location.png";
-import Stars from "../../assets/sidebar/stars.png";
 import OffersForMe from "./OffersForMe";
 import Link from "next/link";
 import Carousel from "../helpers/Carousel";
@@ -10,11 +9,6 @@ export default function MyDesireItem({
   hideShowDesire,
   desire,
   locations,
-  cities,
-  getCities,
-  getOffersByDesireId,
-  offers,
-  sortOffersByDesireId,
 }) {
   const [showCurrentOffers, setShowCurrOffers] = useState(false);
   const [region, setRegion] = useState("");
@@ -45,7 +39,7 @@ export default function MyDesireItem({
             photo={JSON.parse(desire.photo)}
             video={desire.video}
           />
-        ) : null}
+        ) : <Link href={`/desire?id=${desire.id}`}><a className={`w-100 h-100`}></a></Link>}
       </div>
 
       <div className={s.card_info_block}>
@@ -87,9 +81,6 @@ export default function MyDesireItem({
         <div>СТАВОК 5</div>
         <button
           onClick={() => {
-            if (!showCurrentOffers) {
-              getOffersByDesireId(desire.id);
-            }
             setShowCurrOffers(!showCurrentOffers);
           }}
         >
@@ -99,9 +90,7 @@ export default function MyDesireItem({
       {showCurrentOffers && (
         <OffersForMe
           desireId={desire.id}
-          offers={offers}
           locations={locations}
-          sortOffersByDesireId={sortOffersByDesireId}
         />
       )}
     </div>

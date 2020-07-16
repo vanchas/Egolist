@@ -84,7 +84,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
               photo={JSON.parse(desire.photo)}
               video={desire.video}
             />
-          ) : null}
+          ) : <Link href={`/desire?id=${desire.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
         </div>
       </div>
       <div className={s.card_info}>

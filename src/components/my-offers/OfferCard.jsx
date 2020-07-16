@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import s from "./offers.module.scss";
 import Location from "../../assets/sidebar/Location.png";
 import Burger from "../../assets/header/burger.png";
-import Libra from "../../assets/header/libra.png";
 import ArrowDown from "../../assets/lot/arrow-btn.png";
 import InterestingLotsList from "../interesting-lots/interestingLotsList";
 import Link from "next/link";
@@ -11,8 +10,6 @@ import Carousel from "../helpers/Carousel";
 
 export default function OfferCard({
   offer,
-  getInterestingDesiresToOffer,
-  interestingDesires,
   hideShowOffer,
 }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
@@ -42,7 +39,7 @@ export default function OfferCard({
             photo={JSON.parse(offer.photo)}
             video={offer.video}
           />
-        ) : null}
+        ) : <Link href={`/desire?id=${offer.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
       </div>
 
       <div className={s.card_info_block}>
@@ -78,11 +75,6 @@ export default function OfferCard({
 
       <div className={s.card_control_block}>
         <div className={s.card_control_header}>
-          <div>
-            {/*<span>*/}
-            {/*  <img src={Libra} alt="" />*/}
-            {/*</span>*/}
-          </div>
           <span onClick={(e) => toastHandler(e)}>
             <img src={Burger} alt="" />
           </span>
@@ -122,16 +114,13 @@ export default function OfferCard({
               : null
           }
           onClick={() => {
-            if (!showBottomBlock) {
-              getInterestingDesiresToOffer(offer.id);
-            }
             setShowBottomBlock(!showBottomBlock);
           }}
         />
       </div>
 
       {showBottomBlock ? (
-        <InterestingLotsList interestingDesires={interestingDesires} />
+        <InterestingLotsList offerId={offer.id} />
       ) : null}
     </div>
   );

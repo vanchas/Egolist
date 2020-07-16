@@ -11,10 +11,15 @@ export default function SidebarUserProfile() {
       </Link>
       {authenticationService.currentUserValue.token
         ? <ul style={{ listStyle: 'none', padding: '0 0 0 .5em' }}>
-          {authenticationService.currentUserValue.user.is_admin ?
+              <li>
+                  <Link href="/cabinet">
+                      <a className="btn btn-secondary">Личный кабинет</a>
+                  </Link>
+              </li>
+              {authenticationService.currentUserValue.user.is_admin ?
             <li>
               <Link href="/admin">
-                <a className="btn btn-secondary">Админ</a>
+                <a className="btn btn-secondary">Кабинет админа</a>
               </Link>
             </li> : null}
           <li>

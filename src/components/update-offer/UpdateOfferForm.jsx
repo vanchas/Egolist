@@ -44,38 +44,60 @@ export default function UpdateOfferForm({
 
   useEffect(() => {
     setTimeout(() => setWarning(null), 10000);
-    getOfferById(router.query.id);
-    if (offer) setStateOffer(offer);
-  }, [offer, warning]);
+    if (offer) {
+      setStateOffer(offer);
+    } else {
+      getOfferById(router.query.id);
+    }
+  }, [offer]);
+
+  const videoValidator = (videoValue) => {
+    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
+    if (
+      !videoValue ||
+        videoValue.match(regExp)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
-    updateOffer(
-      router.query.desire_id,
-      router.query.id,
-      photos ? photos : stateOffer.photos,
-      video ? video : stateOffer.video,
-      description ? description : stateOffer.description,
-      title ? title : stateOffer.header,
-      price ? price : stateOffer.price,
-      category1 ? [category1] : [stateOffer.category[0].id],
-      subcategory1 ? [subcategory1] : [stateOffer.subcategory[0].id],
-      region ? region : stateOffer.region_id,
-      city ? city : stateOffer.city_id,
-      isActive ? isActive : stateOffer.is_active
-    );
-    setTitle("");
-    setPhotos([]);
-    setVideo("");
-    setDescription("");
-    setCategory1(null);
-    setCategory2(null);
-    setSubcategory1(null);
-    setSubcategory2(null);
-    setPrice("");
-    setIsActive(1);
-    setTimeout(() => setLoading(false), 5000);
+    if (videoValidator(
+        video ? video : stateOffer.video
+    )) {
+      setLoading(true);
+      updateOffer(
+        router.query.desire_id,
+        router.query.id,
+        photos ? photos : stateOffer.photos,
+        video ? video : stateOffer.video,
+        description ? description : stateOffer.description,
+        title ? title : stateOffer.header,
+        price ? price : stateOffer.price,
+        category1 ? [category1] : [stateOffer.category[0].id],
+        subcategory1 ? [subcategory1] : [stateOffer.subcategory[0].id],
+        region ? region : stateOffer.region_id,
+        city ? city : stateOffer.city_id,
+        isActive ? isActive : stateOffer.is_active
+      );
+      setTitle("");
+      setPhotos([]);
+      setVideo("");
+      setDescription("");
+      setCategory1(null);
+      setCategory2(null);
+      setSubcategory1(null);
+      setSubcategory2(null);
+      setPrice("");
+      setIsActive(1);
+      setTimeout(() => setLoading(false), 5000);
+    } else {
+      showAlert('Видео должно быть из YouTube')
+    }
   };
 
   const category1Handler = (e) => {
@@ -99,7 +121,7 @@ export default function UpdateOfferForm({
 
   return (
     <div className={s.add_lot_form}>
-      <h3>Создание предложения</h3>
+      <h3>Редактирование предложения</h3>
       {warning && (
         <div className="alert alert-danger" role="alert">
           {warning}
@@ -124,7 +146,7 @@ export default function UpdateOfferForm({
               if (inputValidateHandler(e, setWarning)) setTitle(e.target.value);
             }}
           />
-          <label>Фото</label>
+          <label>Добаить фото</label>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
             <input
               key={i}
@@ -132,6 +154,16 @@ export default function UpdateOfferForm({
               onChange={(e) => setPhotos([...photos, e.target.files[0]])}
             />
           ))}
+          {/*<div className={s.photo_list}>*/}
+          {/*  <span>Удалить фото</span>*/}
+          {/*  {stateOffer && stateOffer.photo && JSON.parse(stateOffer.photo).length*/}
+          {/*  ? JSON.parse(stateOffer.photo).map((p, i) => {*/}
+          {/*       if (p) {*/}
+          {/*         return <img src={p} key={i} alt="" />*/}
+          {/*       }*/}
+          {/*      })*/}
+          {/*    : null}*/}
+          {/*</div>*/}
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"
@@ -293,7 +325,6 @@ export default function UpdateOfferForm({
                 <option value="default" hidden>
                   Города
                 </option>
-                <option value="default">Не важно</option>
                 {cities && cities.length
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>
@@ -318,9 +349,7 @@ export default function UpdateOfferForm({
           <label>
             <input
               type="checkbox"
-              onChange={() => (isActive)
-                  ? setIsActive(0)
-                  : setIsActive(1)}
+              onChange={() => (isActive ? setIsActive(0) : setIsActive(1))}
             />
             Сделать Активным
           </label>

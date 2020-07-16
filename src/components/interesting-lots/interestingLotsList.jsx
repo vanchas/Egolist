@@ -2,23 +2,45 @@ import React, { useState, useEffect } from 'react'
 import InterestingLot from './InterestingLot';
 import s from './interesting-lots.module.scss'
 import SignNew from '../../assets/lot/sign-new.png'
+import fetch from "isomorphic-unfetch";
+import {authenticationService} from "../../_services/authentication.service";
 
-export default function InterestingLotsList({ interestingDesires }) {
-  const [loading, setLoading] = useState(true);
+export default function InterestingLotsList({ offerId }) {
+  const [loading, setLoading] = useState(true)
+  const [interestingLots, setInterestingLots] = useState(null)
 
   useEffect(() => {
-    if (interestingDesires && interestingDesires.length) setLoading(false)
-    setTimeout(() => setLoading(false), 8000);
-  }, [interestingDesires]);
+    const user = authenticationService.currentUserValue;
+    (async function loadData() {
+      return await fetch(
+          `https://egolist.padilo.pro/api/desires/interesting_for/${offerId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${user.token_type} ${user.token}`,
+            },
+          }
+      ).then(res => res.json())
+      .then(data => {
+        setLoading(false)
+        setInterestingLots(data)
+      }).catch(err => {
+        setLoading(false)
+        console.error(err)
+      })
+    })()
+
+    setTimeout(() => setLoading(false), 10000);
+  }, []);
 
   return (
     <div className={`interesting-lots-list ${s.interesting_lots_list}`}>
-      {console.log(interestingDesires)}
-      {interestingDesires && interestingDesires.length
+      {interestingLots && interestingLots.length
         ? <>
           <ul >
             <img src={SignNew} alt="" className={s.interesting_img} />
-            {interestingDesires.map((desire, i) => (
+            {interestingLots.map((desire, i) => (
               <li key={i}><InterestingLot desire={desire} /></li>
             ))}
           </ul>

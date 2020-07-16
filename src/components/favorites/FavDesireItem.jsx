@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Location from "../../assets/sidebar/Location.png";
 import s from "./fav.module.scss";
 import Carousel from "../helpers/Carousel";
+import Link from 'next/link'
 
 export default function FavDesireItem({ showSuccess, deleteFavorite, post }) {
   const [stateLoading, setStateLoading] = useState(false);
@@ -22,11 +23,15 @@ export default function FavDesireItem({ showSuccess, deleteFavorite, post }) {
             photo={JSON.parse(post.desire.photo)}
             video={post.desire.video}
           />
-        ) : null}
+        ) : <Link href={`/desire?=id${post.desire.id}`}><a className={`h-100 w-100`}></a></Link>}
       </div>
 
       <div className={s.card_info_block}>
-        <h5>{post.desire.header}</h5>
+        <h5>
+            <Link href={`/desire?id=${post.desire.id}`}>
+                <a>{post.desire.header}</a>
+            </Link>
+        </h5>
         <p>{post.desire.description}</p>
         <div className={s.card_info_block_footer}>
           <div>

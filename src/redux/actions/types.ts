@@ -15,6 +15,7 @@ export const GET_OFFERS_BY_DESIRE_ID = 'GET_OFFERS_BY_DESIRE_ID';
 export const SEARCH_INFO = 'SEARCH_INFO';
 
 // user
+export const GET_USER_INFO = 'GET_USER_INFO';
 export const FILTER_OFFERS = 'FILTER_OFFERS';
 export const FILTER_DESIRES = 'FILTER_DESIRES';
 export const GET_OFFER_BY_ID = 'GET_OFFER_BY_ID';
