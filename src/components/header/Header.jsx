@@ -1,33 +1,51 @@
-import React, { useEffect } from 'react'
-import s from './header.module.scss';
-import NavComponent from './Nav';
-import { connect } from 'react-redux';
-import { getLocations, searchInfo, filterOffers, filterDesires } from '../../redux/actions/actions';
+import React, { useEffect } from "react";
+import s from "./header.module.scss";
+import NavComponent from "./Nav";
+import { connect } from "react-redux";
+import {
+  getLocations,
+  searchInfo,
+  filterOffers,
+  filterDesires,
+} from "../../redux/actions/actions";
 
-function Header({ getLocations, locations, searchInfo, filterOffers, filterDesires }) {
+function Header({
+  getLocations,
+  locations,
+  searchInfo,
+  filterOffers,
+  filterDesires,
+  selectedCategory,
+}) {
   useEffect(() => {
     getLocations();
   }, []);
 
   return (
     <header className={`header ${s.header}`}>
-      <NavComponent locations={locations}
+      <NavComponent
+        locations={locations}
         searchInfo={searchInfo}
         filterOffers={filterOffers}
-        filterDesires={filterDesires} />
+        filterDesires={filterDesires}
+        selectedCategory={selectedCategory}
+      />
     </header>
-  )
+  );
 }
 
-const mapStateToProps = state => ({
-  locations: state.app.locations
-})
+const mapStateToProps = (state) => {
+  return  {
+    locations: state.app.locations,
+    selectedCategory: state.app.selectedCategory,
+  }
+};
 
 const mapDispatchToProps = {
   getLocations,
   searchInfo,
   filterOffers,
-  filterDesires
-}
+  filterDesires,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

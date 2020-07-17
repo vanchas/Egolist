@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import s from './categories.module.scss'
+<<<<<<< HEAD
 import {connect, useDispatch} from 'react-redux';
 import { getCategories, getDesiresByCategory, getOffersByCategory } from '../../redux/actions/actions'
 import {GET_DESIRES_BY_CATEGORY, GET_OFFERS_BY_CATEGORY} from "../../redux/actions/types";
 
 function Categories({ getCategories, categories,getOffersByCategory, getDesiresByCategory }) {
   const dispatch = useDispatch()
+=======
+import {connect} from 'react-redux';
+import { getCategories, getDesiresByCategory, selectHeadingCategories } from '../../redux/actions/actions'
+
+function Categories({ getCategories, categories, getDesiresByCategory, selectHeadingCategories }) {
+>>>>>>> master
 
   useEffect(() => {
     getCategories();
@@ -27,11 +34,25 @@ function Categories({ getCategories, categories,getOffersByCategory, getDesiresB
             <ul className="categories-list">
             {categories.map((c, i) => (
               <li className="btn" key={i}
+<<<<<<< HEAD
                 onClick={() => filterByCategotyHandler(c.id)}>
                 {c.name}</li>
             ))}</ul>
               <select className={`form-control`}
                       onChange={(e) => filterByCategotyHandler(e.target.value)}>
+=======
+                onClick={() => {
+                  selectHeadingCategories(c.id)
+                  getDesiresByCategory(c.id)
+                }}>
+                {c.name}</li>
+            ))}</ul>
+              <select className={`form-control`}
+                      onChange={(e) => {
+                        selectHeadingCategories(e.target.value)
+                        getDesiresByCategory(e.target.value)
+                      }}>
+>>>>>>> master
                 <option value="default" hidden>КАТЕГОРИИ</option>
                 {categories.map((c, i) => (
                     <option key={i} value={c.id}>{c.name}</option>
@@ -53,7 +74,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getCategories,
   getDesiresByCategory,
+<<<<<<< HEAD
   getOffersByCategory
+=======
+  selectHeadingCategories
+>>>>>>> master
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

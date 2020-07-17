@@ -17,10 +17,31 @@ import {
     HIDE_SUCCESS,
     FILTER_OFFERS,
     FILTER_DESIRES,
+<<<<<<< HEAD
     GET_OFFERS_BY_CATEGORY,
+=======
+    SELECT_HEADING_CATEGORY,
+>>>>>>> master
 } from "./types"
 import fetch from 'isomorphic-unfetch'
 import { authenticationService } from "../../_services/authentication.service";
+
+export const selectHeadingCategories = (id: any) => async (dispatch: Function) => {
+    return await dispatch({type: SELECT_HEADING_CATEGORY, payload: id})
+};
+export const searchInfo = (search_field: string, region_id: any, category_ids: any) => async (dispatch: Function) => {
+    const response = await fetch(`https://egolist.padilo.pro/api/desires/search/${search_field}&?region_id=${region_id}&category_ids=${JSON.stringify(category_ids)}`, {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        }
+    });
+    const promise = response.json();
+    return promise.then(res => {
+        return dispatch({ type: SEARCH_INFO, payload: res })
+    }).catch(err => console.error('Error: ', err));
+};
 
 export const getLocations = () => async (dispatch: Function) => {
     const response = await fetch(`https://egolist.padilo.pro/api/location`);
@@ -236,18 +257,5 @@ export const filterDesires = (key: string, value: string) => async (dispatch: Fu
     const promise = response.json();
     return promise.then(res => {
         return dispatch({ type: FILTER_DESIRES, payload: res })
-    }).catch(err => console.error('Error: ', err));
-};
-export const searchInfo = (search_field: string) => async (dispatch: Function) => {
-    const response = await fetch(`https://egolist.padilo.pro/api/desires/search/${search_field}`, {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-        }
-    });
-    const promise = response.json();
-    return promise.then(res => {
-        return dispatch({ type: SEARCH_INFO, payload: res })
     }).catch(err => console.error('Error: ', err));
 };
