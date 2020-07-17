@@ -97,16 +97,16 @@ export default function SignUp({ alert, showAlert, success }) {
             </div>
             <div className="form-group">
               <label htmlFor="phone">Телефон*</label>
-              <InputMask
-                mask="+3\8 999 999 99 99"
-                maskChar=" "
-                name="phone"
-                className={
-                  "form-control" +
-                  (errors.phone && touched.phone ? " is-invalid" : "")
-                }
-              />
-              {/*<Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />*/}
+              {/*<InputMask*/}
+              {/*  mask="+3\8 999 999 99 99"*/}
+              {/*  maskChar=" "*/}
+              {/*  name="phone"*/}
+              {/*  className={*/}
+              {/*    "form-control" +*/}
+              {/*    (errors.phone && touched.phone ? " is-invalid" : "")*/}
+              {/*  }*/}
+              {/*/>*/}
+              <Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />
               <ErrorMessage
                 name="phone"
                 component="div"

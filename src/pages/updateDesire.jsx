@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getDesireById } from '../redux/actions/actions'
-import { getMyDesires, updateDesire } from '../redux/actions/userActions'
+import { getMyDesires, updateDesire, deleteDesirePhoto } from '../redux/actions/userActions'
 import UpdateForm from '../components/update-desire/UpdateDesireForm'
 
 function UpdateDesire(props) {
@@ -29,7 +29,8 @@ function UpdateDesire(props) {
         updateDesire={props.updateDesire}
         myDesires={props.myDesires}
         getSubcategories={props.getSubcategories}
-        getCities={props.getCities} />
+        getCities={props.getCities}
+          deleteDesirePhoto={props.deleteDesirePhoto}/>
     </div>
   )
 }
@@ -56,7 +57,8 @@ const mapDispatchToProps = {
   getCategories,
   getSubcategories,
   getCities,
-  getDesireById
+  getDesireById,
+  deleteDesirePhoto
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateDesire);

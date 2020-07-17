@@ -31,7 +31,7 @@ import {
   GET_CURRENT_GEO_POSITION,
   SORT_MY_OFFERS,
   SORT_MY_DESIRES,
-  GET_COMPLAINTS_INFO, GET_USER_INFO,
+  GET_COMPLAINTS_INFO, GET_USER_INFO, DELETE_DESIRE_PHOTO, DELETE_OFFER_PHOTO,
 } from "./types";
 
 import { showSuccess, showAlert } from "./actions";
@@ -196,6 +196,49 @@ export const updateDesire = (
     // .then(() => Router.push(`/desire?id=${id}`))
     .catch((err) => console.error("Error: ", err));
 };
+
+export const deleteOfferPhoto = (id: any, photo: any) => async (
+    dispatch: Function
+) => {
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`https://egolist.padilo.pro/api/desires/offers/photo/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      // Accept: "application/json",
+      Authorization: `${user.token_type} ${user.token}`,
+    },
+    body: JSON.stringify({photo})
+  });
+  const promise = response.json();
+  return promise
+      .then((data) => {
+        return dispatch({ type: DELETE_OFFER_PHOTO });
+      })
+      .catch((err) => console.error("Error: ", err));
+};
+
+export const deleteDesirePhoto = (id: any, photo: any) => async (
+    dispatch: Function
+) => {
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`https://egolist.padilo.pro/api/desires/photo/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      // Accept: "application/json",
+      Authorization: `${user.token_type} ${user.token}`,
+    },
+    body: JSON.stringify({photo})
+  });
+  const promise = response.json();
+  return promise
+      .then((data) => {
+        return dispatch({ type: DELETE_DESIRE_PHOTO });
+      })
+      .catch((err) => console.error("Error: ", err));
+};
+
 
 export const deleteDesire = (id: number | string) => async (
   dispatch: Function

@@ -16,7 +16,7 @@ export default function UpdateOfferForm({
   cities,
   getCities,
   success,
-  desiresInfo,
+  deleteOfferPhoto,
   offer,
   getOfferById,
 }) {
@@ -53,10 +53,7 @@ export default function UpdateOfferForm({
 
   const videoValidator = (videoValue) => {
     const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (
-      !videoValue ||
-        videoValue.match(regExp)
-    ) {
+    if (!videoValue || videoValue.match(regExp)) {
       return true;
     } else {
       return false;
@@ -66,9 +63,7 @@ export default function UpdateOfferForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (videoValidator(
-        video ? video : stateOffer.video
-    )) {
+    if (videoValidator(video ? video : stateOffer.video)) {
       setLoading(true);
       updateOffer(
         router.query.desire_id,
@@ -96,7 +91,7 @@ export default function UpdateOfferForm({
       setIsActive(1);
       setTimeout(() => setLoading(false), 5000);
     } else {
-      showAlert('Видео должно быть из YouTube')
+      showAlert("Видео должно быть из YouTube");
     }
   };
 
@@ -154,16 +149,28 @@ export default function UpdateOfferForm({
               onChange={(e) => setPhotos([...photos, e.target.files[0]])}
             />
           ))}
-          {/*<div className={s.photo_list}>*/}
-          {/*  <span>Удалить фото</span>*/}
-          {/*  {stateOffer && stateOffer.photo && JSON.parse(stateOffer.photo).length*/}
-          {/*  ? JSON.parse(stateOffer.photo).map((p, i) => {*/}
-          {/*       if (p) {*/}
-          {/*         return <img src={p} key={i} alt="" />*/}
-          {/*       }*/}
-          {/*      })*/}
-          {/*    : null}*/}
-          {/*</div>*/}
+          <div className={s.photo_list}>
+            <span>Удалить фото</span>
+            {stateOffer &&
+            stateOffer.photo &&
+            JSON.parse(stateOffer.photo).length
+              ? JSON.parse(stateOffer.photo).map((p, i) => {
+                  if (p) {
+                    return (
+                      <div>
+                        <img src={p} key={i} alt="" />
+                        <span
+                          className={`btn btn-danger`}
+                          onClick={() => deleteOfferPhoto(stateOffer.id, p)}
+                        >
+                          X
+                        </span>
+                      </div>
+                    );
+                  }
+                })
+              : null}
+          </div>
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"

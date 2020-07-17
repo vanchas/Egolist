@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import UpdateOfferForm from '../components/update-offer/UpdateOfferForm'
 import { connect } from "react-redux";
-import { updateOffer, getOffer } from "../redux/actions/userActions";
-import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getOfferById } from '../redux/actions/actions'
+import { updateOffer, getOffer, deleteOfferPhoto } from "../redux/actions/userActions";
+import { getLocations, showAlert, getCategories, getSubcategories, getCities, getOfferById } from '../redux/actions/actions'
 
 const UpdateOffer = (props) => {
   useEffect(() => {
-    props.getDesiresInfo();
     props.getCategories();
   }, []);
 
   return (
     <div>
       <UpdateOfferForm
+          deleteOfferPhoto={props.deleteOfferPhoto}
           getOfferById={props.getOfferById}
           offer={props.offer}
         success={props.success}
@@ -24,8 +24,7 @@ const UpdateOffer = (props) => {
         locations={props.locations}
         updateOffer={props.updateOffer}
         getSubcategories={props.getSubcategories}
-        getCities={props.getCities}
-        desiresInfo={props.desiresInfo} />
+        getCities={props.getCities} />
     </div>
   );
 }
@@ -38,7 +37,6 @@ const mapStateToProps = (state) => ({
   categories: state.app.categories,
   subcategories: state.app.subcategories,
   success: state.app.success,
-  desiresInfo: state.app.desiresInfo,
 });
 
 const mapDispatchToProps = {
@@ -46,11 +44,11 @@ const mapDispatchToProps = {
   getOffer,
   getLocations,
   showAlert,
-  getDesiresInfo,
   getCategories,
   getSubcategories,
   getCities,
-  getOfferById
+  getOfferById,
+  deleteOfferPhoto
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateOffer);

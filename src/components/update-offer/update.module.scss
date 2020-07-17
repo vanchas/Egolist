@@ -9,10 +9,25 @@
 		grid-column: span 3;
 	}
 }
-.chips {
-	display: flex;
-	padding-bottom: 0.5em;
-	* {
-		margin-right: 1em;
+.photo_list {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 1em;
+	height: 7em;
+	overflow: hidden;
+	align-items: center;
+	justify-items: center;
+	div {
+		position: relative;
+		span {
+			position: absolute;
+			top: 0;
+			right: 0;
+			opacity: .7;
+		}
+	}
+	img {
+		width: 100%;
+		//height: 5em;
 	}
 }

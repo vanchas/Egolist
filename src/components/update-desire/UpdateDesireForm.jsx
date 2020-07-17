@@ -20,6 +20,7 @@ export default function UpdateForm({
   success,
   getDesireById,
   desire,
+                                     deleteDesirePhoto
 }) {
   const router = useRouter();
   const [header, setHeader] = useState(null);
@@ -281,7 +282,11 @@ export default function UpdateForm({
           {stateDesire && stateDesire.photo && JSON.parse(stateDesire.photo).length
           ? JSON.parse(stateDesire.photo).map((p, i) => {
                if (p) {
-                 return <img src={p} key={i} alt="" />
+                 return <div>
+                   <img src={p} key={i} alt="" />
+                    <span className={`btn btn-danger`}
+                    onClick={()=>deleteDesirePhoto(stateDesire.id, p)}>X</span>
+                 </div>
                }
               })
             : null}

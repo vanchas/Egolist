@@ -18,6 +18,15 @@
 	overflow: hidden;
 	align-items: center;
 	justify-items: center;
+	div {
+		position: relative;
+		span {
+			position: absolute;
+			top: 0;
+			right: 0;
+			opacity: .7;
+		}
+	}
 	img {
 		width: 100%;
 		//height: 5em;
