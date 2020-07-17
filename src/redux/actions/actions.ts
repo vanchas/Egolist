@@ -17,11 +17,8 @@ import {
     HIDE_SUCCESS,
     FILTER_OFFERS,
     FILTER_DESIRES,
-<<<<<<< HEAD
     GET_OFFERS_BY_CATEGORY,
-=======
-    SELECT_HEADING_CATEGORY,
->>>>>>> master
+    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY,
 } from "./types"
 import fetch from 'isomorphic-unfetch'
 import { authenticationService } from "../../_services/authentication.service";
@@ -29,8 +26,18 @@ import { authenticationService } from "../../_services/authentication.service";
 export const selectHeadingCategories = (id: any) => async (dispatch: Function) => {
     return await dispatch({type: SELECT_HEADING_CATEGORY, payload: id})
 };
-export const searchInfo = (search_field: string, region_id: any, category_ids: any) => async (dispatch: Function) => {
-    const response = await fetch(`https://egolist.padilo.pro/api/desires/search/${search_field}&?region_id=${region_id}&category_ids=${JSON.stringify(category_ids)}`, {
+
+export const selectHeadingSubcategories = (id: any) => async (dispatch: Function) => {
+    return await dispatch({type: SELECT_HEADING_SUBCATEGORY, payload: id})
+};
+
+export const searchInfo = (search_field: string, region_id: any, city_id: any, category_ids: any, subcategory_ids: any) => async (dispatch: Function) => {
+    const response = await fetch(`
+    https://egolist.padilo.pro/api/desires/search/${search_field}
+    &?region_id=${region_id}
+    &city_id=${city_id}
+    &category_ids[]=${category_ids}
+    &subcategory_ids[]=${subcategory_ids}`, {
         method: 'GET',
         headers: {
             "Access-Control-Allow-Origin": "*",

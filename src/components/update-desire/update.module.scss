@@ -10,6 +10,7 @@
 	}
 }
 
+
 .photo_list {
 	display: grid;
 	grid-template-columns: repeat(8, 1fr);
@@ -32,3 +33,18 @@
 		//height: 5em;
 	}
 }
+
+//.checkedValue {
+//	position: relative;
+//	&::before {
+//		position: absolute;
+//		top: 50%;
+//		left: 50%;
+//		transform: translate(-50%, -50%);
+//		content: '';
+//		width: 5px;
+//		height: 5px;
+//		border-radius: 50%;
+//		background: red;
+//	}
+//}

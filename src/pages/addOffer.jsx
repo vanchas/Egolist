@@ -1,18 +1,25 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import AddOfferForm from '../components/add-offer/AddOfferForm'
 import { getCities, getSubcategories, getCategories, showAlert } from '../redux/actions/actions'
 import { createOffer } from '../redux/actions/userActions'
+import {authenticationService} from "../_services/authentication.service";
+import Router from "next/router";
 
 function AddOffer(props) {
+  const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
+    const user = authenticationService.currentUserValue;
+    if (user && user.user) {
+      setShowPage(true)
+    } else Router.push('/login')
     props.getCategories();
   }, []);
 
   return (
-    <div>
-      <AddOfferForm
+    <div>{showPage &&
+    <AddOfferForm
         createOffer={props.createOffer}
         alert={props.alert}
         showAlert={props.showAlert}
@@ -22,8 +29,8 @@ function AddOffer(props) {
         locations={props.locations}
         cities={props.cities}
         getCities={props.getCities}
-        success={props.success} />
-    </div>
+        success={props.success}/>
+    }</div>
   );
 }
 

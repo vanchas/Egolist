@@ -8,7 +8,7 @@ import Carousel from "./DesireCarousel";
 import { addDesireToFavorites } from "../../redux/actions/userActions";
 import { connect } from "react-redux";
 
-function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
+function DesireCard({ desire, addDesireToFavorites }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,9 +20,8 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
   }, [desire]);
 
   const setNewFavDesire = (id) => {
-    addDesireToFavorites(id)
-    showSuccess('Желание добавлено в избранные')
-  }
+    addDesireToFavorites(id);
+  };
 
   return (
     <>
@@ -48,13 +47,15 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
                 <span className="btn">
                   <img src={Libra} alt="" />
                 </span>
-                <span className="btn">
-                  <img
-                    src={Heart}
-                    alt=""
-                    onClick={() => setNewFavDesire(desire.id)}
-                  />
-                </span>
+                {user && user.token && user.user.id !== desire.user_id ? (
+                  <span className="btn">
+                    <img
+                      src={Heart}
+                      alt=""
+                      onClick={() => setNewFavDesire(desire.id)}
+                    />
+                  </span>
+                ) : null}
               </div>
               <div className={s.created_at}>
                 {desire.created_at &&
@@ -62,9 +63,9 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
                     .split("T")[0]
                     .split("-")
                     .reverse()
-                    .join(" . ")}
+                    .join(".")}
               </div>
-              <div className={s.views}>Views {desire.views}</div>
+              <div className={s.views}>Просмотров {desire.views}</div>
               <div className={s.categories}>
                 {desire.category && desire.category.length
                   ? desire.category.map((c, i) => <span key={i}>{c.name}</span>)
@@ -75,10 +76,9 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
                   href={{
                     pathname: "/addOffer",
                     query: { desire_id: desire.id },
-                  }}>
-                  <a className={s.add_offer_btn}>
-                    Добавить предложение
-                  </a>
+                  }}
+                >
+                  <a className={s.add_offer_btn}>Добавить предложение</a>
                 </Link>
               ) : null}
             </div>
@@ -91,7 +91,9 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
               <span className="sr-only">Loading...</span>
             </div>
           ) : (
-            <div className="h5 text-center py-5">Нет информации по желанию...</div>
+            <div className="h5 text-center py-5">
+              Нет информации по желанию...
+            </div>
           )}
         </div>
       )}
@@ -99,8 +101,7 @@ function DesireCard({ desire, addDesireToFavorites, showSuccess }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
   addDesireToFavorites,

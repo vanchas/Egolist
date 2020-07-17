@@ -133,12 +133,15 @@ export default function UpdateOfferForm({
           <label>Заголовок</label>
           <input
             type="text"
-            value={title}
+            value={stateOffer && stateOffer.header ? stateOffer.header : ''}
             name={`header`}
             maxLength={`50`}
             className="form-control"
             onChange={(e) => {
-              if (inputValidateHandler(e, setWarning)) setTitle(e.target.value);
+              if (inputValidateHandler(e, setWarning)) {
+                setStateOffer({...stateOffer, header: e.target.value})
+                setTitle(e.target.value);
+              }
             }}
           />
           <label>Добаить фото</label>
@@ -174,22 +177,27 @@ export default function UpdateOfferForm({
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"
-            value={video}
+            value={stateOffer && stateOffer.video ? stateOffer.video : ''}
             placeholder="https:// ...."
             id="video"
             className="form-control"
-            onChange={(e) => setVideo(e.target.value)}
+            onChange={(e) => {
+              setStateOffer({...stateOffer, video: e.target.value})
+              setVideo(e.target.value)
+            }}
           />
           <label>Описание</label>
           <textarea
-            value={description}
+              value={stateOffer && stateOffer.description ? stateOffer.description : ''}
             name={`description`}
             className="form-control"
             rows="10"
             maxLength={`10000`}
             onChange={(e) => {
-              if (inputValidateHandler(e, setWarning))
+              if (inputValidateHandler(e, setWarning)) {
+                setStateOffer({...stateOffer, description: e.target.value})
                 setDescription(e.target.value);
+              }
             }}
           />
         </div>
@@ -207,9 +215,10 @@ export default function UpdateOfferForm({
                 className="form-control"
                 onChange={(e) => category1Handler(e)}
               >
-                <option value="default" hidden>
-                  первая категория
-                </option>
+                {stateOffer && stateOffer.category
+                    ? <option value={stateOffer.category[0].id} hidden>
+                      {stateOffer.category[0].name}
+                    </option> : null}
                 {categories && categories.length
                   ? categories.map((c, i) => (
                       <option key={i} value={c.id}>
@@ -232,9 +241,10 @@ export default function UpdateOfferForm({
                   className="form-control"
                   onChange={(e) => setSubcategory1(e.target.value)}
                 >
-                  <option value="default" hidden>
-                    первая подкатегория
-                  </option>
+                  {stateOffer && stateOffer.subcategory
+                      ? <option value={stateOffer.subcategory[0].id} hidden>
+                        {stateOffer.subcategory[0].name}
+                      </option> : null}
                   {subcategories && subcategories.length
                     ? subcategories.map((s, i) => (
                         <option key={i} value={s.id}>
@@ -257,9 +267,10 @@ export default function UpdateOfferForm({
                 className="form-control"
                 onChange={(e) => category2Handler(e)}
               >
-                <option value="default" hidden>
-                  вторая категория
-                </option>
+                {stateOffer && stateOffer.category && stateOffer.category.length > 1
+                    ? <option value={stateOffer.category[1].id} hidden>
+                      {stateOffer.category[1].name}
+                    </option> : null}
                 {categories && categories.length
                   ? categories.map((c, i) => (
                       <option key={i} value={c.id}>
@@ -285,9 +296,10 @@ export default function UpdateOfferForm({
                     getSubcategories(e.target.value);
                   }}
                 >
-                  <option value="default" hidden>
-                    первая подкатегория
-                  </option>
+                  {stateOffer && stateOffer.subcategory && stateOffer.subcategory.length > 1
+                      ? <option value={stateOffer.subcategory[1].id} hidden>
+                        {stateOffer.subcategory[1].name}
+                      </option> : null}
                   {subcategories && subcategories.length
                     ? subcategories.map((s, i) => (
                         <option key={i} value={s.id}>
@@ -310,7 +322,10 @@ export default function UpdateOfferForm({
                 className="form-control"
                 onChange={(e) => locationSelectHandler(e)}
               >
-                <option value="default" hidden></option>
+                {stateOffer && stateOffer.region
+                    ? <option value={stateOffer.region.id} hidden>
+                      {stateOffer.region.name_ru}
+                    </option> : null}
                 {locations && locations.length
                   ? locations.map((c, i) => (
                       <option key={i} value={c.id}>
@@ -329,9 +344,10 @@ export default function UpdateOfferForm({
                 className="form-control"
                 onChange={(e) => setCity(e.target.value)}
               >
-                <option value="default" hidden>
-                  Города
-                </option>
+                {stateOffer && stateOffer.city
+                    ? <option value={stateOffer.city.id} hidden>
+                      {stateOffer.city.name_ru}
+                    </option> : null}
                 {cities && cities.length
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>
@@ -349,8 +365,11 @@ export default function UpdateOfferForm({
             min={`1`}
             max={`999999999999`}
             maxLength={`12`}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={stateOffer && stateOffer.price ? stateOffer.price : ''}
+            onChange={(e) => {
+              setStateOffer({...stateOffer, price: e.target.value})
+              setPrice(e.target.value)
+            }}
             className="form-control"
           />
           <label>

@@ -38,42 +38,57 @@ export default function AddLotForm({
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
 
+  const videoValidator = (videoValue) => {
+    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
+    if (
+        !videoValue || videoValue === 'null' ||
+        videoValue.match(regExp)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    if (
-      title.trim().length &&
-      description.trim().length &&
-      category1 &&
-      subcategory1 &&
-      price > 0
-    ) {
-      setLoading(true);
-      createOffer(
-        router.query.desire_id,
-        photos,
-        video,
-        description,
-        title,
-        price,
-        [category1 ? category1.id : null, category2 ? category2.id : null],
-        [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
-        region,
-        city,
-        isActive
-      );
-      setTitle("");
-      setPhotos([]);
-      setVideo("");
-      setDescription("");
-      setCategory1(null);
-      setCategory2(null);
-      setSubcategory1(null);
-      setSubcategory2(null);
-      setPrice("");
-      setIsActive(1);
-      setTimeout(() => setLoading(false), 5000);
-    } else {
-      showAlert("Bce поля должны быть заполнены");
+    if (videoValidator(video)) {
+      if (
+          title.trim().length &&
+          description.trim().length &&
+          category1 &&
+          subcategory1 &&
+          price > 0
+      ) {
+        setLoading(true);
+        createOffer(
+            router.query.desire_id,
+            photos,
+            video,
+            description,
+            title,
+            price,
+            [category1 ? category1.id : null, category2 ? category2.id : null],
+            [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
+            region,
+            city,
+            isActive
+        );
+        setTitle("");
+        setPhotos([]);
+        setVideo("");
+        setDescription("");
+        setCategory1(null);
+        setCategory2(null);
+        setSubcategory1(null);
+        setSubcategory2(null);
+        setPrice("");
+        setIsActive(1);
+        setTimeout(() => setLoading(false), 5000);
+      } else {
+        showAlert("Bce поля должны быть заполнены");
+      }
     }
   };
 

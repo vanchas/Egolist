@@ -24,8 +24,8 @@ function UserBar({ locations }) {
   return (
     <div className={s.user_bar}>{user && user.token ? <>
       <div className={s.user_ava}>
-        {user && user.user && user.photo
-          ? <img src={user.user.photo} alt={user.user.name} />
+        {user && user.user && user.user.avatar
+          ? <img src={user.user.avatar} alt={user.user.name} />
           : <img src={Placeholder} alt="" />}
       </div>
       <div className={s.user_info}>
@@ -35,7 +35,11 @@ function UserBar({ locations }) {
         </div>
         <span className={s.user_location}>
           <img src={Location} alt="location" />
-          {user.user.location || 'регион не указан'}
+          {user && user.user && user.user.region && user.user.region.name_ru ?
+              user.user.city && user.user.city.name_ru
+              ? user.user.region.name_ru + ', ' + user.user.city.name_ru
+              : user.user.region.name_ru
+              : 'регион не указан'}
         </span>
       </div>
     </> : null}

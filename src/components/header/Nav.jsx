@@ -5,7 +5,6 @@ import s from "./header.module.scss";
 import MainLogo from "../../assets/main-logo.png";
 import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
-import { authenticationService } from "../../_services";
 import {
   Collapse,
   Navbar,
@@ -14,72 +13,62 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-<<<<<<< HEAD
 import { useDispatch } from "react-redux";
 import {FILTER_DESIRES, FILTER_OFFERS, SEARCH_INFO} from "../../redux/actions/types";
-=======
->>>>>>> master
+import {authenticationService} from "../../_services/authentication.service";
 
 const NavComponent = ({
   locations,
   searchInfo,
   filterOffers,
   filterDesires,
-<<<<<<< HEAD
-=======
-  selectedCategory,
->>>>>>> master
+                        selectedCategory,
+getCities, cities,
+                        selectedSubcategory
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState();
   const [searchValue, setSearchValue] = useState("");
-<<<<<<< HEAD
+  const [regionId, setRegionId] = useState(false);
+  const [cityId, setCityId] = useState(false);
+  const [cityLoading, setCityLoading] = useState(false);
   const dispatch = useDispatch();
-=======
-  const [regionId, setRegionId] = useState(null);
->>>>>>> master
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
   useEffect(() => {
+    if (cities && cities.length) setCityLoading(false)
     setUser(authenticationService.currentUserValue);
-  }, []);
+  }, [cities]);
 
-  const logout = () => {
-    toggle();
-    authenticationService.logout();
-  };
 
-<<<<<<< HEAD
   const filterByLocationHandler = (e) => {
+    setCityLoading(true);
+    getCities(e.target.value);
+    setRegionId(e.target.value);
     dispatch({ type: FILTER_DESIRES, payload: [] });
     dispatch({ type: FILTER_OFFERS, payload: [] });
     filterOffers("region_id", e.target.value);
     filterDesires("region_id", e.target.value);
   };
 
+  const filterByCityHandler = (e) => {
+    setCityId(e.target.value);
+    dispatch({ type: FILTER_DESIRES, payload: [] });
+    dispatch({ type: FILTER_OFFERS, payload: [] });
+    filterOffers("region_id", e.target.value);
+    filterDesires("region_id", e.target.value);
+  }
+
   const searchByStringHandler = (e) => {
     e.preventDefault();
     dispatch({type: SEARCH_INFO, payload: []})
-    searchInfo(searchValue.split("/").join("~slash~"))
+    searchInfo(searchValue.split("/").join("~slash~"), regionId, cityId, [selectedCategory], [selectedSubcategory])
     setSearchValue('')
   }
-=======
-  const searchHandler = (e) => {
-    e.preventDefault();
-    console.log(regionId, selectedCategory)
-    searchInfo(searchValue.split("/").join("~slash~"), regionId, [selectedCategory]);
-  };
-
-  const regionSelectHandler = (e) => {
-    setRegionId(e.target.value);
-    filterOffers("region_id", e.target.value);
-    filterDesires("region_id", e.target.value);
-  };
->>>>>>> master
 
   return (
     <div className={s.navbar_nav}>
@@ -102,11 +91,7 @@ const NavComponent = ({
                 router.pathname === "/" ? s.active_yellow : null
               } nav-item`}
             >
-<<<<<<< HEAD
               <Link href={`/`}>
-=======
-              <Link href={`/`} as={`/`}>
->>>>>>> master
                 <a className="font-weight-bold">ЛЕНТА</a>
               </Link>
             </NavItem>
@@ -116,11 +101,7 @@ const NavComponent = ({
                   router.pathname === "/myDesires" ? s.active_red : null
                 } nav-item`}
               >
-<<<<<<< HEAD
                 <Link href={`/myDesires`}>
-=======
-                <Link href={`/myDesires`} as={`/myDesires`}>
->>>>>>> master
                   <a className="font-weight-bold">ХОЧУ КУПИТЬ</a>
                 </Link>
               </NavItem>
@@ -132,31 +113,19 @@ const NavComponent = ({
                     router.pathname === "/myOffers" ? s.active_blue : null
                   } nav-item`}
                 >
-<<<<<<< HEAD
                   <Link href={`/myOffers`}>
-=======
-                  <Link href={`/myOffers`} as={`/myOffers`}>
->>>>>>> master
                     <a className="font-weight-bold">МОИ ПРЕДЛОЖЕНИЯ</a>
                   </Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
-<<<<<<< HEAD
                   <Link href={`/`}>
-=======
-                  <Link href={`/`} as={`/`}>
->>>>>>> master
                     <a>
                       <img src={Libra} alt="" className={s.libra} />
                     </a>
                   </Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
-<<<<<<< HEAD
                   <Link href={`/favorites`}>
-=======
-                  <Link href={`/favorites`} as={`/favorites`}>
->>>>>>> master
                     <img src={Heart} alt="" className={s.libra} />
                   </Link>
                 </NavItem>
@@ -165,25 +134,18 @@ const NavComponent = ({
           </Nav>
         </Collapse>
       </Navbar>
-      <form className={`${s.header_form} form-inline my-2 my-lg-0`}>
+      <form className={`${s.header_form}`}>
         <input
           className={`font-weight-bold border-0 form-control text-dark ${s.search_input}`}
           type="search"
           placeholder="Начните вводить поисковый запрос"
           aria-label="Search"
           onChange={(e) => setSearchValue(e.target.value)}
-<<<<<<< HEAD
           value={searchValue}
         />
         <select
           className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
           onChange={(e) => filterByLocationHandler(e)}
-=======
-        />
-        <select
-          className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
-          onChange={regionSelectHandler}
->>>>>>> master
         >
           <option value="default" hidden>
             Вся украина
@@ -196,27 +158,36 @@ const NavComponent = ({
               ))
             : null}
         </select>
+        {cities && cities.length && !cityLoading ?
+            <select
+            className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
+            onChange={(e) => filterByCityHandler(e)}
+        >
+          <option value="default" hidden>
+            Город
+          </option>
+          {cities && cities.length
+              ? cities.map((city, i) => (
+                  <option value={city.id} key={i}>
+                    {city.name_ru}
+                  </option>
+              ))
+              : null}
+        </select>
+            : cityLoading
+              ? <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+                : <span className={s.search_select}></span>}
         <button
           className={`font-weight-bold btn text-dark my-2 my-sm-0 px-3 ${s.search_btn}`}
           type="submit"
-<<<<<<< HEAD
           onClick={(e) => searchByStringHandler(e)}>
-=======
-          onClick={searchHandler}
-        >
->>>>>>> master
           Поиск
         </button>
       </form>
     </div>
   );
 };
-<<<<<<< HEAD
-
-NavComponent.getInitialProps = async ({ Component, ctx }) => {
-  return {};
-};
-=======
->>>>>>> master
 
 export default NavComponent;

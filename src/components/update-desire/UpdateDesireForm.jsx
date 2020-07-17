@@ -104,7 +104,7 @@ export default function UpdateForm({
         onSubmit={submitHandler}
         className={s.update_form}
       >
-        <label>Категория</label>
+        <label>Категория #1</label>
         {categories.length ? (
           <select
             className="form-control"
@@ -114,7 +114,10 @@ export default function UpdateForm({
               setCategory1(e.target.value);
             }}
           >
-            <option value="default" hidden></option>
+            {stateDesire && stateDesire.category
+              ? <option value={stateDesire.category[0].id} hidden>
+                  {stateDesire.category[0].name}
+            </option> : null}
             {categories
               ? categories.map((cat, i) => (
                   <option value={cat.id} key={i}>
@@ -136,7 +139,10 @@ export default function UpdateForm({
               setSubcategory1(e.target.value);
             }}
           >
-            <option value="default" hidden></option>
+            {stateDesire && stateDesire.subcategory
+                ? <option value={stateDesire.subcategory[0].id} hidden>
+                  {stateDesire.subcategory[0].name}
+                </option> : null}
             {subcategories
               ? subcategories.map((cat, i) => (
                   <option value={cat.id} key={i}>
@@ -160,7 +166,10 @@ export default function UpdateForm({
               setRegion_id(parseInt(e.target.value));
             }}
           >
-            <option value="default" hidden></option>
+            {stateDesire && stateDesire.region
+                ? <option value={stateDesire.region.id} hidden>
+                  {stateDesire.region.name_ru}
+                </option> : null}
             {locations
               ? locations.map((loc, i) => (
                   <option value={loc.id} key={i}>
@@ -180,7 +189,10 @@ export default function UpdateForm({
             className="form-control"
             onChange={(e) => setCity_id(e.target.value)}
           >
-            <option value="default" hidden></option>
+            {stateDesire && stateDesire.city
+                ? <option value={stateDesire.city.id} hidden>
+                  {stateDesire.city.name_ru}
+                </option> : null}
             {cities
               ? cities.map((city, i) => (
                   <option value={city.id} key={i}>
@@ -200,9 +212,13 @@ export default function UpdateForm({
             ? types.map((type, i) => (
                 <label key={i}>
                   <input
+                      checked={stateDesire && stateDesire.type && stateDesire.type.id === type.id ? true : false}
                     type="radio"
                     value={type.id}
-                    onChange={(e) => setType_id(e.target.value)}
+                    onChange={(e) => {
+                      setStateDesire({...stateDesire, type})
+                       setType_id(e.target.value)
+                    }}
                     name="type"
                   />
                   {type.value}
@@ -216,9 +232,13 @@ export default function UpdateForm({
             ? priorities.map((priority, i) => (
                 <label key={i}>
                   <input
+                      checked={stateDesire && stateDesire.priority && stateDesire.priority.id === priority.id ? true : false}
                     type="radio"
                     value={priority.id}
-                    onChange={(e) => setPriority_id(e.target.value)}
+                    onChange={(e) => {
+                      setStateDesire({...stateDesire, priority})
+                      setPriority_id(e.target.value)
+                    }}
                     name="priority"
                   />
                   {priority.value}
@@ -233,8 +253,12 @@ export default function UpdateForm({
           name="header"
           id="header"
           maxLength={`50`}
+          value={stateDesire && stateDesire.header ? stateDesire.header : ''}
           onChange={(e) => {
-            if (inputValidateHandler(e, setWarning)) setHeader(e.target.value);
+            if (inputValidateHandler(e, setWarning)) {
+              setStateDesire({...stateDesire, header: e.target.value})
+              setHeader(e.target.value);
+            }
           }}
         />
         <label htmlFor="description">Описание</label>
@@ -244,9 +268,12 @@ export default function UpdateForm({
           name="description"
           id="description"
           maxLength={`1000`}
+          value={stateDesire && stateDesire.description ? stateDesire.description : ''}
           onChange={(e) => {
-            if (inputValidateHandler(e, setWarning))
+            if (inputValidateHandler(e, setWarning)) {
+              setStateDesire({...stateDesire, description: e.target.value})
               setDescription(e.target.value);
+            }
           }}
         />
         <label htmlFor="price">Цена</label>
@@ -257,7 +284,11 @@ export default function UpdateForm({
           id="price"
           min={`1`}
           max={`999999999999`}
-          onChange={(e) => setPrice(e.target.value)}
+          value={stateDesire && stateDesire.price ? stateDesire.price : ''}
+          onChange={(e) => {
+            setStateDesire({...stateDesire, price: e.target.value})
+            setPrice(e.target.value)
+          }}
         />
         <label htmlFor="video">Видео</label>
         <input
@@ -265,7 +296,11 @@ export default function UpdateForm({
           type="url"
           name="video"
           id="video"
-          onChange={(e) => setVideo(e.target.value)}
+          value={stateDesire && stateDesire.video ? stateDesire.video : ''}
+          onChange={(e) => {
+            setStateDesire({...stateDesire, video: e.target.value})
+            setVideo(e.target.value)
+          }}
         />
         <label htmlFor="photo">Добавить фото</label>
         <input
@@ -282,8 +317,8 @@ export default function UpdateForm({
           {stateDesire && stateDesire.photo && JSON.parse(stateDesire.photo).length
           ? JSON.parse(stateDesire.photo).map((p, i) => {
                if (p) {
-                 return <div>
-                   <img src={p} key={i} alt="" />
+                 return <div key={i}>
+                   <img src={p} alt="" />
                     <span className={`btn btn-danger`}
                     onClick={()=>deleteDesirePhoto(stateDesire.id, p)}>X</span>
                  </div>

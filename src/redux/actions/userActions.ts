@@ -47,7 +47,8 @@ export const updateUserInfo = (
   site: string,
   avatar: any,
   region_id: string,
-  city_id: string
+  city_id: string,
+  birth_date: string
 ) => async (dispatch: Function) => {
   const formData = new FormData();
   formData.append("name", name);
@@ -61,6 +62,7 @@ export const updateUserInfo = (
   formData.append("avatar", avatar);
   formData.append("region_id", region_id);
   formData.append("city_id", city_id);
+  formData.append("birth_date", birth_date);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`https://egolist.padilo.pro/api/update_user`, {
@@ -80,14 +82,16 @@ export const updateUserInfo = (
         Cookies.set(
             "currentUser",
             JSON.stringify({
-              ...data,
-              token: data.token,
-              token_type: data.token_type,
+              user: data.user,
+              token: authenticationService.currentUserValue.token,
+              token_type: authenticationService.currentUserValue.token_type,
             })
-        );
+        )
+        setTimeout(() => {
+          window.location.reload()
+        }, 3000)
       } else {
         dispatch(showAlert(data.message))
-        // dispatch({ type: UPDATE_USER_INFO });
       }
     })
     .catch((err) => console.error("Error: ", err));
@@ -187,6 +191,7 @@ export const updateDesire = (
         dispatch(showSuccess("Желание успешно изменено"));
         dispatch({ type: UPDATE_DESIRE });
         setTimeout(() => {
+            window.location.reload()
           Router.push(`/desire?id=${id}`)
         }, 3000)
       } else {
@@ -520,7 +525,7 @@ export const addOfferToFavorites = (id: number | string) => async (
   const promise = response.json();
   return promise
     .then((data) => {
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         dispatch(showSuccess("Предложение добавлено в избранные"));
         dispatch({ type: ADD_OFFER_TO_FAVORITE, payload: id });
       } else {
@@ -740,6 +745,9 @@ export const updateOffer = (
       if (response.status === 200) {
         dispatch({ type: UPDATE_OFFER });
         dispatch(showSuccess("Предложение успешно отредактировано"));
+        setTimeout(() => {
+          window.location.reload()
+        }, 3000)
       } else {
         dispatch(showAlert(data.message));
       }

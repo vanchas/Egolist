@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import AddLotForm from "../../components/add-desire-lot/AddLotForm";
 import s from "../../components/add-desire-lot/add-form.module.scss";
 import { connect } from "react-redux";
@@ -14,6 +14,8 @@ import {
   getCities,
 } from "../../redux/actions/actions";
 import Success from "../../components/helpers/Success";
+import {authenticationService} from "../../_services/authentication.service";
+import Router from "next/router";
 
 function Index({
   alert,
@@ -32,7 +34,13 @@ function Index({
   getCurrentGeoPosition,
   currentGeoPosition,
 }) {
+  const [showPage, setShowPage] = useState(false)
+
   useEffect(() => {
+    const user = authenticationService.currentUserValue;
+    if (user && user.user) {
+      setShowPage(true)
+    } else Router.push('/login')
     getCurrentGeoPosition();
     getDesiresInfo();
     getCategories();
@@ -41,20 +49,21 @@ function Index({
   return (
     <div className={s.add_lot_page}>
       {success && <Success />}
-      <AddLotForm
-        success={success}
-        alert={alert}
-        desiresInfo={desiresInfo}
-        categories={categories}
-        showAlert={showAlert}
-        createDesire={createDesire}
-        subcategories={subcategories}
-        getSubcategories={getSubcategories}
-        locations={locations}
-        cities={cities}
-        getCities={getCities}
-        currentGeoPosition={currentGeoPosition}
-      />
+      {showPage &&
+        <AddLotForm
+          success={success}
+          alert={alert}
+          desiresInfo={desiresInfo}
+          categories={categories}
+          showAlert={showAlert}
+          createDesire={createDesire}
+          subcategories={subcategories}
+          getSubcategories={getSubcategories}
+          locations={locations}
+          cities={cities}
+          getCities={getCities}
+          currentGeoPosition={currentGeoPosition}
+        />}
     </div>
   );
 }

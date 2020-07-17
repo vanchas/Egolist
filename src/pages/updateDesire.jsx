@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getDesireById } from '../redux/actions/actions'
 import { getMyDesires, updateDesire, deleteDesirePhoto } from '../redux/actions/userActions'
 import UpdateForm from '../components/update-desire/UpdateDesireForm'
+import {authenticationService} from "../_services/authentication.service";
+import Router from "next/router";
 
 function UpdateDesire(props) {
+  const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
+    const user = authenticationService.currentUserValue;
+    if (user && user.user) {
+      setShowPage(true)
+    } else Router.push('/login')
     props.getMyDesires();
     props.getDesiresInfo();
     props.getCategories();
   }, []);
 
   return (
-    <div>
-      <UpdateForm
-          desire={props.desire}
-          getDesireById={props.getDesireById}
+    <div>{showPage &&
+    <UpdateForm
+        desire={props.desire}
+        getDesireById={props.getDesireById}
         success={props.success}
         types={props.types}
         priorities={props.priorities}
@@ -30,8 +37,8 @@ function UpdateDesire(props) {
         myDesires={props.myDesires}
         getSubcategories={props.getSubcategories}
         getCities={props.getCities}
-          deleteDesirePhoto={props.deleteDesirePhoto}/>
-    </div>
+        deleteDesirePhoto={props.deleteDesirePhoto}/>
+    }</div>
   )
 }
 

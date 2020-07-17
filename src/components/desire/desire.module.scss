@@ -30,9 +30,11 @@
 .created_at {
 	font-size: 1.5em;
 	font-weight: 500;
+	white-space: nowrap;
 }
 
 .views {
+	white-space: nowrap;
 	font-size: 1.5em;
 	font-weight: 500;
 }

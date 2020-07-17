@@ -1,20 +1,28 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import UpdateOfferForm from '../components/update-offer/UpdateOfferForm'
 import { connect } from "react-redux";
 import { updateOffer, getOffer, deleteOfferPhoto } from "../redux/actions/userActions";
 import { getLocations, showAlert, getCategories, getSubcategories, getCities, getOfferById } from '../redux/actions/actions'
+import {authenticationService} from "../_services/authentication.service";
+import Router from "next/router";
 
 const UpdateOffer = (props) => {
+  const [showPage, setShowPage] = useState(false)
+
   useEffect(() => {
+    const user = authenticationService.currentUserValue;
+    if (user && user.user) {
+      setShowPage(true)
+    } else Router.push('/login')
     props.getCategories();
   }, []);
 
   return (
-    <div>
-      <UpdateOfferForm
-          deleteOfferPhoto={props.deleteOfferPhoto}
-          getOfferById={props.getOfferById}
-          offer={props.offer}
+    <div>{showPage &&
+    <UpdateOfferForm
+        deleteOfferPhoto={props.deleteOfferPhoto}
+        getOfferById={props.getOfferById}
+        offer={props.offer}
         success={props.success}
         categories={props.categories}
         subcategories={props.subcategories}
@@ -24,8 +32,8 @@ const UpdateOffer = (props) => {
         locations={props.locations}
         updateOffer={props.updateOffer}
         getSubcategories={props.getSubcategories}
-        getCities={props.getCities} />
-    </div>
+        getCities={props.getCities}/>
+    }</div>
   );
 }
 

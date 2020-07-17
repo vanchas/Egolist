@@ -33,6 +33,7 @@ export default function MyDesireList({
   return (
     <div className={s.red_list}>
       <div className={s.desires_list_heading}>
+        Ваши желания:
       </div>
       <div className={s.red_list_control}>
         <span className="btn text-dark" onClick={()=>Router.back()}>Назад</span>

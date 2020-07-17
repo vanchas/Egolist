@@ -19,11 +19,9 @@ import {
     HIDE_SUCCESS,
     FILTER_DESIRES,
     FILTER_OFFERS,
-<<<<<<< HEAD
-    GET_OFFERS_BY_CATEGORY, GET_OFFER_BY_ID
-=======
-    SELECT_HEADING_CATEGORY
->>>>>>> master
+    GET_OFFERS_BY_CATEGORY,
+    GET_OFFER_BY_ID,
+    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY
 } from "../actions/types";
 
 const initialState: any = {
@@ -37,11 +35,9 @@ const initialState: any = {
     cities: [],
     offers: [],
     success: null,
-<<<<<<< HEAD
-    offer: null
-=======
-    selectedCategory: null
->>>>>>> master
+    offer: null,
+    selectedCategory: null,
+    selectedSubcategory: null,
 };
 
 export default function counterReducer(state = initialState, action: any) {
@@ -51,6 +47,9 @@ export default function counterReducer(state = initialState, action: any) {
 
         case SELECT_HEADING_CATEGORY:
             return { ...state, selectedCategory: action.payload };
+
+        case SELECT_HEADING_SUBCATEGORY:
+            return { ...state, selectedSubcategory: action.payload };
 
         case GET_CITIES:
             return { ...state, cities: action.payload };

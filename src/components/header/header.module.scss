@@ -9,7 +9,9 @@
 	}
 
 	.header_form {
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 3fr 2fr 2fr 1fr;
+		gap: 1em;
 		width: 100%;
 		@media screen and (max-width: 768px) {
 			display: grid;
@@ -59,15 +61,16 @@
 	right: 0;
 }
 .search_input {
-	flex-basis: 60%;
+	//flex-basis: 40%;
 	background-color: #dedede !important;
 }
 .search_select {
-	flex-basis: 25%;
+	//flex-basis: 25%;
+	border-radius: .3em;
 	appearance: none;
 	background-color: #dedede !important;
 	@media screen and (max-width: 768px) {
-		flex-basis: auto;
+		//flex-basis: auto;
 		width: 100%;
 		display: block;
 	}

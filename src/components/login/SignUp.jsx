@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { authenticationService } from "../../_services";
 import Alert from "../helpers/Alert";
 import Success from "../helpers/Success";
-import InputMask from "react-input-mask";
 
 export default function SignUp({ alert, showAlert, success }) {
   return (

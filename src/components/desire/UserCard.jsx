@@ -3,6 +3,7 @@ import s from "./user.module.scss";
 import Location from "../../assets/sidebar/Location.png";
 import moment from "moment";
 import Rating from "../helpers/Rating";
+import Placeholder from "../../assets/user-placeholder.jpg";
 
 export default function UserCard({ user, locations }) {
   const [daysOnEgolist, setDaysOnEgolist] = useState(0);
@@ -13,19 +14,7 @@ export default function UserCard({ user, locations }) {
   useEffect(() => {
     if (user) {
       setLoading(false);
-      (async function () {
-        const createdAt = await user.created_at
-          .split("T")[0]
-          .split("-")
-          .map((i) => parseFloat(i));
-        const date1 = await moment(createdAt)._i;
-        const date2 = moment()
-          .format()
-          .split("T")[0]
-          .split("-")
-          .map((i) => parseFloat(i));
-        setDaysOnEgolist(Math.abs(moment(date1).diff(moment(date2), "days")));
-      })();
+      daysCounter(user);
       locations.forEach((loc) => {
         if (loc.id === user.region_id) {
           setUserLocation(loc.name_ru);
@@ -33,17 +22,34 @@ export default function UserCard({ user, locations }) {
       });
     }
     setTimeout(() => setLoading(false), 5000);
+  }, [user]);
+
+  const daysCounter = (user) => {
+    (async function () {
+      const createdAt = await user.created_at
+          .split("T")[0]
+          .split("-")
+          .map((i) => parseFloat(i));
+      const date1 = await moment(createdAt)._i;
+      const date2 = moment()
+          .format()
+          .split("T")[0]
+          .split("-")
+          .map((i) => parseFloat(i));
+      setDaysOnEgolist(Math.abs(moment(date1).diff(moment(date2), "days")));
+    })();
+
     if (daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] === 1) {
       setDaysText("День");
     } else if (
-      daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] > 1 &&
-      daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] < 5
+        daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] > 1 &&
+        daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] < 5
     ) {
       setDaysText("Дня")
     } else {
       setDaysText("Дней")
     }
-  }, [user]);
+  }
 
   return (
     <>
@@ -51,10 +57,12 @@ export default function UserCard({ user, locations }) {
         <div className={s.user_card}>
           <div className="h6 text-center">{user.status}</div>
           <div className={s.user_ava}>
-            {user.avatar && <img src={user.avatar} alt={user.name} />}
+            {user && user.avatar
+                ? <img src={user.avatar} alt={user.name} />
+                : <img src={Placeholder} alt="" />}
           </div>
           <div className="h5 text-center">{user.name}</div>
-          <div className="h6 text-center">[author]</div>
+          <div className="h6 text-center">[автор]</div>
           <Rating rating={user.rating} />
           <div className={s.location}>
             <img src={Location} alt="" />
@@ -63,7 +71,7 @@ export default function UserCard({ user, locations }) {
             </span>
           </div>
           <div className={s.days_on_egolist}>
-            <span>{daysOnEgolist}</span>
+            <span>{daysOnEgolist}</span><br />
             <span>{daysText} на EGOLIST</span>
           </div>
           <div className="h5 text-center">Жалобы 4</div>
@@ -74,10 +82,14 @@ export default function UserCard({ user, locations }) {
           <a className="btn text-center" href={`mailto:${user.email}`}>
             {user.email}
           </a>
-          <a className="btn text-center" href={user.telegram}>
+          {user && user.telegram && user.telegram !== 'null'
+              ? <a className="btn text-center" href={user.telegram}>
             {user.telegram}
-          </a>
-          <a className="btn text-center" href={user.viber}></a>
+          </a> : null}
+          {user && user.viber && user.viber !== 'null'
+              ? <a className="btn text-center" href={user.viber}>
+            {user.viber}
+          </a> : null}
         </div>
       ) : (
         <div className={`text-center py-5`}>

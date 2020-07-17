@@ -7,6 +7,7 @@ import {
   searchInfo,
   filterOffers,
   filterDesires,
+  getCities,
 } from "../../redux/actions/actions";
 
 function Header({
@@ -16,6 +17,9 @@ function Header({
   filterOffers,
   filterDesires,
   selectedCategory,
+  getCities,
+  cities,
+  selectedSubcategory,
 }) {
   useEffect(() => {
     getLocations();
@@ -24,21 +28,26 @@ function Header({
   return (
     <header className={`header ${s.header}`}>
       <NavComponent
+        getCities={getCities}
+        cities={cities}
         locations={locations}
         searchInfo={searchInfo}
         filterOffers={filterOffers}
         filterDesires={filterDesires}
         selectedCategory={selectedCategory}
+        selectedSubcategory={selectedSubcategory}
       />
     </header>
   );
 }
 
 const mapStateToProps = (state) => {
-  return  {
+  return {
     locations: state.app.locations,
     selectedCategory: state.app.selectedCategory,
-  }
+    selectedSubcategory: state.app.selectedSubcategory,
+    cities: state.app.cities,
+  };
 };
 
 const mapDispatchToProps = {
@@ -46,6 +55,7 @@ const mapDispatchToProps = {
   searchInfo,
   filterOffers,
   filterDesires,
+  getCities,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

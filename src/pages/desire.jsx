@@ -51,7 +51,7 @@ const Desire = ({
     <div className={s.desire_page}>
       {success && <Success />}
       <div className={s.desire_view}>
-        <DesireCard desire={desire} showSuccess={showSuccess} />
+        <DesireCard desire={desire} />
         <UserCard user={desire.user} locations={locations} />
         {desire.header && (
           <div className={s.show_offers}>
