@@ -1,6 +1,43 @@
-import { GET_LOCATIONS, SHOW_ALERT, HIDE_ALERT, GET_ALL_DESIRES, GET_DESIRE_BY_ID, GET_DESIRES_INFO, GET_CATEGORIES, GET_SUBCATEGORIES, GET_CITIES, GET_ALL_OFFERS, GET_OFFERS_BY_DESIRE_ID, GET_OFFER_BY_ID, GET_DESIRES_BY_CATEGORY, SEARCH_INFO, SHOW_SUCCESS, HIDE_SUCCESS, FILTER_OFFERS, FILTER_DESIRES, } from "./types"
+import {
+    GET_LOCATIONS,
+    SHOW_ALERT,
+    HIDE_ALERT,
+    GET_ALL_DESIRES,
+    GET_DESIRE_BY_ID,
+    GET_DESIRES_INFO,
+    GET_CATEGORIES,
+    GET_SUBCATEGORIES,
+    GET_CITIES,
+    GET_ALL_OFFERS,
+    GET_OFFERS_BY_DESIRE_ID,
+    GET_OFFER_BY_ID,
+    GET_DESIRES_BY_CATEGORY,
+    SEARCH_INFO,
+    SHOW_SUCCESS,
+    HIDE_SUCCESS,
+    FILTER_OFFERS,
+    FILTER_DESIRES,
+    SELECT_HEADING_CATEGORY,
+} from "./types"
 import fetch from 'isomorphic-unfetch'
 import { authenticationService } from "../../_services/authentication.service";
+
+export const selectHeadingCategories = (id: any) => async (dispatch: Function) => {
+    return await dispatch({type: SELECT_HEADING_CATEGORY, payload: id})
+};
+export const searchInfo = (search_field: string, region_id: any, category_ids: any) => async (dispatch: Function) => {
+    const response = await fetch(`https://egolist.padilo.pro/api/desires/search/${search_field}&?region_id=${region_id}&category_ids=${JSON.stringify(category_ids)}`, {
+        method: 'GET',
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        }
+    });
+    const promise = response.json();
+    return promise.then(res => {
+        return dispatch({ type: SEARCH_INFO, payload: res })
+    }).catch(err => console.error('Error: ', err));
+};
 
 export const getLocations = () => async (dispatch: Function) => {
     const response = await fetch(`https://egolist.padilo.pro/api/location`);
@@ -198,18 +235,5 @@ export const filterDesires = (key: string, value: string) => async (dispatch: Fu
     const promise = response.json();
     return promise.then(res => {
         return dispatch({ type: FILTER_DESIRES, payload: res })
-    }).catch(err => console.error('Error: ', err));
-};
-export const searchInfo = (search_field: string) => async (dispatch: Function) => {
-    const response = await fetch(`https://egolist.padilo.pro/api/desires/search/${search_field}`, {
-        method: 'GET',
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-        }
-    });
-    const promise = response.json();
-    return promise.then(res => {
-        return dispatch({ type: SEARCH_INFO, payload: res })
     }).catch(err => console.error('Error: ', err));
 };

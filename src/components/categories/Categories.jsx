@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import s from './categories.module.scss'
-import { connect } from 'react-redux';
-import { getCategories, getDesiresByCategory } from '../../redux/actions/actions'
+import {connect} from 'react-redux';
+import { getCategories, getDesiresByCategory, selectHeadingCategories } from '../../redux/actions/actions'
 
-function Categories({ getCategories, categories, getDesiresByCategory }) {
+function Categories({ getCategories, categories, getDesiresByCategory, selectHeadingCategories }) {
 
   useEffect(() => {
     getCategories();
@@ -18,11 +18,17 @@ function Categories({ getCategories, categories, getDesiresByCategory }) {
             <ul className="categories-list">
             {categories.map((c, i) => (
               <li className="btn" key={i}
-                onClick={() => getDesiresByCategory(c.id)}>
+                onClick={() => {
+                  selectHeadingCategories(c.id)
+                  getDesiresByCategory(c.id)
+                }}>
                 {c.name}</li>
             ))}</ul>
               <select className={`form-control`}
-                      onChange={(e) => getDesiresByCategory(e.target.value)}>
+                      onChange={(e) => {
+                        selectHeadingCategories(e.target.value)
+                        getDesiresByCategory(e.target.value)
+                      }}>
                 <option value="default" hidden>КАТЕГОРИИ</option>
                 {categories.map((c, i) => (
                     <option key={i} value={c.id}>{c.name}</option>
@@ -43,7 +49,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getCategories,
-  getDesiresByCategory
+  getDesiresByCategory,
+  selectHeadingCategories
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)
