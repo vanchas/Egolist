@@ -9,6 +9,7 @@ export default function DesireRedList({
   myOffers,
   hideShowOffer,
   sortMyOffers,
+  sortingValues,
 }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -28,26 +29,50 @@ export default function DesireRedList({
 
   return (
     <div className={s.offers_list}>
-      <div className={s.offers_list_heading}>
-        Ваши предложения:
-      </div>
+      <div className={s.offers_list_heading}>Ваши предложения:</div>
       <div className={s.offers_list_sort}>
         <span className={s.btn_back} onClick={() => Router.back()}>
           Назад
         </span>
-
-        <select
-          className="form-control"
-          onChange={(e) => sortOffersHandler(e.target.value)}
-        >
-          <option value="default" hidden>
-            Сортировка
-          </option>
-          <option value="rating+">Рейтинг от меньшего</option>
-          <option value="rating-">Рейтинг от большего</option>
-          <option value="price+">Цена от меньшей</option>
-          <option value="price-">Цена от большей</option>
-        </select>
+        {sortingValues ? (
+          <select
+            className="form-control"
+            onChange={(e) => sortOffersHandler(e.target.value)}
+          >
+            <option value="default" hidden>
+              Сортировка
+            </option>
+            {sortingValues && sortingValues.length
+              ? sortingValues.map((val, i) => {
+                  if (val.search_by.includes("idc")) {
+                    return (
+                      <option key={i} value={val.id}>
+                        {val.value}
+                      </option>
+                    );
+                  }
+                  if (val.search_by.includes("price")) {
+                    return (
+                      <option key={i} value={val.id}>
+                        {val.value}
+                      </option>
+                    );
+                  }
+                  if (val.search_by.includes("rating")) {
+                    return (
+                      <option key={i} value={val.id}>
+                        {val.value}
+                      </option>
+                    );
+                  }
+                })
+              : null}
+          </select>
+        ) : (
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        )}
       </div>
 
       <div className={s.offers_list_items}>
@@ -56,10 +81,7 @@ export default function DesireRedList({
             {myOffers.map((offer, i) => {
               return (
                 <li key={i}>
-                  <OfferCard
-                    hideShowOffer={hideShowOffer}
-                    offer={offer}
-                  />
+                  <OfferCard hideShowOffer={hideShowOffer} offer={offer} />
                 </li>
               );
             })}

@@ -18,10 +18,18 @@ import {
     FILTER_OFFERS,
     FILTER_DESIRES,
     GET_OFFERS_BY_CATEGORY,
-    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY,
+    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY, GET_SORT_VALUES,
 } from "./types"
 import fetch from 'isomorphic-unfetch'
 import { authenticationService } from "../../_services/authentication.service";
+
+    export const getSortingValues = (id: any) => async (dispatch: Function) => {
+        return await fetch(`https://egolist.padilo.pro/api/info/sorts`)
+            .then(res => res.json())
+            .then(data => {
+                dispatch({type: GET_SORT_VALUES, payload: data.sorts})
+            }).catch(err => console.error('Error: ', err));
+    };
 
 export const selectHeadingCategories = (id: any) => async (dispatch: Function) => {
     return await dispatch({type: SELECT_HEADING_CATEGORY, payload: id})

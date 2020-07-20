@@ -394,7 +394,7 @@ export default function AddLotForm({
             )}
           </fieldset>
           <div className={s.condition_fieldset}>
-            <legend>Сроки *</legend>
+            <legend>Состояние *</legend>
             {desiresInfo.types && desiresInfo.types.length ? (
               desiresInfo.types.map((t, i) => (
                 <label key={i}>

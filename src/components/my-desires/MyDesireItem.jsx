@@ -9,6 +9,7 @@ export default function MyDesireItem({
   hideShowDesire,
   desire,
   locations,
+    sortingValues
 }) {
   const [showCurrentOffers, setShowCurrOffers] = useState(false);
   const [region, setRegion] = useState("");
@@ -78,7 +79,7 @@ export default function MyDesireItem({
       </div>
 
       <div className={s.card_footer}>
-        <div>СТАВОК 5</div>
+        <div>СТАВОК {desire.count_offers}</div>
         <button
           onClick={() => {
             setShowCurrOffers(!showCurrentOffers);
@@ -89,6 +90,7 @@ export default function MyDesireItem({
       </div>
       {showCurrentOffers && (
         <OffersForMe
+            sortingValues={sortingValues}
           desireId={desire.id}
           locations={locations}
         />

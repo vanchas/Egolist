@@ -21,7 +21,7 @@ import {
     FILTER_OFFERS,
     GET_OFFERS_BY_CATEGORY,
     GET_OFFER_BY_ID,
-    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY
+    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY, GET_SORT_VALUES
 } from "../actions/types";
 
 const initialState: any = {
@@ -38,12 +38,16 @@ const initialState: any = {
     offer: null,
     selectedCategory: null,
     selectedSubcategory: null,
+    sortingValues: null
 };
 
 export default function counterReducer(state = initialState, action: any) {
     switch (action.type) {
         case GET_LOCATIONS:
             return { ...state, locations: action.payload };
+
+        case GET_SORT_VALUES:
+            return { ...state, sortingValues: action.payload };
 
         case SELECT_HEADING_CATEGORY:
             return { ...state, selectedCategory: action.payload };

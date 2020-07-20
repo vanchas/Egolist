@@ -8,6 +8,7 @@ export default function MainListControl({
   visibleComponent,
   sortDesires,
   sortOffers,
+  sortingValues,
 }) {
   const dispatch = useDispatch();
 
@@ -48,21 +49,73 @@ export default function MainListControl({
         <label className="form-group">
           <span>Сортировка</span>
           {visibleComponent === "desires" ? (
-            <select onChange={(e) => sortDesiresHandler(e.target.value)}>
-              <option value="default" hidden></option>
-              <option value="price+">Цена от большей к меньшей</option>
-              <option value="price-">Цена от меньшей к большей</option>
-              <option value="priority+">Приоритет от срочного</option>
-              <option value="priority-">Приоритет от не срочного</option>
-            </select>
-          ) : (
+            sortingValues ? (
+              <select onChange={(e) => sortDesiresHandler(e.target.value)}>
+                <option value="default" hidden></option>
+                {sortingValues && sortingValues.length
+                  ? sortingValues.map((val, i) => {
+                      if (val.search_by.includes("idc")) {
+                        return (
+                          <option key={i} value={val.id}>
+                            {val.value}
+                          </option>
+                        );
+                      }
+                      if (val.search_by.includes("price")) {
+                        return (
+                          <option key={i} value={val.id}>
+                            {val.value}
+                          </option>
+                        );
+                      }
+                      if (val.search_by.includes("priority")) {
+                        return (
+                          <option key={i} value={val.id}>
+                            {val.value}
+                          </option>
+                        );
+                      }
+                    })
+                  : null}
+              </select>
+            ) : (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            )
+          ) : sortingValues ? (
             <select onChange={(e) => sortOffersHandler(e.target.value)}>
               <option value="default" hidden></option>
-              <option value="rating+">Рейтинг от большего к меньшему</option>
-              <option value="rating-">Рейтинг от меньшего к большему</option>
-              <option value="price+">Цена от большей к меньшей</option>
-              <option value="price-">Цена от меньше к большей</option>
+              {sortingValues && sortingValues.length
+                ? sortingValues.map((val, i) => {
+                    if (val.search_by.includes("idc")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                    if (val.search_by.includes("price")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                    if (val.search_by.includes("rating")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                  })
+                : null}
             </select>
+          ) : (
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
           )}
         </label>
       </div>

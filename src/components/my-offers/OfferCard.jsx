@@ -99,7 +99,7 @@ export default function OfferCard({
         </div>
         <div className={s.price}>{offer.price} ГРН</div>
         <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}>
-          <a className={`btn ${s.open}`}>Открыть</a>
+          <a className={`btn ${s.open}`}>Открыть желание</a>
         </Link>
       </div>
 

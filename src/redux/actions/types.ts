@@ -13,6 +13,7 @@ export const GET_SUBCATEGORIES = 'GET_SUBCATEGORIES';
 export const GET_ALL_OFFERS = 'GET_ALL_OFFERS';
 export const GET_OFFERS_BY_DESIRE_ID = 'GET_OFFERS_BY_DESIRE_ID';
 export const SEARCH_INFO = 'SEARCH_INFO';
+export const GET_SORT_VALUES = 'GET_SORT_VALUES';
 
 // user
 export const GET_USER_INFO = 'GET_USER_INFO';

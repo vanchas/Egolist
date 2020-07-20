@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Link from 'next/link';
 import Categories from '../components/categories/Categories';
 import MainDesiresList from '../components/main-list/MainDesiresList';
-import { getAllDesires, getAllOffers } from '../redux/actions/actions'
+import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/actions'
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
 import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
@@ -15,6 +15,7 @@ function App(props) {
 	React.useEffect(() => {
 		props.getAllDesires();
 		props.getAllOffers();
+		props.getSortingValues();
 	}, []);
 
 	const changeComponent = ref => {
@@ -30,6 +31,7 @@ function App(props) {
 				visibleComponent={visibleComponent}
 				sortDesires={props.sortDesires}
 				sortOffers={props.sortOffers}
+				sortingValues={props.sortingValues}
 			/>
 			{visibleComponent === 'desires' ?
 				<MainDesiresList
@@ -54,7 +56,8 @@ const mapStateToProps = (state) => ({
 	desires: state.app.desires,
 	offers: state.app.offers,
 	success: state.app.success,
-	alert: state.app.alert
+	alert: state.app.alert,
+	sortingValues: state.app.sortingValues
 });
 
 const mapDispatchToProps = {
@@ -68,6 +71,7 @@ const mapDispatchToProps = {
 	addOfferToFavorites,
 	deleteFavorite,
 	addComplaint,
+	getSortingValues
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

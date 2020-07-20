@@ -25,7 +25,7 @@ import {
   UPDATE_OFFER,
   GET_OFFER,
   CREATE_OFFER,
-  GET_INTERESTING_DESIRES_TO_OFFER,
+  // GET_INTERESTING_DESIRES_TO_OFFER,
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
@@ -152,11 +152,15 @@ export const updateDesire = (
   is_active: any
 ) => async (dispatch: Function) => {
   const formData = new FormData();
-  if (!photo && photo.length) {
-    formData.append("photo", JSON.stringify(null));
+  if (!photo) {
+    formData.append("photo", '');
   } else {
-    for (let p of photo) {
-      formData.append("photo[]", p);
+    if (typeof photo === 'string' || photo instanceof String) {
+      formData.append("photo", JSON.stringify(photo));
+    } else {
+      for (let p of photo) {
+        formData.append("photo[]", p);
+      }
     }
   }
   formData.append("video", video);
@@ -191,14 +195,12 @@ export const updateDesire = (
         dispatch(showSuccess("Желание успешно изменено"));
         dispatch({ type: UPDATE_DESIRE });
         setTimeout(() => {
-            window.location.reload()
           Router.push(`/desire?id=${id}`)
         }, 3000)
       } else {
         dispatch(showAlert(data.message))
       }
     })
-    // .then(() => Router.push(`/desire?id=${id}`))
     .catch((err) => console.error("Error: ", err));
 };
 
@@ -439,19 +441,18 @@ export const hideShowOffer = (id: number | string) => async (
     .catch((err) => console.error("Error: ", err));
 };
 
-export const sortDesires = (sortValue: string) => async (
+export const sortDesires = (sortId: string) => async (
   dispatch: Function
 ) => {
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/sort_desires`, {
-    method: "POST",
+  const response = await fetch(`https://egolist.padilo.pro/api/sort_desires/${sortId}`, {
+    method: "GET",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
+      // Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({ search_by: sortValue }),
+    }
   });
   const promise = response.json();
   return promise
@@ -461,17 +462,16 @@ export const sortDesires = (sortValue: string) => async (
     .catch((err) => console.error("Error: ", err));
 };
 
-export const sortOffers = (sortValue: string) => async (dispatch: Function) => {
+export const sortOffers = (sortId: string) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/sort_offers`, {
-    method: "POST",
+  const response = await fetch(`https://egolist.padilo.pro/api/sort_offers/${sortId}`, {
+    method: "GET",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
+      // Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({ search_by: sortValue }),
+    }
   });
   const promise = response.json();
   return promise
@@ -483,20 +483,19 @@ export const sortOffers = (sortValue: string) => async (dispatch: Function) => {
 
 export const sortOffersByDesireId = (
   id: string | number,
-  sortValue: string
+  sortId: string
 ) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(
-    `https://egolist.padilo.pro/api/sort_offers/${id}`,
+    `https://egolist.padilo.pro/api/sort_offers/${id}/sort/${sortId}`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
+        // Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `${user.token_type} ${user.token}`,
-      },
-      body: JSON.stringify({ search_by: sortValue }),
+      }
     }
   );
   const promise = response.json();
@@ -517,7 +516,7 @@ export const addOfferToFavorites = (id: number | string) => async (
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
+        // Accept: "application/json",
         Authorization: `${user.token_type} ${user.token}`,
       },
     }
@@ -563,19 +562,18 @@ export const addDesireToFavorites = (id: number | string) => async (
 };
 export const sortFavoriteDesires = (
   id: number | string,
-  sortValue: string
+  sortId: string
 ) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_desire/sort/${id}`,
+    `https://egolist.padilo.pro/api/favorites/fave_desire/${id}/sort/${sortId}`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: `${user.token_type} ${user.token}`,
-      },
-      body: JSON.stringify({ search_by: sortValue }),
+      }
     }
   );
   const promise = response.json();
@@ -587,19 +585,18 @@ export const sortFavoriteDesires = (
 };
 export const sortFavoriteOffers = (
   id: number | string,
-  sortValue: string
+  sortId: string
 ) => async (dispatch: Function) => {
   const user = authenticationService.currentUserValue;
   const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_desire/sort/${id}`,
+    `https://egolist.padilo.pro/api/favorites/fave_offer/${id}/sort/${sortId}`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         Authorization: `${user.token_type} ${user.token}`,
-      },
-      body: JSON.stringify({ search_by: sortValue }),
+      }
     }
   );
   const promise = response.json();
@@ -709,7 +706,7 @@ export const updateOffer = (
   // console.log(category_ids, subcategory_ids, desireId, description, header, city_id, region_id, price, is_active, photo, video, id)
   const formData = new FormData();
   if (!photo.length) {
-    formData.append("photo", JSON.stringify(null));
+    formData.append("photo", '');
   } else {
     for (let p of photo) {
       formData.append("photo[]", p);
@@ -835,28 +832,28 @@ export const createOffer = (
   }
 };
 
-export const getInterestingDesiresToOffer = (
-  offerId: number | string
-) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/interesting_for/${offerId}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      dispatch({ type: GET_INTERESTING_DESIRES_TO_OFFER, payload: res });
-    })
-    .catch((err) => console.error("Error: ", err));
-};
+// export const getInterestingDesiresToOffer = (
+//   offerId: number | string
+// ) => async (dispatch: Function) => {
+//   const user = authenticationService.currentUserValue;
+//   const response = await fetch(
+//     `https://egolist.padilo.pro/api/desires/interesting_for/${offerId}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Access-Control-Allow-Origin": "*",
+//         "Content-Type": "application/json",
+//         Authorization: `${user.token_type} ${user.token}`,
+//       },
+//     }
+//   );
+//   const promise = response.json();
+//   return promise
+//     .then((res) => {
+//       dispatch({ type: GET_INTERESTING_DESIRES_TO_OFFER, payload: res.data });
+//     })
+//     .catch((err) => console.error("Error: ", err));
+// };
 export const getCurrentGeoPosition = () => async (dispatch: Function) => {
   return await fetch(`https://api.2ip.ua/geo.json?ip=`)
     .then((res) => res.json())
@@ -865,17 +862,16 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
     })
     .catch((err) => err);
 };
-export const sortMyOffers = (search_by: string) => async (
+export const sortMyOffers = (sortId: string) => async (
   dispatch: Function
 ) => {
   const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/sort_offers_user`, {
-    method: "POST",
+  return await fetch(`https://egolist.padilo.pro/api/sort_offers_user/${sortId}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({ search_by }),
+    }
   })
     .then((res) => res.json())
     .then((data) => {
@@ -883,17 +879,16 @@ export const sortMyOffers = (search_by: string) => async (
     })
     .catch((err) => console.error("Error:", err));
 };
-export const sortMyDesires = (search_by: string) => async (
+export const sortMyDesires = (sortId: string) => async (
   dispatch: Function
 ) => {
   const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/sort_desires_user`, {
-    method: "POST",
+  return await fetch(`https://egolist.padilo.pro/api/sort_desires_user/${sortId}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({ search_by }),
+    }
   })
     .then((res) => res.json())
     .then((data) => {

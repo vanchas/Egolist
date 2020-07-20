@@ -7,8 +7,8 @@
 		list-style: none;
 		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(4, 24%);
-		grid-gap: 2.5%;
+		grid-template-columns: repeat(4, 1fr);
+		grid-gap: 1em;
 		li {
 		}
 	}
@@ -36,6 +36,7 @@
 	display: grid;
 	grid-template-rows: 3fr 1fr;
 	overflow: hidden;
+	position: relative;
 }
 .card_header {
 	position: relative;
@@ -105,12 +106,22 @@
 .card_elipse {
 	position: absolute;
 	top: 0;
-	right: 1em;
-	width: 3em;
-	height: 3em;
+	right: .2em;
+	width: 1em;
+	height: 1em;
 	background-color: #383b42;
 	border-radius: 50%;
 	transform: translateY(-50%);
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	font-size: 3em;
+	transition: .3s;
+	user-select: none;
+	&:hover {
+		background-color: #6c757d;
+	}
 }
 
 .interesting_lots_list_control {
@@ -119,7 +130,6 @@
 	grid-gap: 1em;
 	padding: 2em 0 0 0;
 	span:nth-child(1),
-	span:nth-child(2),
 	span:nth-child(4) {
 		cursor: pointer;
 		text-align: center;
@@ -132,4 +142,9 @@
 	@media screen and (max-width: 768px) {
 		grid-template-columns: 1fr;
 	}
+}
+.toast {
+	position: absolute;
+	top: 2em;
+	right: 1em;
 }

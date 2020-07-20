@@ -7,7 +7,7 @@ import {
   GET_OFFER_BY_ID,
   GET_OFFER,
   CREATE_OFFER,
-  GET_INTERESTING_DESIRES_TO_OFFER,
+  // GET_INTERESTING_DESIRES_TO_OFFER,
   HIDE_SHOW_DESIRE,
   HIDE_SHOW_OFFER,
   DELETE_FAVORITE,
@@ -71,8 +71,14 @@ export default function userReducer(state = initialState, action: any) {
     case GET_OFFER_BY_ID:
       return { ...state, offer: action.payload };
 
-    case GET_INTERESTING_DESIRES_TO_OFFER:
-      return { ...state, interestingDesires: action.payload };
+    // case GET_INTERESTING_DESIRES_TO_OFFER:
+    //   return {
+    //     ...state,
+    //     interestingDesires: [
+    //         ...state.interestingDesires,
+    //         action.payload
+    //     ]
+    //   };
 
     case GET_OFFER:
       return { ...state, offer: action.payload };

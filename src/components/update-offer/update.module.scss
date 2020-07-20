@@ -1,25 +1,39 @@
+.update_page {
+	height: 100%;
+	background-color: #fff;
+	padding: 1em;
+}
+
+.btn_back {
+	border: 1px solid black;
+	padding: .3em 1em;
+}
+
 .update_form {
 	display: grid;
-}
-.priorities,
-.types {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	div {
-		grid-column: span 3;
+	label,
+	legend {
+		font-weight: bold;
+		font-size: 1.2em;
 	}
+}
+
+.photo_inputs {
+	display: grid;
+	gap: .5em;
+	grid-template-columns: 1fr 1fr;
 }
 .photo_list {
 	display: grid;
 	grid-template-columns: repeat(8, 1fr);
-	gap: 1em;
-	height: 7em;
-	overflow: hidden;
-	align-items: center;
-	justify-items: center;
+	gap: .5em;
+	label {
+		grid-column: span 8;
+	}
 	div {
 		position: relative;
-		span {
+		.btn_remove_photo {
+			padding: .1em .4em;
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -28,6 +42,6 @@
 	}
 	img {
 		width: 100%;
-		//height: 5em;
+		height: 5em;
 	}
 }

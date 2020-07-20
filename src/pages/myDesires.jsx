@@ -1,47 +1,67 @@
-import React, {useEffect, useState} from 'react'
-import MyDesiresList from '../components/my-desires/MyDesiresList'
-import { connect } from 'react-redux'
-import { hideShowDesire, getMyDesires, sortMyDesires } from '../redux/actions/userActions'
-import { getCities } from '../redux/actions/actions'
+import React, { useEffect, useState } from "react";
+import MyDesiresList from "../components/my-desires/MyDesiresList";
+import { connect } from "react-redux";
+import {
+  hideShowDesire,
+  getMyDesires,
+  sortMyDesires,
+} from "../redux/actions/userActions";
+import { getCities, getSortingValues } from "../redux/actions/actions";
 import Router from "next/router";
-import {authenticationService} from "../_services/authentication.service";
+import { authenticationService } from "../_services/authentication.service";
 
-function MyDesires({ sortMyDesires, getMyDesires, hideShowDesire, desires, locations, cities, getCities }) {
-  const [showPage, setShowPage] = useState(false)
+function MyDesires({
+  sortMyDesires,
+  getMyDesires,
+  hideShowDesire,
+  desires,
+  locations,
+  cities,
+  getCities,
+  sortingValues,
+  getSortingValues,
+}) {
+  const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
+    getMyDesires();
+    getSortingValues();
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
-      setShowPage(true)
-    } else Router.push('/login')
-    getMyDesires();
+      setShowPage(true);
+    } else Router.push("/login");
   }, []);
 
   return (
-    <div>{showPage &&
-    <MyDesiresList
-        desires={desires}
-        hideShowDesire={hideShowDesire}
-        locations={locations}
-        cities={cities}
-        getCities={getCities}
-        sortMyDesires={sortMyDesires}
-    />
-    }</div>
-  )
+    <div>
+      {showPage && (
+        <MyDesiresList
+          sortingValues={sortingValues}
+          desires={desires}
+          hideShowDesire={hideShowDesire}
+          locations={locations}
+          cities={cities}
+          getCities={getCities}
+          sortMyDesires={sortMyDesires}
+        />
+      )}
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => ({
   desires: state.user.myDesires,
   locations: state.app.locations,
   cities: state.app.cities,
-})
+  sortingValues: state.app.sortingValues,
+});
 
 const mapDispatchToProps = {
   hideShowDesire,
   getMyDesires,
   getCities,
-  sortMyDesires
-}
+  sortMyDesires,
+  getSortingValues,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyDesires)
+export default connect(mapStateToProps, mapDispatchToProps)(MyDesires);

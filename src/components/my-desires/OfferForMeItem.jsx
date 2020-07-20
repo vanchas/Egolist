@@ -7,6 +7,7 @@ import Heart from '../../assets/header/Heart.png'
 import Libra from '../../assets/header/libra.png'
 import Link from 'next/link'
 import Rating from '../helpers/Rating'
+import ReportModal from "../helpers/ReportModal";
 
 export default function OfferForMeItem({ offer, locations }) {
   const [region, setRegion] = useState('');
@@ -75,12 +76,15 @@ export default function OfferForMeItem({ offer, locations }) {
 
               {showToast && (
                 <div className={`${s.toast}`}>
-                  <span>Report</span>
+                  <ReportModal
+                      userId={offer.user_id}
+                      setShowToast={setShowToast}
+                  />
                 </div>
               )}
             </div>
             <div className={s.price}>{offer.price} ГРН</div>
-            <Link href={{ pathname: "/offer", query: { id: offer.id } }}><a className="text-dark btn">Открыть</a></Link>
+            {/*<Link href={{ pathname: "/offer", query: { id: offer.id } }}><a className="text-dark btn">Открыть</a></Link>*/}
           </div>
         </div>
       }

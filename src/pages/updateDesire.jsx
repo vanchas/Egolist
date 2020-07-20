@@ -5,6 +5,7 @@ import { getMyDesires, updateDesire, deleteDesirePhoto } from '../redux/actions/
 import UpdateForm from '../components/update-desire/UpdateDesireForm'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
+import s from '../components/update-desire/update.module.scss'
 
 function UpdateDesire(props) {
   const [showPage, setShowPage] = useState(false)
@@ -20,7 +21,7 @@ function UpdateDesire(props) {
   }, []);
 
   return (
-    <div>{showPage &&
+    <div className={s.update_page}>{showPage &&
     <UpdateForm
         desire={props.desire}
         getDesireById={props.getDesireById}
