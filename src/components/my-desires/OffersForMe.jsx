@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./offers-for-me.module.scss";
 import OfferForMeItem from "./OfferForMeItem";
-import fetch from "isomorphic-unfetch";
-import { authenticationService } from "../../_services/authentication.service";
+import HttpRequest from "../../_helpers/HttpRequest";
 
 export default function OffersForMe({
   locations,
@@ -12,46 +11,25 @@ export default function OffersForMe({
   const [loading, setLoading] = useState(true);
   const [offersForCurrentDesire, setOffersForCurrentDesire] = useState(null);
 
+  const loadData = async () => {
+      await HttpRequest.execute(`/filter_offer`, "POST", "application/json", { desire_id })
+          .then((data) => {
+              setLoading(false);
+              setOffersForCurrentDesire(data);
+          })
+          .catch((err) => {
+              setLoading(false);
+              console.error("Error: ", err);
+          });
+  }
+
   useEffect(() => {
-    const user = authenticationService.currentUserValue;
-    (async function loadData() {
-      await fetch(`https://egolist.padilo.pro/api/filter_offer`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token_type} ${user.token}`,
-        },
-        body: JSON.stringify({ desire_id }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setLoading(false);
-          setOffersForCurrentDesire(data);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.error("Error: ", err);
-        });
-    })();
+    loadData();
     setTimeout(() => setLoading(false), 10000);
   }, []);
 
   const sortOffersByDesireId = async (id, sortValue) => {
-    const user = authenticationService.currentUserValue;
-    const response = await fetch(
-      `https://egolist.padilo.pro/api/sort_offers/${id}`,
-      {
-        method: "POST",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          Authorization: `${user.token_type} ${user.token}`,
-        },
-        body: JSON.stringify({ search_by: sortValue }),
-      }
-    );
-    const promise = response.json();
-    return promise
+    await HttpRequest.execute(`/sort_offers/${id}`, "POST", "application/json", { search_by: sortValue })
       .then((data) => {
         setLoading(false);
         setOffersForCurrentDesire(data);

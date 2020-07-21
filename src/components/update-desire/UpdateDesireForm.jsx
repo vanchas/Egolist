@@ -72,8 +72,6 @@ export default function UpdateForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("video:", video);
-    console.log("STATEvideo:", stateDesire.video);
     if (videoValidator(video ? video : stateDesire.video)) {
       setSubmitLoading(true);
       updateDesire(
@@ -85,7 +83,6 @@ export default function UpdateForm({
         price ? price : stateDesire.price,
         priority_id ? priority_id : stateDesire.priority.id,
         type_id ? type_id : stateDesire.type.id,
-        // category1 ? [category1] : [stateDesire.category[0].id],
         category1 && category2
           ? [category1, category2]
           : category1 && !category2
@@ -95,7 +92,6 @@ export default function UpdateForm({
           : stateDesire.category.length === 1
           ? [stateDesire.category[0].id]
           : [stateDesire.category[0].id, stateDesire.category[2].id],
-        // subcategory1 ? [subcategory1] : [stateDesire.subcategory[0].id],
         subcategory1 && subcategory2
           ? [subcategory1, subcategory2]
           : subcategory1 && !subcategory2
@@ -198,7 +194,7 @@ export default function UpdateForm({
                             <div key={i} className={`image-${i}`}>
                               <img src={p} alt={i} />
                               <span
-                                className={`btn btn-danger ${s.btn_remove_photo}`}
+                                className={s.btn_remove_photo}
                                 onClick={() => {
                                   $(`.image-${i}`).hide();
                                   deleteDesirePhoto(stateDesire.id, p);
@@ -282,6 +278,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              {subcategories && subcategories.length ? <>
               <label>Подкатегория #1</label>
               {!loadingSubcategory1 ? (
                 <select
@@ -310,6 +307,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              </> : null}
               <label>Категория #2</label>
               {categories.length ? (
                 <select
@@ -338,6 +336,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              {subcategories && subcategories.length ? <>
               <label>Подкатегория #2</label>
               {!loadingSubcategory2 ? (
                 <select
@@ -368,6 +367,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              </> : null}
               <label>Регион</label>
               {locations.length ? (
                 <select
@@ -394,6 +394,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              {cities && cities.length ? <>
               <label>Город</label>
               {!loadingCity ? (
                 <select
@@ -420,6 +421,7 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
+              </> : null}
               <div className={s.types}>
                 <legend>Состояние</legend>
                 {types

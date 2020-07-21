@@ -1,9 +1,6 @@
-import fetch from "isomorphic-unfetch";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { authenticationService } from "../../_services/authentication.service";
 import {
-  // UPDATE_USER_INFO,
   GET_MY_DESIRES,
   UPDATE_DESIRE,
   DELETE_DESIRE,
@@ -25,16 +22,19 @@ import {
   UPDATE_OFFER,
   GET_OFFER,
   CREATE_OFFER,
-  // GET_INTERESTING_DESIRES_TO_OFFER,
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
   SORT_MY_OFFERS,
   SORT_MY_DESIRES,
   GET_COMPLAINTS_INFO, GET_USER_INFO, DELETE_DESIRE_PHOTO, DELETE_OFFER_PHOTO,
-} from "./types";
+} from "./types"
+import HttpRequest from "../../_helpers/HttpRequest";
+import {showAlert, showSuccess} from "./actions";
+import {authenticationService} from "../../_services/authentication.service";
+import fetch from 'isomorphic-unfetch'
 
-import { showSuccess, showAlert } from "./actions";
+const target = `https://egolist.padilo.pro/api`;
 
 export const updateUserInfo = (
   name: string,
@@ -64,74 +64,49 @@ export const updateUserInfo = (
   formData.append("city_id", city_id);
   formData.append("birth_date", birth_date);
 
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/update_user`, {
-    method: "POST",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      // "Accept": "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: formData,
+    const user = authenticationService.currentUserValue;
+    const response = await fetch(`${target}/update_user`, {
+      method: "POST",
+      headers: {
+          "Authorization": `${user.token_type} ${user.token}`,
+          "Accept": "application/json"
+      },
+      body: formData
   });
-  const promise = response.json();
-  return promise
-    .then((data) => {
-      if (response.status === 200) {
-        dispatch(showSuccess('Успешно изменено'))
-        Cookies.set(
-            "currentUser",
-            JSON.stringify({
-              user: data.user,
-              token: authenticationService.currentUserValue.token,
-              token_type: authenticationService.currentUserValue.token_type,
-            })
-        )
-        setTimeout(() => {
-          window.location.reload()
-        }, 3000)
-      } else {
-        dispatch(showAlert(data.message))
-      }
+    const promise = response.json();
+    return promise.then((data) => {
+        if (response.ok) {
+            dispatch(showSuccess('Успешно изменено'))
+            Cookies.set(
+                "currentUser",
+                JSON.stringify({
+                    user: data.user,
+                    token: authenticationService.currentUserValue.token,
+                    token_type: authenticationService.currentUserValue.token_type,
+                })
+            )
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
+        } else {
+            dispatch(showAlert(data.message))
+        }
     })
     .catch((err) => console.error("Error: ", err));
 };
 
 export const getMyDesires = () => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/desires/my`, {
-    method: "GET",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-  });
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: GET_MY_DESIRES, payload: res });
+  HttpRequest.execute(`/desires/my`)
+    .then((data) => {
+      return dispatch({ type: GET_MY_DESIRES, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
 
 export const getMyOffers = () => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/offers/my`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: GET_MY_OFFERS, payload: res });
+  HttpRequest.execute(`/desires/offers/my`)
+    .then((data) => {
+      return dispatch({ type: GET_MY_OFFERS, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -176,29 +151,25 @@ export const updateDesire = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/edit/${id}`,
-    {
+  const response = await fetch(`${target}/desires/edit/${id}`, {
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
+          "Authorization": `${user.token_type} ${user.token}`,
+          "Accept": "application/json"
       },
-      body: formData,
-    }
-  );
+      body: formData
+  });
   const promise = response.json();
-  return promise
-    .then((data) => {
-      if (response.status === 200) {
-        dispatch(showSuccess("Желание успешно изменено"));
-        dispatch({ type: UPDATE_DESIRE });
-        setTimeout(() => {
-          Router.push(`/desire?id=${id}`)
-        }, 3000)
+  return promise.then((data) => {
+      console.log(data)
+      if (response.ok) {
+          dispatch(showSuccess("Желание успешно изменено"));
+          dispatch({ type: UPDATE_DESIRE });
+          setTimeout(() => {
+              Router.push(`/desire?id=${id}`)
+          }, 3000)
       } else {
-        dispatch(showAlert(data.message))
+          dispatch(showAlert(data.message))
       }
     })
     .catch((err) => console.error("Error: ", err));
@@ -207,18 +178,7 @@ export const updateDesire = (
 export const deleteOfferPhoto = (id: any, photo: any) => async (
     dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/desires/offers/photo/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      // Accept: "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({photo})
-  });
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/desires/offers/photo/${id}`, "DELETE", "application/json", {photo})
       .then((data) => {
         return dispatch({ type: DELETE_OFFER_PHOTO });
       })
@@ -228,91 +188,38 @@ export const deleteOfferPhoto = (id: any, photo: any) => async (
 export const deleteDesirePhoto = (id: any, photo: any) => async (
     dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/desires/photo/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      // Accept: "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-    body: JSON.stringify({photo})
-  });
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/desires/photo/${id}`, "DELETE", "application/json", {photo})
       .then((data) => {
         return dispatch({ type: DELETE_DESIRE_PHOTO });
       })
       .catch((err) => console.error("Error: ", err));
 };
 
-
 export const deleteDesire = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/desires/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-  });
-  const promise = response.json();
-  return promise
-    .then((res) => {
+  HttpRequest.execute(`/desires/${id}`, "DELETE")
+    .then((data) => {
       return dispatch({ type: DELETE_DESIRE });
     })
     .catch((err) => console.error("Error: ", err));
 };
 
 export const addComplaint = (
-  // id: number | string,
   complaint: string,
   type_id: number | string,
   complaint_to_id: number | string
 ) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/complaints/add`,
-    {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-      body: JSON.stringify({
-        complaint,
-        type_id,
-        complaint_to_id,
-      }),
-    }
-  );
-  const promise = response.json();
-  if (response.status === 201) {
-    return promise
+  HttpRequest.execute(`/complaints/add`, "POST", "application/json", {complaint, type_id, complaint_to_id})
       .then((data) => {
         dispatch(showSuccess("Жалоба успешно создана"));
         return dispatch({ type: ADD_COMPLAINT, payload: data });
       })
       .catch((err) => console.error("Error: ", err));
-  } else {
-    return promise
-      .then((data) => {
-        return dispatch(showAlert("Не верно заполнена форма"));
-      })
-      .catch((err) => console.error("Error: ", err));
-  }
 };
 
 export const getComplaintsInfo = () => async (dispatch: Function) => {
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/info/complaints`
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/info/complaints`)
     .then((data) => {
       return dispatch({ type: GET_COMPLAINTS_INFO, payload: data });
     })
@@ -320,17 +227,7 @@ export const getComplaintsInfo = () => async (dispatch: Function) => {
 };
 
 export const getMyComplaints = () => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/complaints/my`, {
-    method: "GET",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-  });
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/complaints/my`)
     .then((res) => {
       return dispatch({ type: GET_MY_COMPLAINTS, payload: res });
     })
@@ -368,29 +265,25 @@ export const createDesire = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/create`,
-    {
+  const response = await fetch(`/desires/create`, {
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `${user.token_type} ${user.token}`,
+          "Authorization": `${user.token_type} ${user.token}`,
+          "Accept": "application/json"
       },
-      body: formData,
-    }
-  );
+      body: formData
+  });
   const promise = response.json();
-  return promise
-    .then((data) => {
-      if (response.status === 201) {
-        dispatch(showSuccess("Желание успешно создано"));
-        setTimeout(() => {
-          Router.push(`/desire?id=${data.id}`);
-        }, 3000);
-      } else {
-        dispatch(showAlert(data.message));
-      }
-      return dispatch({ type: CREATE_DESIRE, payload: data });
+   return promise.then((data) => {
+       if (response.ok) {
+           dispatch(showSuccess("Желание успешно создано"));
+           setTimeout(() => {
+               Router.push(`/desire?id=${data.id}`);
+           }, 3000);
+           return dispatch({ type: CREATE_DESIRE, payload: data });
+       } else {
+           dispatch(showAlert(data.message))
+       }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -398,21 +291,8 @@ export const createDesire = (
 export const hideShowDesire = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/change/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
+  HttpRequest.execute(`/desires/change/${id}`)
+    .then((data) => {
       return dispatch({ type: HIDE_SHOW_DESIRE, payload: id });
     })
     .catch((err) => console.error("Error: ", err));
@@ -421,21 +301,8 @@ export const hideShowDesire = (id: number | string) => async (
 export const hideShowOffer = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/offers/change/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
+  HttpRequest.execute(`/desires/offers/change/${id}`)
+    .then((data) => {
       return dispatch({ type: HIDE_SHOW_OFFER, payload: id });
     })
     .catch((err) => console.error("Error: ", err));
@@ -444,37 +311,15 @@ export const hideShowOffer = (id: number | string) => async (
 export const sortDesires = (sortId: string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/sort_desires/${sortId}`, {
-    method: "GET",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      // Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    }
-  });
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: SORT_DESIRES, payload: res });
+  HttpRequest.execute(`/sort_desires/${sortId}`)
+    .then((data) => {
+      return dispatch({ type: SORT_DESIRES, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
 
 export const sortOffers = (sortId: string) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/sort_offers/${sortId}`, {
-    method: "GET",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      // Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    }
-  });
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/sort_offers/${sortId}`)
     .then((res) => {
       return dispatch({ type: SORT_OFFERS, payload: res });
     })
@@ -485,23 +330,9 @@ export const sortOffersByDesireId = (
   id: string | number,
   sortId: string
 ) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/sort_offers/${id}/sort/${sortId}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        // Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      }
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: SORT_OFFERS_BY_DESIRE_ID, payload: res });
+  HttpRequest.execute(`/sort_offers/${id}/sort/${sortId}`)
+    .then((data) => {
+      return dispatch({ type: SORT_OFFERS_BY_DESIRE_ID, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -509,180 +340,80 @@ export const sortOffersByDesireId = (
 export const addOfferToFavorites = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorite_offer/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        // Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/favorite_offer/${id}`)
     .then((data) => {
-      if (response.status === 201 || response.status === 200) {
         dispatch(showSuccess("Предложение добавлено в избранные"));
         dispatch({ type: ADD_OFFER_TO_FAVORITE, payload: id });
-      } else {
-        dispatch(showAlert(data.message))
-      }
-    })
-    .catch((err) => console.error("Error: ", err));
+    }).catch((err) => console.error("Error: ", err));
 };
+
 export const addDesireToFavorites = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorite_desire/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/favorite_desire/${id}`)
     .then((data) => {
-      if (response.status === 201) {
         dispatch(showSuccess("Желание добавлено в избранные"));
         dispatch({ type: ADD_DESIRE_TO_FAVORITE, payload: id });
-      } else {
-        dispatch(showAlert(data.message))
-      }
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const sortFavoriteDesires = (
   id: number | string,
   sortId: string
 ) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_desire/${id}/sort/${sortId}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      }
-    }
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/favorites/fave_desire/${id}/sort/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_FAVORITE_DESIRES, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const sortFavoriteOffers = (
   id: number | string,
   sortId: string
 ) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_offer/${id}/sort/${sortId}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      }
-    }
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/favorites/fave_offer/${id}/sort/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_FAVORITE_OFFERS, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const getFavoritesByDesire = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_by_desire/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: GET_FAVORITES_BY_DESIRE, payload: res });
+  HttpRequest.execute(`/favorites/fave_by_desire/${id}`)
+    .then((data) => {
+      return dispatch({ type: GET_FAVORITES_BY_DESIRE, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const getFavoritesByOffer = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_by_offer/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: GET_FAVORITES_BY_OFFER, payload: res });
+  HttpRequest.execute(`/favorites/fave_by_offer/${id}`)
+    .then((data) => {
+      return dispatch({ type: GET_FAVORITES_BY_OFFER, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const getUserFavoritePosts = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/favorites/fave_by_user/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
-    .then((res) => {
-      return dispatch({ type: GET_FAVORITE_POSTS, payload: res });
+  HttpRequest.execute(`/favorites/fave_by_user/${id}`)
+    .then((data) => {
+      return dispatch({ type: GET_FAVORITE_POSTS, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
+
 export const deleteFavorite = (id: number | string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/favorites/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `${user.token_type} ${user.token}`,
-    },
-  })
+  HttpRequest.execute(`/favorites/${id}`, "DELETE")
     .then(() => {
       return dispatch({ type: DELETE_FAVORITE, payload: id });
     })
@@ -723,49 +454,30 @@ export const updateOffer = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/offers/${desireId}/edit/${id}`,
-    {
+  const response = await fetch(`/desires/offers/${desireId}/edit/${id}`, {
       method: "POST",
       headers: {
-        // "Content-Type": "multipart/form-data",
-        // "Access-Control-Allow-Origin": "*",
-        "Accept": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
+          "Authorization": `${user.token_type} ${user.token}`,
+          "Accept": "application/json"
       },
-      body: formData,
-    }
-  );
+      body: formData
+  });
   const promise = response.json();
-  return promise
-    .then((data) => {
-      if (response.status === 200) {
-        dispatch({ type: UPDATE_OFFER });
-        dispatch(showSuccess("Предложение успешно отредактировано"));
-        setTimeout(() => {
-          window.location.reload()
-        }, 3000)
-      } else {
-        dispatch(showAlert(data.message));
-      }
-    })
-    .catch((err) => console.error("Error: ", err));
+   return promise.then((data) => {
+       if (response.ok) {
+           dispatch({ type: UPDATE_OFFER });
+           dispatch(showSuccess("Предложение успешно отредактировано"));
+           setTimeout(() => {
+               window.location.reload()
+           }, 3000)
+       } else {
+           dispatch(showAlert(data.message))
+       }
+    }).catch((err) => console.error("Error: ", err));
 };
+
 export const getOffer = (id: number | string) => async (dispatch: Function) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/offers/show/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: `${user.token_type} ${user.token}`,
-      },
-    }
-  );
-  const promise = response.json();
-  return promise
+  HttpRequest.execute(`/desires/offers/show/${id}`)
     .then((res) => {
       return dispatch({ type: GET_OFFER, payload: res });
     })
@@ -800,60 +512,30 @@ export const createOffer = (
   formData.append("subcategory_ids", subcategory_ids);
   formData.append("is_active", is_active);
 
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(
-    `https://egolist.padilo.pro/api/desires/offers/create/${desireId}`,
-    {
+    const user = authenticationService.currentUserValue;
+    const response = await fetch(`/desires/offers/create/${desireId}`, {
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `${user.token_type} ${user.token}`,
+          "Authorization": `${user.token_type} ${user.token}`,
+          "Accept": "application/json"
       },
-      body: formData,
-    }
-  );
-  const promise = response.json();
-  if (response.status === 201 || response.status === 200) {
-    return promise
-      .then((data) => {
-        dispatch({ type: CREATE_OFFER, payload: data });
-        dispatch(showSuccess("Предложение успешно создано"));
-        setTimeout(() => {
-          Router.push(`/desire?id=${desireId}`);
-        }, 3000);
+      body: formData
+  });
+    const promise = response.json();
+     return promise.then((data) => {
+         if (response.ok) {
+             dispatch({ type: CREATE_OFFER, payload: data });
+             dispatch(showSuccess("Предложение успешно создано"));
+             setTimeout(() => {
+                 Router.push(`/desire?id=${desireId}`);
+             }, 3000);
+         } else {
+             dispatch(showAlert(data.message))
+         }
       })
       .catch((err) => console.error("Error: ", err));
-  } else {
-    return promise
-      .then((data) => {
-        dispatch(showAlert(data.message));
-      })
-      .catch((err) => console.error("Error: ", err));
-  }
 };
 
-// export const getInterestingDesiresToOffer = (
-//   offerId: number | string
-// ) => async (dispatch: Function) => {
-//   const user = authenticationService.currentUserValue;
-//   const response = await fetch(
-//     `https://egolist.padilo.pro/api/desires/interesting_for/${offerId}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Access-Control-Allow-Origin": "*",
-//         "Content-Type": "application/json",
-//         Authorization: `${user.token_type} ${user.token}`,
-//       },
-//     }
-//   );
-//   const promise = response.json();
-//   return promise
-//     .then((res) => {
-//       dispatch({ type: GET_INTERESTING_DESIRES_TO_OFFER, payload: res.data });
-//     })
-//     .catch((err) => console.error("Error: ", err));
-// };
 export const getCurrentGeoPosition = () => async (dispatch: Function) => {
   return await fetch(`https://api.2ip.ua/geo.json?ip=`)
     .then((res) => res.json())
@@ -861,36 +543,22 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
       return dispatch({ type: GET_CURRENT_GEO_POSITION, payload: data });
     })
     .catch((err) => err);
-};
+}
+
 export const sortMyOffers = (sortId: string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/sort_offers_user/${sortId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    }
-  })
-    .then((res) => res.json())
+  HttpRequest.execute(`/sort_offers_user/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_MY_OFFERS, payload: data });
     })
     .catch((err) => console.error("Error:", err));
 };
+
 export const sortMyDesires = (sortId: string) => async (
   dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/sort_desires_user/${sortId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `${user.token_type} ${user.token}`,
-    }
-  })
-    .then((res) => res.json())
+  HttpRequest.execute(`/sort_desires_user/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_MY_DESIRES, payload: data });
     })
@@ -900,22 +568,9 @@ export const sortMyDesires = (sortId: string) => async (
 export const getUserInfo = () => async (
     dispatch: Function
 ) => {
-  const user = authenticationService.currentUserValue;
-  const response = await fetch(`https://egolist.padilo.pro/api/details`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `${user.token_type} ${user.token}`,
-    }
-  });
-     const promise = response.json();
-     return promise.then((data) => {
-       if (response.status === 200) {
+  HttpRequest.execute(`/details`)
+     .then((data) => {
          dispatch(showSuccess(data.message))
-         return dispatch({ type: GET_USER_INFO, payload: data });
-       } else {
-         return dispatch(showAlert(data.message));
-       }
-      })
-      .catch((err) => console.error("Error:", err));
+         dispatch({ type: GET_USER_INFO, payload: data });
+      }).catch((err) => console.error("Error:", err));
 };

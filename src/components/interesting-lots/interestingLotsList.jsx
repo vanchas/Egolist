@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import InterestingLot from "./InterestingLot";
 import s from "./interesting-lots.module.scss";
 import SignNew from "../../assets/lot/sign-new.png";
-import fetch from "isomorphic-unfetch";
-import { authenticationService } from "../../_services/authentication.service";
 import { connect } from "react-redux";
 import { showSuccess, showAlert } from "../../redux/actions/actions";
+import HttpRequest from "../../_helpers/HttpRequest";
 
 function InterestingLotsList(props) {
   const [loading, setLoading] = useState(true);
@@ -13,25 +12,16 @@ function InterestingLotsList(props) {
   const [selectedDesires, setSelectedDesires] = useState([]);
   const [showPage, setShowPage] = useState(1);
   const [sentMyOfferLoader, setMyOfferLoader] = useState(false);
+  const [showMoreLoader, setShowMoreLoader] = useState(false);
 
   const showLots = async (page) => {
-    const user = authenticationService.currentUserValue;
-    return await fetch(
-      `https://egolist.padilo.pro/api/desires/interesting_for/${props.offerId}?page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token_type} ${user.token}`,
-        },
-      }
-    )
-      .then((res) => res.json())
+    setShowMoreLoader(true);
+    HttpRequest.execute(`/desires/interesting_for/${props.offerId}?page=${page}`)
       .then((data) => {
-        setLoading(false);
-        setInterestingLots(interestingLots.concat(data.data));
-      })
-      .catch((err) => {
+          setShowMoreLoader(false);
+          setLoading(false);
+          setInterestingLots(interestingLots.concat(data.data));
+      }).catch((err) => {
         setLoading(false);
         console.error(err);
       });
@@ -44,27 +34,17 @@ function InterestingLotsList(props) {
 
   const sentMyOfferToInterestingDesires = async () => {
     setMyOfferLoader(true);
-    const user = authenticationService.currentUserValue;
-    const response = await fetch(
-      `https://egolist.padilo.pro/api/desires/offers/send/${props.offerId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${user.token_type} ${user.token}`,
-        },
-        body: JSON.stringify({ desire_ids: selectedDesires }),
-      }
-    );
-    const promise = response.json();
-    return promise
+    await HttpRequest.execute(
+        `/desires/offers/send/${props.offerId}`,
+        "POST", "application/json",
+        { desire_ids: selectedDesires })
       .then((data) => {
         setMyOfferLoader(false);
-          if (response.status === 200) {
-              props.showSuccess(data.message);
-          } else {
-              props.showAlert(data.message);
-          }
+        if (response.status === 200) {
+          props.showSuccess(data.message);
+        } else {
+          props.showAlert(data.message);
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -102,7 +82,13 @@ function InterestingLotsList(props) {
             </span>
             <span></span>
             <span></span>
-            <span onClick={() => showLots(showPage + 1)}>ПОКАЗАТЬ ЕЩЕ</span>
+            {showMoreLoader ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <span onClick={() => showLots(showPage + 1)}>ПОКАЗАТЬ ЕЩЕ</span>
+            )}
           </div>
         </>
       ) : (
@@ -125,9 +111,7 @@ function InterestingLotsList(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-
-});
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = {
   showSuccess,
   showAlert,

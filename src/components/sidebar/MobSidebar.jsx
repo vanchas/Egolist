@@ -7,7 +7,7 @@ import SidebarUserProfile from './SidebarUserProfile'
 import { useRouter } from 'next/router'
 import UserBar from './UserBar'
 
-export default function MobSidebar() {
+export default function MobSidebar(props) {
   const router = useRouter();
   const [component, setComponent] = useState();
   const [activeLink, setActiveLink] = useState();
@@ -15,8 +15,7 @@ export default function MobSidebar() {
   const changeComponent = ref => {
     setActiveLink(ref);
     if (ref === "profile") {
-      router.push('/login');
-      setComponent(<SidebarUserProfile />);
+      setComponent(<SidebarUserProfile showSidebar={props.showSidebar} />);
     } else if (ref === "messages") {
       setComponent(<SidebarMessages />);
     } else if (ref === "statistics") {

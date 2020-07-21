@@ -22,7 +22,7 @@ export default function MainListControl({
   };
 
   return (
-    <div>
+    <div className={s.main_list_control}>
       <h3 className="h4 font-weight-bold m-0 py-3">ОБЬЯВЛЕНИЯ ИЗ ЛЕНТЫ</h3>
 
       <div className={s.list_control}>

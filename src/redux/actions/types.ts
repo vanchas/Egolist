@@ -1,3 +1,7 @@
+
+export const SHOW_ERROR = 'DEV/SHOW_ERROR';
+
+
 // app
 export const GET_LOCATIONS = 'GET_LOCATIONS';
 export const GET_CITIES = 'GET_CITIES';
@@ -14,6 +18,7 @@ export const GET_ALL_OFFERS = 'GET_ALL_OFFERS';
 export const GET_OFFERS_BY_DESIRE_ID = 'GET_OFFERS_BY_DESIRE_ID';
 export const SEARCH_INFO = 'SEARCH_INFO';
 export const GET_SORT_VALUES = 'GET_SORT_VALUES';
+export const SHOW_SIDEBAR = 'SHOW_SIDEBAR';
 
 // user
 export const GET_USER_INFO = 'GET_USER_INFO';

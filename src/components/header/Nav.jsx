@@ -178,7 +178,9 @@ getCities, cities,
               ? <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
-                : <span className={s.search_select}></span>}
+                : null
+                // <span className={s.search_select_placeholder}></span>
+        }
         <button
           className={`font-weight-bold btn text-dark my-2 my-sm-0 px-3 ${s.search_btn}`}
           type="submit"

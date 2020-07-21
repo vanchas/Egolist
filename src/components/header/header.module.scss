@@ -44,7 +44,7 @@
 		padding: 0 .5em;
 		form {
 			.search_input, button {
-				display: none;
+				//display: none;
 			}
 		}
 	}
@@ -63,6 +63,9 @@
 .search_input {
 	//flex-basis: 40%;
 	background-color: #dedede !important;
+	@media screen and (max-width: 756px) {
+		grid-column: span 4;
+	}
 }
 .search_select {
 	//flex-basis: 25%;

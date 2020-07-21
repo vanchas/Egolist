@@ -5,6 +5,8 @@ import store from '../redux/store';
 
 let currentUserSubject = (Cookies.getJSON('currentUser')) ? Cookies.getJSON('currentUser') : {};
 
+const target = `https://egolist.padilo.pro/api`;
+
 export const authenticationService = {
   login,
   logout,
@@ -14,7 +16,7 @@ export const authenticationService = {
 };
 
 async function login(email: string, password: string): Promise<any> {
-  const response = await fetch(`https://egolist.padilo.pro/api/login`, {
+  const response = await fetch(`${target}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -39,7 +41,7 @@ async function login(email: string, password: string): Promise<any> {
 }
 
 async function registration(name: string, email: string, phone: number, password: string, password_confirmation: string): Promise<any> {
-  const response = await fetch(`https://egolist.padilo.pro/api/register`, {
+  const response = await fetch(`${target}/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +73,7 @@ async function registration(name: string, email: string, phone: number, password
 
 async function logout(): Promise<any> {
   const user = authenticationService.currentUserValue;
-  return await fetch(`https://egolist.padilo.pro/api/logout`, {
+  return await fetch(`${target}/logout`, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
