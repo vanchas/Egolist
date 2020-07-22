@@ -7,7 +7,6 @@ import {
   GET_OFFER_BY_ID,
   GET_OFFER,
   CREATE_OFFER,
-  // GET_INTERESTING_DESIRES_TO_OFFER,
   HIDE_SHOW_DESIRE,
   HIDE_SHOW_OFFER,
   DELETE_FAVORITE,
@@ -23,6 +22,8 @@ const initialState: any = {
   myOffers: [],
   myComplaints: null,
   favoritePosts: [],
+  favoriteOffers: [],
+  favoriteDesires: [],
   offer: null,
   currentUserGeoPosition: null,
   complaintsInfo: null,
@@ -71,15 +72,6 @@ export default function userReducer(state = initialState, action: any) {
     case GET_OFFER_BY_ID:
       return { ...state, offer: action.payload };
 
-    // case GET_INTERESTING_DESIRES_TO_OFFER:
-    //   return {
-    //     ...state,
-    //     interestingDesires: [
-    //         ...state.interestingDesires,
-    //         action.payload
-    //     ]
-    //   };
-
     case GET_OFFER:
       return { ...state, offer: action.payload };
 
@@ -87,7 +79,13 @@ export default function userReducer(state = initialState, action: any) {
       return { ...state, myOffers: [...state.myOffers, action.payload] };
 
     case GET_FAVORITE_POSTS:
-      return { ...state, favoritePosts: action.payload };
+      const desirePosts = action.payload.filter((post: any) => {
+        if (post.desire) return { ...post.desire, postId: post.id }
+      })
+      const offersPosts = action.payload.filter((post: any) => {
+        if (post.sentense) return { ...post.sentense, postId: post.id }
+      })
+      return { ...state, favoriteDesires: desirePosts, favoriteOffers: offersPosts };
 
     case DELETE_FAVORITE:
       return { ...state, favoritePosts: state.favoritePosts.filter((post: any) => +post.id !== +action.payload) };

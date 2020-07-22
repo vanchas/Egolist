@@ -137,7 +137,17 @@
 	padding: 2em 0;
 	background-color: #fbfbfb;
 	@media screen and (max-width: 768px) {
+		grid-template-rows: 1fr 1fr;
+		grid-template-columns: 1fr 1fr;
 		padding: 0 0.5em;
+		.open {
+			grid-column: span 2;
+			white-space: nowrap;
+			width: 100%;
+		}
+		.price {
+			order: -1;
+		}
 	}
 }
 .price {

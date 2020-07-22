@@ -1,5 +1,8 @@
 .blue_list {
 	grid-column: span 3;
+	@media screen and (max-width: 768px) {
+		grid-column: span 1;
+	}
 }
 
 .blue_list_items {
@@ -86,9 +89,6 @@
 	width: 0.9em;
 	margin-right: 0.5em;
 }
-.stars_img {
-	height: 0.9em;
-}
 .elips {
 	display: inline-block;
 	width: 1.8em;
@@ -99,14 +99,17 @@
 }
 .card_control_block {
 	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
 	justify-items: center;
 	padding: 2em 0;
 	background-color: #fbfbfb;
 	@media screen and (max-width: 768px) {
-		// grid-template-rows: 1fr 1fr;
-		// grid-template-columns: 1fr 1fr;
+		 grid-template-rows: 1fr;
+		 grid-template-columns: 1fr 1fr;
 		padding: 1em 0.5em 1em 0.5em;
+		.price {
+			order: -1;
+		}
 	}
 }
 .price {

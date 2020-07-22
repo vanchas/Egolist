@@ -1,3 +1,22 @@
+.favorite_page_control {
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	gap: 1em;
+	@media screen and (max-width: 768px) {
+		grid-auto-flow: row;
+	}
+}
+
+.favorites_sort {
+	display: flex;
+	float: right;
+	@media screen and (max-width: 768px) {
+		display: grid;
+		justify-items: center
+	}
+}
+
 .fav_desires_list {
 	padding: 2em 0 0 0;
 	display: grid;
@@ -75,9 +94,9 @@
 	height: 0.9em;
 }
 .elips {
-	display: inline-block;
-	width: 1.8em;
-	height: 1.8em;
+	display: block;
+	width: 50px;
+	height: 50px;
 	background-color: #383b42;
 	border-radius: 50%;
 	margin-right: 0.5em;
@@ -90,7 +109,7 @@
 	padding: 2em 0;
 	background-color: #fbfbfb;
 	@media screen and (max-width: 768px) {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		grid-template-rows: 1fr 1fr;
 		padding: 0 0.5em 1em 0.5em;
 	}

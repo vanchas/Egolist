@@ -21,14 +21,10 @@ import {
 import Alert from "../components/helpers/Alert";
 import Success from "../components/helpers/Success";
 import Router from "next/router";
+import s from '../components/favorites/fav.module.scss'
 
 function Favorites({
-  showSuccess,
   getUserFavoritePosts,
-  favoritePosts,
-  locations,
-  cities,
-  getCities,
   deleteFavorite,
   sortFavoriteDesires,
   sortFavoriteOffers,
@@ -36,6 +32,8 @@ function Favorites({
   alert,
   sortingValues,
   getSortingValues,
+  favoriteDesires,
+  favoriteOffers
 }) {
   const [visibleComponent, setVisibleComponent] = useState("desires");
   const [userId, setUserId] = useState(null);
@@ -47,8 +45,7 @@ function Favorites({
     setVisibleComponent(ref);
   };
 
-  useEffect(() => {
-    getSortingValues();
+  const showPageResolver = () => {
     const user = authenticationService.currentUserValue;
     if (user.token && user.user) {
       setShowPage(true);
@@ -57,6 +54,11 @@ function Favorites({
     } else {
       Router.push("/login");
     }
+  }
+
+  useEffect(() => {
+    getSortingValues();
+    showPageResolver();
   }, []);
 
   const sortDesiresHandler = (userId, value) => {
@@ -77,10 +79,10 @@ function Favorites({
         <>
           {alert && <Alert />}
           {success && <Success />}
-          <div>
+          <div className={s.favorite_page_control}>
             <span
               onClick={() => changeVisibleComponent("desires")}
-              className={`mr-3 btn ${
+              className={`btn ${
                 visibleComponent === "desires" ? "btn-dark" : "btn-secondary"
               }`}
             >
@@ -94,7 +96,7 @@ function Favorites({
             >
               Избранные предложения
             </span>
-            <label className="form-group float-right d-flex">
+            <label className={`form-group ${s.favorites_sort}`}>
               <span className="mr-3">Сортировка</span>
               {visibleComponent === "desires" ? (
                 sortingValues ? (
@@ -174,24 +176,15 @@ function Favorites({
           </div>
           {visibleComponent === "desires" ? (
             <FavDesires
-              sortFavoriteDesires={sortFavoriteDesires}
-              favoritePosts={favoritePosts}
+                favoriteDesires={favoriteDesires}
               deleteFavorite={deleteFavorite}
-              locations={locations}
-              cities={cities}
-              getCities={getCities}
-              showSuccess={showSuccess}
-              success={success}
               loading={loading}
               setLoading={setLoading}
             />
           ) : (
             <FavOffers
-              sortFavoriteOffers={sortFavoriteOffers}
-              favoritePosts={favoritePosts}
+                favoriteOffers={favoriteOffers}
               deleteFavorite={deleteFavorite}
-              showSuccess={showSuccess}
-              success={success}
               loading={loading}
               setLoading={setLoading}
             />
@@ -203,9 +196,8 @@ function Favorites({
 }
 
 const mapStateToProps = (state) => ({
-  favoritePosts: state.user.favoritePosts,
-  locations: state.app.locations,
-  cities: state.app.cities,
+  favoriteDesires: state.user.favoriteDesires,
+  favoriteOffers: state.user.favoriteOffers,
   success: state.app.success,
   alert: state.app.alert,
   sortingValues: state.app.sortingValues,

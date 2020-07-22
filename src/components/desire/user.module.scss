@@ -3,6 +3,9 @@
 	padding: 1em;
 	grid-gap: 0.5em;
 	background-color: #fff;
+	@media screen and (max-width: 767px) {
+		order: -1;
+	}
 }
 .user_ava {
 	border-radius: 50%;

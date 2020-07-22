@@ -17,7 +17,9 @@ export default function SidebarUserProfile(props) {
   return (
     <div className={s.user_profile}>
       <Link href="/login">
-        <a className="btn btn-primary my-2 ml-2">Логин</a>
+        <a onClick={()=>props.showSidebar(false)}
+            className="btn btn-primary my-2 ml-2">
+            Логин</a>
       </Link>
       {authenticationService.currentUserValue.token
         ? <ul style={{ listStyle: 'none', padding: '0 0 0 .5em' }}>

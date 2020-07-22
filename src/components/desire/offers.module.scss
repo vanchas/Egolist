@@ -50,6 +50,9 @@
 		img {
 		}
 	}
+	@media screen and (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
 }
 .location_img {
 	height: 1.2em;
@@ -69,7 +72,7 @@
 }
 .card_control_block {
 	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
 	justify-items: center;
 	padding: 2em 0;
 	background-color: #fbfbfb;
@@ -80,6 +83,9 @@
 .price {
 	font-size: 2em;
 	font-weight: 700;
+	@media screen and (max-width: 768px) {
+		order: -1;
+	}
 }
 .open {
 	font-size: 1.3em;

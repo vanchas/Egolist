@@ -35,9 +35,7 @@ getCities, cities,
   const [cityLoading, setCityLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggle = () => setIsOpen(!isOpen)
 
   useEffect(() => {
     if (cities && cities.length) setCityLoading(false)
@@ -178,11 +176,10 @@ getCities, cities,
               ? <div className="spinner-border text-primary" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
-                : null
-                // <span className={s.search_select_placeholder}></span>
+                : <small></small>
         }
         <button
-          className={`font-weight-bold btn text-dark my-2 my-sm-0 px-3 ${s.search_btn}`}
+          className={`font-weight-bold btn text-dark ${s.search_btn}`}
           type="submit"
           onClick={(e) => searchByStringHandler(e)}>
           Поиск

@@ -89,7 +89,7 @@ function Categories({
 
       {subcategories && subcategories.length && !subcatLoading ? (
         <>
-          <h3 className="h5">ПОДКАТЕГОРИИ</h3>
+          <h3 className="h5 mt-2">ПОДКАТЕГОРИИ</h3>
           <ul className="categories-list">
             {subcategories.map((c, i) => (
               <li
