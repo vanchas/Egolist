@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import s from "./update.module.scss";
+import s from "./update-offer.module.scss";
 import Alert from "../helpers/Alert";
 import Success from "../helpers/Success";
 import { useRouter } from "next/router";
@@ -56,7 +56,7 @@ export default function UpdateOfferForm({
 
   const videoValidator = (videoValue) => {
     const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (!videoValue || videoValue.match(regExp)) {
+    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
       return true;
     } else {
       return false;
@@ -97,7 +97,7 @@ export default function UpdateOfferForm({
           ? [stateOffer.subcategory[0].id]
           : [stateOffer.subcategory[0].id, stateOffer.subcategory[2].id],
         region ? region : stateOffer.region_id,
-        city ? city : stateOffer.city_id,
+          city ? city : stateOffer.city_id,
         isActive ? isActive : stateOffer.is_active
       );
       setTitle("");
@@ -153,19 +153,18 @@ export default function UpdateOfferForm({
           <form
             onSubmit={submitHandler}
             encType="multipart/form-data"
-            className={`${s.update_form} row`}
+            className={`${s.update_form}`}
           >
-            <div className={`col-8`}>
+            <div>
               <label>Заголовок</label>
               <input
                 type="text"
-                value={stateOffer && stateOffer.header ? stateOffer.header : ""}
+                defaultValue={stateOffer && stateOffer.header ? stateOffer.header : ""}
                 name={`header`}
                 maxLength={`50`}
                 className="form-control"
                 onChange={(e) => {
                   if (inputValidateHandler(e, setWarning)) {
-                    setStateOffer({ ...stateOffer, header: e.target.value });
                     setTitle(e.target.value);
                   }
                 }}
@@ -207,7 +206,7 @@ export default function UpdateOfferForm({
               <label htmlFor="video">Видео (YouTube)</label>
               <input
                 type="url"
-                value={
+                defaultValue={
                   stateOffer && stateOffer.video && stateOffer.video !== "null"
                     ? stateOffer.video
                     : ""
@@ -216,13 +215,12 @@ export default function UpdateOfferForm({
                 id="video"
                 className="form-control"
                 onChange={(e) => {
-                  setStateOffer({ ...stateOffer, video: e.target.value });
                   setVideo(e.target.value);
                 }}
               />
               <label>Описание</label>
               <textarea
-                value={
+                defaultValue={
                   stateOffer && stateOffer.description
                     ? stateOffer.description
                     : ""
@@ -233,16 +231,12 @@ export default function UpdateOfferForm({
                 maxLength={`10000`}
                 onChange={(e) => {
                   if (inputValidateHandler(e, setWarning)) {
-                    setStateOffer({
-                      ...stateOffer,
-                      description: e.target.value,
-                    });
                     setDescription(e.target.value);
                   }
                 }}
               />
             </div>
-            <div className={`col-4`}>
+            <div>
               <label>Категория #1</label>
               {categories.length ? (
                 <select
@@ -365,7 +359,7 @@ export default function UpdateOfferForm({
                     <option value={stateOffer.region.id} hidden>
                       {stateOffer.region.name_ru}
                     </option>
-                  ) : null}
+                  ) : <option hidden></option>}
                   {locations
                     ? locations.map((loc, i) => (
                         <option value={loc.id} key={i}>
@@ -414,9 +408,8 @@ export default function UpdateOfferForm({
                 min={`1`}
                 max={`999999999999`}
                 maxLength={`12`}
-                value={stateOffer && stateOffer.price ? stateOffer.price : ""}
+                defaultValue={stateOffer && stateOffer.price ? stateOffer.price : ""}
                 onChange={(e) => {
-                  setStateOffer({ ...stateOffer, price: e.target.value });
                   setPrice(e.target.value);
                 }}
                 className="form-control"
@@ -427,13 +420,11 @@ export default function UpdateOfferForm({
                   onChange={() => {
                     if (stateOffer.is_active === 0) {
                       setIsActive(1);
-                      setStateOffer({ ...stateOffer, is_active: 1 });
                     } else {
                       setIsActive(0);
-                      setStateOffer({ ...stateOffer, is_active: 0 });
                     }
                   }}
-                  checked={!!(stateOffer && stateOffer.is_active)}
+                  defaultChecked={!!(stateOffer && stateOffer.is_active)}
                 />
                 Сделать активным
               </label>

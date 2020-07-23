@@ -17,7 +17,7 @@ function Cabinet(props) {
 
   useEffect(() => {
     const user = authenticationService.currentUserValue;
-    if (user.token) {
+    if (user.token && user.user) {
       setShowPage(true);
       props.getMyComplaints(user.user.id);
     } else Router.push("/login");

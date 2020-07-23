@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import s from "./carousel.module.scss";
-import Router from "next/router";
 import Link from "next/link";
 
-export default function Carousel({ photo, video, desireId }) {
+export default function Carousel({ photo, video: dataVideo, desireId }) {
   const [array, setArray] = useState(null);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [video, setVideo] = useState(null);
 
   useEffect(() => {
     new Promise((res) => {
+      if (dataVideo && dataVideo !== 'null') setVideo(dataVideo)
       let data = null;
       res(data);
     })
@@ -60,11 +61,6 @@ export default function Carousel({ photo, video, desireId }) {
         setIndex(index + x);
       }
     }
-  };
-
-  const redirectToDesire = (e) => {
-    e.preventDefault();
-    Router.push(`/desire?id=${desireId}`);
   };
 
   return (

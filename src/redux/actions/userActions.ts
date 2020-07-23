@@ -1,33 +1,33 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
 import {
-  GET_MY_DESIRES,
-  UPDATE_DESIRE,
-  DELETE_DESIRE,
-  ADD_COMPLAINT,
-  GET_MY_COMPLAINTS,
-  CREATE_DESIRE,
-  HIDE_SHOW_DESIRE,
-  HIDE_SHOW_OFFER,
-  SORT_DESIRES,
-  SORT_OFFERS,
-  ADD_OFFER_TO_FAVORITE,
-  ADD_DESIRE_TO_FAVORITE,
-  GET_FAVORITES_BY_DESIRE,
-  GET_FAVORITES_BY_OFFER,
-  GET_FAVORITE_POSTS,
-  DELETE_FAVORITE,
-  SORT_OFFERS_BY_DESIRE_ID,
-  GET_MY_OFFERS,
-  UPDATE_OFFER,
-  GET_OFFER,
-  CREATE_OFFER,
-  SORT_FAVORITE_DESIRES,
-  SORT_FAVORITE_OFFERS,
-  GET_CURRENT_GEO_POSITION,
-  SORT_MY_OFFERS,
-  SORT_MY_DESIRES,
-  GET_COMPLAINTS_INFO, GET_USER_INFO, DELETE_DESIRE_PHOTO, DELETE_OFFER_PHOTO,
+    GET_MY_DESIRES,
+    UPDATE_DESIRE,
+    DELETE_DESIRE,
+    ADD_COMPLAINT,
+    GET_MY_COMPLAINTS,
+    CREATE_DESIRE,
+    HIDE_SHOW_DESIRE,
+    HIDE_SHOW_OFFER,
+    SORT_DESIRES,
+    SORT_OFFERS,
+    ADD_OFFER_TO_FAVORITE,
+    ADD_DESIRE_TO_FAVORITE,
+    GET_FAVORITES_BY_DESIRE,
+    GET_FAVORITES_BY_OFFER,
+    GET_FAVORITE_POSTS,
+    DELETE_FAVORITE,
+    SORT_OFFERS_BY_DESIRE_ID,
+    GET_MY_OFFERS,
+    UPDATE_OFFER,
+    GET_OFFER,
+    CREATE_OFFER,
+    SORT_FAVORITE_DESIRES,
+    SORT_FAVORITE_OFFERS,
+    GET_CURRENT_GEO_POSITION,
+    SORT_MY_OFFERS,
+    SORT_MY_DESIRES,
+    GET_COMPLAINTS_INFO, GET_USER_INFO, DELETE_DESIRE_PHOTO, DELETE_OFFER_PHOTO, DELETE_OFFER,
 } from "./types"
 import HttpRequest from "../../_helpers/HttpRequest";
 import {showAlert, showSuccess} from "./actions";
@@ -178,7 +178,7 @@ export const updateDesire = (
 export const deleteOfferPhoto = (id: any, photo: any) => async (
     dispatch: Function
 ) => {
-  HttpRequest.execute(`/desires/offers/photo/${id}`, "DELETE", "application/json", {photo})
+  HttpRequest.execute(`/desires/offers/photo/delete/${id}`, "DELETE", "application/json", {photo})
       .then((data) => {
         return dispatch({ type: DELETE_OFFER_PHOTO });
       })
@@ -200,9 +200,19 @@ export const deleteDesire = (id: number | string) => async (
 ) => {
   HttpRequest.execute(`/desires/${id}`, "DELETE")
     .then((data) => {
-      return dispatch({ type: DELETE_DESIRE });
+      return dispatch({ type: DELETE_DESIRE, payload: id });
     })
     .catch((err) => console.error("Error: ", err));
+};
+
+export const deleteOffer = (id: number | string) => async (
+    dispatch: Function
+) => {
+    HttpRequest.execute(`/offer/${id}`, "DELETE")
+        .then((data) => {
+            return dispatch({ type: DELETE_OFFER, payload: id });
+        })
+        .catch((err) => console.error("Error: ", err));
 };
 
 export const addComplaint = (
@@ -265,7 +275,7 @@ export const createDesire = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`/desires/create`, {
+  const response = await fetch(`${target}/desires/create`, {
       method: "POST",
       headers: {
           "Authorization": `${user.token_type} ${user.token}`,
@@ -410,12 +420,17 @@ export const getUserFavoritePosts = (id: number | string) => async (
     .catch((err) => console.error("Error: ", err));
 };
 
-export const deleteFavorite = (id: number | string) => async (
+export const deleteFavorite = (id: number | string, name: string) => async (
   dispatch: Function
 ) => {
   HttpRequest.execute(`/favorites/${id}`, "DELETE")
-    .then(() => {
-      return dispatch({ type: DELETE_FAVORITE, payload: id });
+    .then((data) => {
+        if (!data) {
+            dispatch(showSuccess('Пост удален из избранных'))
+            return dispatch({ type: DELETE_FAVORITE, payload: {id, name} });
+        } else {
+            dispatch(showAlert(data.message))
+        }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -454,7 +469,7 @@ export const updateOffer = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`/desires/offers/${desireId}/edit/${id}`, {
+  const response = await fetch(`${target}/desires/offers/${desireId}/edit/${id}`, {
       method: "POST",
       headers: {
           "Authorization": `${user.token_type} ${user.token}`,
@@ -513,7 +528,7 @@ export const createOffer = (
   formData.append("is_active", is_active);
 
     const user = authenticationService.currentUserValue;
-    const response = await fetch(`/desires/offers/create/${desireId}`, {
+    const response = await fetch(`${target}/desires/offers/create/${desireId}`, {
       method: "POST",
       headers: {
           "Authorization": `${user.token_type} ${user.token}`,

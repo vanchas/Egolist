@@ -7,13 +7,14 @@ import {showSuccess} from "../../redux/actions/actions";
 import Link from "next/link";
 
 export default function FavOfferItem({ deleteFavorite, post }) {
-  const [stateLoading, setStateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const deleteFormFav = (e, id) => {
     e.preventDefault();
-    setStateLoading(true);
-    deleteFavorite(id);
-    showSuccess("Предложение удалено из избранного");
+    setDeleteLoading(true);
+    deleteFavorite(id, 'offer');
+    setTimeout(() => setDeleteLoading(false), 2000)
+    // showSuccess("Предложение удалено из избранного");
   };
 
   return (
@@ -58,7 +59,7 @@ export default function FavOfferItem({ deleteFavorite, post }) {
 
       <div className={s.card_control_block}>
         <div className={s.price}>{post.sentense.price} ГРН</div>
-        {stateLoading ? (
+        {deleteLoading ? (
           <div className="spinner-border text-secondary" role="status">
             <span className="sr-only">Loading...</span>
           </div>

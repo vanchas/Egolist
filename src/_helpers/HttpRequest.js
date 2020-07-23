@@ -2,7 +2,7 @@ import store from "../redux/store";
 import {showError} from "../redux/actions/actions";
 import {authenticationService} from "../_services/authentication.service";
 import fetch from "isomorphic-unfetch";
-import HttpStatus from "./HttpResponse";
+import HttpStatus from "./HttpStatus";
 
 export default class HttpRequest {
 
@@ -41,7 +41,10 @@ export default class HttpRequest {
           )
         : res.json()
               .then((json) => Promise.reject(json))
-              .catch(err => store.dispatch(showError(res.status, err.message)));
+              .catch(err => {
+                console.error(err)
+                // store.dispatch(showError(res.status, err.message))
+              });
     });
   }
 }

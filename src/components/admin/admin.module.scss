@@ -1,0 +1,11 @@
+.admin_page {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 1em;
+}
+
+.admin_page_control {
+  display: grid;
+  gap: 1em;
+  grid-auto-flow: column;
+}

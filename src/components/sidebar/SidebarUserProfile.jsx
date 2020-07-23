@@ -1,23 +1,28 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import s from './user.module.scss'
 import { authenticationService } from '../../_services'
 
 export default function SidebarUserProfile(props) {
+    const [windowWidth, setWindowWidth] = useState(null)
+
+    useEffect(() => {
+        setWindowWidth(window.innerWidth)
+    }, [])
 
     const logout = () => {
         authenticationService.logout()
-        if (window) {
-            if (window.innerWidth < 769) {
-                props.showSidebar(false)
-            }
+        if (windowWidth < 769) {
+            props.showSidebar(false)
         }
     }
 
   return (
     <div className={s.user_profile}>
       <Link href="/login">
-        <a onClick={()=>props.showSidebar(false)}
+        <a onClick={()=>{
+            if (windowWidth < 769) props.showSidebar(false)
+        }}
             className="btn btn-primary my-2 ml-2">
             Логин</a>
       </Link>
@@ -26,7 +31,9 @@ export default function SidebarUserProfile(props) {
               <li>
                   <Link href="/cabinet">
                       <a className="btn btn-secondary"
-                      onClick={()=>props.showSidebar(false)}>
+                      onClick={()=> {
+                          if (windowWidth < 769) props.showSidebar(false)
+                      }}>
                           Личный кабинет</a>
                   </Link>
               </li>
@@ -34,7 +41,9 @@ export default function SidebarUserProfile(props) {
             <li>
               <Link href="/admin">
                 <a className="btn btn-secondary"
-                   onClick={()=>props.showSidebar(false)}>
+                   onClick={()=> {
+                       if (windowWidth < 769) props.showSidebar(false)
+                   }}>
                     Кабинет админа</a>
               </Link>
             </li> : null}

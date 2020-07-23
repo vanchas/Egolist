@@ -14,6 +14,7 @@ export default function MyDesireList({
   cities,
   getCities,
   sortingValues,
+                                       deleteDesire
 }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function MyDesireList({
         <div className={s.desires_list_sort}>
           {sortingValues ? (
             <select
-              className="form-control"
+              className="form-control border-dark"
               onChange={(e) => sortDesiresHandler(e.target.value)}
             >
               <option value="default" hidden>
@@ -92,6 +93,7 @@ export default function MyDesireList({
             {desires.map((d, i) => (
               <li key={i}>
                 <MyDesireItem
+                    deleteDesire={deleteDesire}
                   sortingValues={sortingValues}
                   desire={d}
                   hideShowDesire={hideShowDesire}

@@ -5,14 +5,16 @@
 	background-color: #fff;
 	@media screen and (max-width: 767px) {
 		order: -1;
+		border-bottom: 1px solid #ccc;
 	}
 }
 .user_ava {
+	border: 1px solid #ccc;
 	border-radius: 50%;
 	overflow: hidden;
 	height: 10em;
 	width: 10em;
-	margin: 2em auto;
+	margin: 0 auto 1em auto;
 	display: grid;
 	justify-content: center;
 	align-items: center;
@@ -36,7 +38,16 @@
 	}
 }
 
+.complains_desires, .contacts, .links {
+	display: grid;
+	justify-items: center;
+	@media screen and (max-width: 767px) {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
 .days_on_egolist {
+	display: grid;
 	font-weight: 800;
 	text-align: center;
 	span:nth-child(1) {
@@ -45,5 +56,10 @@
 	}
 	span:nth-child(2) {
 		font-size: 1em;
+	}
+	@media screen and (max-width: 767px) {
+		grid-auto-flow: column;
+		align-items: center;
+		justify-content: center;
 	}
 }

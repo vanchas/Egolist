@@ -5,7 +5,7 @@ import { updateOffer, getOffer, deleteOfferPhoto } from "../redux/actions/userAc
 import { getLocations, showAlert, getCategories, getSubcategories, getCities, getOfferById } from '../redux/actions/actions'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
-import s from '../components/update-offer/update.module.scss'
+import s from '../components/update-offer/update-offer.module.scss'
 
 const UpdateOffer = (props) => {
   const [showPage, setShowPage] = useState(false)

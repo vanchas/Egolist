@@ -21,238 +21,277 @@ function UpdateProfile(props) {
   const [birthday, setBirthday] = useState(false);
   const [stateUser, setStateUser] = useState(null);
   const [showPage, setShowPage] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
       setShowPage(true);
-      setStateUser(user.user);
+      // if (user.user.city_id) {
+      // setCityLoading(true)
+      // props.getCities(parseInt(user.user.region_id))
+      // }
+      setStateUser({
+        ...user.user,
+        telegram:
+          user.user.telegram && user.user.telegram !== "null"
+            ? user.user.telegram
+            : "",
+        viber:
+          user.user.viber && user.user.viber !== "null" ? user.user.viber : "",
+        whatsapp:
+          user.user.whatsapp && user.user.whatsapp !== "null"
+            ? user.user.whatsapp
+            : "",
+      });
     }
     if (props.cities && props.cities.length) setCityLoading(false);
   }, [props.cities]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setUpdateLoading(true);
     const user = authenticationService.currentUserValue.user;
     props.updateUserInfo(
       name ? name : user.name,
       secondName ? secondName : user.second_name,
       email ? email : user.email,
       phone ? phone : user.phone,
-      telegram ? telegram : user.telegram,
-      viber ? viber : user.viber,
-      whatsapp ? whatsapp : user.whatsapp,
-      site ? site : user.site,
+      telegram || telegram === "" ? telegram : user.telegram,
+      viber || viber === "" ? viber : user.viber,
+      whatsapp || whatsapp === "" ? whatsapp : user.whatsapp,
+      site || site === "" ? site : user.site,
       avatar ? avatar : user.avatar,
       regionId ? regionId : user.region_id,
       cityId ? cityId : user.city_id,
       birthday ? birthday.split("-").join(".") : user.birth_date
     );
-    setName(null);
-    setSecondName(null);
-    setEmail(null);
-    setPhone(null);
-    setTelegram(null);
-    setViber(null);
-    setWhatsapp(null);
-    setSite(null);
-    setAvatar(null);
-    setRegionId(null);
-    setCityId(null);
+    setTimeout(() => setUpdateLoading(false), 5000)
   };
 
   return (
     <div>
       {showPage && (
         <>
-          <h3> Редактировать информацию о пользователе</h3>
-          <form
-            encType={`multipart/form-data`}
-            onSubmit={submitHandler}
-            style={{ display: "grid" }}
-          >
-            <label>
-              {stateUser && stateUser.avatar
-                  ? <div className={s.user_avatar}>
-                    <img src={stateUser.avatar} alt={stateUser.name} />
-                  </div>
-                  : null}
-              Фото
-              <input
-                  type={`file`}
-                  onChange={(e) => {
-                    setAvatar(e.target.files[0])
-                  }}
-              />
-            </label>
-            <label>
-              Имя
-              <input
-                  value={stateUser && stateUser.name ? stateUser.name : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, name: e.target.value})
-                    setName(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Фамилия
-              <input
-                  value={stateUser && stateUser.email ? stateUser.email : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, second_name: e.target.value})
-                    setSecondName(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Емейл
-              <input
-                  value={stateUser && stateUser.email ? stateUser.email : ''}
-                type={`email`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, email: e.target.value})
-                    setEmail(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Телефон
-              <input
-                  value={stateUser && stateUser.phone ? stateUser.phone : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, phone: e.target.value})
-                    setPhone(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              День рождения
-              <input
-                  className={`form-control`}
-                  value={stateUser && stateUser.birth_date ? stateUser.birth_date : ''}
-                type="date"
-                min="1920-01-01"
-                max="2020-01-01"
-                onChange={(e) => {
-                    setStateUser({...stateUser, birth_date: e.target.value})
-                    setBirthday(e.target.value)
-                }}
-              />
-            </label>
-            <label>
-              Телеграм
-              <input
-                  value={stateUser && stateUser.telegram ? stateUser.telegram : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, telegram: e.target.value})
-                    setTelegram(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Вайбер
-              <input
-                  value={stateUser && stateUser.viber ? stateUser.viber : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, viber: e.target.value})
-                    setViber(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              WhatsApp
-              <input
-                  value={stateUser && stateUser.whatsapp ? stateUser.whatsapp : ''}
-                type={`text`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, whatsapp: e.target.value})
-                    setWhatsapp(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Веб сайт
-              <input
-                  value={stateUser && stateUser.site ? stateUser.site : ''}
-                type={`url`}
-                onChange={(e) => {
-                    setStateUser({...stateUser, site: e.target.value})
-                    setSite(e.target.value)
-                }}
-                className={`form-control`}
-              />
-            </label>
-            <label>
-              Регион
-              <select
-                onChange={(e) => {
-                  props.getCities(e.target.value);
-                  setRegionId(e.target.value);
-                  setCityLoading(true);
-                }}
-                className={`form-control`}
+          {stateUser ? (
+            <>
+              <h3> Редактировать информацию о пользователе</h3>
+              <form
+                encType={`multipart/form-data`}
+                onSubmit={submitHandler}
+                style={{ display: "grid" }}
               >
-                  {stateUser && stateUser.region
-                  ? <option hidden value={stateUser.region.id}>
-                          {stateUser.region.name_ru}
-                    </option>
-                  : null}
-                {props.locations && props.locations.length
-                  ? props.locations.map((loc, i) => (
-                      <option key={i} value={loc.id}>
-                        {loc.name_ru}
+                <label>
+                  {stateUser && stateUser.avatar ? (
+                    <div className={s.user_avatar}>
+                      <img src={stateUser.avatar} alt={stateUser.name} />
+                    </div>
+                  ) : null}
+                  Фото
+                  <input
+                    type={`file`}
+                    onChange={(e) => {
+                      setAvatar(e.target.files[0]);
+                    }}
+                  />
+                </label>
+                <label>
+                  Имя
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.name ? stateUser.name : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Фамилия
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.second_name
+                        ? stateUser.second_name
+                        : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setSecondName(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Емейл
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.email ? stateUser.email : ""
+                    }
+                    type={`email`}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Телефон
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.phone ? stateUser.phone : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  День рождения
+                  <input
+                    className={`form-control`}
+                    defaultValue={
+                      stateUser && stateUser.birth_date
+                        ? stateUser.birth_date
+                        : ""
+                    }
+                    type="date"
+                    min="1920-01-01"
+                    max="2020-01-01"
+                    onChange={(e) => {
+                      setBirthday(e.target.value);
+                    }}
+                  />
+                </label>
+                <label>
+                  Телеграм
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.telegram ? stateUser.telegram : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setTelegram(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Вайбер
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.viber ? stateUser.viber : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setViber(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  WhatsApp
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.whatsapp ? stateUser.whatsapp : ""
+                    }
+                    type={`text`}
+                    onChange={(e) => {
+                      setWhatsapp(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Веб сайт
+                  <input
+                    defaultValue={
+                      stateUser && stateUser.site ? stateUser.site : ""
+                    }
+                    type={`url`}
+                    onChange={(e) => {
+                      setSite(e.target.value);
+                    }}
+                    className={`form-control`}
+                  />
+                </label>
+                <label>
+                  Регион
+                  <select
+                    onChange={(e) => {
+                      props.getCities(e.target.value);
+                      setRegionId(e.target.value);
+                      setCityLoading(true);
+                    }}
+                    className={`form-control`}
+                  >
+                    {stateUser && stateUser.region ? (
+                      <option hidden value={stateUser.region.id}>
+                        {stateUser.region.name_ru}
                       </option>
-                    ))
-                  : null}
-              </select>
-            </label>
-            {cityLoading ? (
+                    ) : (
+                      <option hidden></option>
+                    )}
+                    {props.locations && props.locations.length
+                      ? props.locations.map((loc, i) => (
+                          <option key={i} value={loc.id}>
+                            {loc.name_ru}
+                          </option>
+                        ))
+                      : null}
+                  </select>
+                </label>
+                {cityLoading ? (
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <label>
+                    Город
+                    <select
+                      onChange={(e) => {
+                        setCityId(e.target.value);
+                      }}
+                      className={`form-control`}
+                    >
+                      {stateUser && stateUser.city ? (
+                        <option hidden value={stateUser.city.id}>
+                          {stateUser.city.name_ru}
+                        </option>
+                      ) : null}
+                      {props.cities && props.cities.length
+                        ? props.cities.map((city, i) => (
+                            <option key={i} value={city.id}>
+                              {city.name_ru}
+                            </option>
+                          ))
+                        : null}
+                    </select>
+                  </label>
+                )}
+                <div>
+                  {updateLoading ? (
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <button className={`btn btn-primary`} type="submit">
+                      Сохранить
+                    </button>
+                  )}
+                </div>
+              </form>
+            </>
+          ) : (
+            <div className={`py-5 text-center`}>
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            ) : (
-              <label>
-                Город
-                <select
-                  onChange={(e) => {
-                    setCityId(e.target.value);
-                  }}
-                  className={`form-control`}
-                >
-                    {stateUser && stateUser.city
-                        ? <option hidden value={stateUser.city.id}>
-                            {stateUser.city.name_ru}
-                        </option>
-                        : null}
-                  {props.cities && props.cities.length
-                    ? props.cities.map((city, i) => (
-                        <option key={i} value={city.id}>
-                          {city.name_ru}
-                        </option>
-                      ))
-                    : null}
-                </select>
-              </label>
-            )}
-            <div>
-              <button className={`btn btn-primary`} type="submit">
-                Сохранить
-              </button>
             </div>
-          </form>
+          )}
         </>
       )}
     </div>

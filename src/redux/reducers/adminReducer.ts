@@ -5,11 +5,11 @@ const initialState = {
   allComplaints: null
 }
 
-export default function rootReducer(state = initialState, action: AnyAction) {
+export default function adminReducer(state = initialState, action: AnyAction) {
   switch (action.payload) {
 
     case GET_ALL_COMPLAINTS:
-      return { ...state, allComplaints: action.payload }
+      return {...state, allComplaints: action.payload}
 
     default:
       return state

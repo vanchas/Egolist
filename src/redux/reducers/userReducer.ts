@@ -36,6 +36,12 @@ export default function userReducer(state = initialState, action: any) {
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
 
+    // case DELETE_OFFER:
+    //   return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };
+    //
+    // case DELETE_DESIRE:
+    //   return { ...state, myDesires: state.myDesires.filter((desire: any) => desire.id !== action.payload) };
+
     case GET_USER_INFO:
       return { ...state, user: action.payload };
 
@@ -88,16 +94,32 @@ export default function userReducer(state = initialState, action: any) {
       return { ...state, favoriteDesires: desirePosts, favoriteOffers: offersPosts };
 
     case DELETE_FAVORITE:
-      return { ...state, favoritePosts: state.favoritePosts.filter((post: any) => +post.id !== +action.payload) };
+      if (action.payload.name === 'desire') {
+        return { ...state, favoriteDesires: state.favoriteDesires.filter((post: any) => +post.id !== +action.payload.id) };
+      } else {
+        return { ...state, favoriteOffers: state.favoriteOffers.filter((post: any) => +post.id !== +action.payload.id) };
+      }
 
     case GET_FAVORITES_BY_DESIRE:
       return { ...state, favoriteOffers: action.payload };
 
     case SORT_FAVORITE_DESIRES:
-      return { ...state, favoritePosts: action.payload };
+         if (action.payload.length) {
+           const sortedDesiresPosts = action.payload.filter((post: any) => {
+             if (post.desire) return post.desire
+           })
+           return { ...state, favoriteDesires: sortedDesiresPosts };
+         }
+         return { ...state, favoriteDesires: action.payload };
 
     case SORT_FAVORITE_OFFERS:
-      return { ...state, favoritePosts: action.payload };
+      if (action.payload.length) {
+        const sortedOffersPosts = action.payload.filter((post: any) => {
+          if (post.sentense) return post.sentense
+        })
+        return { ...state, favoriteOffers: sortedOffersPosts };
+      }
+      return { ...state, favoriteOffers: action.payload };
 
     case HIDE_SHOW_DESIRE:
       const newMyDesires = state.myDesires.map((des: any) => {

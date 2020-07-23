@@ -27,7 +27,9 @@ function Categories({
   const [subcatLoading, setSubcatLoading]= useState(false)
 
   useEffect(() => {
-    if (subcategories && subcategories.length) setSubcatLoading(false)
+    if (subcategories && subcategories.length) {
+      setSubcatLoading(false)
+    }
     getCategories();
   }, [subcategories]);
 
@@ -39,6 +41,11 @@ function Categories({
     dispatch({ type: GET_DESIRES_BY_CATEGORY, payload: [] });
     getOffersByCategory(id);
     getDesiresByCategory(id);
+    if (!subcategories || !subcategories.length) {
+      setTimeout(() => {
+        setSubcatLoading(false)
+      }, 5000)
+    }
   };
 
   const filterBySubcategoryHandler = (id) => {

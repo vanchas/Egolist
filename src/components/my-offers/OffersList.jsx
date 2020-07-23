@@ -10,6 +10,7 @@ export default function DesireRedList({
   hideShowOffer,
   sortMyOffers,
   sortingValues,
+                                        deleteOffer
 }) {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -81,7 +82,11 @@ export default function DesireRedList({
             {myOffers.map((offer, i) => {
               return (
                 <li key={i}>
-                  <OfferCard hideShowOffer={hideShowOffer} offer={offer} />
+                  <OfferCard
+                      deleteOffer={deleteOffer}
+                      hideShowOffer={hideShowOffer}
+                      offer={offer}
+                  />
                 </li>
               );
             })}

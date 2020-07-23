@@ -72,7 +72,7 @@ export default function AddLotForm({
             [category1 ? category1.id : null, category2 ? category2.id : null],
             [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
             region,
-            city,
+            city ? city : cities[0].id,
             isActive
         );
         setTitle("");
@@ -85,7 +85,7 @@ export default function AddLotForm({
         setSubcategory2(null);
         setPrice("");
         setIsActive(1);
-        setTimeout(() => setLoading(false), 5000);
+        setTimeout(() => setLoading(false), 10000);
       } else {
         showAlert("Bce поля должны быть заполнены");
       }

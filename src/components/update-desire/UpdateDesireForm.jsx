@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Alert from "../helpers/Alert";
 import Success from "../helpers/Success";
 import { useRouter } from "next/router";
-import s from "./update.module.scss";
+import s from "./update-desire.module.scss";
 import inputValidateHandler from "../helpers/FieldsValidator";
 import $ from "jquery";
 
@@ -127,7 +127,7 @@ export default function UpdateForm({
   };
 
   return (
-    <div className={s.update_form}>
+    <div>
       {stateDesire ? (
         <>
           <span className={s.btn_back} onClick={() => router.back()}>
@@ -145,9 +145,9 @@ export default function UpdateForm({
           <form
             encType="multipart/form-data"
             onSubmit={submitHandler}
-            className={`${s.update_form} row`}
+            className={`${s.update_form}`}
           >
-            <div className={`col-8`}>
+            <div>
               <label htmlFor="header">Заголовок</label>
               <input
                 className="form-control"
@@ -155,12 +155,11 @@ export default function UpdateForm({
                 name="header"
                 id="header"
                 maxLength={`50`}
-                value={
+                defaultValue={
                   stateDesire && stateDesire.header ? stateDesire.header : ""
                 }
                 onChange={(e) => {
                   if (inputValidateHandler(e, setWarning)) {
-                    setStateDesire({ ...stateDesire, header: e.target.value });
                     setHeader(e.target.value);
                   }
                 }}
@@ -235,23 +234,19 @@ export default function UpdateForm({
                 rows={`10`}
                 id="description"
                 maxLength={`1000`}
-                value={
+                defaultValue={
                   stateDesire && stateDesire.description
                     ? stateDesire.description
                     : ""
                 }
                 onChange={(e) => {
                   if (inputValidateHandler(e, setWarning)) {
-                    setStateDesire({
-                      ...stateDesire,
-                      description: e.target.value,
-                    });
                     setDescription(e.target.value);
                   }
                 }}
               />
             </div>
-            <div className={`col-4`}>
+            <div>
               <label>Категория #1</label>
               {categories.length ? (
                 <select
@@ -272,13 +267,12 @@ export default function UpdateForm({
                     : null}
                 </select>
               ) : (
-                <div className={`w-100 py-1`}>
+                <div>
                   <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>
               )}
-              {subcategories && subcategories.length ? <>
               <label>Подкатегория #1</label>
               {!loadingSubcategory1 ? (
                 <select
@@ -307,7 +301,6 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
-              </> : null}
               <label>Категория #2</label>
               {categories.length ? (
                 <select
@@ -336,7 +329,6 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
-              {subcategories && subcategories.length ? <>
               <label>Подкатегория #2</label>
               {!loadingSubcategory2 ? (
                 <select
@@ -367,7 +359,6 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
-              </> : null}
               <label>Регион</label>
               {locations.length ? (
                 <select
@@ -378,7 +369,7 @@ export default function UpdateForm({
                     <option value={stateDesire.region.id} hidden>
                       {stateDesire.region.name_ru}
                     </option>
-                  ) : null}
+                  ) : <option hidden></option>}
                   {locations
                     ? locations.map((loc, i) => (
                         <option value={loc.id} key={i}>
@@ -394,7 +385,6 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
-              {cities && cities.length ? <>
               <label>Город</label>
               {!loadingCity ? (
                 <select
@@ -421,14 +411,13 @@ export default function UpdateForm({
                   </div>
                 </div>
               )}
-              </> : null}
               <div className={s.types}>
                 <legend>Состояние</legend>
                 {types
                   ? types.map((type, i) => (
                       <label key={i}>
                         <input
-                          checked={
+                          defaultChecked={
                             !!(
                               stateDesire &&
                               stateDesire.type &&
@@ -438,7 +427,6 @@ export default function UpdateForm({
                           type="radio"
                           value={type.id}
                           onChange={(e) => {
-                            setStateDesire({ ...stateDesire, type });
                             setType_id(e.target.value);
                           }}
                           name="type"
@@ -454,7 +442,7 @@ export default function UpdateForm({
                   ? priorities.map((priority, i) => (
                       <label key={i}>
                         <input
-                          checked={
+                          defaultChecked={
                             !!(
                               stateDesire &&
                               stateDesire.priority &&
@@ -464,7 +452,6 @@ export default function UpdateForm({
                           type="radio"
                           value={priority.id}
                           onChange={(e) => {
-                            setStateDesire({ ...stateDesire, priority });
                             setPriority_id(e.target.value);
                           }}
                           name="priority"
@@ -482,11 +469,10 @@ export default function UpdateForm({
                 id="price"
                 min={`1`}
                 max={`999999999999`}
-                value={
+                defaultValue={
                   stateDesire && stateDesire.price ? stateDesire.price : ""
                 }
                 onChange={(e) => {
-                  setStateDesire({ ...stateDesire, price: e.target.value });
                   setPrice(e.target.value);
                 }}
               />
@@ -496,13 +482,11 @@ export default function UpdateForm({
                   onChange={() => {
                     if (stateDesire.is_active === 0) {
                       setIs_active(1);
-                      setStateDesire({ ...stateDesire, is_active: 1 });
                     } else {
                       setIs_active(0);
-                      setStateDesire({ ...stateDesire, is_active: 0 });
                     }
                   }}
-                  checked={!!(stateDesire && stateDesire.is_active)}
+                  defaultChecked={!!(stateDesire && stateDesire.is_active)}
                 />
                 Сделать активным
               </label>

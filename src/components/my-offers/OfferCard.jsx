@@ -11,6 +11,7 @@ import Carousel from "../helpers/Carousel";
 export default function OfferCard({
   offer,
   hideShowOffer,
+                                    deleteOffer
 }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -101,6 +102,9 @@ export default function OfferCard({
         <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}>
           <a className={`btn ${s.open}`}>Открыть желание</a>
         </Link>
+        <span onClick={() => deleteOffer(offer.id)}>
+          Удалить
+        </span>
       </div>
 
       <div className={s.card_footer}>

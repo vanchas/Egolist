@@ -36,19 +36,16 @@ export default function UserCard({ user, locations }) {
           .split("T")[0]
           .split("-")
           .map((i) => parseFloat(i));
+      const days = Math.abs(moment(date1).diff(moment(date2), "days"));
+      if (days === 1) {
+        setDaysText("День");
+      } else if (days > 1 && days < 5) {
+        setDaysText("Дня")
+      } else {
+        setDaysText("Дней")
+      }
       setDaysOnEgolist(Math.abs(moment(date1).diff(moment(date2), "days")));
     })();
-
-    if (daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] === 1) {
-      setDaysText("День");
-    } else if (
-        daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] > 1 &&
-        daysOnEgolist.toString()[daysOnEgolist.toString().length - 1] < 5
-    ) {
-      setDaysText("Дня")
-    } else {
-      setDaysText("Дней")
-    }
   }
 
   return (
@@ -61,8 +58,7 @@ export default function UserCard({ user, locations }) {
                 ? <img src={user.avatar} alt={user.name} />
                 : <img src={Placeholder} alt="" />}
           </div>
-          <div className="h5 text-center">{user.name}</div>
-          <div className="h6 text-center">[автор]</div>
+          <div className="h5 text-center">{user.name} (Автор)</div>
           <Rating rating={user.rating} />
           <div className={s.location}>
             <img src={Location} alt="" />
@@ -71,25 +67,31 @@ export default function UserCard({ user, locations }) {
             </span>
           </div>
           <div className={s.days_on_egolist}>
-            <span>{daysOnEgolist}</span><br />
+            <span>{daysOnEgolist}</span>
             <span>{daysText} на EGOLIST</span>
           </div>
-          <div className="h5 text-center">Жалобы 4</div>
-          <div className="h5 text-center">Желания 54</div>
-          <a className="btn text-center" href={`tel:+${user.phone}`}>
-            {user.phone}
-          </a>
-          <a className="btn text-center" href={`mailto:${user.email}`}>
-            {user.email}
-          </a>
-          {user && user.telegram && user.telegram !== 'null'
-              ? <a className="btn text-center" href={user.telegram}>
-            {user.telegram}
-          </a> : null}
-          {user && user.viber && user.viber !== 'null'
-              ? <a className="btn text-center" href={user.viber}>
-            {user.viber}
-          </a> : null}
+          <div className={s.complains_desires}>
+            <div className="h5 text-center">Жалобы 4</div>
+            <div className="h5 text-center">Желания 54</div>
+          </div>
+          <div className={s.contacts}>
+            <a className="btn text-center" href={`tel:+${user.phone}`}>
+              {user.phone}
+            </a>
+            <a className="btn text-center" href={`mailto:${user.email}`}>
+              {user.email}
+            </a>
+          </div>
+          <div className={s.links}>
+            {user && user.telegram && user.telegram !== 'null'
+                ? <a className="btn text-center" href={user.telegram}>
+              {user.telegram}
+            </a> : null}
+            {user && user.viber && user.viber !== 'null'
+                ? <a className="btn text-center" href={user.viber}>
+              {user.viber}
+            </a> : null}
+          </div>
         </div>
       ) : (
         <div className={`text-center py-5`}>

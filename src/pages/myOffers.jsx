@@ -6,6 +6,7 @@ import {
   getMyOffers,
   hideShowOffer,
   sortMyOffers,
+    deleteOffer
 } from "../redux/actions/userActions";
 import { authenticationService } from "../_services/authentication.service";
 import Router from "next/router";
@@ -20,7 +21,8 @@ function MyOffers({
   getSortingValues,
   sortingValues,
     success,
-    alert
+    alert,
+                  deleteOffer
 }) {
   const [showPage, setShowPage] = useState(false);
 
@@ -39,6 +41,7 @@ function MyOffers({
       {alert && <Alert />}
       {showPage && (
         <OffersList
+            deleteOffer={deleteOffer}
           sortingValues={sortingValues}
           myOffers={myOffers}
           hideShowOffer={hideShowOffer}
@@ -61,6 +64,7 @@ const mapDispatchToProps = {
   hideShowOffer,
   sortMyOffers,
   getSortingValues,
+  deleteOffer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyOffers);

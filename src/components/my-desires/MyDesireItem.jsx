@@ -9,7 +9,8 @@ export default function MyDesireItem({
   hideShowDesire,
   desire,
   locations,
-    sortingValues
+    sortingValues,
+                                       deleteDesire
 }) {
   const [showCurrentOffers, setShowCurrOffers] = useState(false);
   const [region, setRegion] = useState("");
@@ -76,6 +77,13 @@ export default function MyDesireItem({
         >
           {desire.is_active ? "Скрыть" : "Показать"}
         </div>
+        <div
+            className={`btn ${s.delete}`}
+            onClick={(e) => {
+              e.preventDefault();
+              deleteDesire(desire.id);
+            }}
+        >Удалить</div>
       </div>
 
       <div className={s.card_footer}>

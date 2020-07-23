@@ -5,7 +5,7 @@ import { getMyDesires, updateDesire, deleteDesirePhoto } from '../redux/actions/
 import UpdateForm from '../components/update-desire/UpdateDesireForm'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
-import s from '../components/update-desire/update.module.scss'
+import s from '../components/update-desire/update-desire.module.scss'
 
 function UpdateDesire(props) {
   const [showPage, setShowPage] = useState(false)

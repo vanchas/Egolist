@@ -1,7 +1,10 @@
 import React from "react";
 import UpdateComplaint from "./UpdateComplaint";
+import {deleteComplaint,getAllComplaints, updateComplaint} from "../../redux/actions/adminActions";
+import {getComplaintsInfo} from "../../redux/actions/userActions";
+import {connect} from "react-redux";
 
-export default function  (props) {
+function ComplainsList(props) {
 
     return(
         <div>
@@ -29,3 +32,17 @@ export default function  (props) {
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    complaints: state.admin.allComplaints,
+    complaintsInfo: state.user.complaintsInfo,
+});
+
+const mapDispatchToProps = {
+    getAllComplaints,
+    getComplaintsInfo,
+    updateComplaint,
+    deleteComplaint,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ComplainsList);

@@ -22,9 +22,13 @@
 		font-size: 1.4em;
 		font-weight: 700;
 		padding: 0.2em 4em 0.2em 2em;
+		a {
+			white-space: nowrap;
+		}
 	}
 	@media screen and (max-width: 768px) {
-		display: none;
+		display: grid;
+		gap: .5em;
 	}
 }
 .red_list_items {
@@ -116,7 +120,7 @@
 }
 .card_control_block {
 	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	align-items: center;
 	justify-items: center;
 	padding: 2em 0;

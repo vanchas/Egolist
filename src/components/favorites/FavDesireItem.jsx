@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Location from "../../assets/sidebar/Location.png";
 import s from "./fav.module.scss";
 import Carousel from "../helpers/Carousel";
 import Link from 'next/link'
 
-export default function FavDesireItem({ showSuccess, deleteFavorite, post }) {
-  const [stateLoading, setStateLoading] = useState(false);
+export default function FavDesireItem({ deleteFavorite, post }) {
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const deleteFormFav = (e, id) => {
     e.preventDefault();
-    setStateLoading(true);
-    deleteFavorite(id);
-    showSuccess("Желание удалено из избранного");
+    setDeleteLoading(true);
+    deleteFavorite(id, 'desire');
+    setTimeout(() => setDeleteLoading(false), 2000)
+    // showSuccess("Желание удалено из избранного");
   };
 
   return (
@@ -55,7 +56,7 @@ export default function FavDesireItem({ showSuccess, deleteFavorite, post }) {
 
       <div className={s.card_control_block}>
         <div className={s.price}>{post.desire.price} ГРН</div>
-        {stateLoading ? (
+        {deleteLoading ? (
           <div className="spinner-border text-secondary" role="status">
             <span className="sr-only">Loading...</span>
           </div>
