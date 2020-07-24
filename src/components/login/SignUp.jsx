@@ -49,7 +49,6 @@ export default function SignUp({ showAlert }) {
           { username, email, phone, password, password_confirmation },
           { setStatus, setSubmitting }
         ) => {
-            console.log(parseInt(phone.match(/\d/g).join('')))
           if (password !== password_confirmation) {
             showAlert(
               "Пароль и подтверждение пароля должны совпадать полностью"

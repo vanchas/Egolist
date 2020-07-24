@@ -4,6 +4,29 @@ import { updateUserInfo } from "../../redux/actions/userActions";
 import { authenticationService } from "../../_services/authentication.service";
 import { getCities } from "../../redux/actions/appActions";
 import s from "./update.module.scss";
+import MaskedInput from "react-text-mask";
+import { Field } from "formik";
+
+const phoneNumberMask = [
+  // /[1-9]/,
+  /\d/,
+  /\d/,
+  "(",
+  /\d/,
+  /\d/,
+  /\d/,
+  ")",
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+];
 
 function UpdateProfile(props) {
   const [name, setName] = useState(null);
@@ -56,7 +79,7 @@ function UpdateProfile(props) {
       name ? name : user.name,
       secondName ? secondName : user.second_name,
       email ? email : user.email,
-      phone ? phone : user.phone,
+      phone ? parseInt(phone.match(/\d/g).join('')) : user.phone,
       telegram || telegram === "" ? telegram : user.telegram,
       viber || viber === "" ? viber : user.viber,
       whatsapp || whatsapp === "" ? whatsapp : user.whatsapp,
@@ -66,7 +89,7 @@ function UpdateProfile(props) {
       cityId ? cityId : user.city_id,
       birthday ? birthday.split("-").join(".") : user.birth_date
     );
-    setTimeout(() => setUpdateLoading(false), 5000)
+    setTimeout(() => setUpdateLoading(false), 5000);
   };
 
   return (
@@ -138,15 +161,17 @@ function UpdateProfile(props) {
                 </label>
                 <label>
                   Телефон
-                  <input
+                  <MaskedInput
                     defaultValue={
                       stateUser && stateUser.phone ? stateUser.phone : ""
                     }
-                    type={`text`}
+                    mask={phoneNumberMask}
+                    id="phone"
+                    type="text"
                     onChange={(e) => {
                       setPhone(e.target.value);
                     }}
-                    className={`form-control`}
+                    className={"form-control"}
                   />
                 </label>
                 <label>
