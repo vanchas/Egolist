@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import VerifyExample from '../../assets/verification.png'
+import s from './verify.module.scss'
 
 // 2На странице "статус "проверенный" " должен выводится текст:
 // "Для получения статуса проверенный пожалуйста отправьте 1 селфи фото с кодом подтверждения {код} (пример на фото).
@@ -29,7 +30,10 @@ export default function () {
             <h5>Для получения статуса проверенный пожалуйста отправьте 1 селфи фото с кодом подтверждения {Date.now()} (пример на фото).
                 И 1 селфи фото любым документом подтверждающим Вашу личность</h5>
             <div>
-                <img src={VerifyExample} alt={`пример фото для верификации`} />
+                <img src={VerifyExample}
+                     alt={`пример фото для верификации`}
+                    className={s.verify_photo_example}
+                />
             </div>
             <form onSubmit={submitHandler}>
                 <label>Загрузите свое фото

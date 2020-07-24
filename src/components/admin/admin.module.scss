@@ -8,4 +8,8 @@
   display: grid;
   gap: 1em;
   grid-auto-flow: column;
+  width: 100%;
+  @media screen and (max-width: 650px) {
+    grid-auto-flow: row;
+  }
 }

@@ -30,10 +30,12 @@ export default function () {
                 console.log('refused')
                 setReject(false)
                 setShowBtn(false)
+                setMessage('')
             }
         } else {
             console.log('allowed')
             setShowBtn(false)
+            setMessage('')
         }
     }
 

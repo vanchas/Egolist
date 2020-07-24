@@ -1,3 +1,15 @@
+.users_list {
+  padding: 0 .3em;
+  list-style: none;
+  max-width: 30em;
+  width: 100%;
+}
+.list_item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
 .user_avatar {
   height: 10em;
   width: 10em;
@@ -7,4 +19,15 @@
   justify-content: center;
   align-content: center;
   margin: 1em auto;
+}
+.toast {
+  position: relative;
+}
+.toast_item {
+  position: absolute;
+  right: 1em;
+  background-color: #fff;
+  font-size: .9em;
+  line-height: 1.3em;
+  padding: .1em .5em;
 }

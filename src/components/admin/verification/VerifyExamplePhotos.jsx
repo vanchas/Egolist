@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import VerificationExampleP from "../../../assets/verification.png";
+import s from './verification.module.scss'
 
 export default function () {
   const [photo, setPhoto] = useState(null);
@@ -10,9 +11,12 @@ export default function () {
 
   return (
     <div>
-      <div className={`h4 my-2`}>Пример фото для верификации</div>
+      <div className={`h4 my-2 ${s.heading}`}>Пример фото для верификации</div>
       <div>
-        <img src={VerificationExampleP} alt={`пример фото для верификации`} />
+        <img
+            className={s.verification_photo_example}
+            src={VerificationExampleP}
+             alt={`пример фото для верификации`} />
       </div>
       <form onSubmit={submitHandler}>
         <label>

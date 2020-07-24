@@ -20,7 +20,7 @@ export default function (props) {
     };
 
     return (
-        <div className={`py-3`}>
+        <div className={`py-3 ${s.cabinet_control_buttons}`}>
             <span
                 className={`btn m-1 ${
                     props.activeBtn === "update info" ? "btn-outline-secondary" : "btn-outline-dark"

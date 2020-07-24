@@ -1,6 +1,26 @@
+.verification_block {
+  max-width: 100%;
+}
+
 .verification_photo {
   width: 10em;
 }
 .verification_photo_large {
   width: 20em;
+  max-width: 100%;
 }
+
+.verification_photo_example {
+  width: 30em;
+  max-width: 100%;
+}
+.heading {
+  @media screen and (max-width: 600px) {
+    text-align: center;
+  }
+}
+.users_list {
+  padding: 0;
+  list-style: none;
+}
+

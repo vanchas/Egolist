@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import UserItem from "./UserItem";
 import UpdateUserForm from "./UpdateUserForm";
 import ListSort from "./ListSort";
+import s from './update.module.scss'
 
 const users = [
   { id: 1, name: "Василий Петрович" },
@@ -27,7 +28,7 @@ export default function (props) {
             <>
               <div className={`h3 my-3`}>Список всех пользователей</div>
               <ListSort />
-              <ul>
+              <ul className={s.users_list}>
                 {usersArray.map((user, ind) => (
                   <UserItem
                     key={ind}

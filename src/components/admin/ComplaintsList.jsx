@@ -1,17 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import UpdateComplaint from "./UpdateComplaint";
 import {deleteComplaint,getAllComplaints, updateComplaint} from "../../redux/actions/adminActions";
 import {getComplaintsInfo} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
+import HttpRequest from "../../_helpers/HttpRequest";
 
 function ComplainsList(props) {
+    const [complaints, setComplaints] = useState(null)
+
+    const fetchComplaints = () => {
+        HttpRequest.execute(`/complaints`)
+            .then(data => {
+                if (!data.message) {
+                    setComplaints(data)
+                }
+            }).catch(err => console.error(err));
+    }
+
+    useEffect(() => {
+        fetchComplaints()
+    }, [])
 
     return(
         <div>
             <h2>Все жалобы</h2>
-            {props.complaints && props.complaints.length ? (
+            {complaints && complaints.length ? (
                 <ul>
-                    {props.complaints.map((c, i) => (
+                    {complaints.map((c, i) => (
                         <li key={i}>{c.complaint}
                         <button className={`btn btn-danger`} onClick={()=>props.deleteComplaint(c.id)}>X</button>
                         <UpdateComplaint id={c.id} />

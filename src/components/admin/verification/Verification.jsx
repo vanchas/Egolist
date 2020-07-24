@@ -8,11 +8,11 @@ const verifications = [1]
 export default function () {
 
     return (
-        <div>
+        <div className={s.verification_block}>
             <VerifyExamplePhotos />
-            <div className={`h3 py-3`}>Заявки на верификацию</div>
+            <div className={`h3 py-3 ${s.heading}`}>Заявки на верификацию</div>
             {verifications && verifications.length
-                ? <ul>
+                ? <ul className={s.users_list}>
                     {verifications.map((user, ind) => (
                         <VerificationRequestItem key={ind} user={user}/>
                     ))}

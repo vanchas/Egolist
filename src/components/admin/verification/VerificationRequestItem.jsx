@@ -20,6 +20,7 @@ export default function () {
                      className={showLargePhoto ? s.verification_photo_large : s.verification_photo} />
             </div>
             <VerificationMessageForm />
+            <hr />
         </li>
     )
 }
