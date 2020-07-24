@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import s from './sidebar.module.scss'
 import SidebarMessages from './SidebarMessages'
 import SidebarSettings from './SidebarSettings'
@@ -6,10 +6,18 @@ import SidebarStatistics from './SidebarStatistics'
 import SidebarUserProfile from './SidebarUserProfile'
 import UserBar from './UserBar'
 import {authenticationService} from "../../_services/authentication.service";
+import Link from "next/link";
+import SidebarControl from "./SidebarControl";
 
 export default function Sidebar(props) {
   const [component, setComponent] = useState(<SidebarMessages />);
   const [activeLink, setActiveLink] = useState();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = authenticationService.currentUserValue
+    if (userData && userData.user) setUser(userData.user)
+  }, [])
 
   const changeComponent = ref => {
     setActiveLink(ref);
@@ -26,25 +34,23 @@ export default function Sidebar(props) {
 
   return (
     <aside className={`${s.sidebar}`}>
-      {authenticationService.currentUserValue && authenticationService.currentUserValue.user
+      {user
           ? <>
-            <div className={s.sidebar_user}>
-              <UserBar />
-                  <div className={s.sidebar_user_control}>
-                    <span className={`btn ${activeLink === 'profile' ? s.aside_btn_active : ''}`}
-                                onClick={e => changeComponent('profile')}>Профиль</span>
-                    <span className={`btn ${activeLink === 'messages' ? s.aside_btn_active : ''}`}
-                                onClick={e => changeComponent('messages')}>Сообщения</span>
-                    <span className={`btn ${activeLink === 'statistics' ? s.aside_btn_active : ''}`}
-                                onClick={e => changeComponent('statistics')}>Статистика</span>
-                    <span className={`btn ${activeLink === 'settings' ? s.aside_btn_active : ''}`}
-                                onClick={e => changeComponent('settings')}>Настройки</span>
-                  </div>
-            </div>
+            <UserBar />
+           <SidebarControl
+               activeLink={activeLink}
+               changeComponent={changeComponent}
+           />
 
             <div>{component}</div>
           </> :
-        <span className={`btn btn-primary m-2 mr-auto`}>Вход</span>
+        <span>
+          <Link href={`/login`}>
+            <a className={`btn btn-primary m-2 mr-auto`}>
+              Вход
+            </a>
+          </Link>
+        </span>
       }
     </aside>
   )

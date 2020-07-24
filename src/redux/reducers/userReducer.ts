@@ -16,18 +16,33 @@ import {
   SORT_MY_OFFERS, SORT_MY_DESIRES, GET_COMPLAINTS_INFO, GET_USER_INFO
 } from "../actions/types";
 
-const initialState: any = {
+interface IState {
+  myDesires: any[],
+  interestingDesires: any[],
+  myOffers: any[],
+  myComplaints: null | any[],
+  // favoritePosts: any[],
+  favoriteOffers: any[],
+  favoriteDesires: any[],
+  offer: any,
+  currentUserGeoPosition: any,
+  complaintsInfo: any,
+  // showInterestingDesires: boolean,
+  user: any
+}
+
+const initialState: IState = {
   myDesires: [],
   interestingDesires: [],
   myOffers: [],
   myComplaints: null,
-  favoritePosts: [],
+  // favoritePosts: [],
   favoriteOffers: [],
   favoriteDesires: [],
   offer: null,
   currentUserGeoPosition: null,
   complaintsInfo: null,
-  showInterestingDesires: false,
+  // showInterestingDesires: false,
   user: null
 };
 

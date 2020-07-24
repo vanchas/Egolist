@@ -58,7 +58,11 @@ export default function UserCard({ user, locations }) {
                 ? <img src={user.avatar} alt={user.name} />
                 : <img src={Placeholder} alt="" />}
           </div>
-          <div className="h5 text-center">{user.name} (Автор)</div>
+          <div className="h5 text-center">{user.name} <small>(Автор)</small></div>
+          {user.active
+              ? <div>Статус: <span className={`text-success`}>Верифицирован</span></div>
+              : <div>Статус: <span className={`text-danger`}>Не верифицирован</span></div>
+          }
           <Rating rating={user.rating} />
           <div className={s.location}>
             <img src={Location} alt="" />

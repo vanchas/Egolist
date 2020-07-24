@@ -7,6 +7,7 @@ export default function Chat(props) {
         {id: Date.now()+1, message: 'Ответное сообщение', author: 'user'},
     ])
     const [text, setText] = useState('')
+    const [file, setFile] = useState(null)
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -39,6 +40,7 @@ export default function Chat(props) {
                         ))}
                     </div>
                 </div>
+                <div className={`py-2 text-center text-white`}>Это пока все все уведомления</div>
                 <form className={s.message_box}
                     onSubmit={submitHandler}
                 >
@@ -49,6 +51,10 @@ export default function Chat(props) {
                         placeholder="Type message..."
                         onChange={e=>setText(e.target.value)}
                     />
+                    <label className={s.file}>
+                        <span>&#x2709;</span>
+                        <input type={`file`} onChange={e => setFile(e.target.files[0])} />
+                    </label>
                     <button type="submit" className={s.message_submit}>Отправить</button>
                 </form>
 

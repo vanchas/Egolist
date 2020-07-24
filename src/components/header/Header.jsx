@@ -8,7 +8,7 @@ import {
   filterOffers,
   filterDesires,
   getCities,
-} from "../../redux/actions/actions";
+} from "../../redux/actions/appActions";
 
 function Header({
   getLocations,

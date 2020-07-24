@@ -18,7 +18,6 @@ export default function MainDesiresList({ desires, hideShowDesire, addDesireToFa
     <div className={s.main_list_wrap}>
       <div className={s.main_list}>
         <div className={s.success_alert}>
-          {success && <Success />}
         </div>
         {desires && desires.length
           ? <ul>{desires.map((des, i) => (

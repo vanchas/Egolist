@@ -12,7 +12,6 @@ export default function SignIn({ alert }) {
         {/*Admin: Login - ego@yopmail.com, password - test*/}
       {/*</div>*/}
       <h2>Логин</h2>
-      {alert && <Alert />}
       <Formik
         initialValues={{
           email: '',

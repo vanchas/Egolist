@@ -141,7 +141,6 @@ export default function UpdateForm({
             </div>
           )}
 
-          {alert && <Alert />}
           <form
             encType="multipart/form-data"
             onSubmit={submitHandler}
@@ -491,7 +490,6 @@ export default function UpdateForm({
                 Сделать активным
               </label>
               <div>
-                {success && <Success />}
                 {!submitLoading ? (
                   <button type="submit" className="btn btn-primary mt-2">
                     Сохранить

@@ -3,7 +3,7 @@ import InterestingLot from "./InterestingLot";
 import s from "./interesting-lots.module.scss";
 import SignNew from "../../assets/lot/sign-new.png";
 import { connect } from "react-redux";
-import { showSuccess, showAlert } from "../../redux/actions/actions";
+import { showSuccess, showAlert } from "../../redux/actions/appActions";
 import HttpRequest from "../../_helpers/HttpRequest";
 
 function InterestingLotsList(props) {

@@ -6,7 +6,7 @@ import {
     editCategory,
     editSubcategory,
 } from "../../redux/actions/adminActions";
-import {getCategories, getSubcategories} from "../../redux/actions/actions";
+import {getCategories, getSubcategories} from "../../redux/actions/appActions";
 import {connect} from "react-redux";
 import s from './admin-category.module.scss'
 

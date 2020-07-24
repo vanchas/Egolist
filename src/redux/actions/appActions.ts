@@ -21,14 +21,9 @@ import {
   SELECT_HEADING_CATEGORY,
   SELECT_HEADING_SUBCATEGORY,
   GET_SORT_VALUES,
-  SHOW_SIDEBAR, SHOW_ERROR,
+  SHOW_SIDEBAR,
 } from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
-
-export const showError = (status: any, message: any) => (dispatch: Function) => {
-    setTimeout(() => dispatch({type: SHOW_ERROR, payload: null}), 5000)
-  return dispatch({ type: SHOW_ERROR, payload: {status, message} });
-};
 
 export const getSortingValues = () => async (dispatch: Function) => {
   HttpRequest.execute("/info/sorts")

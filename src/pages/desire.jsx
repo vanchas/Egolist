@@ -5,7 +5,7 @@ import {
   getDesireById,
   getOffersByDesireId,
   showSuccess,
-} from "../redux/actions/actions";
+} from "../redux/actions/appActions";
 import { addOfferToFavorites } from "../redux/actions/userActions";
 import Router from "next/router";
 import DesireCard from "../components/desire/DesireCard";
@@ -49,7 +49,6 @@ const Desire = ({
 
   return (
     <div className={s.desire_page}>
-      {success && <Success />}
       <div className={s.desire_view}>
         <DesireCard desire={desire} />
         <UserCard user={desire.user} locations={locations} />

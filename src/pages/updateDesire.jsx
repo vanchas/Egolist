@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
-import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getDesireById } from '../redux/actions/actions'
+import { getLocations, showAlert, getDesiresInfo, getCategories, getSubcategories, getCities, getDesireById } from '../redux/actions/appActions'
 import { getMyDesires, updateDesire, deleteDesirePhoto } from '../redux/actions/userActions'
 import UpdateForm from '../components/update-desire/UpdateDesireForm'
 import {authenticationService} from "../_services/authentication.service";

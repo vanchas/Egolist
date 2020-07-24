@@ -3,7 +3,7 @@ import Location from "../../assets/sidebar/Location.png";
 import s from "./fav.module.scss";
 import Rating from "../helpers/Rating";
 import Carousel from "../helpers/Carousel";
-import {showSuccess} from "../../redux/actions/actions";
+import {showSuccess} from "../../redux/actions/appActions";
 import Link from "next/link";
 
 export default function FavOfferItem({ deleteFavorite, post }) {

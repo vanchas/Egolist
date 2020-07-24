@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {connect} from "react-redux";
 import {addComplaint, getComplaintsInfo} from "../../redux/actions/userActions";
-import {showAlert} from "../../redux/actions/actions";
+import {showAlert} from "../../redux/actions/appActions";
 import Success from "./Success";
 import Alert from "./Alert";
 

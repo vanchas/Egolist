@@ -12,7 +12,7 @@ import {
   getCities,
   showSuccess,
   getSortingValues,
-} from "../redux/actions/actions";
+} from "../redux/actions/appActions";
 import { authenticationService } from "../_services/authentication.service";
 import {
   SORT_FAVORITE_DESIRES,
@@ -77,8 +77,6 @@ function Favorites({
     <div>
       {showPage && (
         <>
-          {alert && <Alert />}
-          {success && <Success />}
           <div className={s.favorite_page_control}>
             <span
               onClick={() => changeVisibleComponent("desires")}

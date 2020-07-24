@@ -21,10 +21,28 @@ import {
     FILTER_OFFERS,
     GET_OFFERS_BY_CATEGORY,
     GET_OFFER_BY_ID,
-    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY, GET_SORT_VALUES, SHOW_SIDEBAR, SHOW_ERROR
+    SELECT_HEADING_CATEGORY, SELECT_HEADING_SUBCATEGORY, GET_SORT_VALUES, SHOW_SIDEBAR
 } from "../actions/types";
 
-const initialState: any = {
+interface IState {
+    locations: any[],
+    alert: null | string,
+    desires: any[],
+    desire: any,
+    desiresInfo: any,
+    categories: any[],
+    subcategories: any[],
+    cities: any[],
+    offers: any[],
+    success: null | string,
+    offer: any,
+    selectedCategory: any,
+    selectedSubcategory: any,
+    sortingValues: null | any[],
+    sidebar: boolean
+}
+
+const initialState: IState = {
     locations: [],
     alert: null,
     desires: [],
@@ -39,17 +57,13 @@ const initialState: any = {
     selectedCategory: null,
     selectedSubcategory: null,
     sortingValues: null,
-    sidebar: false,
-    error: null
+    sidebar: false
 };
 
 export default function counterReducer(state = initialState, action: any) {
     switch (action.type) {
         case GET_LOCATIONS:
             return { ...state, locations: action.payload };
-
-        case SHOW_ERROR:
-            return { ...state, error: `${action.payload.status}, ${action.payload.message}` };
 
         case SHOW_SIDEBAR:
             return { ...state, sidebar: action.payload };

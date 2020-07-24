@@ -6,7 +6,7 @@ import $ from 'jquery';
 import s from '../components/login/login.module.scss';
 import { authenticationService } from '../_services';
 import { connect } from 'react-redux';
-import { showAlert } from '../redux/actions/actions'
+import { showAlert } from '../redux/actions/appActions'
 
 const Login = props => {
   const router = useRouter();

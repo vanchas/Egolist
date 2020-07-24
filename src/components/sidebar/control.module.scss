@@ -1,0 +1,41 @@
+
+.sidebar_user_control {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0.1em;
+  padding: .2em;
+  .link {
+    color: #000;
+    font-weight: 500;
+    background-color: #dedede;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 0.2em 0 0.2em 0;
+    position: relative;
+    &:hover {
+      color: #fff;
+    }
+  }
+  .aside_btn_active {
+    background-color: #52646a;
+    color: #fff;
+  }
+}
+
+.bell {
+  width: 1.3em;
+  margin-left: .3em;
+}
+
+.notifications_number {
+    position: absolute;
+  border-radius: 50%;
+  background-color: red;
+  color: #fff;
+  width: 17px;
+  padding-top: 1px;
+  height: 17px;
+  top: 0;
+  transform: translate(-50%, -20%);
+  font-size: .8em;
+}

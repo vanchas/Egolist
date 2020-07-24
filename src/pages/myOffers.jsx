@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import OffersList from "../components/my-offers/OffersList";
 import { connect } from "react-redux";
-import { getSortingValues } from "../redux/actions/actions";
+import { getSortingValues } from "../redux/actions/appActions";
 import {
   getMyOffers,
   hideShowOffer,
@@ -37,8 +37,6 @@ function MyOffers({
 
   return (
     <div>
-      {success && <Success />}
-      {alert && <Alert />}
       {showPage && (
         <OffersList
             deleteOffer={deleteOffer}

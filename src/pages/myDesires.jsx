@@ -7,7 +7,7 @@ import {
   sortMyDesires,
     deleteDesire
 } from "../redux/actions/userActions";
-import { getCities, getSortingValues } from "../redux/actions/actions";
+import { getCities, getSortingValues } from "../redux/actions/appActions";
 import Router from "next/router";
 import { authenticationService } from "../_services/authentication.service";
 

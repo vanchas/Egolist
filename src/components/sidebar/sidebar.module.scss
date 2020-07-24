@@ -25,6 +25,7 @@
 	border-radius: 50%;
 	overflow: hidden;
 	height: 10em;
+	border: 1px solid #ccc;
 	width: 10em;
 	margin: 2em auto;
 	display: grid;
@@ -54,23 +55,3 @@
 	}
 }
 
-.sidebar_user_control {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-gap: 0.1em;
-	span {
-		color: #000;
-		font-weight: 500;
-		background-color: #dedede;
-		text-align: center;
-		font-size: 0.9em;
-		padding: 0.2em 0 0.2em 0;
-		&:hover {
-			color: #fff;
-		}
-	}
-	.aside_btn_active {
-		background-color: #064d5e;
-		color: #fff;
-	}
-}

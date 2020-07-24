@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { updateUserInfo } from "../../redux/actions/userActions";
 import { authenticationService } from "../../_services/authentication.service";
-import { getCities } from "../../redux/actions/actions";
+import { getCities } from "../../redux/actions/appActions";
 import s from "./update.module.scss";
 
 function UpdateProfile(props) {

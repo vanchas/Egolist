@@ -148,8 +148,6 @@ export default function UpdateOfferForm({
             </div>
           )}
 
-          {alert && <Alert />}
-          {success && <Success />}
           <form
             onSubmit={submitHandler}
             encType="multipart/form-data"

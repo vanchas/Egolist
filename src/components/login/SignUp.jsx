@@ -1,16 +1,35 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { authenticationService } from "../../_services";
-import Alert from "../helpers/Alert";
-import Success from "../helpers/Success";
+import MaskedInput from "react-text-mask";
 
-export default function SignUp({ alert, showAlert, success }) {
+const phoneNumberMask = [
+    // /[1-9]/,
+    /\d/,
+    /\d/,
+    "(",
+    /\d/,
+    /\d/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    " ",
+    /\d/,
+    /\d/,
+    " ",
+    /\d/,
+    /\d/
+];
+
+export default function SignUp({ showAlert }) {
+
   return (
     <div>
       <h2>Регистрация</h2>
-      {alert && <Alert />}
-      {success && <Success />}
       <Formik
         initialValues={{
           username: "",
@@ -30,6 +49,7 @@ export default function SignUp({ alert, showAlert, success }) {
           { username, email, phone, password, password_confirmation },
           { setStatus, setSubmitting }
         ) => {
+            console.log(parseInt(phone.match(/\d/g).join('')))
           if (password !== password_confirmation) {
             showAlert(
               "Пароль и подтверждение пароля должны совпадать полностью"
@@ -43,7 +63,7 @@ export default function SignUp({ alert, showAlert, success }) {
               .registration(
                 username,
                 email,
-                phone,
+                parseInt(phone.match(/\d/g).join('')),
                 password,
                 password_confirmation
               )
@@ -96,16 +116,19 @@ export default function SignUp({ alert, showAlert, success }) {
             </div>
             <div className="form-group">
               <label htmlFor="phone">Телефон*</label>
-              {/*<InputMask*/}
-              {/*  mask="+3\8 999 999 99 99"*/}
-              {/*  maskChar=" "*/}
-              {/*  name="phone"*/}
-              {/*  className={*/}
-              {/*    "form-control" +*/}
-              {/*    (errors.phone && touched.phone ? " is-invalid" : "")*/}
-              {/*  }*/}
-              {/*/>*/}
-              <Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />
+                <Field
+                    name="phone"
+                    render={({ field }) => (
+                        <MaskedInput
+                            {...field}
+                            mask={phoneNumberMask}
+                            id="phone"
+                            type="text"
+                            className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')}
+                        />
+                    )}
+                />
+                {/*<Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />*/}
               <ErrorMessage
                 name="phone"
                 component="div"

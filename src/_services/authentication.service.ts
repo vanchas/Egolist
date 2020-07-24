@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import Router from 'next/router';
-import {showAlert, showSuccess} from '../redux/actions/actions';
+import {showAlert, showSuccess} from '../redux/actions/appActions';
 import store from '../redux/store';
 
 let currentUserSubject = (Cookies.getJSON('currentUser')) ? Cookies.getJSON('currentUser') : {};

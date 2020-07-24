@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Link from 'next/link';
 import Categories from '../components/categories/Categories';
 import MainDesiresList from '../components/main-list/MainDesiresList';
-import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/actions'
+import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/appActions'
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
 import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'

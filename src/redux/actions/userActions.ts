@@ -27,10 +27,16 @@ import {
     GET_CURRENT_GEO_POSITION,
     SORT_MY_OFFERS,
     SORT_MY_DESIRES,
-    GET_COMPLAINTS_INFO, GET_USER_INFO, DELETE_DESIRE_PHOTO, DELETE_OFFER_PHOTO, DELETE_OFFER,
+    GET_COMPLAINTS_INFO,
+    GET_USER_INFO,
+    DELETE_DESIRE_PHOTO,
+    DELETE_OFFER_PHOTO,
+    DELETE_OFFER,
+    GET_MY_CHAT,
+    SEND_MESSAGE, VERIFY_MY_PROFILE,
 } from "./types"
 import HttpRequest from "../../_helpers/HttpRequest";
-import {showAlert, showSuccess} from "./actions";
+import {showAlert, showSuccess} from "./appActions";
 import {authenticationService} from "../../_services/authentication.service";
 import fetch from 'isomorphic-unfetch'
 
@@ -589,3 +595,52 @@ export const getUserInfo = () => async (
          dispatch({ type: GET_USER_INFO, payload: data });
       }).catch((err) => console.error("Error:", err));
 };
+
+
+export const getMyChat = () => async (
+    dispatch: Function
+) => {
+    HttpRequest.execute(`/`)
+        .then((data) => {
+            dispatch({ type: GET_MY_CHAT, payload: data });
+        }).catch((err) => console.error("Error:", err));
+};
+
+export const sendMessage = () => async (
+    dispatch: Function
+) => {
+    HttpRequest.execute(`/`)
+        .then((data) => {
+            dispatch({ type: SEND_MESSAGE, payload: data });
+        }).catch((err) => console.error("Error:", err));
+};
+
+export const verifyMyProfile = (photo: any) => async (
+    dispatch: Function
+) => {
+        const formData = new FormData();
+
+        for (let p of photo) {
+            formData.append("photo[]", p);
+        }
+
+        const user = authenticationService.currentUserValue;
+        const response = await fetch(`${target}/`, {
+            method: "POST",
+            headers: {
+                "Authorization": `${user.token_type} ${user.token}`,
+                "Accept": "application/json"
+            },
+            body: formData
+        });
+        const promise = response.json();
+        return promise.then((data) => {
+            if (response.ok) {
+                dispatch({ type: VERIFY_MY_PROFILE, payload: data });
+                dispatch(showSuccess("Заявка успешно отправлена"));
+            } else {
+                dispatch(showAlert(data.message))
+            }
+        })
+            .catch((err) => console.error("Error: ", err));
+    };

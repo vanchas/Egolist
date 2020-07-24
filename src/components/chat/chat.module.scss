@@ -274,6 +274,20 @@ Message Box
   //  color: transparent;
   //}
 
+  .file {
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    z-index: 1;
+    right: 5.2em;
+    font-size: 1.5em;
+    color: #ccc;
+    cursor: pointer;
+    input {
+      visibility: hidden;
+    }
+  }
+
   .message_submit {
     position: absolute;
     z-index: 1;

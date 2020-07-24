@@ -5,7 +5,7 @@ import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import { connect } from "react-redux";
 import { addDesireToFavorites } from "../../redux/actions/userActions";
-import { showAlert } from "../../redux/actions/actions";
+import { showAlert } from "../../redux/actions/appActions";
 import ReportModal from "../helpers/ReportModal";
 import Link from "next/link";
 import { authenticationService } from "../../_services/authentication.service";

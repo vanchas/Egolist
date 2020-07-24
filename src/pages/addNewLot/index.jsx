@@ -12,7 +12,7 @@ import {
   getCategories,
   getSubcategories,
   getCities,
-} from "../../redux/actions/actions";
+} from "../../redux/actions/appActions";
 import Success from "../../components/helpers/Success";
 import {authenticationService} from "../../_services/authentication.service";
 import Router from "next/router";
@@ -48,7 +48,6 @@ function Index({
 
   return (
     <div className={s.add_lot_page}>
-      {success && <Success />}
       {showPage &&
         <AddLotForm
           success={success}

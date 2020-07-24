@@ -8,7 +8,7 @@ import {
   selectHeadingCategories,
   getSubcategories,
   selectHeadingSubcategories,
-} from "../../redux/actions/actions";
+} from "../../redux/actions/appActions";
 import {
   GET_DESIRES_BY_CATEGORY,
   GET_OFFERS_BY_CATEGORY,

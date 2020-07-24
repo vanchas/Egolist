@@ -144,7 +144,6 @@ export default function AddLotForm({
       )}
 
       <span className={s.btn_back}>&lt; Назад</span>
-      {alert && <Alert />}
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>
@@ -202,7 +201,7 @@ export default function AddLotForm({
               <div>
                 Выбрана категория {category1.name}
                 <span
-                  className={`btn btn-danger ml-2`}
+                  className={`btn btn-danger ml-2 px-1 py-0`}
                   onClick={() => {
                     setCategory1(null);
                     setSubcategory1(null);
@@ -240,7 +239,7 @@ export default function AddLotForm({
                 <div>
                   Выбрана подкатегория {subcategory1.name}{" "}
                   <span
-                    className={`btn btn-danger ml-2`}
+                    className={`btn btn-danger ml-2 px-1 py-0`}
                     onClick={() => setSubcategory1(null)}
                   >
                     X
@@ -274,7 +273,7 @@ export default function AddLotForm({
               <div>
                 Выбрана категория {category2.name}{" "}
                 <span
-                  className={`btn btn-danger ml-2`}
+                  className={`btn btn-danger ml-2 px-1 py-0`}
                   onClick={() => {
                     setCategory2(null);
                     setSubcategory2(null);
@@ -311,7 +310,7 @@ export default function AddLotForm({
                 <div>
                   Выбрана подкатегория {subcategory2.name}{" "}
                   <span
-                    className={`btn btn-danger ml-2`}
+                    className={`btn btn-danger ml-2 px-1 py-0`}
                     onClick={() => setSubcategory2(null)}
                   >
                     X

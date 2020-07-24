@@ -20,7 +20,6 @@ export default function MainOffersList({
   return (
     <div className={s.main_list_wrap}>
       <div className={s.main_list}>
-        <div className={s.success_alert}>{success && <Success />}</div>
         {offers && offers.length ? (
           <ul>
             {offers.map((offer, i) => (
