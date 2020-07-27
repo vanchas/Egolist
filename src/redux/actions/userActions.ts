@@ -32,8 +32,7 @@ import {
     DELETE_DESIRE_PHOTO,
     DELETE_OFFER_PHOTO,
     DELETE_OFFER,
-    GET_MY_CHAT,
-    SEND_MESSAGE, VERIFY_MY_PROFILE,
+    SEND_MESSAGE, VERIFY_MY_PROFILE, GET_USER_MESSAGES, GET_PHOTO_VERIFY_EXAMPLE,
 } from "./types"
 import HttpRequest from "../../_helpers/HttpRequest";
 import {showAlert, showSuccess} from "./appActions";
@@ -597,12 +596,23 @@ export const getUserInfo = () => async (
 };
 
 
-export const getMyChat = () => async (
+export const getUserMessages = () => async (
     dispatch: Function
 ) => {
-    HttpRequest.execute(`/`)
+// messages - get, возвращаются все сообщения, которые были отправлены админом, также возвращается количество непрочитанных сообщений
+        HttpRequest.execute(`/messages`)
         .then((data) => {
-            dispatch({ type: GET_MY_CHAT, payload: data });
+            return dispatch({ type: GET_USER_MESSAGES, payload: data })
+        }).catch((err) => console.error("Error:", err));
+};
+
+export const getPhotoVerifyExample = () => async (
+    dispatch: Function
+) => {
+// examples - получить фотографии для примера, если их нет 404, если есть - 200 с фотками
+    HttpRequest.execute(`/examples`)
+        .then((data) => {
+            return dispatch({ type: GET_PHOTO_VERIFY_EXAMPLE, payload: data.example })
         }).catch((err) => console.error("Error:", err));
 };
 
@@ -621,11 +631,11 @@ export const verifyMyProfile = (photo: any) => async (
         const formData = new FormData();
 
         for (let p of photo) {
-            formData.append("photo[]", p);
+            formData.append("files[]", p);
         }
 
         const user = authenticationService.currentUserValue;
-        const response = await fetch(`${target}/`, {
+        const response = await fetch(`${target}/upload_files`, {
             method: "POST",
             headers: {
                 "Authorization": `${user.token_type} ${user.token}`,

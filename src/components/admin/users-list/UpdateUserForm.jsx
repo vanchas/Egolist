@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { updateUserInfo } from "../../../redux/actions/userActions";
+import { updateUserInfoByAdmin } from "../../../redux/actions/adminActions";
 import { getCities } from "../../../redux/actions/appActions";
 import s from "./update.module.scss";
 
@@ -45,19 +45,20 @@ function UpdateProfile(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     setUpdateLoading(true);
-    props.updateUserInfo(
-      name ? name : props.name,
-      secondName ? secondName : props.second_name,
-      email ? email : props.email,
-      phone ? phone : props.phone,
-      telegram || telegram === "" ? telegram : props.telegram,
-      viber || viber === "" ? viber : props.viber,
-      whatsapp || whatsapp === "" ? whatsapp : props.whatsapp,
-      site || site === "" ? site : props.site,
-      avatar ? avatar : props.avatar,
-      regionId ? regionId : props.region_id,
-      cityId ? cityId : props.city_id,
-      birthday ? birthday.split("-").join(".") : props.birth_date
+    props.updateUserInfoByAdmin(
+      stateUser ? stateUser.id : props.user.id,
+      name ? name : props.user.name,
+      secondName ? secondName : props.user.second_name,
+      email ? email : props.user.email,
+      phone ? phone : props.user.phone,
+      telegram || telegram === "" ? telegram : props.user.telegram,
+      viber || viber === "" ? viber : props.user.viber,
+      whatsapp || whatsapp === "" ? whatsapp : props.user.whatsapp,
+      site || site === "" ? site : props.user.site,
+      avatar ? avatar : props.user.avatar,
+      regionId ? regionId : props.user.region_id,
+      cityId ? cityId : props.user.city_id,
+      birthday ? birthday.split("-").join(".") : props.user.birth_date
     );
     setTimeout(() => setUpdateLoading(false), 5000);
   };
@@ -292,7 +293,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  updateUserInfo,
+  updateUserInfoByAdmin,
   getCities,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile);

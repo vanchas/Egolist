@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from "react";
+import {updateComplaint} from "../../redux/actions/adminActions";
+import {getComplaintsInfo} from "../../redux/actions/userActions";
+import {connect} from "react-redux";
 
-export  default  function () {
+function UpdateComplaintForm(props) {
     const [complaintText, setComplaintText] = useState(null);
     const [complaintType, setComplaintType] = useState(null);
 
@@ -38,3 +41,12 @@ export  default  function () {
         </div>
     )
 }
+
+const mapStateToProps = state => ({
+    complaintsInfo: state.admin.complaintsInfo
+})
+const mapDispatchToProps = {
+    getComplaintsInfo,
+    updateComplaint
+}
+export  default  connect(mapStateToProps, mapDispatchToProps)(UpdateComplaintForm)

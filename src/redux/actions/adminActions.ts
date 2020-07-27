@@ -7,7 +7,13 @@ import {
     CREATE_SUBCATEGORY,
     EDIT_SUBCATEGORY,
     DELETE_SUBCATEGORY,
-    GET_ALL_COMPLAINTS, UPLOAD_PHOTO_VERIFY_EXAMPLE, REPLY_TO_USER_VERIFICATION, GET_ALL_USERS, SORT_ALL_USERS_LIST
+    GET_ALL_COMPLAINTS,
+    UPLOAD_PHOTO_VERIFY_EXAMPLE,
+    SORT_ALL_USERS_LIST,
+    GET_COUNT_USERS_WHO_SENT_FILES,
+    GET_USERS_WHO_SENT_FILES,
+    ALLOW_USER_VERIFICATION,
+    REFUSE_USER_VERIFICATION, DELETE_PHOTO_VERIFY_EXAMPLE, SEARCH_ALL_USERS, GET_ALL_USERS, GET_USERS_SORT_VALUES,
 } from "./types";
 import {showAlert, showSuccess} from "./appActions";
 import HttpRequest from "../../_helpers/HttpRequest";
@@ -81,16 +87,57 @@ export const deleteSubcategory = (id: number | string) => async (dispatch: Funct
 }
 
 export const getAllUsers = () => async (dispatch: Function) => {
-    HttpRequest.execute(`/`)
+    // admin/users - get,получения списка юзеров, с пагинацией
+    HttpRequest.execute(`/admin/users`)
         .then(data => {
-            return dispatch({ type: GET_ALL_USERS, payload: data })
+            return dispatch({ type: GET_ALL_USERS, payload: data.data })
         }).catch(err => console.error('Error: ', err));
 }
 
-export const replyToUserVerification = (message: string) => async (dispatch: Function) => {
-    HttpRequest.execute(`/`,'POST', "application/json", message)
+export const searchAllUsers = (search: string) => async (dispatch: Function) => {
+// admin/users/{search} - get,поиск по имени и фамилии
+    HttpRequest.execute(`/admin/users/${search}`)
         .then(data => {
-            return dispatch({ type: REPLY_TO_USER_VERIFICATION, payload: data })
+            return dispatch({ type: SEARCH_ALL_USERS, payload: data })
+        }).catch(err => console.error('Error: ', err));
+}
+
+export const getUsersSortValues = () => async (dispatch: Function) => {
+    HttpRequest.execute(`/info/sorts/user`)
+        .then(data => {
+            return dispatch({ type: GET_USERS_SORT_VALUES, payload: data.sorts })
+        }).catch(err => console.error('Error: ', err));
+}
+
+export const getCountOfUsersWhoSentFiles = () => async (dispatch: Function) => {
+// admin - get, отображается количество людей, которые отправили файлы и не
+    HttpRequest.execute(`/admin`)
+        .then(data => {
+            return dispatch({ type: GET_COUNT_USERS_WHO_SENT_FILES, payload: data })
+        }).catch(err => console.error('Error: ', err));
+}
+
+export const getUsersWhoSentFiles = () => async (dispatch: Function) => {
+// admin/references - get, список юзеров, которые отправили файлы на активацию аккаунта
+    HttpRequest.execute(`/admin/references`)
+        .then(data => {
+            return dispatch({ type: GET_USERS_WHO_SENT_FILES, payload: data })
+        }).catch(err => console.error('Error: ', err));
+}
+
+export const allowUserVerification = (id: any) => async (dispatch: Function) => {
+// admin/make_verify/{id} - get, админ делает активным юзера
+    HttpRequest.execute(`/admin/make_verify/${id}`)
+        .then(data => {
+            return dispatch({ type: ALLOW_USER_VERIFICATION, payload: data })
+        }).catch(err => console.error('Error: ', err));
+}
+
+export const refuseUserVerification = (id: any, message: string) => async (dispatch: Function) => {
+// admin/refuse/{id} - post, отказ от верификации, передаешь мне поле "message", не менее 200 символов с причиной отказа
+    HttpRequest.execute(`/admin/refuse/${id}`,'POST', "application/json", message)
+        .then(data => {
+            return dispatch({ type: REFUSE_USER_VERIFICATION, payload: data })
         }).catch(err => console.error('Error: ', err));
 }
 
@@ -101,15 +148,24 @@ export const sortAllUsersList = (sort: string) => async (dispatch: Function) => 
         }).catch(err => console.error('Error: ', err));
 }
 
-export const uploadPhotoVerifyExample = (photo: any) => async (dispatch: Function) => {
+export const deletePhotoVerifyExample = (photo: string) => async (dispatch: Function) => {
+    // photo/delete - delete, в реквесте имя фотки
+    HttpRequest.execute(`/admin/photo/delete`, 'POST', 'application/json', {example: photo})
+        .then(data => {
+            dispatch({ type: DELETE_PHOTO_VERIFY_EXAMPLE, payload: data })
+        }).then(() => window.location.reload())
+        .catch(err => console.error('Error: ', err));
+}
+
+export const uploadPhotoVerifyExample = (photoFirst: any, photoSecond: any) => async (dispatch: Function) => {
+    // admin/photo/examples - post, админ может загружать пару фоток для примера
     const formData = new FormData();
 
-    for (let p of photo) {
-        formData.append("photo[]", p);
-    }
+    formData.append("photo_first", photoFirst);
+    formData.append("photo_second", photoSecond);
 
     const user = authenticationService.currentUserValue;
-    const response = await fetch(`${target}/`, {
+    const response = await fetch(`${target}/admin/photo/examples`, {
         method: "POST",
         headers: {
             "Authorization": `${user.token_type} ${user.token}`,
@@ -120,8 +176,9 @@ export const uploadPhotoVerifyExample = (photo: any) => async (dispatch: Functio
     const promise = response.json();
     return promise.then((data) => {
         if (response.ok) {
-            dispatch({ type: UPLOAD_PHOTO_VERIFY_EXAMPLE, payload: data });
+            dispatch({ type: UPLOAD_PHOTO_VERIFY_EXAMPLE, payload: data.example });
             dispatch(showSuccess("Фото успешно отправлено"));
+            setTimeout(() => window.location.reload(), 3000)
         } else {
             dispatch(showAlert(data.message))
         }
@@ -131,6 +188,7 @@ export const uploadPhotoVerifyExample = (photo: any) => async (dispatch: Functio
 
 
 export const updateUserInfoByAdmin = (
+    id: any,
     name: string,
     second_name: string,
     email: string,
@@ -159,11 +217,13 @@ export const updateUserInfoByAdmin = (
     formData.append("birth_date", birth_date);
 
     const user = authenticationService.currentUserValue;
-    const response = await fetch(`${target}/update_user`, {
+    // admin/edit/{id} - PUT, все поля, которые есть у юзера
+    const response = await fetch(`${target}/admin/user/${id}`, {
         method: "POST",
         headers: {
             "Authorization": `${user.token_type} ${user.token}`,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formData
     });

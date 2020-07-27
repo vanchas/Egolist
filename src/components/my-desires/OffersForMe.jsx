@@ -28,8 +28,8 @@ export default function OffersForMe({
     setTimeout(() => setLoading(false), 10000);
   }, []);
 
-  const sortOffersByDesireId = async (id, sortValue) => {
-    await HttpRequest.execute(`/sort_offers/${id}`, "POST", "application/json", { search_by: sortValue })
+  const sortOffersByDesireId = async (id, sortId) => {
+    await HttpRequest.execute(`/sort_offers/${id}/sort/${sortId}`)
       .then((data) => {
         setLoading(false);
         setOffersForCurrentDesire(data);

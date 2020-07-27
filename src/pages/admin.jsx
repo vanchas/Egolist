@@ -5,10 +5,11 @@ import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
 import AdminControl from "../components/admin/AdminControl";
 import Verification from "../components/admin/verification/Verification";
+import UsersList from "../components/admin/users-list/UsersList";
 
 const Admin = (props) => {
   const [showPage, setShowPage] = useState(false);
-  const [component, setComponent] = useState(<Verification />);
+  const [component, setComponent] = useState(<UsersList />);
 
   useEffect(() => {
     const user = authenticationService.currentUserValue;

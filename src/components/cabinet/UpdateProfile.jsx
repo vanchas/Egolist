@@ -50,10 +50,6 @@ function UpdateProfile(props) {
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
       setShowPage(true);
-      // if (user.user.city_id) {
-      // setCityLoading(true)
-      // props.getCities(parseInt(user.user.region_id))
-      // }
       setStateUser({
         ...user.user,
         telegram:

@@ -11,8 +11,7 @@
 }
 
 .verification_photo_example {
-  width: 30em;
-  max-width: 100%;
+  width: 100%;
 }
 .heading {
   @media screen and (max-width: 600px) {
@@ -22,5 +21,24 @@
 .users_list {
   padding: 0;
   list-style: none;
+}
+
+.photo_example {
+  width: 15em;
+  max-width: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.btn_remove_photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  padding: 2px 5px;
+  z-index: 1;
+  cursor: pointer;
 }
 

@@ -13,7 +13,13 @@ import {
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
   GET_CURRENT_GEO_POSITION,
-  SORT_MY_OFFERS, SORT_MY_DESIRES, GET_COMPLAINTS_INFO, GET_USER_INFO
+  SORT_MY_OFFERS,
+  SORT_MY_DESIRES,
+  GET_COMPLAINTS_INFO,
+  GET_USER_INFO,
+  GET_USER_MESSAGES,
+  GET_PHOTO_VERIFY_EXAMPLE,
+  UPLOAD_PHOTO_VERIFY_EXAMPLE
 } from "../actions/types";
 
 interface IState {
@@ -28,7 +34,9 @@ interface IState {
   currentUserGeoPosition: any,
   complaintsInfo: any,
   // showInterestingDesires: boolean,
-  user: any
+  user: any,
+  myMessages: null | any[],
+  photoVerifyExample: any
 }
 
 const initialState: IState = {
@@ -43,13 +51,24 @@ const initialState: IState = {
   currentUserGeoPosition: null,
   complaintsInfo: null,
   // showInterestingDesires: false,
-  user: null
+  user: null,
+  myMessages: null,
+  photoVerifyExample: null
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
+
+    case GET_PHOTO_VERIFY_EXAMPLE:
+      return { ...state, photoVerifyExample: action.payload };
+
+    case UPLOAD_PHOTO_VERIFY_EXAMPLE:
+      return { ...state, photoVerifyExample: action.payload };
+
+    case GET_USER_MESSAGES:
+      return { ...state, myMessages: action.payload };
 
     // case DELETE_OFFER:
     //   return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };

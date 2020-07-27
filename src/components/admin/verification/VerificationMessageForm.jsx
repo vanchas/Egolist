@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import {allowUserVerification, refuseUserVerification} from "../../../redux/actions/adminActions";
+import {connect} from "react-redux";
 
-export default function () {
+function VerificationForm(props) {
     const [reject, setReject] = useState(false)
     const [message, setMessage] = useState('')
     const [showBtn, setShowBtn] = useState(false)
@@ -27,12 +29,14 @@ export default function () {
         if (reject && message.length >= 200) {
             const allow = confirm(`Вы подтверждаете ${reject ? 'отказ' : 'верификацию'} ?`)
             if (allow) {
+                props.refuseUserVerification(props.user.id, message)
                 console.log('refused')
                 setReject(false)
                 setShowBtn(false)
                 setMessage('')
             }
         } else {
+            props.allowUserVerification(props.user.id)
             console.log('allowed')
             setShowBtn(false)
             setMessage('')
@@ -78,3 +82,12 @@ export default function () {
         </form>
     )
 }
+
+const mapStateToProps = state => ({
+
+})
+const mapDispatchToProps = {
+    allowUserVerification,
+    refuseUserVerification
+}
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationForm)

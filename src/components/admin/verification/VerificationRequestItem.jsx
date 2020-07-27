@@ -1,25 +1,28 @@
 import React, {useState} from "react";
-import UserVerificationPhoto from '../../../assets/user-verification.jpg'
 import s from "./verification.module.scss";
 import VerificationMessageForm from "./VerificationMessageForm";
 
 
-export default function () {
+export default function ({user}) {
     const [showLargePhoto, setShowLargePhoto] = useState(false)
 
     return (
         <li>
             <div>
-                <span>пользователь: Катерина Екатериновна</span><br />
+                <span>пользователь: {user.name}</span><br />
                 <small className={`text-secondary`}>подано: 20.03.2020, 16:30</small>
             </div>
             <div>
-                <img src={UserVerificationPhoto}
-                     onClick={()=>setShowLargePhoto(!showLargePhoto)}
-                     alt={'Катерина Екатериновна'}
-                     className={showLargePhoto ? s.verification_photo_large : s.verification_photo} />
+                {user && user.files
+                ? user.files.map((photo, i) => (
+                        <img src={photo}
+                             onClick={()=>setShowLargePhoto(!showLargePhoto)}
+                             alt={user.name}
+                             className={showLargePhoto ? s.verification_photo_large : s.verification_photo}
+                        />
+                    )): null}
             </div>
-            <VerificationMessageForm />
+            <VerificationMessageForm user={user} />
             <hr />
         </li>
     )
