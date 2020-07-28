@@ -13,27 +13,10 @@ import {
   getSubcategories,
   getCities,
 } from "../../redux/actions/appActions";
-import Success from "../../components/helpers/Success";
 import {authenticationService} from "../../_services/authentication.service";
 import Router from "next/router";
 
-function Index({
-  alert,
-  showAlert,
-  createDesire,
-  getDesiresInfo,
-  getCategories,
-  desiresInfo,
-  categories,
-  getSubcategories,
-  subcategories,
-  locations,
-  cities,
-  getCities,
-  success,
-  getCurrentGeoPosition,
-  currentGeoPosition,
-}) {
+function Index(props) {
   const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
@@ -50,31 +33,27 @@ function Index({
     <div className={s.add_lot_page}>
       {showPage &&
         <AddLotForm
-          success={success}
-          alert={alert}
-          desiresInfo={desiresInfo}
-          categories={categories}
-          showAlert={showAlert}
-          createDesire={createDesire}
-          subcategories={subcategories}
-          getSubcategories={getSubcategories}
-          locations={locations}
-          cities={cities}
-          getCities={getCities}
-          currentGeoPosition={currentGeoPosition}
+          desiresInfo={props.desiresInfo}
+          categories={props.categories}
+          showAlert={props.showAlert}
+          createDesire={props.createDesire}
+          subcategories={props.subcategories}
+          getSubcategories={props.getSubcategories}
+          locations={props.locations}
+          cities={props.cities}
+          getCities={props.getCities}
+          currentGeoPosition={props.currentGeoPosition}
         />}
     </div>
   );
 }
 
 const mapStateToProps = (state) => ({
-  alert: state.app.alert,
   desiresInfo: state.app.desiresInfo,
   categories: state.app.categories,
   subcategories: state.app.subcategories,
   locations: state.app.locations,
   cities: state.app.cities,
-  success: state.app.success,
   currentGeoPosition: state.user.currentGeoPosition,
 });
 

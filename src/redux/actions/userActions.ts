@@ -213,7 +213,7 @@ export const deleteDesire = (id: number | string) => async (
 export const deleteOffer = (id: number | string) => async (
     dispatch: Function
 ) => {
-    HttpRequest.execute(`/offer/${id}`, "DELETE")
+    HttpRequest.execute(`/desires/offers/${id}`, "DELETE")
         .then((data) => {
             return dispatch({ type: DELETE_OFFER, payload: id });
         })

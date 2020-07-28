@@ -229,13 +229,12 @@ export const updateUserInfoByAdmin = (
     formData.append("birth_date", birth_date);
 
     const user = authenticationService.currentUserValue;
-    // admin/edit/{id} - PUT, все поля, которые есть у юзера
+    // admin/edit/{id} - POST, все поля, которые есть у юзера
     const response = await fetch(`${target}/admin/user/${id}`, {
         method: "POST",
         headers: {
             "Authorization": `${user.token_type} ${user.token}`,
             "Accept": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formData
     });

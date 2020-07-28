@@ -25,16 +25,15 @@ const UpdateOffer = (props) => {
         deleteOfferPhoto={props.deleteOfferPhoto}
         getOfferById={props.getOfferById}
         offer={props.offer}
-        success={props.success}
         categories={props.categories}
         subcategories={props.subcategories}
         cities={props.cities}
         showAlert={props.showAlert}
-        alert={props.alert}
         locations={props.locations}
         updateOffer={props.updateOffer}
         getSubcategories={props.getSubcategories}
-        getCities={props.getCities}/>
+        getCities={props.getCities}
+    />
     }</div>
   );
 }
@@ -42,11 +41,9 @@ const UpdateOffer = (props) => {
 const mapStateToProps = (state) => ({
   offer: state.app.offer,
   locations: state.app.locations,
-  alert: state.app.alert,
   cities: state.app.cities,
   categories: state.app.categories,
   subcategories: state.app.subcategories,
-  success: state.app.success,
 });
 
 const mapDispatchToProps = {

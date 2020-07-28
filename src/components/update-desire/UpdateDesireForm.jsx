@@ -8,8 +8,6 @@ import $ from "jquery";
 
 export default function UpdateForm({
   locations,
-  alert,
-  showAlert,
   updateDesire,
   categories,
   subcategories,
@@ -18,7 +16,6 @@ export default function UpdateForm({
   priorities,
   getSubcategories,
   getCities,
-  success,
   getDesireById,
   desire,
   deleteDesirePhoto,

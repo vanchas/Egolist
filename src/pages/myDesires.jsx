@@ -5,7 +5,7 @@ import {
   hideShowDesire,
   getMyDesires,
   sortMyDesires,
-    deleteDesire
+  deleteDesire,
 } from "../redux/actions/userActions";
 import { getCities, getSortingValues } from "../redux/actions/appActions";
 import Router from "next/router";
@@ -21,7 +21,7 @@ function MyDesires({
   getCities,
   sortingValues,
   getSortingValues,
-                     deleteDesire
+  deleteDesire,
 }) {
   const [showPage, setShowPage] = useState(false);
 
@@ -38,7 +38,7 @@ function MyDesires({
     <div>
       {showPage && (
         <MyDesiresList
-            deleteDesire={deleteDesire}
+          deleteDesire={deleteDesire}
           sortingValues={sortingValues}
           desires={desires}
           hideShowDesire={hideShowDesire}
@@ -65,7 +65,7 @@ const mapDispatchToProps = {
   getCities,
   sortMyDesires,
   getSortingValues,
-  deleteDesire
+  deleteDesire,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDesires);

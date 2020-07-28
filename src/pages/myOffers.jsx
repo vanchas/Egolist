@@ -6,12 +6,10 @@ import {
   getMyOffers,
   hideShowOffer,
   sortMyOffers,
-    deleteOffer
+  deleteOffer,
 } from "../redux/actions/userActions";
 import { authenticationService } from "../_services/authentication.service";
 import Router from "next/router";
-import Success from "../components/helpers/Success";
-import Alert from "../components/helpers/Alert";
 
 function MyOffers({
   getMyOffers,
@@ -20,9 +18,7 @@ function MyOffers({
   sortMyOffers,
   getSortingValues,
   sortingValues,
-    success,
-    alert,
-                  deleteOffer
+  deleteOffer,
 }) {
   const [showPage, setShowPage] = useState(false);
 
@@ -39,7 +35,7 @@ function MyOffers({
     <div>
       {showPage && (
         <OffersList
-            deleteOffer={deleteOffer}
+          deleteOffer={deleteOffer}
           sortingValues={sortingValues}
           myOffers={myOffers}
           hideShowOffer={hideShowOffer}
@@ -53,8 +49,6 @@ function MyOffers({
 const mapStateToProps = (state) => ({
   myOffers: state.user.myOffers,
   sortingValues: state.app.sortingValues,
-  success: state.app.success,
-  alert: state.app.alert
 });
 
 const mapDispatchToProps = {
@@ -62,7 +56,7 @@ const mapDispatchToProps = {
   hideShowOffer,
   sortMyOffers,
   getSortingValues,
-  deleteOffer
+  deleteOffer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyOffers);

@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Link from 'next/link';
 import Categories from '../components/categories/Categories';
 import MainDesiresList from '../components/main-list/MainDesiresList';
 import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/appActions'
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
 import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
-import Alert from "../components/helpers/Alert";
 
 function App(props) {
 	const [visibleComponent, setVisibleComponent] = React.useState('desires');
@@ -24,7 +22,6 @@ function App(props) {
 
 	return (
 		<div >
-			{props.alert && <Alert />}
 			<Categories />
 			<MainListControl
 				changeComponent={changeComponent}
@@ -55,8 +52,6 @@ function App(props) {
 const mapStateToProps = (state) => ({
 	desires: state.app.desires,
 	offers: state.app.offers,
-	success: state.app.success,
-	alert: state.app.alert,
 	sortingValues: state.app.sortingValues
 });
 

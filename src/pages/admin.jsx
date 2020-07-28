@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
 import s from '../components/admin/admin.module.scss';
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
 import AdminControl from "../components/admin/AdminControl";
 import Verification from "../components/admin/verification/Verification";
 
-const Admin = (props) => {
+export default function Admin(props) {
   const [showPage, setShowPage] = useState(false);
   const [component, setComponent] = useState(<Verification />);
 
@@ -27,7 +26,6 @@ const Admin = (props) => {
               <AdminControl
                 setComponent={setComponent}
               />
-
               {component}
             </>
         )}
@@ -35,12 +33,3 @@ const Admin = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-
-});
-
-const mapDispatchToProps = {
-
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);

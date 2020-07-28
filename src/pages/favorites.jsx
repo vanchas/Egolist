@@ -18,8 +18,6 @@ import {
   SORT_FAVORITE_DESIRES,
   SORT_FAVORITE_OFFERS,
 } from "../redux/actions/types";
-import Alert from "../components/helpers/Alert";
-import Success from "../components/helpers/Success";
 import Router from "next/router";
 import s from '../components/favorites/fav.module.scss'
 
@@ -28,8 +26,6 @@ function Favorites({
   deleteFavorite,
   sortFavoriteDesires,
   sortFavoriteOffers,
-  success,
-  alert,
   sortingValues,
   getSortingValues,
   favoriteDesires,
@@ -196,8 +192,6 @@ function Favorites({
 const mapStateToProps = (state) => ({
   favoriteDesires: state.user.favoriteDesires,
   favoriteOffers: state.user.favoriteOffers,
-  success: state.app.success,
-  alert: state.app.alert,
   sortingValues: state.app.sortingValues,
 });
 

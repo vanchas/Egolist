@@ -31,12 +31,10 @@ const Login = props => {
 
       <div className="container py-3 mx-auto">
         <div className="sign-in">
-          <SignIn alert={props.alert} />
+          <SignIn />
         </div>
         <div className="sign-up">
-          <SignUp alert={props.alert}
-            showAlert={props.showAlert}
-                  success={props.success}/>
+          <SignUp showAlert={props.showAlert} />
         </div>
       </div>
     </div>
@@ -44,8 +42,6 @@ const Login = props => {
 }
 
 const mapStateToProps = (state) => ({
-  alert: state.app.alert,
-  success: state.app.success
 })
 
 const mapDispatchToProps = {

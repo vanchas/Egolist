@@ -19,24 +19,22 @@ import {
   GET_USER_INFO,
   GET_USER_MESSAGES,
   GET_PHOTO_VERIFY_EXAMPLE,
-  UPLOAD_PHOTO_VERIFY_EXAMPLE
+  UPLOAD_PHOTO_VERIFY_EXAMPLE, DELETE_OFFER, DELETE_DESIRE,
 } from "../actions/types";
 
 interface IState {
-  myDesires: any[],
-  interestingDesires: any[],
-  myOffers: any[],
-  myComplaints: null | any[],
-  // favoritePosts: any[],
-  favoriteOffers: any[],
-  favoriteDesires: any[],
-  offer: any,
-  currentUserGeoPosition: any,
-  complaintsInfo: any,
-  // showInterestingDesires: boolean,
-  user: any,
-  myMessages: null | any[],
-  photoVerifyExample: any
+  myDesires: any[];
+  interestingDesires: any[];
+  myOffers: any[];
+  myComplaints: null | any[];
+  favoriteOffers: any[];
+  favoriteDesires: any[];
+  offer: any;
+  currentUserGeoPosition: any;
+  complaintsInfo: any;
+  user: any;
+  myMessages: null | any[];
+  photoVerifyExample: any;
 }
 
 const initialState: IState = {
@@ -44,16 +42,14 @@ const initialState: IState = {
   interestingDesires: [],
   myOffers: [],
   myComplaints: null,
-  // favoritePosts: [],
   favoriteOffers: [],
   favoriteDesires: [],
   offer: null,
   currentUserGeoPosition: null,
   complaintsInfo: null,
-  // showInterestingDesires: false,
   user: null,
   myMessages: [],
-  photoVerifyExample: null
+  photoVerifyExample: null,
 };
 
 export default function userReducer(state = initialState, action: any) {
@@ -71,11 +67,11 @@ export default function userReducer(state = initialState, action: any) {
       // @ts-ignore
       return { ...state, myMessages: state.myMessages.concat(action.payload) };
 
-    // case DELETE_OFFER:
-    //   return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };
-    //
-    // case DELETE_DESIRE:
-    //   return { ...state, myDesires: state.myDesires.filter((desire: any) => desire.id !== action.payload) };
+    case DELETE_OFFER:
+      return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };
+
+    case DELETE_DESIRE:
+      return { ...state, myDesires: state.myDesires.filter((desire: any) => desire.id !== action.payload) };
 
     case GET_USER_INFO:
       return { ...state, user: action.payload };
@@ -121,37 +117,51 @@ export default function userReducer(state = initialState, action: any) {
 
     case GET_FAVORITE_POSTS:
       const desirePosts = action.payload.filter((post: any) => {
-        if (post.desire) return { ...post.desire, postId: post.id }
-      })
+        if (post.desire) return { ...post.desire, postId: post.id };
+      });
       const offersPosts = action.payload.filter((post: any) => {
-        if (post.sentense) return { ...post.sentense, postId: post.id }
-      })
-      return { ...state, favoriteDesires: desirePosts, favoriteOffers: offersPosts };
+        if (post.sentense) return { ...post.sentense, postId: post.id };
+      });
+      return {
+        ...state,
+        favoriteDesires: desirePosts,
+        favoriteOffers: offersPosts,
+      };
 
     case DELETE_FAVORITE:
-      if (action.payload.name === 'desire') {
-        return { ...state, favoriteDesires: state.favoriteDesires.filter((post: any) => +post.id !== +action.payload.id) };
+      if (action.payload.name === "desire") {
+        return {
+          ...state,
+          favoriteDesires: state.favoriteDesires.filter(
+            (post: any) => +post.id !== +action.payload.id
+          ),
+        };
       } else {
-        return { ...state, favoriteOffers: state.favoriteOffers.filter((post: any) => +post.id !== +action.payload.id) };
+        return {
+          ...state,
+          favoriteOffers: state.favoriteOffers.filter(
+            (post: any) => +post.id !== +action.payload.id
+          ),
+        };
       }
 
     case GET_FAVORITES_BY_DESIRE:
       return { ...state, favoriteOffers: action.payload };
 
     case SORT_FAVORITE_DESIRES:
-         if (action.payload.length) {
-           const sortedDesiresPosts = action.payload.filter((post: any) => {
-             if (post.desire) return post.desire
-           })
-           return { ...state, favoriteDesires: sortedDesiresPosts };
-         }
-         return { ...state, favoriteDesires: action.payload };
+      if (action.payload.length) {
+        const sortedDesiresPosts = action.payload.filter((post: any) => {
+          if (post.desire) return post.desire;
+        });
+        return { ...state, favoriteDesires: sortedDesiresPosts };
+      }
+      return { ...state, favoriteDesires: action.payload };
 
     case SORT_FAVORITE_OFFERS:
       if (action.payload.length) {
         const sortedOffersPosts = action.payload.filter((post: any) => {
-          if (post.sentense) return post.sentense
-        })
+          if (post.sentense) return post.sentense;
+        });
         return { ...state, favoriteOffers: sortedOffersPosts };
       }
       return { ...state, favoriteOffers: action.payload };
@@ -162,7 +172,7 @@ export default function userReducer(state = initialState, action: any) {
           des.is_active = !des.is_active;
         }
         return des;
-      })
+      });
       return { ...state, myDesires: newMyDesires };
 
     case HIDE_SHOW_OFFER:
@@ -171,7 +181,7 @@ export default function userReducer(state = initialState, action: any) {
           off.is_active = !off.is_active;
         }
         return off;
-      })
+      });
       return { ...state, myOffers: newMyOffers };
 
     default:

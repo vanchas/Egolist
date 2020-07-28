@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import s from "./add-form.module.scss";
-import Alert from "../helpers/Alert";
-import Success from "../helpers/Success";
 import { useRouter } from "next/router";
 import inputValidateHandler from "../helpers/FieldsValidator";
 
 export default function AddLotForm({
   createOffer,
-  alert,
   showAlert,
   categories,
   subcategories,
@@ -15,7 +12,6 @@ export default function AddLotForm({
   locations,
   cities,
   getCities,
-  success,
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);

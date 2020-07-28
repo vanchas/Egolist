@@ -7,7 +7,6 @@ import inputValidateHandler from "../helpers/FieldsValidator";
 
 export default function UpdateOfferForm({
   updateOffer,
-  alert,
   showAlert,
   categories,
   subcategories,
@@ -15,7 +14,6 @@ export default function UpdateOfferForm({
   locations,
   cities,
   getCities,
-  success,
   deleteOfferPhoto,
   offer,
   getOfferById,
@@ -76,7 +74,6 @@ export default function UpdateOfferForm({
         description ? description : stateOffer.description,
         title ? title : stateOffer.header,
         price ? price : stateOffer.price,
-        // category1 ? [category1] : [stateOffer.category[0].id],
         category1 && category2
           ? [category1, category2]
           : category1 && !category2
@@ -86,7 +83,6 @@ export default function UpdateOfferForm({
           : stateOffer.category.length === 1
           ? [stateOffer.category[0].id]
           : [stateOffer.category[0].id, stateOffer.category[2].id],
-        // subcategory1 ? [subcategory1] : [stateOffer.subcategory[0].id],
         subcategory1 && subcategory2
           ? [subcategory1, subcategory2]
           : subcategory1 && !subcategory2

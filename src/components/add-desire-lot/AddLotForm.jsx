@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
-import Alert from "../helpers/Alert";
 import inputValidateHandler from "../helpers/FieldsValidator";
 
 export default function AddLotForm({
   desiresInfo,
   createDesire,
-  alert,
   showAlert,
   categories,
   subcategories,

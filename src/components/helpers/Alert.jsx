@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalBody } from 'reactstrap';
 import { connect } from 'react-redux'
+
+const styles = {
+    center: {
+        top: '50%',
+        transform: 'translateY(-50%)'
+    },
+    body: {
+        borderRadius: '5px'
+    }
+}
 
 const Alert = (props) => {
   const [modal, setModal] = useState(props.alert ? true : false);
@@ -14,9 +24,12 @@ const Alert = (props) => {
 
   return (
       <div>
-        {/* <Button color="danger" onClick={toggle}></Button> */}
-        <Modal isOpen={modal} toggle={toggle}>
-          <ModalBody>
+        <Modal
+            isOpen={modal}
+            toggle={toggle}
+            style={styles.center}
+        >
+          <ModalBody style={styles.body} >
             <div className="alert alert-danger" role="alert">
               {props.alert}
             </div>

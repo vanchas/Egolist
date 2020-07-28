@@ -18,10 +18,10 @@ function AddOffer(props) {
   }, []);
 
   return (
-    <div>{showPage &&
+    <div>
+      {showPage &&
     <AddOfferForm
         createOffer={props.createOffer}
-        alert={props.alert}
         showAlert={props.showAlert}
         categories={props.categories}
         subcategories={props.subcategories}
@@ -29,7 +29,7 @@ function AddOffer(props) {
         locations={props.locations}
         cities={props.cities}
         getCities={props.getCities}
-        success={props.success}/>
+    />
     }</div>
   );
 }
@@ -39,8 +39,6 @@ const mapStateToProps = (state) => ({
   cities: state.app.cities,
   categories: state.app.categories,
   subcategories: state.app.subcategories,
-  alert: state.app.alert,
-  success: state.app.success,
 })
 
 const mapDispatchToProps = {

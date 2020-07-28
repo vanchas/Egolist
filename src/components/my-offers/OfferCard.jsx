@@ -8,11 +8,7 @@ import Link from "next/link";
 import Rating from "../helpers/Rating";
 import Carousel from "../helpers/Carousel";
 
-export default function OfferCard({
-  offer,
-  hideShowOffer,
-                                    deleteOffer
-}) {
+export default function OfferCard({ offer, hideShowOffer, deleteOffer }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -40,7 +36,11 @@ export default function OfferCard({
             photo={JSON.parse(offer.photo)}
             video={offer.video}
           />
-        ) : <Link href={`/desire?id=${offer.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
+        ) : (
+          <Link href={`/desire?id=${offer.desire_id}`}>
+            <a className={`w-100 h-100`}></a>
+          </Link>
+        )}
       </div>
 
       <div className={s.card_info_block}>
@@ -102,9 +102,7 @@ export default function OfferCard({
         <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}>
           <a className={`btn ${s.open}`}>Открыть желание</a>
         </Link>
-        <span onClick={() => deleteOffer(offer.id)}>
-          Удалить
-        </span>
+        <span onClick={() => deleteOffer(offer.id)}>Удалить</span>
       </div>
 
       <div className={s.card_footer}>
@@ -123,9 +121,7 @@ export default function OfferCard({
         />
       </div>
 
-      {showBottomBlock ? (
-        <InterestingLotsList offerId={offer.id} />
-      ) : null}
+      {showBottomBlock ? <InterestingLotsList offerId={offer.id} /> : null}
     </div>
   );
 }

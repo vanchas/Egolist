@@ -1,12 +1,8 @@
 import { getMyComplaints } from "../redux/actions/userActions";
 import { getCities } from "../redux/actions/appActions";
-import MyComplaints from "../components/cabinet/MyComplaints";
 import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { authenticationService } from "../_services/authentication.service";
-import UpdateProfile from "../components/cabinet/UpdateProfile";
-import Success from "../components/helpers/Success";
-import Alert from "../components/helpers/Alert";
 import Router from "next/router";
 import s from "../components/cabinet/cabinet.module.scss";
 import CabinetControl from "../components/cabinet/CabinetControl";
@@ -30,8 +26,6 @@ function Cabinet(props) {
     <div className={s.cabinet_page}>
       {showPage && (
         <>
-          {props.success && <Success />}
-          {props.alert && <Alert />}
           <UserInfoBlock />
           <CabinetControl
               myComplaints={props.myComplaints}
@@ -49,8 +43,6 @@ function Cabinet(props) {
 
 const mapStateToProps = (state) => ({
   myComplaints: state.user.myComplaints,
-  success: state.app.success,
-  alert: state.app.alert,
 });
 
 const mapDispatchToProps = {

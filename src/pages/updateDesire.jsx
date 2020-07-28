@@ -25,34 +25,31 @@ function UpdateDesire(props) {
     <UpdateForm
         desire={props.desire}
         getDesireById={props.getDesireById}
-        success={props.success}
         types={props.types}
         priorities={props.priorities}
         categories={props.categories}
         subcategories={props.subcategories}
         cities={props.cities}
         showAlert={props.showAlert}
-        alert={props.alert}
         locations={props.locations}
         updateDesire={props.updateDesire}
         myDesires={props.myDesires}
         getSubcategories={props.getSubcategories}
         getCities={props.getCities}
-        deleteDesirePhoto={props.deleteDesirePhoto}/>
+        deleteDesirePhoto={props.deleteDesirePhoto}
+    />
     }</div>
   )
 }
 
 const mapStateToProps = state => ({
   locations: state.app.locations,
-  alert: state.app.alert,
   myDesires: state.user.myDesires,
   cities: state.app.cities,
   categories: state.app.categories,
   subcategories: state.app.subcategories,
   types: state.app.desiresInfo.types,
   priorities: state.app.desiresInfo.priorities,
-  success: state.app.success,
   desire: state.app.desire
 })
 

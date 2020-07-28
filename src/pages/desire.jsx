@@ -11,7 +11,6 @@ import Router from "next/router";
 import DesireCard from "../components/desire/DesireCard";
 import UserCard from "../components/desire/UserCard";
 import OffersList from "../components/desire/OffersList";
-import Success from "../components/helpers/Success";
 import {
   GET_DESIRE_BY_ID,
   GET_OFFERS_BY_DESIRE_ID,
@@ -25,7 +24,6 @@ const Desire = ({
   offers,
   showSuccess,
   addOfferToFavorites,
-  success,
 }) => {
   const dispatch = useDispatch();
   const [showOffers, setShowOffers] = useState(false);
@@ -76,7 +74,6 @@ const mapStateToProps = (state) => ({
   desire: state.app.desire,
   locations: state.app.locations,
   offers: state.app.offers,
-  success: state.app.success,
 });
 
 const mapDispatchToProps = {
