@@ -6,15 +6,28 @@ import Link from "next/link";
 import { authenticationService } from "../../_services";
 import Carousel from "./DesireCarousel";
 import { addDesireToFavorites } from "../../redux/actions/userActions";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 function DesireCard({ desire, addDesireToFavorites }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [allowToCreateOffers, setAllowToCreateOffers] = useState(false);
+
+  const allowToCreateOffersHandler = (userData) => {
+    if (
+        userData.active ||
+        (!userData.activation_token_sms && !userData.activation_token_sms)
+    ) {
+      setAllowToCreateOffers(true);
+    }
+  };
 
   useEffect(() => {
     const user = authenticationService.currentUserValue;
-    if (user.token) setUser(user);
+    if (user.token) {
+      allowToCreateOffersHandler(user.user);
+      setUser(user);
+    }
     if (desire.id) setLoading(false);
     setTimeout(() => setLoading(false), 10000);
   }, [desire]);
@@ -71,7 +84,7 @@ function DesireCard({ desire, addDesireToFavorites }) {
                   ? desire.category.map((c, i) => <span key={i}>{c.name}</span>)
                   : null}
               </div>
-              {user && user.token && user.user.id !== desire.user_id ? (
+              {user && user.token && user.user.id !== desire.user_id && allowToCreateOffers ? (
                 <Link
                   href={{
                     pathname: "/addOffer",

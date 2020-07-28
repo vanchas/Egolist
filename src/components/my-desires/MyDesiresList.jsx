@@ -5,6 +5,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
 import { SORT_MY_DESIRES } from "../../redux/actions/types";
+import { authenticationService } from "../../_services/authentication.service";
 
 export default function MyDesireList({
   sortMyDesires,
@@ -14,16 +15,33 @@ export default function MyDesireList({
   cities,
   getCities,
   sortingValues,
-                                       deleteDesire
+  deleteDesire,
 }) {
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [allowToCreateDesires, setAllowToCreateDesires] = useState(false);
   const dispatch = useDispatch();
+
+  const allowToCreateDesiresHandler = (userData) => {
+    if (
+      userData.active ||
+      (!userData.activation_token_sms || !userData.activation_token_sms)
+    ) {
+      setAllowToCreateDesires(true);
+    }
+  };
 
   useEffect(() => {
     if (desires && desires.length) {
       setLoading(false);
     }
-    setTimeout(() => setLoading(false), 10000);
+    const user = authenticationService.currentUserValue;
+    if (user && user.user) {
+      setUser(user);
+      allowToCreateDesiresHandler(user.user);
+    }
+    console.log(user.user)
+    setTimeout(() => setLoading(false), 5000);
   }, []);
 
   const sortDesiresHandler = (value) => {
@@ -39,11 +57,13 @@ export default function MyDesireList({
         <span className="btn text-dark" onClick={() => Router.back()}>
           Назад
         </span>
-        <span className="btn">
-          <Link href="/addNewLot">
-            <a className="text-dark">Создать желание</a>
-          </Link>
-        </span>
+        {allowToCreateDesires && (
+          <span className="btn">
+            <Link href="/addNewLot">
+              <a className="text-dark">Создать желание</a>
+            </Link>
+          </span>
+        )}
         <div className={s.desires_list_sort}>
           {sortingValues ? (
             <select
@@ -93,7 +113,7 @@ export default function MyDesireList({
             {desires.map((d, i) => (
               <li key={i}>
                 <MyDesireItem
-                    deleteDesire={deleteDesire}
+                  deleteDesire={deleteDesire}
                   sortingValues={sortingValues}
                   desire={d}
                   hideShowDesire={hideShowDesire}
@@ -112,7 +132,7 @@ export default function MyDesireList({
               </div>
             ) : (
               <div className="py-5 h5 text-center">
-                У Вас нет активных желаний...
+                Вы еще не создали ни одного желания...
               </div>
             )}
           </div>
