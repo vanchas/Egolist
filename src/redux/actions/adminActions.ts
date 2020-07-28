@@ -129,15 +129,27 @@ export const allowUserVerification = (id: any) => async (dispatch: Function) => 
 // admin/make_verify/{id} - get, админ делает активным юзера
     HttpRequest.execute(`/admin/make_verify/${id}`)
         .then(data => {
-            return dispatch({ type: ALLOW_USER_VERIFICATION, payload: data })
+            if (data.errors) {
+                dispatch(showAlert(data.message))
+            } else {
+                dispatch(showSuccess(data.message))
+                dispatch({ type: ALLOW_USER_VERIFICATION, payload: data })
+                setTimeout(() => window.location.reload(), 3000)
+            }
         }).catch(err => console.error('Error: ', err));
 }
 
 export const refuseUserVerification = (id: any, message: string) => async (dispatch: Function) => {
 // admin/refuse/{id} - post, отказ от верификации, передаешь мне поле "message", не менее 200 символов с причиной отказа
-    HttpRequest.execute(`/admin/refuse/${id}`,'POST', "application/json", message)
+    HttpRequest.execute(`/admin/refuse/${id}`,'POST', "application/json", {message})
         .then(data => {
-            return dispatch({ type: REFUSE_USER_VERIFICATION, payload: data })
+            if (data.errors) {
+                dispatch(showAlert(data.message))
+            } else {
+                dispatch(showSuccess(data.message))
+                dispatch({ type: REFUSE_USER_VERIFICATION, payload: data })
+                setTimeout(() => window.location.reload(), 3000)
+            }
         }).catch(err => console.error('Error: ', err));
 }
 

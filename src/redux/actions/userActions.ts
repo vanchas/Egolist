@@ -86,8 +86,8 @@ export const updateUserInfo = (
                 "currentUser",
                 JSON.stringify({
                     user: data.user,
-                    token: authenticationService.currentUserValue.token,
-                    token_type: authenticationService.currentUserValue.token_type,
+                    token: user.token,
+                    token_type: user.token_type,
                 })
             )
             setTimeout(() => {
@@ -596,11 +596,11 @@ export const getUserInfo = () => async (
 };
 
 
-export const getUserMessages = () => async (
+export const getUserMessages = (page: any) => async (
     dispatch: Function
 ) => {
 // messages - get, возвращаются все сообщения, которые были отправлены админом, также возвращается количество непрочитанных сообщений
-        HttpRequest.execute(`/messages`)
+        HttpRequest.execute(`/messages?page=${page}`)
         .then((data) => {
             return dispatch({ type: GET_USER_MESSAGES, payload: data })
         }).catch((err) => console.error("Error:", err));
@@ -646,8 +646,17 @@ export const verifyMyProfile = (photo: any) => async (
         const promise = response.json();
         return promise.then((data) => {
             if (response.ok) {
+                Cookies.set(
+                    "currentUser",
+                    JSON.stringify({
+                        user: {...user.user, verify_progress: "В процессе проверки"},
+                        token: user.token,
+                        token_type: user.token_type,
+                    })
+                )
                 dispatch({ type: VERIFY_MY_PROFILE, payload: data });
                 dispatch(showSuccess("Заявка успешно отправлена"));
+                setTimeout(() => window.location.reload(), 3000)
             } else {
                 dispatch(showAlert(data.message))
             }

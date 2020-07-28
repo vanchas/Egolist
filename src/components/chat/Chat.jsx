@@ -1,34 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import s from "./chat.module.scss";
-import { getUserMessages } from "../../redux/actions/userActions";
+// import { getUserMessages } from "../../redux/actions/userActions";
 import { connect } from "react-redux";
 import HttpRequest from "../../_helpers/HttpRequest";
+import MessagesList from "./MessagesList";
 
 function Chat(props) {
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [scrollLoading, setScrollLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [length, setLength] = useState(0);
+  const [lastPage, setLastPage] = useState(1);
+  const [messages, setMessages] = useState([]);
 
   const makeMessagesRead = () => {
-    props.messages.forEach(mes => {
-      if (!mes.is_checked) {
-        HttpRequest.execute(`/messages/${mes.id}`)
-      }
-    })
+    if (props.messages && props.messages.length) {
+      props.messages.forEach((mes) => {
+        if (!mes.is_checked) {
+          HttpRequest.execute(`/messages/${mes.id}`);
+        }
+      });
+    }
+  };
+
+  const fetchMoreMessages = async () => {
+    await setScrollLoading(true)
+    await setCurrentPage(prevCurrentPage => prevCurrentPage + 1)
+    await setLength(length * 2)
+    fetchMessages(currentPage)
+  };
+
+  const fetchMessages = () => {
+    HttpRequest.execute(`/messages?page=${currentPage}`)
+        .then((data) => {
+          setLength(data.messages.per_page)
+          setLastPage(data.messages.last_page)
+          setMessages(messages.concat(data.messages.data))
+          setScrollLoading(false)
+        }).catch((err) => console.error("Error:", err));
   }
 
   useEffect(() => {
-    if (props.messages) {
+    if (messages.length) {
       setLoading(false);
-      makeMessagesRead()
+      makeMessagesRead();
     } else {
-      props.getUserMessages();
+      fetchMessages()
+      // props.getUserMessages(currentPage);
     }
     setTimeout(() => setLoading(false), 5000);
-  }, [props.messages]);
+  }, [messages]);
 
   const submitHandler = (e) => {
-    e.preventDefault();
+  //   e.preventDefault();
     // if (text.length) {
     //   setMessages([
     //     ...messages,
@@ -48,45 +74,34 @@ function Chat(props) {
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" />
           </figure>
         </div>
-        <div className={s.messages}>
-          {loading ? (
-            <div>Загрузка...</div>
-          ) : props.messages && props.messages.length ? (
-            <div className={s.messages_content}>
-              {props.messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={
-                    msg.author === "admin"
-                      ? s.message
-                      : `${s.message} ${s.message_personal}`
-                  }
-                >
-                  {msg.message}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div>Сообщений нет</div>
-          )}
-        </div>
-        <div className={`py-2 text-center text-white`}>
-          Это пока все все уведомления
+        <div className={s.messages}
+        onScroll={(e) => {
+          if (e.target.scrollTop >= e.target.offsetHeight && currentPage <= lastPage) {
+            fetchMoreMessages()
+          }
+        }}>
+        <MessagesList
+            currentPage={currentPage}
+            lastPage={lastPage}
+            scrollLoading={scrollLoading}
+            loading={loading}
+            messages={messages}
+        />
         </div>
         <form className={s.message_box} onSubmit={submitHandler}>
-          <textarea
-            value={text}
-            className={s.message_input}
-            placeholder="Type message..."
-            onChange={(e) => setText(e.target.value)}
-          />
-          <label className={s.file}>
-            <span>&#x2709;</span>
-            <input type={`file`} onChange={(e) => setFile(e.target.files[0])} />
-          </label>
-          <button type="submit" className={s.message_submit}>
-            Отправить
-          </button>
+          {/*<textarea*/}
+          {/*  value={text}*/}
+          {/*  className={s.message_input}*/}
+          {/*  placeholder="Type message..."*/}
+          {/*  onChange={(e) => setText(e.target.value)}*/}
+          {/*/>*/}
+          {/*<label className={s.file}>*/}
+          {/*  <span>&#x2709;</span>*/}
+          {/*  <input type={`file`} onChange={(e) => setFile(e.target.files[0])} />*/}
+          {/*</label>*/}
+          {/*<button type="submit" className={s.message_submit}>*/}
+          {/*  Отправить*/}
+          {/*</button>*/}
         </form>
       </div>
       <div className={s.bg} />
@@ -95,9 +110,17 @@ function Chat(props) {
 }
 
 const mapStateToProps = (state) => ({
-  messages: state.user.myMessages ? state.user.myMessages.messages : null,
+  // messages: state.user.myMessages
+  //     ? state.user.myMessages.messages.data
+  //     : null,
+  // current_page: state.user.myMessages
+  //   ? state.user.myMessages.messages.current_page
+  //   : 1,
+  // per_page: state.user.myMessages
+  //     ? state.user.myMessages.messages.per_page
+  //     : 1,
 });
 const mapDispatchToProps = {
-  getUserMessages,
+  // getUserMessages,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

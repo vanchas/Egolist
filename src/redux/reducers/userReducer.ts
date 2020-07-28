@@ -52,7 +52,7 @@ const initialState: IState = {
   complaintsInfo: null,
   // showInterestingDesires: false,
   user: null,
-  myMessages: null,
+  myMessages: [],
   photoVerifyExample: null
 };
 
@@ -68,7 +68,8 @@ export default function userReducer(state = initialState, action: any) {
       return { ...state, photoVerifyExample: action.payload };
 
     case GET_USER_MESSAGES:
-      return { ...state, myMessages: action.payload };
+      // @ts-ignore
+      return { ...state, myMessages: state.myMessages.concat(action.payload) };
 
     // case DELETE_OFFER:
     //   return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };

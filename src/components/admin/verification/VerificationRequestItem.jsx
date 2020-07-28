@@ -7,15 +7,15 @@ export default function ({user}) {
     const [showLargePhoto, setShowLargePhoto] = useState(false)
 
     return (
-        <li>
+        <li>{console.log(user)}
             <div>
                 <span>пользователь: {user.name}</span><br />
-                <small className={`text-secondary`}>подано: 20.03.2020, 16:30</small>
+                {/*<small className={`text-secondary`}>подано: 20.03.2020, 16:30</small>*/}
             </div>
             <div>
                 {user && user.files
-                ? user.files.map((photo, i) => (
-                        <img src={photo}
+                ? JSON.parse(user.files).map((photo, i) => (
+                        <img src={photo} key={i}
                              onClick={()=>setShowLargePhoto(!showLargePhoto)}
                              alt={user.name}
                              className={showLargePhoto ? s.verification_photo_large : s.verification_photo}

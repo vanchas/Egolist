@@ -129,6 +129,29 @@ Messages
   overflow: hidden;
   position: relative;
   width: 100%;
+  overflow-y: scroll;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 5px;
+    border: 1px solid #7f7f7f;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #7f7f7f;
+    border-radius: 1em;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #fafafa;
+    border-radius: 1em;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+  }
 
   & .messages_content {
     position: absolute;
@@ -146,7 +169,7 @@ Messages
     padding: 6px 10px 7px;
     border-radius: 10px 10px 10px 0;
     background: rgba(0, 0, 0, .3);
-    margin: .3em 1em;
+    margin: .4em 1em;
     font-size: 11px;
     line-height: 1.4;
     //margin-left: 1em;

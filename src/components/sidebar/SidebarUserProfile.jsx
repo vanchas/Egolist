@@ -28,6 +28,7 @@ export default function SidebarUserProfile(props) {
       </Link>
       {authenticationService.currentUserValue.token
         ? <ul style={{ listStyle: 'none', padding: '0 0 0 .5em' }}>
+              {!authenticationService.currentUserValue.user.is_admin &&
               <li>
                   <Link href="/cabinet">
                       <a className="btn btn-secondary"
@@ -36,7 +37,7 @@ export default function SidebarUserProfile(props) {
                       }}>
                           Личный кабинет</a>
                   </Link>
-              </li>
+              </li>}
               {authenticationService.currentUserValue.user.is_admin ?
             <li>
               <Link href="/admin">
