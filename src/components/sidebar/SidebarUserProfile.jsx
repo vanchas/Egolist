@@ -1,60 +1,76 @@
-import React, {useEffect, useState} from 'react'
-import Link from 'next/link'
-import s from './user.module.scss'
-import { authenticationService } from '../../_services'
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import s from "./user.module.scss";
+import { authenticationService } from "../../_services";
 
 export default function SidebarUserProfile(props) {
-    const [windowWidth, setWindowWidth] = useState(null)
+  const [windowWidth, setWindowWidth] = useState(null);
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        setWindowWidth(window.innerWidth)
-    }, [])
+  useEffect(() => {
+    const userData = authenticationService.currentUserValue;
+    if (userData && userData.user) setUser(userData);
+    setWindowWidth(window.innerWidth);
+  }, []);
 
-    const logout = () => {
-        authenticationService.logout()
-        if (windowWidth < 769) {
-            props.showSidebar(false)
-        }
+  const logout = () => {
+    authenticationService.logout();
+    if (windowWidth < 769) {
+      props.showSidebar(false);
     }
+  };
 
   return (
     <div className={s.user_profile}>
-      <Link href="/login">
-        <a onClick={()=>{
-            if (windowWidth < 769) props.showSidebar(false)
-        }}
-            className="btn btn-primary my-2 ml-2">
-            Логин</a>
-      </Link>
-      {authenticationService.currentUserValue.token
-        ? <ul style={{ listStyle: 'none', padding: '0 0 0 .5em' }}>
-              {!authenticationService.currentUserValue.user.is_admin &&
-              <li>
-                  <Link href="/cabinet">
-                      <a className="btn btn-secondary"
-                      onClick={()=> {
-                          if (windowWidth < 769) props.showSidebar(false)
-                      }}>
-                          Личный кабинет</a>
-                  </Link>
-              </li>}
-              {authenticationService.currentUserValue.user.is_admin ?
+      {user && user.user ? null : (
+        <Link href="/login">
+          <a
+            onClick={() => {
+              if (windowWidth < 769) props.showSidebar(false);
+            }}
+            className="btn btn-primary my-2 ml-2"
+          >
+            Логин
+          </a>
+        </Link>
+      )}
+      {user && user.token ? (
+        <ul style={{ listStyle: "none", padding: "0 0 0 .5em" }}>
+          {user && !user.user.is_admin && (
+            <li>
+              <Link href="/cabinet">
+                <a
+                  className="btn btn-secondary my-2"
+                  onClick={() => {
+                    if (windowWidth < 769) props.showSidebar(false);
+                  }}
+                >
+                  Личный кабинет
+                </a>
+              </Link>
+            </li>
+          )}
+          {user && user.user.is_admin ? (
             <li>
               <Link href="/admin">
-                <a className="btn btn-secondary"
-                   onClick={()=> {
-                       if (windowWidth < 769) props.showSidebar(false)
-                   }}>
-                    Кабинет админа</a>
+                <a
+                  className="btn btn-secondary my-2"
+                  onClick={() => {
+                    if (windowWidth < 769) props.showSidebar(false);
+                  }}
+                >
+                  Кабинет админа
+                </a>
               </Link>
-            </li> : null}
+            </li>
+          ) : null}
           <li>
-            <button className="btn btn-dark"
-              onClick={logout} >
-              Выйти</button>
+            <button className="btn btn-dark" onClick={logout}>
+              Выйти
+            </button>
           </li>
         </ul>
-        : null}
+      ) : null}
     </div>
-  )
+  );
 }

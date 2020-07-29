@@ -1,5 +1,5 @@
 import store from "../redux/store";
-import {showError} from "../redux/actions/appActions";
+import {showAlert} from "../redux/actions/appActions";
 import {authenticationService} from "../_services/authentication.service";
 import fetch from "isomorphic-unfetch";
 import HttpStatus from "./HttpStatus";
@@ -43,7 +43,7 @@ export default class HttpRequest {
               .then((json) => Promise.reject(json))
               .catch(err => {
                 console.error(err)
-                // store.dispatch(showError(res.status, err.message))
+                // store.dispatch(showAlert(err.message))
               });
     });
   }
