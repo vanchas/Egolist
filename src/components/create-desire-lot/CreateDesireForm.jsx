@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
 import inputValidateHandler from "../helpers/FieldsValidator";
+import Router from "next/router";
 
-export default function AddLotForm({
+export default function CreateDesireForm({
   desiresInfo,
   createDesire,
   showAlert,
@@ -41,26 +42,29 @@ export default function AddLotForm({
     e.preventDefault();
     if (videoValidator(video)) {
       if (
-          title.trim().length &&
-          description.trim().length &&
-          category1 &&
-          subcategory1 &&
-          price > 0
+        title.trim().length &&
+        description.trim().length &&
+        category1 &&
+        subcategory1 &&
+        price > 0
       ) {
         setLoading(true);
         createDesire(
-            photos,
-            video,
-            description,
-            title,
-            price,
-            priority,
-            condition,
-            [category1 ? category1.id : null, category2 ? category2.id : null],
-            [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
-            region,
-            city ? city : cities[0].id,
-            isActive
+          photos,
+          video,
+          description,
+          title,
+          price,
+          priority,
+          condition,
+          [category1 ? category1.id : null, category2 ? category2.id : null],
+          [
+            subcategory1 ? subcategory1.id : null,
+            subcategory2 ? subcategory2.id : null,
+          ],
+          region,
+          city ? city : cities[0].id,
+          isActive
         );
         setTitle("");
         setPhotos([]);
@@ -100,13 +104,9 @@ export default function AddLotForm({
     }
   }, [warning]);
 
-
   const videoValidator = (videoValue) => {
     const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (
-        !videoValue || videoValue === 'null' ||
-        videoValue.match(regExp)
-    ) {
+    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
       return true;
     } else {
       return false;
@@ -141,7 +141,9 @@ export default function AddLotForm({
         </div>
       )}
 
-      <span className={s.btn_back}>&lt; Назад</span>
+      <span className={s.btn_back} onClick={Router.back}>
+        &lt; Назад
+      </span>
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>

@@ -20,8 +20,8 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
   };
 
   useEffect(() => {
-    const user = authenticationService.currentUserValue;
-    if (user.token) setUser(user);
+    const userData = authenticationService.currentUserValue;
+    if (userData.token) setUser(userData);
   }, []);
 
   const likeClickHandler = (id) => {
@@ -49,17 +49,10 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                   <span>
                     <img src={Libra} alt="" />
                   </span>
+                  {user && user.user.id !== desire.user_id &&
                   <span onClick={() => likeClickHandler(desire.id)}>
-                    <img
-                      src={Heart}
-                      alt=""
-                      style={
-                        user.user.id === desire.user_id
-                          ? { display: "none" }
-                          : {}
-                      }
-                    />
-                  </span>
+                    <img src={Heart} alt="" />
+                  </span>}
                 </>
               )}
               <span onClick={(e) => toastHandler(e)}>
@@ -68,6 +61,16 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
 
               {showToast && (
                 <div className={`${s.toast}`}>
+                  {user && user.user && user.user.id === desire.user_id ? (
+                    <Link
+                      href={{
+                        pathname: "/updateDesire",
+                        query: { id: desire.id },
+                      }}
+                    >
+                      <a className={`btn`}><span>Изменить</span></a>
+                    </Link>
+                  ) : null}
                   <ReportModal
                     userId={desire.user_id}
                     setShowToast={setShowToast}
@@ -84,11 +87,15 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
               photo={JSON.parse(desire.photo)}
               video={desire.video}
             />
-          ) : <Link href={`/desire?id=${desire.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
+          ) : (
+            <Link href={`/desire?id=${desire.id}`}>
+              <a className={`w-100 h-100`} />
+            </Link>
+          )}
         </div>
       </div>
       <div className={s.card_info}>
-        <div className={s.card_elipse}></div>
+        <div className={s.card_elipse} />
         <h5 className="h6 font-weight-bold">
           <Link href={{ pathname: "/desire", query: { id: desire.id } }}>
             <a className="text-dark">{desire.header}</a>

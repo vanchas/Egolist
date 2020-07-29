@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import AddLotForm from "../../components/add-desire-lot/AddLotForm";
-import s from "../../components/add-desire-lot/add-form.module.scss";
+import CreateDesireForm from "../../components/create-desire-lot/CreateDesireForm";
+import s from "../../components/create-desire-lot/add-form.module.scss";
 import { connect } from "react-redux";
 import {
   createDesire,
@@ -24,15 +24,15 @@ function Index(props) {
     if (user && user.user) {
       setShowPage(true)
     } else Router.push('/login')
-    getCurrentGeoPosition();
-    getDesiresInfo();
-    getCategories();
+    props.getCurrentGeoPosition();
+    props.getDesiresInfo();
+    props.getCategories();
   }, []);
 
   return (
     <div className={s.add_lot_page}>
       {showPage &&
-        <AddLotForm
+        <CreateDesireForm
           desiresInfo={props.desiresInfo}
           categories={props.categories}
           showAlert={props.showAlert}

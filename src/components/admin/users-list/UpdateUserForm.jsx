@@ -3,6 +3,28 @@ import React, { useEffect, useState } from "react";
 import { updateUserInfoByAdmin } from "../../../redux/actions/adminActions";
 import { getCities } from "../../../redux/actions/appActions";
 import s from "./update.module.scss";
+import MaskedInput from "react-text-mask";
+
+const phoneNumberMask = [
+  // /[1-9]/,
+  /\d/,
+  /\d/,
+  "(",
+  /\d/,
+  /\d/,
+  /\d/,
+  ")",
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+];
 
 function UpdateProfile(props) {
   const [name, setName] = useState(null);
@@ -133,15 +155,17 @@ function UpdateProfile(props) {
             </label>
             <label>
               Телефон
-              <input
-                defaultValue={
-                  stateUser && stateUser.phone ? stateUser.phone : ""
-                }
-                type={`text`}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                }}
-                className={`form-control`}
+              <MaskedInput
+                  defaultValue={
+                    stateUser && stateUser.phone ? stateUser.phone : ""
+                  }
+                  mask={phoneNumberMask}
+                  id="phone"
+                  type="text"
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                  className={"form-control"}
               />
             </label>
             <label>

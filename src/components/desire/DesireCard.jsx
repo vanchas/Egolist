@@ -5,28 +5,56 @@ import Libra from "../../assets/header/libra.png";
 import Link from "next/link";
 import { authenticationService } from "../../_services";
 import Carousel from "./DesireCarousel";
-import { addDesireToFavorites } from "../../redux/actions/userActions";
+import { addDesireToFavorites, getMyOffers } from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 
-function DesireCard({ desire, addDesireToFavorites }) {
+function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allowToCreateOffers, setAllowToCreateOffers] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const allowToCreateOffersHandler = (userData) => {
-    if (
-        userData.active ||
-        (!userData.activation_token_sms && !userData.activation_token_sms)
-    ) {
-      setAllowToCreateOffers(true);
+    if (userData.active && !userData.activation_token_sms && !userData.activation_token_email) {
+      if (myOffers, myOffers.length) {
+        for (let ofr of myOffers) {
+          if (ofr.desire_id === desire.id) {
+            setMessage('Вы уже сделали предложение к этому лоту');
+            setAllowToCreateOffers(false);
+            break
+          } else {
+            setAllowToCreateOffers(true);
+          }
+        }
+      } else {
+        setAllowToCreateOffers(true);
+      }
+    } else if (!userData.active || userData.activation_token_sms || userData.activation_token_email) {
+      setMessage("Чтобы создать предложение к лоту, нужно подтвердить свой емейл и телефон");
+      setAllowToCreateOffers(false);
+    } else {
+      if (myOffers, myOffers.length) {
+        for (let ofr of myOffers) {
+          if (ofr.desire_id === desire.id) {
+            setMessage('Вы уже сделали предложение к этому лоту');
+            setAllowToCreateOffers(false);
+            break
+          } else {
+            setAllowToCreateOffers(true);
+          }
+        }
+      } else {
+        setAllowToCreateOffers(true);
+      }
     }
   };
 
   useEffect(() => {
-    const user = authenticationService.currentUserValue;
-    if (user.token) {
-      allowToCreateOffersHandler(user.user);
-      setUser(user);
+    getMyOffers()
+    const userData = authenticationService.currentUserValue;
+    if (userData.token) {
+      allowToCreateOffersHandler(userData.user);
+      setUser(userData);
     }
     if (desire.id) setLoading(false);
     setTimeout(() => setLoading(false), 10000);
@@ -93,7 +121,8 @@ function DesireCard({ desire, addDesireToFavorites }) {
                 >
                   <a className={s.add_offer_btn}>Добавить предложение</a>
                 </Link>
-              ) : null}
+              ) : message ?
+                  <div className={`text-center h6`}>{message}</div> : null}
             </div>
           </div>
         </div>
@@ -114,10 +143,13 @@ function DesireCard({ desire, addDesireToFavorites }) {
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  myOffers: state.user.myOffers
+});
 
 const mapDispatchToProps = {
   addDesireToFavorites,
+  getMyOffers
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DesireCard);

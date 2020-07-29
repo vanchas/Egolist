@@ -5,7 +5,6 @@ import { authenticationService } from "../../_services/authentication.service";
 import { getCities } from "../../redux/actions/appActions";
 import s from "./update.module.scss";
 import MaskedInput from "react-text-mask";
-import { Field } from "formik";
 
 const phoneNumberMask = [
   // /[1-9]/,

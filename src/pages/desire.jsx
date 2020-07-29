@@ -49,7 +49,7 @@ const Desire = ({
     <div className={s.desire_page}>
       <div className={s.desire_view}>
         <DesireCard desire={desire} />
-        <UserCard user={desire.user} locations={locations} />
+        <UserCard user={desire && desire.user ? desire.user : null} locations={locations} />
         {desire.header && (
           <div className={s.show_offers}>
             <span className="btn" onClick={() => showOffersList(desire.id)}>

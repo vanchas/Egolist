@@ -25,8 +25,8 @@ export default function MainOffersListLot({
   };
 
   useEffect(() => {
-    const user = authenticationService.currentUserValue;
-    if (user.token) setUser(user);
+    const userData = authenticationService.currentUserValue;
+    if (userData.token) setUser(userData);
   }, []);
 
   const likeClickHandler = (id) => {
@@ -50,17 +50,11 @@ export default function MainOffersListLot({
                   <span>
                     <img src={Libra} alt="" />
                   </span>
-                  <span onClick={() => likeClickHandler(offer.id)}>
-                    <img
-                      src={Heart}
-                      alt=""
-                      style={
-                        user.user.id === offer.user_id
-                          ? { visibility: "hidden" }
-                          : {}
-                      }
-                    />
-                  </span>
+                  {user.user.id !== offer.user_id && (
+                    <span onClick={() => likeClickHandler(offer.id)}>
+                      <img src={Heart} alt="" />
+                    </span>
+                  )}
                 </>
               ) : (
                 <div className="spinner-border text-warning" role="status">
@@ -73,6 +67,16 @@ export default function MainOffersListLot({
 
               {showToast && (
                 <div className={`${s.toast}`}>
+                  {user && user.user && user.user.id === offer.user_id ? (
+                    <Link
+                      href={{
+                        pathname: "/updateOffer",
+                        query: { id: offer.id, desire_id: offer.desire_id },
+                      }}
+                    >
+                      <a>Изменить</a>
+                    </Link>
+                  ) : null}
                   <ReportModal
                     userId={offer.user_id}
                     setShowToast={setShowToast}
@@ -89,7 +93,11 @@ export default function MainOffersListLot({
               photo={JSON.parse(offer.photo)}
               video={offer.video}
             />
-          ) : <Link href={`/desire?id=${offer.desire_id}`}><a className={`w-100 h-100`}></a></Link>}
+          ) : (
+            <Link href={`/desire?id=${offer.desire_id}`}>
+              <a className={`w-100 h-100`}></a>
+            </Link>
+          )}
         </div>
       </div>
       <div className={s.card_info}>

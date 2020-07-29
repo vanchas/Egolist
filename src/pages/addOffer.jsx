@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
-import AddOfferForm from '../components/add-offer/AddOfferForm'
+import AddOfferForm from '../components/create-offer-lot/CreateOfferForm'
 import { getCities, getSubcategories, getCategories, showAlert } from '../redux/actions/appActions'
 import { createOffer } from '../redux/actions/userActions'
 import {authenticationService} from "../_services/authentication.service";

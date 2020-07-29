@@ -8,6 +8,7 @@ import Link from "next/link";
 import Rating from "../helpers/Rating";
 import ReportModal from "../helpers/ReportModal";
 import Carousel from "../helpers/Carousel";
+import { authenticationService } from "../../_services/authentication.service";
 
 export default function OffersItem({
   offer,
@@ -17,6 +18,7 @@ export default function OffersItem({
 }) {
   const [userLocation, setUserLocation] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [user, setUser] = useState(null);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -24,6 +26,8 @@ export default function OffersItem({
   };
 
   useEffect(() => {
+    const userData = authenticationService.currentUserValue;
+    if (userData && userData.user) setUser(userData);
     locations.forEach((loc) => {
       if (offer.user && loc.id === offer.user.region_id) {
         setUserLocation(loc.name_ru);
@@ -42,13 +46,12 @@ export default function OffersItem({
         <>
           <div className={s.card_image}>
             {offer.photo || offer.video ? (
-                <Carousel
-                    desireId={offer.desire_id}
-                    photo={JSON.parse(offer.photo)}
-                    video={offer.video}
-                />
+              <Carousel
+                desireId={offer.desire_id}
+                photo={JSON.parse(offer.photo)}
+                video={offer.video}
+              />
             ) : null}
-            {/*{offer.photo && <img src={JSON.parse(offer.photo)[0]} alt="" />}*/}
           </div>
 
           <div className={s.card_info_block}>
@@ -88,17 +91,32 @@ export default function OffersItem({
                 <span>
                   <img src={Libra} alt="" />
                 </span>
-                <span>
-                  <img src={Heart} alt="" onClick={() => addToFav(offer.id)} />
-                </span>
+                {user && user.user && user.user.id !== offer.user_id ? (
+                  <span onClick={() => addToFav(offer.id)}>
+                    <img src={Heart} alt="" />
+                  </span>
+                ) : null}
               </div>
               <span onClick={(e) => toastHandler(e)}>
-                <img src={Burger} alt=""  />
+                <img src={Burger} alt="" />
               </span>
               {showToast && (
-                  <div className={`${s.toast}`}>
-                    <ReportModal userId={offer.user_id} setShowToast={setShowToast} />
-                  </div>
+                <div className={`${s.toast}`}>
+                  {user && user.user && user.user.id === offer.user_id ? (
+                    <Link
+                      href={{
+                        pathname: "/updateOffer",
+                        query: { id: offer.id, desire_id: offer.desire_id },
+                      }}
+                    >
+                      <a>Изменить</a>
+                    </Link>
+                  ) : null}
+                  <ReportModal
+                    userId={offer.user_id}
+                    setShowToast={setShowToast}
+                  />
+                </div>
               )}
             </div>
             <div className={s.price}>{offer.price} ГРН</div>

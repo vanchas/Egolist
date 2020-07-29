@@ -60,8 +60,8 @@ export default function UserCard({ user, locations }) {
           </div>
           <div className="h5 text-center">{user.name} <small>(Автор)</small></div>
           {user.active
-              ? <div>Статус: <span className={`text-success`}>Верифицирован</span></div>
-              : <div>Статус: <span className={`text-danger`}>Не верифицирован</span></div>
+              ? <div className={`text-center`}>Статус: <span className={`text-success`}>Верифицирован</span></div>
+              : <div className={`text-center`}>Статус: <span className={`text-danger`}>Не верифицирован</span></div>
           }
           <Rating rating={user.rating} />
           <div className={s.location}>
@@ -75,8 +75,8 @@ export default function UserCard({ user, locations }) {
             <span>{daysText} на EGOLIST</span>
           </div>
           <div className={s.complains_desires}>
-            <div className="h5 text-center">Жалобы 4</div>
-            <div className="h5 text-center">Желания 54</div>
+            <div className="h5 text-center">Жалобы ...</div>
+            <div className="h5 text-center">Желания ...</div>
           </div>
           <div className={s.contacts}>
             <a className="btn text-center" href={`tel:+${user.phone}`}>
