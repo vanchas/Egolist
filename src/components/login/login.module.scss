@@ -2,3 +2,9 @@
   background-color: #fff;
   min-height: 100vh;
 }
+
+.facebook_icon, .google_icon {
+  width: 2em;
+  margin-left: .5em;
+  filter: invert(1);
+}

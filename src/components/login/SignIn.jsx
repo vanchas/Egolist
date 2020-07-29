@@ -3,6 +3,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { authenticationService } from '../../_services';
 import Alert from '../helpers/Alert'
+import LoginFacebook from "./LoginFacebook";
+import LoginGoogle from "./LoginGoogle";
 
 export default function SignIn({ alert }) {
   return (
@@ -62,6 +64,11 @@ export default function SignIn({ alert }) {
           </Form>
         )}
       />
+      <hr />
+      <div className={`d-flex justify-content-around text-center`}>
+          <LoginFacebook />
+          <LoginGoogle />
+      </div>
     </div>
   )
 }
