@@ -7,6 +7,8 @@ import s from '../components/login/login.module.scss';
 import { authenticationService } from '../_services';
 import { connect } from 'react-redux';
 import { showAlert } from '../redux/actions/appActions'
+import LoginFacebook from "../components/login/LoginFacebook";
+import LoginGoogle from "../components/login/LoginGoogle";
 
 const Login = props => {
   const router = useRouter();
@@ -36,6 +38,10 @@ const Login = props => {
         <div className="sign-up">
           <SignUp showAlert={props.showAlert} />
         </div>
+      </div>
+      <div className={`d-flex justify-content-around text-center`}>
+        <LoginFacebook />
+        <LoginGoogle />
       </div>
     </div>
   )

@@ -1,25 +1,27 @@
-import React, {useEffect, useState} from 'react'
-import s from './mob-sidebar.module.scss'
-import SidebarMessages from './SidebarMessages'
-import SidebarSettings from './SidebarSettings'
-import SidebarStatistics from './SidebarStatistics'
-import SidebarUserProfile from './SidebarUserProfile'
-import UserBar from './UserBar'
-import {authenticationService} from "../../_services/authentication.service";
+import React, { useEffect, useState } from "react";
+import s from "./mob-sidebar.module.scss";
+import SidebarMessages from "./SidebarMessages";
+import SidebarSettings from "./SidebarSettings";
+import SidebarStatistics from "./SidebarStatistics";
+import SidebarUserProfile from "./SidebarUserProfile";
+import UserBar from "./UserBar";
+import { authenticationService } from "../../_services/authentication.service";
 import Link from "next/link";
 import SidebarControl from "./SidebarControl";
+import { showSidebar } from "../../redux/actions/appActions";
+import { connect } from "react-redux";
 
-export default function MobSidebar(props) {
+function MobSidebar(props) {
   const [component, setComponent] = useState();
   const [activeLink, setActiveLink] = useState();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userData = authenticationService.currentUserValue
-    if (userData && userData.user) setUser(userData.user)
-  }, [])
+    const userData = authenticationService.currentUserValue;
+    if (userData && userData.user) setUser(userData.user);
+  }, []);
 
-  const changeComponent = ref => {
+  const changeComponent = (ref) => {
     setActiveLink(ref);
     if (ref === "profile") {
       setComponent(<SidebarUserProfile showSidebar={props.showSidebar} />);
@@ -30,28 +32,40 @@ export default function MobSidebar(props) {
     } else if (ref === "settings") {
       setComponent(<SidebarSettings />);
     }
-  }
+  };
 
   return (
     <aside className={s.sidebar}>
-      {user
-          ? <>
-            <UserBar />
-            <SidebarControl
-                activeLink={activeLink}
-                changeComponent={changeComponent}
-            />
+      {user ? (
+        <>
+          <UserBar />
+          <SidebarControl
+            activeLink={activeLink}
+            changeComponent={changeComponent}
+          />
 
-            <div>{component}</div>
-          </> :
-          <span>
+          <div>{component}</div>
+        </>
+      ) : (
+        <span>
           <Link href={`/login`}>
-            <a className={`btn btn-primary m-2 mr-auto`}>
+            <a
+              className={`btn btn-primary m-2 mr-auto`}
+              onClick={() => props.showSidebar(!showSidebar)}
+            >
               Вход
             </a>
           </Link>
         </span>
-      }
+      )}
     </aside>
-  )
+  );
+}
+
+const mapStateToProps = (state) => ({
+  sidebar: state.app.sidebar,
+});
+const mapDispatchToProps = {
+  showSidebar,
 };
+export default connect(mapStateToProps, mapDispatchToProps)(MobSidebar);

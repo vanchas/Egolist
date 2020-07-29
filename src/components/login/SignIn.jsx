@@ -64,11 +64,6 @@ export default function SignIn({ alert }) {
           </Form>
         )}
       />
-      <hr />
-      <div className={`d-flex justify-content-around text-center`}>
-          <LoginFacebook />
-          <LoginGoogle />
-      </div>
     </div>
   )
 }
