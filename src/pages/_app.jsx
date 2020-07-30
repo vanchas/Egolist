@@ -1,17 +1,26 @@
-import App from 'next/app';
-import { Provider } from 'react-redux';
-import React from 'react';
-import Layout from '../components/layout/Layout';
+import App from "next/app";
+import { Provider } from "react-redux";
+import React from "react";
+import Layout from "../components/layout/Layout";
 import withRedux from "next-redux-wrapper";
-import store from '../redux/store.ts';
-import './styles/global.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import store from "../redux/store.ts";
+import "./styles/global.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Router from "next/router";
+import NProgress from "nprogress"; //nprogress module
+import "nprogress/nprogress.css"; //styles of nprogress
+//Binding events.
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 class MyApp extends App {
   static async getInitialProps(props) {
-    const pageProps = props.Component.getInitialProps ? await props.Component.getInitialProps(props.ctx) : {};
+    const pageProps = props.Component.getInitialProps
+      ? await props.Component.getInitialProps(props.ctx)
+      : {};
     return {
-      pageProps: pageProps
+      pageProps: pageProps,
     };
   }
 

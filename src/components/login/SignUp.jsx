@@ -1,31 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { authenticationService } from "../../_services";
 import MaskedInput from "react-text-mask";
+import Eye from "../../assets/svg/eye.svg";
+import EyeSlash from "../../assets/svg/eye-slash.svg";
+import s from "./login.module.scss";
 
 const phoneNumberMask = [
-    // /[1-9]/,
-    /\d/,
-    /\d/,
-    "(",
-    /\d/,
-    /\d/,
-    /\d/,
-    ")",
-    " ",
-    /\d/,
-    /\d/,
-    /\d/,
-    " ",
-    /\d/,
-    /\d/,
-    " ",
-    /\d/,
-    /\d/
+  // /[1-9]/,
+  /\d/,
+  /\d/,
+  "(",
+  /\d/,
+  /\d/,
+  /\d/,
+  ")",
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
 ];
 
 export default function SignUp({ showAlert }) {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div>
@@ -62,7 +66,7 @@ export default function SignUp({ showAlert }) {
               .registration(
                 username,
                 email,
-                parseInt(phone.match(/\d/g).join('')),
+                parseInt(phone.match(/\d/g).join("")),
                 password,
                 password_confirmation
               )
@@ -115,55 +119,90 @@ export default function SignUp({ showAlert }) {
             </div>
             <div className="form-group">
               <label htmlFor="phone">Телефон*</label>
-                <Field
-                    name="phone"
-                    render={({ field }) => (
-                        <MaskedInput
-                            {...field}
-                            mask={phoneNumberMask}
-                            id="phone"
-                            type="text"
-                            className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')}
-                        />
-                    )}
-                />
-                {/*<Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />*/}
+              <Field
+                name="phone"
+                render={({ field }) => (
+                  <MaskedInput
+                    {...field}
+                    mask={phoneNumberMask}
+                    id="phone"
+                    type="text"
+                    className={
+                      "form-control" +
+                      (errors.phone && touched.phone ? " is-invalid" : "")
+                    }
+                  />
+                )}
+              />
+              {/*<Field name="phone" type="number" className={'form-control' + (errors.phone && touched.phone ? ' is-invalid' : '')} />*/}
               <ErrorMessage
                 name="phone"
                 component="div"
                 className="invalid-feedback"
               />
             </div>
-            <div className="form-group">
+            <div className={`${s.form_group} form-group`}>
               <label htmlFor="password">Пароль*</label>
               <Field
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className={
                   "form-control" +
                   (errors.password && touched.password ? " is-invalid" : "")
                 }
+                style={{ backgroundImage: "none" }}
               />
+              {showPassword ? (
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(false)}
+                >
+                  <img src={Eye} alt={``} />
+                </span>
+              ) : (
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(true)}
+                >
+                  <img src={EyeSlash} alt={``} />
+                </span>
+              )}
               <ErrorMessage
                 name="password"
                 component="div"
                 className="invalid-feedback"
               />
             </div>
-            <div className="form-group">
+            <div className={`${s.form_group} form-group`}>
               <label htmlFor="password_confirmation">
                 Подтверждение пароля*
               </label>
               <Field
                 name="password_confirmation"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className={
                   "form-control" +
                   (errors.password_confirmation && touched.password_confirmation
                     ? " is-invalid"
                     : "")
                 }
+                style={{ backgroundImage: "none" }}
               />
+              {showPassword ? (
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(false)}
+                >
+                  <img src={Eye} alt={``} />
+                </span>
+              ) : (
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(true)}
+                >
+                  <img src={EyeSlash} alt={``} />
+                </span>
+              )}
               <ErrorMessage
                 name="password_confirmation"
                 component="div"

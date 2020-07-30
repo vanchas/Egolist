@@ -13,7 +13,7 @@ export default function () {
     <div>
       <div>Вход с помощью Facebook</div>
       <FacebookLogin
-        appId="1088597931155576"
+        appId="3147466608676750"
         autoLoad={false}
         fields="name,email,picture"
         callback={responseFacebook}

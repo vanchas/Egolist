@@ -8,3 +8,13 @@
   margin-left: .5em;
   filter: invert(1);
 }
+
+.form_group {
+  position: relative;
+}
+.input_eye {
+  position: absolute;
+  width: 1em;
+  top: 2.4em;
+  right: 1em;
+}
