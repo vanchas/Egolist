@@ -8,7 +8,11 @@ import Heart from "../../assets/header/Heart.png";
 import { connect } from "react-redux";
 
 import { SortableElement } from "react-sortable-hoc";
-import { addOfferToFavorites, removeOfferFromComparison } from "../../redux/actions/userActions";
+import {
+  addOfferToFavorites,
+  removeOfferFromComparison,
+} from "../../redux/actions/userActions";
+import { authenticationService } from "../../_services/authentication.service";
 
 const ComparisonItem = SortableElement((props) => {
   return (
@@ -52,12 +56,17 @@ const ComparisonItem = SortableElement((props) => {
         >
           X
         </span>
-        <span
-          className={s.favorite_btn}
-          onClick={() => props.addOfferToFavorites(props.offer.id)}
-        >
-          <img src={Heart} alt="" />
-        </span>
+        {authenticationService.currentUserValue &&
+        authenticationService.currentUserValue.token &&
+        authenticationService.currentUserValue.user.id !==
+          props.offer.user_id ? (
+          <span
+            className={s.favorite_btn}
+            onClick={() => props.addOfferToFavorites(props.offer.id)}
+          >
+            <img src={Heart} alt="" />
+          </span>
+        ) : null}
       </li>
     )
   );
@@ -66,6 +75,6 @@ const ComparisonItem = SortableElement((props) => {
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = {
   addOfferToFavorites,
-  removeOfferFromComparison
+  removeOfferFromComparison,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ComparisonItem);
