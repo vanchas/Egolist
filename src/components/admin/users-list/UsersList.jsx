@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import UserItem from "./UserItem";
 import UpdateUserForm from "./UpdateUserForm";
-import { getAllUsers } from "../../../redux/actions/adminActions";
-import { showAlert } from "../../../redux/actions/appActions";
+import { getAllUsers, searchAllUsers, sortAllUsersList } from "../../../redux/actions/adminActions";
 import ListSort from "./ListSort";
 import s from "./update.module.scss";
-import { connect, useDispatch } from "react-redux";
-import HttpRequest from "../../../_helpers/HttpRequest";
+import { connect } from "react-redux";
 import Pagination from "../../helpers/Pagination";
 
 function UsersWhoSentFilesForVerification(props) {
@@ -15,64 +13,46 @@ function UsersWhoSentFilesForVerification(props) {
   const [allUsers, setAllUsers] = useState(null);
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const dispatch = useDispatch();
-
-  const fetchAllUsers = (page) => {
-    HttpRequest.execute(`/admin/users?page=${page}`)
-      .then((data) => {
-        setCurrentPage(data.current_page);
-        setLastPage(data.last_page);
-        setAllUsers(data.data);
-      })
-      .catch((err) => console.error(err));
-  };
 
   const searchHandler = (e, search) => {
     e.preventDefault();
     setAllUsers(null);
     setLoading(true);
-    HttpRequest.execute(`/admin/users/${search.length ? search : "~search~"}`)
-      .then((data) => {
-        setCurrentPage(data.current_page);
-        setLastPage(data.last_page);
-        setAllUsers(data.data);
-      })
-      .catch((err) => console.error(err));
+    props.searchAllUsers(search)
   };
 
   const sortHandler = (id) => {
     setAllUsers(null);
     setLoading(true);
-    HttpRequest.execute(`/admin/users/sort/${id}`)
-      .then((data) => {
-        setCurrentPage(data.current_page);
-        setLastPage(data.last_page);
-        setAllUsers(data.data);
-      })
-      .catch((err) => dispatch(showAlert(err.message)));
+    props.sortAllUsersList(id)
   };
 
   const paginationClickHandler = (page) => {
     if (page === "next") {
         if (currentPage < lastPage) {
-            fetchAllUsers(currentPage + 1)
+          props.getAllUsers(currentPage + 1)
         }
     } else if (page === "prev") {
         if (currentPage !== 1) {
-            fetchAllUsers(currentPage - 1)
+          props.getAllUsers(currentPage - 1)
         }
     } else {
         if (currentPage !== page) {
-            fetchAllUsers(page)
+          props.getAllUsers(page)
         }
     }
   };
 
   useEffect(() => {
-    // props.getAllUsers()
-    fetchAllUsers(1);
+    if (props.users) {
+      setCurrentPage(props.users.current_page);
+      setLastPage(props.users.last_page);
+      setAllUsers(props.users.data);
+    } else {
+      props.getAllUsers(1)
+    }
     setTimeout(() => setLoading(false), 5000);
-  }, []);
+  }, [props.users]);
 
   return (
     <>
@@ -125,7 +105,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
   getAllUsers,
-  showAlert,
+  searchAllUsers,
+  sortAllUsersList
 };
 export default connect(
   mapStateToProps,

@@ -18,8 +18,8 @@ store.subscribe(() => {
   // console.log('local: ', loadState());
 });
 
-if (setPersistedState) {
-  store.dispatch(setPersistedState());
-}
+setTimeout(() => {
+  store.dispatch(setPersistedState())
+}, 300)
 
 export default store;

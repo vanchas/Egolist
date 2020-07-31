@@ -3,22 +3,12 @@ import {
   getUsersSortValues,
 } from "../../../redux/actions/adminActions";
 import { connect } from "react-redux";
-import HttpRequest from "../../../_helpers/HttpRequest";
 
 function ListSort(props) {
   const [searchValue, setSearchValue] = useState("");
-  const [sortValues, setSortValues] = useState(null);
-
-  const fetchSortsValues = () => {
-      HttpRequest.execute(`/info/sorts/user`)
-          .then(data => {
-              setSortValues(data.sorts)
-          }).catch(err => console.error('Error: ', err));
-  }
 
   useEffect(() => {
-    // props.getUsersSortValues();
-      fetchSortsValues()
+    props.getUsersSortValues();
   }, []);
 
   return (
@@ -38,13 +28,13 @@ function ListSort(props) {
             </button>
         </form>
       <div className={`px-2`}>
-        {sortValues && sortValues.length ? (
+        {props.sortingValues && props.sortingValues.length ? (
           <select
             className={`form-control`}
             onChange={(e) => props.sortHandler(e.target.value)}
           >
             <option hidden>Сортировка</option>
-            {sortValues.map((value, i) => (
+            {props.sortingValues.map((value, i) => (
               <option key={i} value={value.id}>{value.value}</option>
             ))}
             {/*<option value={`name+`}>По имени [A - Я]</option>*/}
@@ -64,6 +54,7 @@ function ListSort(props) {
 }
 
 const mapStateToProps = (state) => ({
+  sortingValues: state.admin.sortingValues
 });
 const mapDispatchToProps = {
   getUsersSortValues,

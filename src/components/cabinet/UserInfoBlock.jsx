@@ -3,13 +3,27 @@ import { authenticationService } from "../../_services/authentication.service";
 
 export default function () {
   const [user, setUser] = useState(null);
+  const [warning, setWarning] = useState('');
 
   useEffect(() => {
     const userData = authenticationService.currentUserValue;
     if (userData.user) {
       setUser(userData.user);
+      warningMessageHandler(userData.user);
     }
   }, []);
+
+  const warningMessageHandler = (userData) => {
+    if (userData.activation_token_sms && userData.activation_token_email) {
+      setWarning('У вас не подтвержден номер телефона и емейл. Пожалуйста сделайте это, чтобы пользоваться всеми возможностями EGOLIST')
+    } else if (userData.activation_token_sms && !userData.activation_token_email) {
+      setWarning('У вас не подтвержден номер телефона. Пожалуйста сделайте это, чтобы пользоваться всеми возможностями EGOLIST')
+    } else if (!userData.activation_token_sms && userData.activation_token_email) {
+      setWarning('У вас не подтвержден емейл. Пожалуйста, сделайте это, чтобы пользоваться всеми возможностями EGOLIST')
+    } else {
+      setWarning(null)
+    }
+  };
 
   return (
     <div>
@@ -23,20 +37,9 @@ export default function () {
         </div>
       )}
 
-      {user && user.activation_token_sms && user.activation_token_email ? (
+      {warning && (
         <div className="alert alert-danger" role="alert">
-          У вас не подтвержден номер телефона и емейл. Пожалуйста сделайте это,
-          чтобы пользоваться всеми возможностями EGOLIST
-        </div>
-      ) : user && user.activation_token_sms && !user.activation_token_email ? (
-        <div className="alert alert-danger" role="alert">
-          У вас не подтвержден номер телефона. Пожалуйста сделайте это, чтобы
-          пользоваться всеми возможностями EGOLIST
-        </div>
-      ) : (
-        <div className="alert alert-danger" role="alert">
-          У вас не подтвержден номер емейл. Пожалуйста сделайте это, чтобы
-          пользоваться всеми возможностями EGOLIST
+          {warning}
         </div>
       )}
     </div>
