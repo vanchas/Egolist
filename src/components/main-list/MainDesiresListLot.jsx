@@ -46,9 +46,13 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                 </div>
               ) : (
                 <>
-                  <span>
-                    <img src={Libra} alt="" />
-                  </span>
+                  {/*<span>*/}
+                  {/*  <Link href={`/comparison`}>*/}
+                  {/*  <a>*/}
+                  {/*    <img src={Libra} alt="" />*/}
+                  {/*  </a>*/}
+                  {/*</Link>*/}
+                  {/*</span>*/}
                   {user && user.user.id !== desire.user_id &&
                   <span onClick={() => likeClickHandler(desire.id)}>
                     <img src={Heart} alt="" />
@@ -64,7 +68,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                   {user && user.user && user.user.id === desire.user_id ? (
                     <Link
                       href={{
-                        pathname: "/updateDesire",
+                        pathname: "/update-desire",
                         query: { id: desire.id },
                       }}
                     >

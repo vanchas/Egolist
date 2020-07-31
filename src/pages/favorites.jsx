@@ -19,7 +19,7 @@ import {
   SORT_FAVORITE_OFFERS,
 } from "../redux/actions/types";
 import Router from "next/router";
-import s from '../components/favorites/fav.module.scss'
+import s from "../components/favorites/fav.module.scss";
 
 function Favorites({
   getUserFavoritePosts,
@@ -29,7 +29,7 @@ function Favorites({
   sortingValues,
   getSortingValues,
   favoriteDesires,
-  favoriteOffers
+  favoriteOffers,
 }) {
   const [visibleComponent, setVisibleComponent] = useState("desires");
   const [userId, setUserId] = useState(null);
@@ -50,7 +50,7 @@ function Favorites({
     } else {
       Router.push("/login");
     }
-  }
+  };
 
   useEffect(() => {
     getSortingValues();
@@ -170,14 +170,14 @@ function Favorites({
           </div>
           {visibleComponent === "desires" ? (
             <FavDesires
-                favoriteDesires={favoriteDesires}
+              favoriteDesires={favoriteDesires}
               deleteFavorite={deleteFavorite}
               loading={loading}
               setLoading={setLoading}
             />
           ) : (
             <FavOffers
-                favoriteOffers={favoriteOffers}
+              favoriteOffers={favoriteOffers}
               deleteFavorite={deleteFavorite}
               loading={loading}
               setLoading={setLoading}

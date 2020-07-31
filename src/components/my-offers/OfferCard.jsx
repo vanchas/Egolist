@@ -7,8 +7,10 @@ import InterestingLotsList from "../interesting-lots/interestingLotsList";
 import Link from "next/link";
 import Rating from "../helpers/Rating";
 import Carousel from "../helpers/Carousel";
+import { connect } from "react-redux";
+import { addOfferToComparison } from "../../redux/actions/userActions";
 
-export default function OfferCard({ offer, hideShowOffer, deleteOffer }) {
+function OfferCard({ offer, hideShowOffer, deleteOffer, addOfferToComparison }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -82,13 +84,15 @@ export default function OfferCard({ offer, hideShowOffer, deleteOffer }) {
 
           {showToast && (
             <div className={`${s.toast}`}>
+              <span
+              onClick={() => addOfferToComparison(offer.id)}>Сравнить</span>
               <span onClick={() => hideShowOffer(offer.id)}>
                 {offer.is_active ? "Скрыть" : "Показать"}
               </span>
               <span>
                 <Link
                   href={{
-                    pathname: "/updateOffer",
+                    pathname: "/update-offer",
                     query: { id: offer.id, desire_id: offer.desire_id },
                   }}
                 >
@@ -125,3 +129,11 @@ export default function OfferCard({ offer, hideShowOffer, deleteOffer }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+
+})
+const mapDispatchToProps = {
+  addOfferToComparison
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard)

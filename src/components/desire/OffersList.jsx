@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import OffersItem from "./OffersItem";
 import s from "./offers.module.scss";
+import { connect } from "react-redux";
+import {addOfferToComparison} from "../../redux/actions/userActions";
 
-export default function OffersList({
-  offers,
-  locations,
-  showSuccess,
-  addOfferToFavorites,
-}) {
+function OffersList({ offers, locations, showSuccess, addOfferToFavorites, addOfferToComparison }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,6 +17,7 @@ export default function OffersList({
       {offers && offers.length ? (
         offers.map((offer, i) => (
           <OffersItem
+            addOfferToComparison={addOfferToComparison}
             addOfferToFavorites={addOfferToFavorites}
             showSuccess={showSuccess}
             offer={offer}
@@ -43,3 +41,8 @@ export default function OffersList({
     </ul>
   );
 }
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = {
+  addOfferToComparison
+};
+export default connect(mapStateToProps, mapDispatchToProps)(OffersList);

@@ -6,7 +6,7 @@ import { createOffer } from '../redux/actions/userActions'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
 
-function AddOffer(props) {
+function CreateOffer(props) {
   const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
@@ -49,4 +49,4 @@ const mapDispatchToProps = {
   showAlert
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddOffer)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateOffer)

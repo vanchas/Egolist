@@ -6,7 +6,7 @@ import HttpStatus from "./HttpStatus";
 
 export default class HttpRequest {
 
-  static execute(REST, method = 'GET', type = "application/json", body = null) {
+  static execute(rest, method = 'GET', type = "application/json", body = null) {
     const user = authenticationService.currentUserValue;
     const target = "https://egolist.padilo.pro/api";
     const requestParams = {
@@ -28,7 +28,7 @@ export default class HttpRequest {
       }
     }
 
-    return fetch(`${target}${REST}`, requestParams).then((res) => {
+    return fetch(`${target}${rest}`, requestParams).then((res) => {
       if (res.status === HttpStatus.EMPTY_RESPONSE) {
         return null;
       }

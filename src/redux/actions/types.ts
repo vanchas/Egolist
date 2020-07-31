@@ -18,6 +18,7 @@ export const GET_SORT_VALUES: string = 'GET_SORT_VALUES';
 export const SHOW_SIDEBAR: string = 'SHOW_SIDEBAR';
 
 // user
+export const SET_PESISTED_STATE: string = 'SET_PESISTED_STATE';
 export const GET_USER_INFO: string = 'GET_USER_INFO';
 export const SELECT_HEADING_CATEGORY: string = 'SELECT_HEADING_CATEGORY';
 export const SELECT_HEADING_SUBCATEGORY: string = 'SELECT_HEADING_SUBCATEGORY';
@@ -58,11 +59,12 @@ export const SORT_MY_DESIRES: string = 'SORT_MY_DESIRES';
 export const GET_COMPLAINTS_INFO: string = 'GET_COMPLAINTS_INFO';
 export const DELETE_DESIRE_PHOTO: string = 'DELETE_DESIRE_PHOTO';
 export const DELETE_OFFER_PHOTO: string = 'DELETE_OFFER_PHOTO';
-
 export const SEND_MESSAGE: string = 'SEND_MESSAGE';
 export const VERIFY_MY_PROFILE: string = 'VERIFY_MY_PROFILE';
 export const GET_USER_MESSAGES: string = 'GET_USER_MESSAGES';
 export const GET_PHOTO_VERIFY_EXAMPLE: string = 'GET_PHOTO_VERIFY_EXAMPLE';
+export const ADD_OFFER_TO_COMPARISON: string = 'ADD_OFFER_TO_COMPARISON';
+export const REMOVE_OFFER_FROM_COMPARISON: string = 'REMOVE_OFFER_FROM_COMPARISON';
 
 // admin
 export const GET_ALL_COMPLAINTS: string = 'GET_ALL_COMPLAINTS';

@@ -19,8 +19,14 @@ import {
   GET_USER_INFO,
   GET_USER_MESSAGES,
   GET_PHOTO_VERIFY_EXAMPLE,
-  UPLOAD_PHOTO_VERIFY_EXAMPLE, DELETE_OFFER, DELETE_DESIRE,
+  UPLOAD_PHOTO_VERIFY_EXAMPLE,
+  DELETE_OFFER,
+  DELETE_DESIRE,
+  ADD_OFFER_TO_COMPARISON,
+  SET_PESISTED_STATE,
+  REMOVE_OFFER_FROM_COMPARISON,
 } from "../actions/types";
+import { loadState } from "../localStorage";
 
 interface IState {
   myDesires: any[];
@@ -35,6 +41,7 @@ interface IState {
   user: any;
   myMessages: null | any[];
   photoVerifyExample: any;
+  comparisonOffers: any[];
 }
 
 const initialState: IState = {
@@ -50,12 +57,43 @@ const initialState: IState = {
   user: null,
   myMessages: [],
   photoVerifyExample: null,
+  comparisonOffers: [],
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
+
+    case SET_PESISTED_STATE:
+      const persistedState = loadState();
+      if (persistedState && persistedState.user) {
+        return {
+          ...state,
+          comparisonOffers: persistedState.user.comparisonOffers,
+        };
+      }
+      return state;
+
+    case REMOVE_OFFER_FROM_COMPARISON:
+      return {
+        ...state,
+        comparisonOffers: state.comparisonOffers.filter(
+          (offer) => offer.id !== action.payload
+        ),
+      };
+
+    case ADD_OFFER_TO_COMPARISON:
+      const newComparisonOffers = state.comparisonOffers
+      const index = newComparisonOffers.findIndex(offer => offer.id === action.payload.id)
+
+      if (index === -1){
+        newComparisonOffers.push(action.payload)
+      }
+      return {
+        ...state,
+        comparisonOffers: newComparisonOffers,
+      };
 
     case GET_PHOTO_VERIFY_EXAMPLE:
       return { ...state, photoVerifyExample: action.payload };
@@ -68,10 +106,20 @@ export default function userReducer(state = initialState, action: any) {
       return { ...state, myMessages: state.myMessages.concat(action.payload) };
 
     case DELETE_OFFER:
-      return { ...state, myOffers: state.myOffers.filter((offer: any) => offer.id !== action.payload) };
+      return {
+        ...state,
+        myOffers: state.myOffers.filter(
+          (offer: any) => offer.id !== action.payload
+        ),
+      };
 
     case DELETE_DESIRE:
-      return { ...state, myDesires: state.myDesires.filter((desire: any) => desire.id !== action.payload) };
+      return {
+        ...state,
+        myDesires: state.myDesires.filter(
+          (desire: any) => desire.id !== action.payload
+        ),
+      };
 
     case GET_USER_INFO:
       return { ...state, user: action.payload };

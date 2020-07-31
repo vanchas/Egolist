@@ -15,6 +15,7 @@ export default function OffersItem({
   locations,
   showSuccess,
   addOfferToFavorites,
+  addOfferToComparison,
 }) {
   const [userLocation, setUserLocation] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -72,7 +73,7 @@ export default function OffersItem({
             </div>
             <div className={s.card_info_block_footer}>
               <div>
-                <span className={s.elips}></span>
+                <span className={s.elips} />
                 <span>{offer.user.name}</span>
               </div>
               <div>
@@ -88,7 +89,7 @@ export default function OffersItem({
           <div className={s.card_control_block}>
             <div className={s.card_control_header}>
               <div>
-                <span>
+                <span onClick={() => addOfferToComparison(offer.id)}>
                   <img src={Libra} alt="" />
                 </span>
                 {user && user.user && user.user.id !== offer.user_id ? (
@@ -102,10 +103,11 @@ export default function OffersItem({
               </span>
               {showToast && (
                 <div className={`${s.toast}`}>
+                  <span>Сравнить</span>
                   {user && user.user && user.user.id === offer.user_id ? (
                     <Link
                       href={{
-                        pathname: "/updateOffer",
+                        pathname: "/update-offer",
                         query: { id: offer.id, desire_id: offer.desire_id },
                       }}
                     >

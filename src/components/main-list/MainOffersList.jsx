@@ -25,7 +25,6 @@ export default function MainOffersList({
             {offers.map((offer, i) => (
               <li key={i}>
                 <MainOffersListLot
-                  success={success}
                   addOfferToFavorites={addOfferToFavorites}
                   offer={offer}
                 />

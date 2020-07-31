@@ -59,7 +59,7 @@ export default function MyDesireList({
         </span>
         {allowToCreateDesires && (
           <span className="btn">
-            <Link href="/addNewLot">
+            <Link href="/create-new-desire">
               <a className="text-dark">Создать желание</a>
             </Link>
           </span>
@@ -84,7 +84,7 @@ export default function MyDesireList({
                     }
                     if (val.search_by.includes("price")) {
                       return (
-                        <option key={i} value={val.id}>
+                        <option key={i} value={val.id}>webshtorm theme doest
                           {val.value}
                         </option>
                       );

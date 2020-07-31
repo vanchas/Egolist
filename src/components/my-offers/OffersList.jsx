@@ -5,7 +5,7 @@ import Router from "next/router";
 import { SORT_MY_OFFERS } from "../../redux/actions/types";
 import { useDispatch } from "react-redux";
 
-export default function DesireRedList({
+export default function MyOffersList({
   myOffers,
   hideShowOffer,
   sortMyOffers,

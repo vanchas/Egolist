@@ -37,9 +37,13 @@ function InterestingLot({
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           <div>
-            <span>
-              <img src={Libra} alt="" />
-            </span>
+            {/*<span>*/}
+            {/*  <Link href={`/comparison`}>*/}
+            {/*        <a>*/}
+            {/*          <img src={Libra} alt="" />*/}
+            {/*        </a>*/}
+            {/*      </Link>*/}
+            {/*</span>*/}
             {authenticationService.currentUserValue ? (
               authenticationService.currentUserValue.user.id !==
               desire.user_id ? (

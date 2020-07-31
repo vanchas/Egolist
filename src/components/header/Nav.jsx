@@ -14,17 +14,23 @@ import {
   NavLink,
 } from "reactstrap";
 import { useDispatch } from "react-redux";
-import {FILTER_DESIRES, FILTER_OFFERS, SEARCH_INFO} from "../../redux/actions/types";
-import {authenticationService} from "../../_services/authentication.service";
+import {
+  FILTER_DESIRES,
+  FILTER_OFFERS,
+  SEARCH_INFO,
+} from "../../redux/actions/types";
+import { authenticationService } from "../../_services/authentication.service";
 
 const NavComponent = ({
   locations,
   searchInfo,
   filterOffers,
   filterDesires,
-                        selectedCategory,
-getCities, cities,
-                        selectedSubcategory
+  selectedCategory,
+  getCities,
+  cities,
+  selectedSubcategory,
+  comparisonOffers,
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,13 +41,12 @@ getCities, cities,
   const [cityLoading, setCityLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const toggle = () => setIsOpen(!isOpen)
+  const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    if (cities && cities.length) setCityLoading(false)
+    if (cities && cities.length) setCityLoading(false);
     setUser(authenticationService.currentUserValue);
   }, [cities]);
-
 
   const filterByLocationHandler = (e) => {
     setCityLoading(true);
@@ -59,14 +64,20 @@ getCities, cities,
     dispatch({ type: FILTER_OFFERS, payload: [] });
     filterOffers("region_id", e.target.value);
     filterDesires("region_id", e.target.value);
-  }
+  };
 
   const searchByStringHandler = (e) => {
     e.preventDefault();
-    dispatch({type: SEARCH_INFO, payload: []})
-    searchInfo(searchValue.split("/").join("~slash~"), regionId, cityId, [selectedCategory], [selectedSubcategory])
-    setSearchValue('')
-  }
+    dispatch({ type: SEARCH_INFO, payload: [] });
+    searchInfo(
+      searchValue.split("/").join("~slash~"),
+      regionId,
+      cityId,
+      [selectedCategory],
+      [selectedSubcategory]
+    );
+    setSearchValue("");
+  };
 
   return (
     <div className={s.navbar_nav}>
@@ -96,10 +107,10 @@ getCities, cities,
             {user && user.token ? (
               <NavItem
                 className={`${s.nav_item} ${
-                  router.pathname === "/myDesires" ? s.active_red : null
+                  router.pathname === "/my-desires" ? s.active_red : null
                 } nav-item`}
               >
-                <Link href={`/myDesires`}>
+                <Link href={`/my-desires`}>
                   <a className="font-weight-bold">ХОЧУ КУПИТЬ</a>
                 </Link>
               </NavItem>
@@ -108,23 +119,30 @@ getCities, cities,
               <>
                 <NavItem
                   className={`${s.nav_item} ${
-                    router.pathname === "/myOffers" ? s.active_blue : null
+                    router.pathname === "/my-offers" ? s.active_blue : null
                   } nav-item`}
                 >
-                  <Link href={`/myOffers`}>
+                  <Link href={`/my-offers`}>
                     <a className="font-weight-bold">МОИ ПРЕДЛОЖЕНИЯ</a>
                   </Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
-                  <Link href={`/`}>
+                  <Link href={`/comparison`}>
                     <a>
                       <img src={Libra} alt="" className={s.libra} />
+                      <small className={`text-danger ml-1`}>
+                        {comparisonOffers && comparisonOffers.length
+                          ? comparisonOffers.length
+                          : null}
+                      </small>
                     </a>
                   </Link>
                 </NavItem>
                 <NavItem className={`${s.nav_item}`}>
                   <Link href={`/favorites`}>
-                    <img src={Heart} alt="" className={s.libra} />
+                    <a>
+                      <img src={Heart} alt="" className={s.libra} />
+                    </a>
                   </Link>
                 </NavItem>
               </>
@@ -156,32 +174,34 @@ getCities, cities,
               ))
             : null}
         </select>
-        {cities && cities.length && !cityLoading ?
-            <select
+        {cities && cities.length && !cityLoading ? (
+          <select
             className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
             onChange={(e) => filterByCityHandler(e)}
-        >
-          <option value="default" hidden>
-            Город
-          </option>
-          {cities && cities.length
+          >
+            <option value="default" hidden>
+              Город
+            </option>
+            {cities && cities.length
               ? cities.map((city, i) => (
                   <option value={city.id} key={i}>
                     {city.name_ru}
                   </option>
-              ))
+                ))
               : null}
-        </select>
-            : cityLoading
-              ? <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-                : <small></small>
-        }
+          </select>
+        ) : cityLoading ? (
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : (
+          <small></small>
+        )}
         <button
           className={`font-weight-bold btn text-dark ${s.search_btn}`}
           type="submit"
-          onClick={(e) => searchByStringHandler(e)}>
+          onClick={(e) => searchByStringHandler(e)}
+        >
           Поиск
         </button>
       </form>

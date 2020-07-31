@@ -16,7 +16,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
 
   const allowToCreateOffersHandler = (userData) => {
     if (userData.active && !userData.activation_token_sms && !userData.activation_token_email) {
-      if (myOffers, myOffers.length) {
+      if (myOffers && myOffers.length) {
         for (let ofr of myOffers) {
           if (ofr.desire_id === desire.id) {
             setMessage('Вы уже сделали предложение к этому лоту');
@@ -33,7 +33,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
       setMessage("Чтобы создать предложение к лоту, нужно подтвердить свой емейл и телефон");
       setAllowToCreateOffers(false);
     } else {
-      if (myOffers, myOffers.length) {
+      if (myOffers && myOffers.length) {
         for (let ofr of myOffers) {
           if (ofr.desire_id === desire.id) {
             setMessage('Вы уже сделали предложение к этому лоту');
@@ -85,9 +85,13 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
             </div>
             <div>
               <div className={s.card_control}>
-                <span className="btn">
-                  <img src={Libra} alt="" />
-                </span>
+                {/*<span className="btn">*/}
+                {/*  <Link href={`/comparison`}>*/}
+                {/*    <a>*/}
+                {/*      <img src={Libra} alt="" />*/}
+                {/*    </a>*/}
+                {/*  </Link>*/}
+                {/*</span>*/}
                 {user && user.token && user.user.id !== desire.user_id ? (
                   <span className="btn">
                     <img
@@ -115,7 +119,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
               {user && user.token && user.user.id !== desire.user_id && allowToCreateOffers ? (
                 <Link
                   href={{
-                    pathname: "/addOffer",
+                    pathname: "/create-offer",
                     query: { desire_id: desire.id },
                   }}
                 >

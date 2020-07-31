@@ -1,0 +1,49 @@
+.comparison_page {
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 1em;
+}
+
+.offers_list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1em;
+}
+.list_item {
+  background-color: #fff;
+  position: relative;
+  height: 15em;
+  display: grid;
+  grid-template-columns: 15em auto;
+
+  @media screen and (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+}
+.image_block {
+  background-color: #0c9bb5;
+}
+.content_block {
+  padding: 1em;
+}
+.location_img {
+  width: 1em;
+  margin-right: .3em;
+}
+.remove_btn {
+  padding: .1em .5em;
+  color: #fff;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  border-radius: .2em;
+  background-color: rgba(255, 0, 0, 0.5);
+  cursor: pointer;
+}
+.favorite_btn {
+  position: absolute;
+  top: 1em;
+  right: 3em;
+  cursor: pointer;
+}

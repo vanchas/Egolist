@@ -1,43 +1,50 @@
 import Cookies from "js-cookie";
 import Router from "next/router";
 import {
-    GET_MY_DESIRES,
-    UPDATE_DESIRE,
-    DELETE_DESIRE,
-    ADD_COMPLAINT,
-    GET_MY_COMPLAINTS,
-    CREATE_DESIRE,
-    HIDE_SHOW_DESIRE,
-    HIDE_SHOW_OFFER,
-    SORT_DESIRES,
-    SORT_OFFERS,
-    ADD_OFFER_TO_FAVORITE,
-    ADD_DESIRE_TO_FAVORITE,
-    GET_FAVORITES_BY_DESIRE,
-    GET_FAVORITES_BY_OFFER,
-    GET_FAVORITE_POSTS,
-    DELETE_FAVORITE,
-    SORT_OFFERS_BY_DESIRE_ID,
-    GET_MY_OFFERS,
-    UPDATE_OFFER,
-    GET_OFFER,
-    CREATE_OFFER,
-    SORT_FAVORITE_DESIRES,
-    SORT_FAVORITE_OFFERS,
-    GET_CURRENT_GEO_POSITION,
-    SORT_MY_OFFERS,
-    SORT_MY_DESIRES,
-    GET_COMPLAINTS_INFO,
-    GET_USER_INFO,
-    DELETE_DESIRE_PHOTO,
-    DELETE_OFFER_PHOTO,
-    DELETE_OFFER,
-    SEND_MESSAGE, VERIFY_MY_PROFILE, GET_USER_MESSAGES, GET_PHOTO_VERIFY_EXAMPLE,
-} from "./types"
+  GET_MY_DESIRES,
+  UPDATE_DESIRE,
+  DELETE_DESIRE,
+  ADD_COMPLAINT,
+  GET_MY_COMPLAINTS,
+  CREATE_DESIRE,
+  HIDE_SHOW_DESIRE,
+  HIDE_SHOW_OFFER,
+  SORT_DESIRES,
+  SORT_OFFERS,
+  ADD_OFFER_TO_FAVORITE,
+  ADD_DESIRE_TO_FAVORITE,
+  GET_FAVORITES_BY_DESIRE,
+  GET_FAVORITES_BY_OFFER,
+  GET_FAVORITE_POSTS,
+  DELETE_FAVORITE,
+  SORT_OFFERS_BY_DESIRE_ID,
+  GET_MY_OFFERS,
+  UPDATE_OFFER,
+  GET_OFFER,
+  CREATE_OFFER,
+  SORT_FAVORITE_DESIRES,
+  SORT_FAVORITE_OFFERS,
+  GET_CURRENT_GEO_POSITION,
+  SORT_MY_OFFERS,
+  SORT_MY_DESIRES,
+  GET_COMPLAINTS_INFO,
+  GET_USER_INFO,
+  DELETE_DESIRE_PHOTO,
+  DELETE_OFFER_PHOTO,
+  DELETE_OFFER,
+  SEND_MESSAGE,
+  VERIFY_MY_PROFILE,
+  GET_USER_MESSAGES,
+  GET_PHOTO_VERIFY_EXAMPLE,
+  // ADD_OFFER_TO_COMPARISON,
+  SET_PESISTED_STATE,
+  REMOVE_OFFER_FROM_COMPARISON,
+  ADD_OFFER_TO_COMPARISON,
+} from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
-import {showAlert, showSuccess} from "./appActions";
-import {authenticationService} from "../../_services/authentication.service";
-import fetch from 'isomorphic-unfetch'
+import { showAlert, showSuccess } from "./appActions";
+import { authenticationService } from "../../_services/authentication.service";
+import fetch from "isomorphic-unfetch";
 
 const target = `https://egolist.padilo.pro/api`;
 
@@ -69,33 +76,34 @@ export const updateUserInfo = (
   formData.append("city_id", city_id);
   formData.append("birth_date", birth_date);
 
-    const user = authenticationService.currentUserValue;
-    const response = await fetch(`${target}/update_user`, {
-      method: "POST",
-      headers: {
-          "Authorization": `${user.token_type} ${user.token}`,
-          "Accept": "application/json"
-      },
-      body: formData
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`${target}/update_user`, {
+    method: "POST",
+    headers: {
+      Authorization: `${user.token_type} ${user.token}`,
+      Accept: "application/json",
+    },
+    body: formData,
   });
-    const promise = response.json();
-    return promise.then((data) => {
-        if (response.ok) {
-            dispatch(showSuccess('Успешно изменено'))
-            Cookies.set(
-                "currentUser",
-                JSON.stringify({
-                    user: data.user,
-                    token: user.token,
-                    token_type: user.token_type,
-                })
-            )
-            setTimeout(() => {
-                window.location.reload()
-            }, 3000)
-        } else {
-            dispatch(showAlert(data.message))
-        }
+  const promise = response.json();
+  return promise
+    .then((data) => {
+      if (response.ok) {
+        dispatch(showSuccess("Успешно изменено"));
+        Cookies.set(
+          "currentUser",
+          JSON.stringify({
+            user: data.user,
+            token: user.token,
+            token_type: user.token_type,
+          })
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        dispatch(showAlert(data.message));
+      }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -133,9 +141,9 @@ export const updateDesire = (
 ) => async (dispatch: Function) => {
   const formData = new FormData();
   if (!photo) {
-    formData.append("photo", '');
+    formData.append("photo", "");
   } else {
-    if (typeof photo === 'string' || photo instanceof String) {
+    if (typeof photo === "string" || photo instanceof String) {
       formData.append("photo", JSON.stringify(photo));
     } else {
       for (let p of photo) {
@@ -157,47 +165,55 @@ export const updateDesire = (
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`${target}/desires/edit/${id}`, {
-      method: "POST",
-      headers: {
-          "Authorization": `${user.token_type} ${user.token}`,
-          "Accept": "application/json"
-      },
-      body: formData
+    method: "POST",
+    headers: {
+      Authorization: `${user.token_type} ${user.token}`,
+      Accept: "application/json",
+    },
+    body: formData,
   });
   const promise = response.json();
-  return promise.then((data) => {
-      console.log(data)
+  return promise
+    .then((data) => {
+      console.log(data);
       if (response.ok) {
-          dispatch(showSuccess("Желание успешно изменено"));
-          dispatch({ type: UPDATE_DESIRE });
-          setTimeout(() => {
-              Router.push(`/desire?id=${id}`)
-          }, 3000)
+        dispatch(showSuccess("Желание успешно изменено"));
+        dispatch({ type: UPDATE_DESIRE });
+        setTimeout(() => {
+          Router.push(`/desire?id=${id}`);
+        }, 3000);
       } else {
-          dispatch(showAlert(data.message))
+        dispatch(showAlert(data.message));
       }
     })
     .catch((err) => console.error("Error: ", err));
 };
 
 export const deleteOfferPhoto = (id: any, photo: any) => async (
-    dispatch: Function
+  dispatch: Function
 ) => {
-  HttpRequest.execute(`/desires/offers/photo/delete/${id}`, "DELETE", "application/json", {photo})
-      .then((data) => {
-        return dispatch({ type: DELETE_OFFER_PHOTO });
-      })
-      .catch((err) => console.error("Error: ", err));
+  HttpRequest.execute(
+    `/desires/offers/photo/delete/${id}`,
+    "DELETE",
+    "application/json",
+    { photo }
+  )
+    .then((data) => {
+      return dispatch({ type: DELETE_OFFER_PHOTO });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const deleteDesirePhoto = (id: any, photo: any) => async (
-    dispatch: Function
+  dispatch: Function
 ) => {
-  HttpRequest.execute(`/desires/photo/${id}`, "DELETE", "application/json", {photo})
-      .then((data) => {
-        return dispatch({ type: DELETE_DESIRE_PHOTO });
-      })
-      .catch((err) => console.error("Error: ", err));
+  HttpRequest.execute(`/desires/photo/${id}`, "DELETE", "application/json", {
+    photo,
+  })
+    .then((data) => {
+      return dispatch({ type: DELETE_DESIRE_PHOTO });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const deleteDesire = (id: number | string) => async (
@@ -211,13 +227,13 @@ export const deleteDesire = (id: number | string) => async (
 };
 
 export const deleteOffer = (id: number | string) => async (
-    dispatch: Function
+  dispatch: Function
 ) => {
-    HttpRequest.execute(`/desires/offers/${id}`, "DELETE")
-        .then((data) => {
-            return dispatch({ type: DELETE_OFFER, payload: id });
-        })
-        .catch((err) => console.error("Error: ", err));
+  HttpRequest.execute(`/desires/offers/${id}`, "DELETE")
+    .then((data) => {
+      return dispatch({ type: DELETE_OFFER, payload: id });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const addComplaint = (
@@ -225,12 +241,16 @@ export const addComplaint = (
   type_id: number | string,
   complaint_to_id: number | string
 ) => async (dispatch: Function) => {
-  HttpRequest.execute(`/complaints/add`, "POST", "application/json", {complaint, type_id, complaint_to_id})
-      .then((data) => {
-        dispatch(showSuccess("Жалоба успешно создана"));
-        return dispatch({ type: ADD_COMPLAINT, payload: data });
-      })
-      .catch((err) => console.error("Error: ", err));
+  HttpRequest.execute(`/complaints/add`, "POST", "application/json", {
+    complaint,
+    type_id,
+    complaint_to_id,
+  })
+    .then((data) => {
+      dispatch(showSuccess("Жалоба успешно создана"));
+      return dispatch({ type: ADD_COMPLAINT, payload: data });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const getComplaintsInfo = () => async (dispatch: Function) => {
@@ -246,6 +266,12 @@ export const getMyComplaints = () => async (dispatch: Function) => {
     .then((res) => {
       return dispatch({ type: GET_MY_COMPLAINTS, payload: res });
     })
+    .catch((err) => console.error("Error: ", err));
+};
+
+export const addOfferToComparison = (id: any) => async (dispatch: Function) => {
+  HttpRequest.execute(`/desires/offers/show/${id}`)
+    .then((data) => dispatch({ type: ADD_OFFER_TO_COMPARISON, payload: data }))
     .catch((err) => console.error("Error: ", err));
 };
 
@@ -281,24 +307,25 @@ export const createDesire = (
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`${target}/desires/create`, {
-      method: "POST",
-      headers: {
-          "Authorization": `${user.token_type} ${user.token}`,
-          "Accept": "application/json"
-      },
-      body: formData
+    method: "POST",
+    headers: {
+      Authorization: `${user.token_type} ${user.token}`,
+      Accept: "application/json",
+    },
+    body: formData,
   });
   const promise = response.json();
-   return promise.then((data) => {
-       if (response.ok) {
-           dispatch(showSuccess("Желание успешно создано"));
-           setTimeout(() => {
-               Router.push(`/desire?id=${data.id}`);
-           }, 3000);
-           return dispatch({ type: CREATE_DESIRE, payload: data });
-       } else {
-           dispatch(showAlert(data.message))
-       }
+  return promise
+    .then((data) => {
+      if (response.ok) {
+        dispatch(showSuccess("Желание успешно создано"));
+        setTimeout(() => {
+          Router.push(`/desire?id=${data.id}`);
+        }, 3000);
+        return dispatch({ type: CREATE_DESIRE, payload: data });
+      } else {
+        dispatch(showAlert(data.message));
+      }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -323,9 +350,7 @@ export const hideShowOffer = (id: number | string) => async (
     .catch((err) => console.error("Error: ", err));
 };
 
-export const sortDesires = (sortId: string) => async (
-  dispatch: Function
-) => {
+export const sortDesires = (sortId: string) => async (dispatch: Function) => {
   HttpRequest.execute(`/sort_desires/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_DESIRES, payload: data });
@@ -357,9 +382,10 @@ export const addOfferToFavorites = (id: number | string) => async (
 ) => {
   HttpRequest.execute(`/favorite_offer/${id}`)
     .then((data) => {
-        dispatch(showSuccess("Предложение добавлено в избранные"));
-        dispatch({ type: ADD_OFFER_TO_FAVORITE, payload: id });
-    }).catch((err) => console.error("Error: ", err));
+      dispatch(showSuccess("Предложение добавлено в избранные"));
+      dispatch({ type: ADD_OFFER_TO_FAVORITE, payload: id });
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const addDesireToFavorites = (id: number | string) => async (
@@ -367,8 +393,8 @@ export const addDesireToFavorites = (id: number | string) => async (
 ) => {
   HttpRequest.execute(`/favorite_desire/${id}`)
     .then((data) => {
-        dispatch(showSuccess("Желание добавлено в избранные"));
-        dispatch({ type: ADD_DESIRE_TO_FAVORITE, payload: id });
+      dispatch(showSuccess("Желание добавлено в избранные"));
+      dispatch({ type: ADD_DESIRE_TO_FAVORITE, payload: id });
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -430,12 +456,12 @@ export const deleteFavorite = (id: number | string, name: string) => async (
 ) => {
   HttpRequest.execute(`/favorites/${id}`, "DELETE")
     .then((data) => {
-        if (!data) {
-            dispatch(showSuccess('Пост удален из избранных'))
-            return dispatch({ type: DELETE_FAVORITE, payload: {id, name} });
-        } else {
-            dispatch(showAlert(data.message))
-        }
+      if (!data) {
+        dispatch(showSuccess("Пост удален из избранных"));
+        return dispatch({ type: DELETE_FAVORITE, payload: { id, name } });
+      } else {
+        dispatch(showAlert(data.message));
+      }
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -457,7 +483,7 @@ export const updateOffer = (
   // console.log(category_ids, subcategory_ids, desireId, description, header, city_id, region_id, price, is_active, photo, video, id)
   const formData = new FormData();
   if (!photo.length) {
-    formData.append("photo", '');
+    formData.append("photo", "");
   } else {
     for (let p of photo) {
       formData.append("photo[]", p);
@@ -474,32 +500,37 @@ export const updateOffer = (
   formData.append("is_active", is_active);
 
   const user = authenticationService.currentUserValue;
-  const response = await fetch(`${target}/desires/offers/${desireId}/edit/${id}`, {
+  const response = await fetch(
+    `${target}/desires/offers/${desireId}/edit/${id}`,
+    {
       method: "POST",
       headers: {
-          "Authorization": `${user.token_type} ${user.token}`,
-          "Accept": "application/json"
+        Authorization: `${user.token_type} ${user.token}`,
+        Accept: "application/json",
       },
-      body: formData
-  });
+      body: formData,
+    }
+  );
   const promise = response.json();
-   return promise.then((data) => {
-       if (response.ok) {
-           dispatch({ type: UPDATE_OFFER });
-           dispatch(showSuccess("Предложение успешно отредактировано"));
-           setTimeout(() => {
-               window.location.reload()
-           }, 3000)
-       } else {
-           dispatch(showAlert(data.message))
-       }
-    }).catch((err) => console.error("Error: ", err));
+  return promise
+    .then((data) => {
+      if (response.ok) {
+        dispatch({ type: UPDATE_OFFER });
+        dispatch(showSuccess("Предложение успешно отредактировано"));
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        dispatch(showAlert(data.message));
+      }
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const getOffer = (id: number | string) => async (dispatch: Function) => {
   HttpRequest.execute(`/desires/offers/show/${id}`)
-    .then((res) => {
-      return dispatch({ type: GET_OFFER, payload: res });
+    .then((data) => {
+      return dispatch({ type: GET_OFFER, payload: data });
     })
     .catch((err) => console.error("Error: ", err));
 };
@@ -532,28 +563,29 @@ export const createOffer = (
   formData.append("subcategory_ids", subcategory_ids);
   formData.append("is_active", is_active);
 
-    const user = authenticationService.currentUserValue;
-    const response = await fetch(`${target}/desires/offers/create/${desireId}`, {
-      method: "POST",
-      headers: {
-          "Authorization": `${user.token_type} ${user.token}`,
-          "Accept": "application/json"
-      },
-      body: formData
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`${target}/desires/offers/create/${desireId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `${user.token_type} ${user.token}`,
+      Accept: "application/json",
+    },
+    body: formData,
   });
-    const promise = response.json();
-     return promise.then((data) => {
-         if (response.ok) {
-             dispatch({ type: CREATE_OFFER, payload: data });
-             dispatch(showSuccess("Предложение успешно создано"));
-             setTimeout(() => {
-                 Router.push(`/desire?id=${desireId}`);
-             }, 3000);
-         } else {
-             dispatch(showAlert(data.message))
-         }
-      })
-      .catch((err) => console.error("Error: ", err));
+  const promise = response.json();
+  return promise
+    .then((data) => {
+      if (response.ok) {
+        dispatch({ type: CREATE_OFFER, payload: data });
+        dispatch(showSuccess("Предложение успешно создано"));
+        setTimeout(() => {
+          Router.push(`/desire?id=${desireId}`);
+        }, 3000);
+      } else {
+        dispatch(showAlert(data.message));
+      }
+    })
+    .catch((err) => console.error("Error: ", err));
 };
 
 export const getCurrentGeoPosition = () => async (dispatch: Function) => {
@@ -563,11 +595,9 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
       return dispatch({ type: GET_CURRENT_GEO_POSITION, payload: data });
     })
     .catch((err) => err);
-}
+};
 
-export const sortMyOffers = (sortId: string) => async (
-  dispatch: Function
-) => {
+export const sortMyOffers = (sortId: string) => async (dispatch: Function) => {
   HttpRequest.execute(`/sort_offers_user/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_MY_OFFERS, payload: data });
@@ -575,9 +605,7 @@ export const sortMyOffers = (sortId: string) => async (
     .catch((err) => console.error("Error:", err));
 };
 
-export const sortMyDesires = (sortId: string) => async (
-  dispatch: Function
-) => {
+export const sortMyDesires = (sortId: string) => async (dispatch: Function) => {
   HttpRequest.execute(`/sort_desires_user/${sortId}`)
     .then((data) => {
       return dispatch({ type: SORT_MY_DESIRES, payload: data });
@@ -585,81 +613,88 @@ export const sortMyDesires = (sortId: string) => async (
     .catch((err) => console.error("Error:", err));
 };
 
-export const getUserInfo = () => async (
-    dispatch: Function
-) => {
+export const getUserInfo = () => async (dispatch: Function) => {
   HttpRequest.execute(`/details`)
-     .then((data) => {
-         dispatch(showSuccess(data.message))
-         dispatch({ type: GET_USER_INFO, payload: data });
-      }).catch((err) => console.error("Error:", err));
+    .then((data) => {
+      dispatch(showSuccess(data.message));
+      dispatch({ type: GET_USER_INFO, payload: data });
+    })
+    .catch((err) => console.error("Error:", err));
 };
 
-
-export const getUserMessages = (page: any) => async (
-    dispatch: Function
-) => {
-// messages - get, возвращаются все сообщения, которые были отправлены админом, также возвращается количество непрочитанных сообщений
-        HttpRequest.execute(`/messages?page=${page}`)
-        .then((data) => {
-            return dispatch({ type: GET_USER_MESSAGES, payload: data })
-        }).catch((err) => console.error("Error:", err));
+export const getUserMessages = (page: any) => async (dispatch: Function) => {
+  // messages - get, возвращаются все сообщения, которые были отправлены админом, также возвращается количество непрочитанных сообщений
+  HttpRequest.execute(`/messages?page=${page}`)
+    .then((data) => {
+      return dispatch({ type: GET_USER_MESSAGES, payload: data });
+    })
+    .catch((err) => console.error("Error:", err));
 };
 
-export const getPhotoVerifyExample = () => async (
-    dispatch: Function
-) => {
-// examples - получить фотографии для примера, если их нет 404, если есть - 200 с фотками
-    HttpRequest.execute(`/examples`)
-        .then((data) => {
-            return dispatch({ type: GET_PHOTO_VERIFY_EXAMPLE, payload: data.example })
-        }).catch((err) => console.error("Error:", err));
+export const getPhotoVerifyExample = () => async (dispatch: Function) => {
+  // examples - получить фотографии для примера, если их нет 404, если есть - 200 с фотками
+  HttpRequest.execute(`/examples`)
+    .then((data) => {
+      return dispatch({
+        type: GET_PHOTO_VERIFY_EXAMPLE,
+        payload: data.example,
+      });
+    })
+    .catch((err) => console.error("Error:", err));
 };
 
-export const sendMessage = () => async (
-    dispatch: Function
-) => {
-    HttpRequest.execute(`/`)
-        .then((data) => {
-            dispatch({ type: SEND_MESSAGE, payload: data });
-        }).catch((err) => console.error("Error:", err));
+export const sendMessage = () => async (dispatch: Function) => {
+  HttpRequest.execute(`/`)
+    .then((data) => {
+      dispatch({ type: SEND_MESSAGE, payload: data });
+    })
+    .catch((err) => console.error("Error:", err));
 };
 
-export const verifyMyProfile = (photo: any) => async (
-    dispatch: Function
+export const verifyMyProfile = (photo: any) => async (dispatch: Function) => {
+  const formData = new FormData();
+
+  for (let p of photo) {
+    formData.append("files[]", p);
+  }
+
+  const user = authenticationService.currentUserValue;
+  const response = await fetch(`${target}/upload_files`, {
+    method: "POST",
+    headers: {
+      Authorization: `${user.token_type} ${user.token}`,
+      Accept: "application/json",
+    },
+    body: formData,
+  });
+  const promise = response.json();
+  return promise
+    .then((data) => {
+      if (response.ok) {
+        Cookies.set(
+          "currentUser",
+          JSON.stringify({
+            user: { ...user.user, verify_progress: "В процессе проверки" },
+            token: user.token,
+            token_type: user.token_type,
+          })
+        );
+        dispatch({ type: VERIFY_MY_PROFILE, payload: data });
+        dispatch(showSuccess("Заявка успешно отправлена"));
+        setTimeout(() => window.location.reload(), 3000);
+      } else {
+        dispatch(showAlert(data.message));
+      }
+    })
+    .catch((err) => console.error("Error: ", err));
+};
+
+export const setPersistedState = () => async (dispatch: Function) => {
+  return await dispatch({ type: SET_PESISTED_STATE });
+};
+
+export const removeOfferFromComparison = (id: any) => async (
+  dispatch: Function
 ) => {
-        const formData = new FormData();
-
-        for (let p of photo) {
-            formData.append("files[]", p);
-        }
-
-        const user = authenticationService.currentUserValue;
-        const response = await fetch(`${target}/upload_files`, {
-            method: "POST",
-            headers: {
-                "Authorization": `${user.token_type} ${user.token}`,
-                "Accept": "application/json"
-            },
-            body: formData
-        });
-        const promise = response.json();
-        return promise.then((data) => {
-            if (response.ok) {
-                Cookies.set(
-                    "currentUser",
-                    JSON.stringify({
-                        user: {...user.user, verify_progress: "В процессе проверки"},
-                        token: user.token,
-                        token_type: user.token_type,
-                    })
-                )
-                dispatch({ type: VERIFY_MY_PROFILE, payload: data });
-                dispatch(showSuccess("Заявка успешно отправлена"));
-                setTimeout(() => window.location.reload(), 3000)
-            } else {
-                dispatch(showAlert(data.message))
-            }
-        })
-            .catch((err) => console.error("Error: ", err));
-    };
+  return await dispatch({ type: REMOVE_OFFER_FROM_COMPARISON, payload: id });
+};

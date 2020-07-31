@@ -8,11 +8,13 @@ import { authenticationService } from "../../_services/authentication.service";
 import { useRouter } from "next/router";
 import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
+import { connect } from "react-redux";
+import { addOfferToComparison } from "../../redux/actions/userActions";
 
-export default function MainOffersListLot({
+function MainOffersListLot({
   offer,
+  addOfferToComparison,
   addOfferToFavorites,
-  success,
 }) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
@@ -47,8 +49,9 @@ export default function MainOffersListLot({
             <>
               {!loading ? (
                 <>
-                  <span>
+                  <span><Link href={`/comparison`}><a>
                     <img src={Libra} alt="" />
+                    </a></Link>
                   </span>
                   {user.user.id !== offer.user_id && (
                     <span onClick={() => likeClickHandler(offer.id)}>
@@ -67,20 +70,28 @@ export default function MainOffersListLot({
 
               {showToast && (
                 <div className={`${s.toast}`}>
+                  <span onClick={() => {
+                    setShowToast(false)
+                    addOfferToComparison(offer.id)
+                  }}>
+                    Сравнить
+                  </span>
                   {user && user.user && user.user.id === offer.user_id ? (
                     <Link
                       href={{
-                        pathname: "/updateOffer",
+                        pathname: "/update-offer",
                         query: { id: offer.id, desire_id: offer.desire_id },
                       }}
                     >
                       <a>Изменить</a>
                     </Link>
                   ) : null}
+                  <span>
                   <ReportModal
                     userId={offer.user_id}
                     setShowToast={setShowToast}
                   />
+                  </span>
                 </div>
               )}
             </>
@@ -125,3 +136,9 @@ export default function MainOffersListLot({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = {
+  addOfferToComparison,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MainOffersListLot);
