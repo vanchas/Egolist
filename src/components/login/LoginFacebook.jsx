@@ -43,10 +43,14 @@ export default function (props) {
         if (data && data.token) {
           Cookies.set("currentUser", JSON.stringify(data), { expires: 1 });
           Router.push('/')
+          return data
         } else {
           props.setErrorFromBackend('К сожалению войти не удалось')
           setTimeout(() => props.setErrorFromBackend(null), 4000)
         }
+      })
+      .then(data => {
+        if (data) window.location.reload(true)
       })
       .catch((err) => console.error(err));
   };
