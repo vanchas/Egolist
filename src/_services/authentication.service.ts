@@ -27,7 +27,7 @@ async function login(email: string, password: string): Promise<any> {
   const promise = response.json();
   if (response.status === 200) {
     promise.then(user => {
-      Cookies.set('currentUser', JSON.stringify(user));
+      Cookies.set('currentUser', JSON.stringify(user), { expires: 1 });
       currentUserSubject = user;
       return user;
     }).then(() => Router.push('/'))

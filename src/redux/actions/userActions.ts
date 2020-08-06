@@ -96,7 +96,8 @@ export const updateUserInfo = (
             user: data.user,
             token: user.token,
             token_type: user.token_type,
-          })
+          }),
+          { expires: 1 }
         );
         setTimeout(() => {
           window.location.reload();
@@ -677,7 +678,8 @@ export const verifyMyProfile = (photo: any) => async (dispatch: Function) => {
             user: { ...user.user, verify_progress: "В процессе проверки" },
             token: user.token,
             token_type: user.token_type,
-          })
+          }),
+          { expires: 1 }
         );
         dispatch({ type: VERIFY_MY_PROFILE, payload: data });
         dispatch(showSuccess("Заявка успешно отправлена"));

@@ -10,7 +10,12 @@ import Carousel from "../helpers/Carousel";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
 
-function OfferCard({ offer, hideShowOffer, deleteOffer, addOfferToComparison }) {
+function OfferCard({
+  offer,
+  hideShowOffer,
+  deleteOffer,
+  addOfferToComparison,
+}) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -85,7 +90,13 @@ function OfferCard({ offer, hideShowOffer, deleteOffer, addOfferToComparison }) 
           {showToast && (
             <div className={`${s.toast}`}>
               <span
-              onClick={() => addOfferToComparison(offer.id)}>Сравнить</span>
+                onClick={() => {
+                  setShowToast(false);
+                  addOfferToComparison(offer.id);
+                }}
+              >
+                Сравнить
+              </span>
               <span onClick={() => hideShowOffer(offer.id)}>
                 {offer.is_active ? "Скрыть" : "Показать"}
               </span>
@@ -130,10 +141,8 @@ function OfferCard({ offer, hideShowOffer, deleteOffer, addOfferToComparison }) 
   );
 }
 
-const mapStateToProps = state => ({
-
-})
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = {
-  addOfferToComparison
-}
-export default connect(mapStateToProps, mapDispatchToProps)(OfferCard)
+  addOfferToComparison,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

@@ -13,13 +13,14 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
   FILTER_DESIRES,
   FILTER_OFFERS,
   SEARCH_INFO,
 } from "../../redux/actions/types";
 import { authenticationService } from "../../_services/authentication.service";
+import { filterDesires, filterOffers, getCities, getLocations, searchInfo } from "../../redux/actions/appActions";
 
 const NavComponent = ({
   locations,
@@ -131,9 +132,7 @@ const NavComponent = ({
                     <a>
                       <img src={Libra} alt="" className={s.libra} />
                       <small className={`text-danger ml-1`}>
-                        {comparisonOffers && comparisonOffers.length
-                          ? comparisonOffers.length
-                          : null}
+                        {comparisonOffers ? comparisonOffers : null}
                       </small>
                     </a>
                   </Link>
@@ -209,4 +208,23 @@ const NavComponent = ({
   );
 };
 
-export default NavComponent;
+const mapStateToProps = (state) => {
+  const comparisonOffers = state.user.comparisonOffers.length
+  return {
+    locations: state.app.locations,
+    selectedCategory: state.app.selectedCategory,
+    selectedSubcategory: state.app.selectedSubcategory,
+    cities: state.app.cities,
+    comparisonOffers,
+  };
+};
+
+const mapDispatchToProps = {
+  getLocations,
+  searchInfo,
+  filterOffers,
+  filterDesires,
+  getCities,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavComponent);

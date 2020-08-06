@@ -19,6 +19,7 @@ function MainOffersListLot({
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingComparison, setLoadingComparison] = useState(false);
   const router = useRouter();
 
   const toastHandler = (e) => {
@@ -29,7 +30,8 @@ function MainOffersListLot({
   useEffect(() => {
     const userData = authenticationService.currentUserValue;
     if (userData.token) setUser(userData);
-  }, []);
+    setTimeout(() => setLoadingComparison(false), 3000)
+  }, [loadingComparison]);
 
   const likeClickHandler = (id) => {
     if (!user.token) {
@@ -49,10 +51,20 @@ function MainOffersListLot({
             <>
               {!loading ? (
                 <>
-                  <span><Link href={`/comparison`}><a>
-                    <img src={Libra} alt="" />
-                    </a></Link>
-                  </span>
+                  {loadingComparison ? (
+                    <div className="spinner-border text-warning" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <span
+                      onClick={() => {
+                        setLoadingComparison(true)
+                        addOfferToComparison(offer.id);
+                      }}
+                    >
+                      <img src={Libra} alt="" />
+                    </span>
+                  )}
                   {user.user.id !== offer.user_id && (
                     <span onClick={() => likeClickHandler(offer.id)}>
                       <img src={Heart} alt="" />
@@ -70,12 +82,6 @@ function MainOffersListLot({
 
               {showToast && (
                 <div className={`${s.toast}`}>
-                  <span onClick={() => {
-                    setShowToast(false)
-                    addOfferToComparison(offer.id)
-                  }}>
-                    Сравнить
-                  </span>
                   {user && user.user && user.user.id === offer.user_id ? (
                     <Link
                       href={{
@@ -87,10 +93,10 @@ function MainOffersListLot({
                     </Link>
                   ) : null}
                   <span>
-                  <ReportModal
-                    userId={offer.user_id}
-                    setShowToast={setShowToast}
-                  />
+                    <ReportModal
+                      userId={offer.user_id}
+                      setShowToast={setShowToast}
+                    />
                   </span>
                 </div>
               )}
