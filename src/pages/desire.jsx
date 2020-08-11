@@ -26,11 +26,12 @@ const Desire = ({
   addOfferToFavorites,
 }) => {
   const dispatch = useDispatch();
-  const [showOffers, setShowOffers] = useState(false);
+  const [showOffers, setShowOffers] = useState(true);
 
   useEffect(() => {
     dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
     getDesireById(Router.query.id);
+    showOffersList(Router.query.id);
     return () => {
       dispatch({ type: GET_OFFERS_BY_DESIRE_ID, payload: [] });
       dispatch({ type: GET_DESIRE_BY_ID, payload: {} });

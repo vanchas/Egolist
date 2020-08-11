@@ -6,6 +6,7 @@ import withRedux from "next-redux-wrapper";
 import store from "../redux/store.ts";
 import "./styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-image-crop/dist/ReactCrop.css";
 import Router from "next/router";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress

@@ -107,20 +107,21 @@ function MainOffersListLot({
           {offer.photo || offer.video ? (
             <Carousel
               desireId={offer.desire_id}
+              offerId={offer.id}
               photo={JSON.parse(offer.photo)}
               video={offer.video}
             />
           ) : (
-            <Link href={`/desire?id=${offer.desire_id}`}>
-              <a className={`w-100 h-100`}></a>
+            <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
+              <a className={`w-100 h-100`} />
             </Link>
           )}
         </div>
       </div>
       <div className={s.card_info}>
-        <div className={s.card_elipse}></div>
+        <div className={s.card_elipse} />
         <h5 className="h6 font-weight-bold">
-          <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}>
+          <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
             <a className="text-dark">{offer.header}</a>
           </Link>
         </h5>

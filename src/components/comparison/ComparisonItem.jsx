@@ -26,7 +26,7 @@ const ComparisonItem = SortableElement((props) => {
               video={props.offer.video}
             />
           ) : (
-            <Link href={`/desire?id=${props.offer.desire_id}`}>
+            <Link href={{pathname: `/desire`, query: { id: props.offer.desire_id, offer: props.offer.id }}}>
               <a className={`w-100 h-100`} />
             </Link>
           )}

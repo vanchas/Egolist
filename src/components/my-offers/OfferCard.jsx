@@ -114,7 +114,7 @@ function OfferCard({
           )}
         </div>
         <div className={s.price}>{offer.price} ГРН</div>
-        <Link href={{ pathname: "/desire", query: { id: offer.desire_id } }}>
+        <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
           <a className={`btn ${s.open}`}>Открыть желание</a>
         </Link>
         <span onClick={() => deleteOffer(offer.id)}>Удалить</span>

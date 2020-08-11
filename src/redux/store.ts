@@ -11,6 +11,7 @@ const store = createStore(rootReducer, persistedState, applyMiddleware(thunk));
 store.subscribe(() => {
   saveState({
     user: {
+      ...store.getState().user,
       comparisonOffers: store.getState().user.comparisonOffers,
     },
   });

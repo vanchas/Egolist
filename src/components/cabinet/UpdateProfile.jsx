@@ -5,6 +5,7 @@ import { authenticationService } from "../../_services/authentication.service";
 import { getCities } from "../../redux/actions/appActions";
 import s from "./update.module.scss";
 import MaskedInput from "react-text-mask";
+import ImageCropper from "./ImageCropper";
 
 const phoneNumberMask = [
   // /[1-9]/,
@@ -74,7 +75,7 @@ function UpdateProfile(props) {
       name ? name : user.name,
       secondName ? secondName : user.second_name,
       email ? email : user.email,
-      phone ? parseInt(phone.match(/\d/g).join('')) : user.phone,
+      phone ? parseInt(phone.match(/\d/g).join("")) : user.phone,
       telegram || telegram === "" ? telegram : user.telegram,
       viber || viber === "" ? viber : user.viber,
       whatsapp || whatsapp === "" ? whatsapp : user.whatsapp,
@@ -106,12 +107,13 @@ function UpdateProfile(props) {
                     </div>
                   ) : null}
                   Фото
-                  <input
-                    type={`file`}
-                    onChange={(e) => {
-                      setAvatar(e.target.files[0]);
-                    }}
-                  />
+                  {/*<input*/}
+                  {/*  type={`file`}*/}
+                  {/*  onChange={(e) => {*/}
+                  {/*    setAvatar(e.target.files[0]);*/}
+                  {/*  }}*/}
+                  {/*/>*/}
+                  <ImageCropper setCompletedCropImage={setAvatar} />
                 </label>
                 <label>
                   Имя

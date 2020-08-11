@@ -5,6 +5,7 @@ import s from "./header.module.scss";
 import MainLogo from "../../assets/main-logo.png";
 import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
+import Router from "next/router";
 import {
   Collapse,
   Navbar,
@@ -20,7 +21,13 @@ import {
   SEARCH_INFO,
 } from "../../redux/actions/types";
 import { authenticationService } from "../../_services/authentication.service";
-import { filterDesires, filterOffers, getCities, getLocations, searchInfo } from "../../redux/actions/appActions";
+import {
+  filterDesires,
+  filterOffers,
+  getCities,
+  getLocations,
+  searchInfo,
+} from "../../redux/actions/appActions";
 
 const NavComponent = ({
   locations,
@@ -37,8 +44,8 @@ const NavComponent = ({
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState();
   const [searchValue, setSearchValue] = useState("");
-  const [regionId, setRegionId] = useState(false);
-  const [cityId, setCityId] = useState(false);
+  const [regionId, setRegionId] = useState(null);
+  const [cityId, setCityId] = useState(null);
   const [cityLoading, setCityLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -70,20 +77,31 @@ const NavComponent = ({
   const searchByStringHandler = (e) => {
     e.preventDefault();
     dispatch({ type: SEARCH_INFO, payload: [] });
+    const searchString = !searchValue.length
+      ? ' '
+      : searchValue.includes("/")
+        ? searchValue.split("/").join("~slash~")
+        : searchValue;
     searchInfo(
-      searchValue.split("/").join("~slash~"),
-      regionId,
-      cityId,
-      [selectedCategory],
-      [selectedSubcategory]
+      searchString,
+      regionId ?? 1,
+      cityId ?? '',
+      selectedCategory ? JSON.stringify([selectedCategory]) : [1],
+      selectedSubcategory ? JSON.stringify([selectedSubcategory]) : [1]
     );
     setSearchValue("");
   };
 
+  const reloadPage = () => {
+    if (Router.pathname === '/') {
+      window.location.reload(true)
+    }
+  }
+
   return (
     <div className={s.navbar_nav}>
       <Link href="/">
-        <a className={`${s.navbar_brand}`}>
+        <a className={`${s.navbar_brand}`} onClick={reloadPage}>
           <img
             src={MainLogo}
             alt="EGOLIST"
@@ -102,7 +120,7 @@ const NavComponent = ({
               } nav-item`}
             >
               <Link href={`/`}>
-                <a className="font-weight-bold">ЛЕНТА</a>
+                <a className="font-weight-bold" onClick={reloadPage}>ЛЕНТА</a>
               </Link>
             </NavItem>
             {user && user.token ? (
@@ -173,7 +191,7 @@ const NavComponent = ({
               ))
             : null}
         </select>
-        {cities && cities.length && !cityLoading ? (
+        {cities && cities.length && cities[0] && !cityLoading ? (
           <select
             className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
             onChange={(e) => filterByCityHandler(e)}
@@ -181,7 +199,7 @@ const NavComponent = ({
             <option value="default" hidden>
               Город
             </option>
-            {cities && cities.length
+            {cities && cities.length && cities[0]
               ? cities.map((city, i) => (
                   <option value={city.id} key={i}>
                     {city.name_ru}
@@ -209,7 +227,7 @@ const NavComponent = ({
 };
 
 const mapStateToProps = (state) => {
-  const comparisonOffers = state.user.comparisonOffers.length
+  const comparisonOffers = state.user.comparisonOffers.length;
   return {
     locations: state.app.locations,
     selectedCategory: state.app.selectedCategory,

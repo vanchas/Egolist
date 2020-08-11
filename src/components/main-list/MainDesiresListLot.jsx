@@ -53,10 +53,11 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                   {/*  </a>*/}
                   {/*</Link>*/}
                   {/*</span>*/}
-                  {user && user.user.id !== desire.user_id &&
-                  <span onClick={() => likeClickHandler(desire.id)}>
-                    <img src={Heart} alt="" />
-                  </span>}
+                  {user && user.user.id !== desire.user_id && (
+                    <span onClick={() => likeClickHandler(desire.id)}>
+                      <img src={Heart} alt="" />
+                    </span>
+                  )}
                 </>
               )}
               <span onClick={(e) => toastHandler(e)}>
@@ -72,7 +73,9 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                         query: { id: desire.id },
                       }}
                     >
-                      <a className={`btn`}><span>Изменить</span></a>
+                      <a className={`btn`}>
+                        <span>Изменить</span>
+                      </a>
                     </Link>
                   ) : null}
                   <ReportModal
@@ -92,7 +95,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
               video={desire.video}
             />
           ) : (
-            <Link href={`/desire?id=${desire.id}`}>
+            <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
               <a className={`w-100 h-100`} />
             </Link>
           )}

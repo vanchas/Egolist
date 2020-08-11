@@ -41,7 +41,7 @@ export default function MyDesireItem({
             photo={JSON.parse(desire.photo)}
             video={desire.video}
           />
-        ) : <Link href={`/desire?id=${desire.id}`}><a className={`w-100 h-100`}></a></Link>}
+        ) : <Link href={{ pathname: `/desire`, query: {id: desire.id} }}><a className={`w-100 h-100`} /></Link>}
       </div>
 
       <div className={s.card_info_block}>
@@ -53,7 +53,7 @@ export default function MyDesireItem({
         <p>{desire.description}</p>
         <div className={s.card_info_block_footer}>
           <div>
-            <span className={s.elips}></span>
+            <span className={s.elips}/>
             <span>{desire.user.name}</span>
           </div>
           <div>

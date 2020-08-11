@@ -9,6 +9,7 @@ import Rating from "../helpers/Rating";
 import ReportModal from "../helpers/ReportModal";
 import Carousel from "../helpers/Carousel";
 import { authenticationService } from "../../_services/authentication.service";
+import Router from "next/router";
 
 export default function OffersItem({
   offer,
@@ -42,12 +43,20 @@ export default function OffersItem({
   };
 
   return (
-    <li className={s.card}>
+    <li
+      className={s.card}
+      style={
+        parseInt(Router.query.offer) === parseInt(offer.id)
+          ? { border: "2px solid red" }
+          : {}
+      }
+    >
       {offer.user && (
         <>
           <div className={s.card_image}>
             {offer.photo || offer.video ? (
               <Carousel
+                offerId={null}
                 desireId={offer.desire_id}
                 photo={JSON.parse(offer.photo)}
                 video={offer.video}

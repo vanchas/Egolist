@@ -104,11 +104,10 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
               </div>
               <div className={s.created_at}>
                 {desire.created_at &&
-                  desire.created_at
-                    .split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join(".")}
+                  new Date(desire.created_at).getDate() + '.' +
+                  (new Date(desire.created_at).getMonth() + 1) + '.' +
+                  new Date(desire.created_at).getFullYear()
+                }
               </div>
               <div className={s.views}>Просмотров {desire.views}</div>
               <div className={s.categories}>

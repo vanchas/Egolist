@@ -21,6 +21,7 @@ function Categories({
   getDesiresByCategory,
   getSubcategories,
   selectHeadingCategories,
+  selectHeadingSubcategories,
   subcategories,
 }) {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function Categories({
     getCategories();
   }, [subcategories]);
 
-  const filterByCategotyHandler = (id) => {
+  const filterByCategoryHandler = (id) => {
     setSubcatLoading(true);
     getSubcategories(id);
     selectHeadingCategories(id);
@@ -66,7 +67,7 @@ function Categories({
               <li
                 className="btn"
                 key={i}
-                onClick={() => filterByCategotyHandler(c.id)}
+                onClick={() => filterByCategoryHandler(c.id)}
               >
                 {c.name}
               </li>
@@ -74,7 +75,7 @@ function Categories({
           </ul>
           <select
             className={`form-control`}
-            onChange={(e) => filterByCategotyHandler(e.target.value)}
+            onChange={(e) => filterByCategoryHandler(e.target.value)}
           >
             <option value="default" hidden>
               КАТЕГОРИИ

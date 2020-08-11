@@ -41,7 +41,7 @@ function OfferForMeItem({ offer, locations, addOfferToComparison, addOfferToFavo
                 photo={JSON.parse(offer.photo)}
                 video={offer.video}
               />
-            ) : <Link href={`/desire?id=${offer.id}`}><a className={`w-100 h-100`} /></Link>}
+            ) : <Link href={{ pathname: `/desire`, query: {id: offer.desire_id, offer: offer.id} }}><a className={`w-100 h-100`} /></Link>}
           </div>
 
           <div className={s.card_info_block}>

@@ -47,8 +47,10 @@
 }
 
 .days_on_egolist {
-	display: grid;
+	display: flex;
 	font-weight: 800;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
 	span:nth-child(1) {
 		font-size: 2.2em;
@@ -58,7 +60,6 @@
 		font-size: 1em;
 	}
 	@media screen and (max-width: 767px) {
-		grid-auto-flow: column;
 		align-items: center;
 		justify-content: center;
 	}

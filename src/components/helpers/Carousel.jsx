@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import s from "./carousel.module.scss";
 import Link from "next/link";
 
-export default function Carousel({ photo, video: dataVideo, desireId }) {
+export default function Carousel({ photo, video: dataVideo, desireId, offerId }) {
   const [array, setArray] = useState(null);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,7 @@ export default function Carousel({ photo, video: dataVideo, desireId }) {
             </span>
           )}
 
-          <Link href={`/desire?id=${desireId}`}>
+          <Link href={{ pathname: "/desire", query: { id: desireId, offer: offerId } }}>
             <a>
               <div className={s.carousel}>
                 {array[index].includes("https://www.youtube.com") ? (

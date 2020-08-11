@@ -9,7 +9,7 @@ export default function UserCard({ user, locations }) {
   const [daysOnEgolist, setDaysOnEgolist] = useState(0);
   const [userLocation, setUserLocation] = useState("");
   const [loading, setLoading] = useState(true);
-  const [daysText, setDaysText] = useState("Дней");
+  const [daysText, setDaysText] = useState("дней");
 
   useEffect(() => {
     if (user) {
@@ -38,11 +38,11 @@ export default function UserCard({ user, locations }) {
         .map((i) => parseFloat(i));
       const days = Math.abs(moment(date1).diff(moment(date2), "days"));
       if (days === 1) {
-        setDaysText("День");
+        setDaysText("день");
       } else if (days > 1 && days < 5) {
-        setDaysText("Дня");
+        setDaysText("ня");
       } else {
-        setDaysText("Дней");
+        setDaysText("дней");
       }
       setDaysOnEgolist(Math.abs(moment(date1).diff(moment(date2), "days")));
     })();

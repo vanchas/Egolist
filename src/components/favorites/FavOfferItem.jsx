@@ -26,11 +26,11 @@ export default function FavOfferItem({ deleteFavorite, post }) {
             photo={JSON.parse(post.sentense.photo)}
             video={post.sentense.video}
           />
-        ) : <Link href={`/desire?=id${post.sentense.desire_id}`}><a className={`h-100 w-100`}></a></Link>}
+        ) : <Link href={{pathname: `/desire`, query: {id: post.sentense.desire_id, offer: post.sentense.id}}}><a className={`h-100 w-100`}/></Link>}
       </div>
 
       <div className={s.card_info_block}>
-          <h5><Link href={`/desire?id=${post.sentense.desire_id}`}>
+          <h5><Link href={{pathname: `/desire`, query: {id: post.sentense.desire_id, offer: post.sentense.id}}}>
               <a>{post.sentense.header}</a>
           </Link></h5>
         <p>{post.sentense.description}</p>
