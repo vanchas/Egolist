@@ -10,6 +10,7 @@ import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
+import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 
 function MainOffersListLot({
   offer,
@@ -44,7 +45,7 @@ function MainOffersListLot({
   };
 
   return (
-    <div className={s.card}>
+    <div className={`shadow ${s.card}`}>
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           {user && (
@@ -77,7 +78,11 @@ function MainOffersListLot({
                 </div>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                <img src={Burger} alt="" />
+                 <span className={s.menu}>
+                  <i />
+                  <i />
+                  <i />
+                </span>
               </span>
 
               {showToast && (
@@ -113,23 +118,29 @@ function MainOffersListLot({
             />
           ) : (
             <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
-              <a className={`w-100 h-100`} />
+              <a className={`w-100 h-100`}>
+                <img src={Placeholder} alt={``} className={`w-100`} />
+              </a>
             </Link>
           )}
         </div>
       </div>
       <div className={s.card_info}>
-        <div className={s.card_elipse} />
-        <h5 className="h6 font-weight-bold">
+        <div className={s.card_elipse}>
+          {offer.user && offer.user.avatar ? (
+            <img className={`h-100`} src={offer.user.avatar} alt={``} />
+          ) : null}
+        </div>
+        <h5>
           <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
-            <a className="text-dark">{offer.header}</a>
+            <a>{offer.header}</a>
           </Link>
         </h5>
         <span className={s.card_price}>{offer.price} ГРН</span>
         <div className={s.progress_bar}>
           <div className="progress border border-dark rounded">
             <div
-              className="progress-bar bg-secondary rounded"
+              className="progress-bar rounded"
               role="progressbar"
               style={{ width: `${offer.rating}%` }}
               aria-valuenow={offer.rating}

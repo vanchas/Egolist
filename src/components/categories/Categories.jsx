@@ -64,7 +64,11 @@ function Categories({
           {/* DESKTOP */}
           <ul>
             {categories.map((c, i) => (
-              <li key={i} onClick={() => filterByCategoryHandler(c.id)}>
+              <li
+                key={i}
+                onClick={() => filterByCategoryHandler(c.id)}
+                className={`shadow-sm`}
+              >
                 {c.name} <span>&#x276D;</span>
               </li>
             ))}
@@ -93,33 +97,39 @@ function Categories({
         </div>
       )}
 
-      {subcategories && subcategories.length && !subcatLoading ? (
+      {subcategories && !subcatLoading ? (
         <>
-          <h3 className="h5 mt-2">ПОДКАТЕГОРИИ</h3>
-          <ul className="categories-list">
-            {subcategories.map((c, i) => (
-              <li
-                className="btn"
-                key={i}
-                onClick={() => filterBySubcategoryHandler(c.id)}
-              >
-                {c.name}
-              </li>
-            ))}
-          </ul>
-          <select
-            className={`form-control`}
-            onChange={(e) => filterBySubcategoryHandler(e.target.value)}
-          >
-            <option value="default" hidden>
-              ПОДКАТЕГОРИИ
-            </option>
-            {subcategories.map((c, i) => (
-              <option key={i} value={c.id}>
-                {c.name}
+          {/* DESKTOP */}
+          {subcategories && subcategories.length && !subcatLoading ? (
+            <ul>
+              {subcategories.map((c, i) => (
+                <li
+                  key={i}
+                  onClick={() => filterBySubcategoryHandler(c.id)}
+                  className={`shadow-sm`}
+                >
+                  {c.name}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {/* MOBILE */}
+          {subcategories && subcategories.length && !subcatLoading ? (
+            <select
+              className={`form-control`}
+              onChange={(e) => filterBySubcategoryHandler(e.target.value)}
+            >
+              <option value="default" hidden>
+                ПОДКАТЕГОРИИ
               </option>
-            ))}
-          </select>
+              {subcategories.map((c, i) => (
+                <option key={i} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          ) : null}
         </>
       ) : subcatLoading ? (
         <div className={`text-center py-1`}>

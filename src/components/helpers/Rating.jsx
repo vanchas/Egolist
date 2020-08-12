@@ -24,7 +24,7 @@ export default function Rating({ rating }) {
       {Object.entries(ratingObj).map(([key, val], i) => (
         val ?
             <span key={i}>&#x2605;</span>
-            : <span key={i}>&#x2606;</span>
+            : <span key={i} style={{color: '#c78550'}}>&#x2605;</span>
       ))}
     </div>
   )

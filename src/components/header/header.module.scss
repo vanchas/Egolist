@@ -3,7 +3,7 @@
 .header {
   background: linear-gradient(to right, #383d43, #31353b);
   height: fit-content;
-  padding: 1.5em 1.8em;
+  padding: 1.5rem 4rem;
   position: relative;
   border-radius: 1em;
 }
@@ -19,7 +19,7 @@
 
 .header_form {
   display: flex;
-  padding: 1.3em 0;
+  margin: 1.3em 0;
   width: 100%;
 
   .input_holder {
@@ -88,7 +88,8 @@
       font-family: "Montserrat", sans-serif;
       font-size: 21px;
       font-weight: 700;
-      transition: .3s;
+      transition: 1s;
+      animation: growing 1s ease-in;
       option {
         background-color: #3a3f46;
       }
@@ -97,6 +98,40 @@
       }
     }
   }
+  @keyframes growing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  //.search_select_city {
+  //  select {
+  //    background-color: #3a3f46;
+  //    appearance: none;
+  //    padding: .5em 1em;
+  //    -webkit-appearance: none;
+  //    -moz-appearance: none;
+  //    border: none;
+  //    max-width: 10em;
+  //    color: #ffffff;
+  //    font-family: "Montserrat", sans-serif;
+  //    font-size: 21px;
+  //    font-weight: 700;
+  //    display: inline-block;
+  //    transition: .3s;
+  //    option {
+  //      background-color: #3a3f46;
+  //    }
+  //    &:focus {
+  //      outline: none;
+  //    }
+  //    &:hover {
+  //      background-color: #222529;
+  //    }
+  //  }
+  //}
   .search_btn {
     border-radius: 0 1.5em 0 0;
     border: none;

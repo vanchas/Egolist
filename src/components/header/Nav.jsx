@@ -155,8 +155,8 @@ const NavComponent = ({
           </Nav>
         </Collapse>
       </Navbar>
-      <form className={`${s.header_form}`}>
-        <div className={s.input_holder}>
+      <form className={`${s.header_form} shadow-sm`}>
+        <div className={s.input_holder} suppressHydrationWarning={true}>
           <i className={`${s.search_icon} fas fa-search`} />
           <input
             className={`${s.search_input}`}
@@ -178,35 +178,40 @@ const NavComponent = ({
             </option>
             {locations && locations.length
               ? locations.map((l, i) => (
-                <option value={l.id} key={i}>
-                  {l.name_ru}
-                </option>
-              ))
-              : null}
-          </select>
-        </div>
-        {cities && cities.length && cities[0] && !cityLoading ? (
-          <select
-            className={s.search_select}
-            onChange={(e) => filterByCityHandler(e)}
-          >
-            <option value="default" hidden>
-              Город
-            </option>
-            {cities && cities.length && cities[0]
-              ? cities.map((city, i) => (
-                  <option value={city.id} key={i}>
-                    {city.name_ru}
+                  <option value={l.id} key={i}>
+                    {l.name_ru}
                   </option>
                 ))
               : null}
           </select>
+        </div>
+        {cities && cities.length && cities[0] && !cityLoading ? (
+          <div className={s.select_holder}>
+            <span>&#x276F;</span>
+            <select
+              className={s.search_select}
+              onChange={(e) => filterByCityHandler(e)}
+            >
+              <option value="default" hidden>
+                Город
+              </option>
+              {cities && cities.length && cities[0]
+                ? cities.map((city, i) => (
+                    <option value={city.id} key={i}>
+                      {city.name_ru}
+                    </option>
+                  ))
+                : null}
+            </select>
+          </div>
         ) : cityLoading ? (
-          <div className="spinner-border text-primary" role="status">
-            <span className="sr-only">Loading...</span>
+          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-3`}>
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
         ) : (
-          <small></small>
+          <small />
         )}
         <button
           className={s.search_btn}

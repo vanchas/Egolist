@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import s from './sidebar.module.scss'
-import SidebarMessages from './SidebarMessages'
-import SidebarSettings from './SidebarSettings'
-import SidebarStatistics from './SidebarStatistics'
-import SidebarUserProfile from './SidebarUserProfile'
-import UserBar from './UserBar'
-import {authenticationService} from "../../_services/authentication.service";
+import React, { useEffect, useState } from "react";
+import s from "./sidebar.module.scss";
+import SidebarMessages from "./SidebarMessages";
+import SidebarSettings from "./SidebarSettings";
+import SidebarStatistics from "./SidebarStatistics";
+import SidebarUserProfile from "./SidebarUserProfile";
+import UserBar from "./UserBar";
+import { authenticationService } from "../../_services/authentication.service";
 import Link from "next/link";
 import SidebarControl from "./SidebarControl";
+import Logo from "../../assets/header/main-logo.png";
 
 export default function Sidebar(props) {
   const [component, setComponent] = useState(<SidebarMessages />);
@@ -15,11 +16,11 @@ export default function Sidebar(props) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userData = authenticationService.currentUserValue
-    if (userData && userData.user) setUser(userData.user)
-  }, [])
+    const userData = authenticationService.currentUserValue;
+    if (userData && userData.user) setUser(userData.user);
+  }, []);
 
-  const changeComponent = ref => {
+  const changeComponent = (ref) => {
     setActiveLink(ref);
     if (ref === "profile") {
       setComponent(<SidebarUserProfile />);
@@ -30,28 +31,27 @@ export default function Sidebar(props) {
     } else if (ref === "settings") {
       setComponent(<SidebarSettings />);
     }
-  }
+  };
 
   return (
     <aside className={`${s.sidebar}`}>
-      {user
-          ? <>
-            <UserBar />
-           <SidebarControl
-               activeLink={activeLink}
-               changeComponent={changeComponent}
-           />
+      <div className={s.sidebar_logo}>
+        <img src={Logo} alt={`EGOLIST`} />
+      </div>
+      {user ? (
+        <>
+          <UserBar />
+          <SidebarControl changeComponent={changeComponent} />
 
-            <div>{component}</div>
-          </> :
+          <div className={s.sidebar_component}>{component}</div>
+        </>
+      ) : (
         <span>
           <Link href={`/login`}>
-            <a className={`btn btn-primary m-2 mr-auto`}>
-              Вход
-            </a>
+            <a className={`btn btn-primary m-2 mr-auto`}>Вход</a>
           </Link>
         </span>
-      }
+      )}
     </aside>
-  )
+  );
 }

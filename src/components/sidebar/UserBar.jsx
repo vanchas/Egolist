@@ -32,21 +32,21 @@ function UserBar({ locations }) {
         <span className={s.username}>
           {user.user.name || 'USERNAME'}
         </span>
-        <div className={`text-center`}>{user.user.active
-            ? <div>Статус: <span className={`text-success`}>Верифицирован</span></div>
-            : <div>Статус: <span className={`text-danger`}>Не верифицирован</span></div>
-        }</div>
+        {/*<div className={`text-center`}>{user.user.active*/}
+        {/*    ? <div>Статус: <span>Верифицирован</span></div>*/}
+        {/*    : <div>Статус: <span>Не верифицирован</span></div>*/}
+        {/*}</div>*/}
         <div className={s.user_rating}>
           <Rating rating={user.user.rating} />
         </div>
-        <span className={s.user_location}>
-          <img src={Location} alt="location" />
-          {user && user.user && user.user.region && user.user.region.name_ru ?
-              user.user.city && user.user.city.name_ru
-              ? user.user.region.name_ru + ', ' + user.user.city.name_ru
-              : user.user.region.name_ru
-              : 'регион не указан'}
-        </span>
+        {/*<span className={s.user_location}>*/}
+        {/*  <img src={Location} alt="location" />*/}
+        {/*  {user && user.user && user.user.region && user.user.region.name_ru ?*/}
+        {/*      user.user.city && user.user.city.name_ru*/}
+        {/*      ? user.user.region.name_ru + ', ' + user.user.city.name_ru*/}
+        {/*      : user.user.region.name_ru*/}
+        {/*      : 'регион не указан'}*/}
+        {/*</span>*/}
       </div>
     </> : null}
     </div>

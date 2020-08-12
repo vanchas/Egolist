@@ -5,6 +5,7 @@ import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
 import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
+import s from '../components/main-list/desires-list.module.scss'
 
 function App(props) {
 	const [visibleComponent, setVisibleComponent] = React.useState('desires');
@@ -20,7 +21,7 @@ function App(props) {
 	}
 
 	return (
-		<div >
+		<div className={s.main_page}>
 			<MainListControl
 				changeComponent={changeComponent}
 				visibleComponent={visibleComponent}

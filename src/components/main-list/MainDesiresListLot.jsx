@@ -8,6 +8,7 @@ import { authenticationService } from "../../_services/authentication.service";
 import Router from "next/router";
 import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
+import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 
 export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
   const [showToast, setShowToast] = useState(false);
@@ -34,8 +35,12 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
     }
   };
 
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+  }
+
   return (
-    <div className={s.card}>
+    <div className={`shadow ${s.card}`}>
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           {user && (
@@ -46,22 +51,21 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                 </div>
               ) : (
                 <>
-                  {/*<span>*/}
-                  {/*  <Link href={`/comparison`}>*/}
-                  {/*  <a>*/}
-                  {/*    <img src={Libra} alt="" />*/}
-                  {/*  </a>*/}
-                  {/*</Link>*/}
-                  {/*</span>*/}
-                  {user && user.user.id !== desire.user_id && (
+                  {user && user.user.id !== desire.user_id ? (
                     <span onClick={() => likeClickHandler(desire.id)}>
                       <img src={Heart} alt="" />
                     </span>
+                  ) : (
+                    <span />
                   )}
                 </>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                <img src={Burger} alt="" />
+                <span className={s.menu}>
+                  <i />
+                  <i />
+                  <i />
+                </span>
               </span>
 
               {showToast && (
@@ -96,19 +100,27 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
             />
           ) : (
             <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
-              <a className={`w-100 h-100`} />
+              <a className={`w-100 h-100`}>
+                <img src={Placeholder} alt={``} className={`w-100`} />
+              </a>
             </Link>
           )}
         </div>
       </div>
       <div className={s.card_info}>
-        <div className={s.card_elipse} />
-        <h5 className="h6 font-weight-bold">
+        <div className={s.card_elipse}>
+          {desire.user && desire.user.avatar ? (
+            <img className={`h-100`} src={desire.user.avatar} alt={``} />
+          ) : null}
+        </div>
+        <h5>
           <Link href={{ pathname: "/desire", query: { id: desire.id } }}>
-            <a className="text-dark">{desire.header}</a>
+            <a>{desire.header}</a>
           </Link>
         </h5>
-        <span className={s.card_price}>{desire.price} ГРН</span>
+        <span className={s.card_price}>
+          <span>{formatNumber(parseInt(desire.price))}</span> ГРН
+        </span>
       </div>
     </div>
   );

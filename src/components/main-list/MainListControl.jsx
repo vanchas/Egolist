@@ -23,8 +23,6 @@ export default function MainListControl({
 
   return (
     <div className={s.main_list_control}>
-      <h3 className="h4 font-weight-bold m-0 py-3">ОБЬЯВЛЕНИЯ ИЗ ЛЕНТЫ</h3>
-
       <div className={s.list_control}>
         <div>
           <span
@@ -32,7 +30,7 @@ export default function MainListControl({
               changeComponent("desires");
             }}
             className={`${
-              visibleComponent === "desires" ? s.active_black : null
+              visibleComponent === "desires" ? s.active_link : null
             }`}
           >
             Желания
@@ -40,18 +38,17 @@ export default function MainListControl({
           <span
             onClick={() => changeComponent("offers")}
             className={`${
-              visibleComponent === "offers" ? s.active_black : null
+              visibleComponent === "offers" ? s.active_link : null
             }`}
           >
             Предложения
           </span>
         </div>
-        <label className="form-group">
-          <span>Сортировка</span>
+        <label>
+          <span>Сортировка <span className={s.select_arrow}>&#x276D;</span></span>
           {visibleComponent === "desires" ? (
             sortingValues ? (
               <select onChange={(e) => sortDesiresHandler(e.target.value)}>
-                <option value="default" hidden></option>
                 {sortingValues && sortingValues.length
                   ? sortingValues.map((val, i) => {
                       if (val.search_by.includes("idc")) {
@@ -85,7 +82,6 @@ export default function MainListControl({
             )
           ) : sortingValues ? (
             <select onChange={(e) => sortOffersHandler(e.target.value)}>
-              <option value="default" hidden></option>
               {sortingValues && sortingValues.length
                 ? sortingValues.map((val, i) => {
                     if (val.search_by.includes("idc")) {
