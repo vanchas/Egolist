@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {
   getLocations,
 } from "../../redux/actions/appActions";
+import Categories from "../categories/Categories";
 
 function Header(props) {
   useEffect(() => {
@@ -14,6 +15,7 @@ function Header(props) {
   return (
     <header className={`header ${s.header}`}>
       <NavComponent  />
+      <Categories />
     </header>
   );
 }

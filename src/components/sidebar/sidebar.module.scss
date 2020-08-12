@@ -1,6 +1,7 @@
 .sidebar {
-	background-color: #fff;
+	background: linear-gradient(135deg, #3d4249, #31353b);
 	min-height: 100vh;
+	border-radius: 1em;
 
 	@media screen and (max-width: 1024px) {
 		display: none;

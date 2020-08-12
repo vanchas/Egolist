@@ -9,7 +9,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-image-crop/dist/ReactCrop.css";
 import Router from "next/router";
 import NProgress from "nprogress"; //nprogress module
-import "nprogress/nprogress.css"; //styles of nprogress
+import "nprogress/nprogress.css";
+import Head from "next/head"; //styles of nprogress
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -30,6 +31,10 @@ class MyApp extends App {
 
     return (
       <Provider store={store}>
+        <Head>
+          <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" />
+          <title>EGOLIST</title>
+        </Head>
         <Layout>
           <Component {...pageProps} />
         </Layout>

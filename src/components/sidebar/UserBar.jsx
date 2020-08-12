@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Location from '../../assets/sidebar/Location.png'
 import { authenticationService } from '../../_services';
 import s from './sidebar.module.scss'
-import Placeholder from '../../assets/user-placeholder.jpg'
+import Placeholder from '../../assets/old/user-placeholder.jpg'
 import Rating from '../helpers/Rating'
 import { connect } from 'react-redux';
 

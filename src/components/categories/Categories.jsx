@@ -25,11 +25,11 @@ function Categories({
   subcategories,
 }) {
   const dispatch = useDispatch();
-  const [subcatLoading, setSubcatLoading]= useState(false)
+  const [subcatLoading, setSubcatLoading] = useState(false);
 
   useEffect(() => {
     if (subcategories && subcategories.length) {
-      setSubcatLoading(false)
+      setSubcatLoading(false);
     }
     getCategories();
   }, [subcategories]);
@@ -44,8 +44,8 @@ function Categories({
     getDesiresByCategory(id);
     if (!subcategories || !subcategories.length) {
       setTimeout(() => {
-        setSubcatLoading(false)
-      }, 5000)
+        setSubcatLoading(false);
+      }, 5000);
     }
   };
 
@@ -59,20 +59,18 @@ function Categories({
 
   return (
     <section className={s.categories}>
-      <h3 className="h5">КАТЕГОРИИ</h3>
       {categories && categories.length ? (
         <>
-          <ul className="categories-list">
+          {/* DESKTOP */}
+          <ul>
             {categories.map((c, i) => (
-              <li
-                className="btn"
-                key={i}
-                onClick={() => filterByCategoryHandler(c.id)}
-              >
-                {c.name}
+              <li key={i} onClick={() => filterByCategoryHandler(c.id)}>
+                {c.name} <span>&#x276D;</span>
               </li>
             ))}
           </ul>
+
+          {/* MOBILE */}
           <select
             className={`form-control`}
             onChange={(e) => filterByCategoryHandler(e.target.value)}
@@ -123,15 +121,13 @@ function Categories({
             ))}
           </select>
         </>
-      ) : (
-        subcatLoading ?
-            <div className={`text-center py-1`}>
-              <div className="spinner-border text-secondary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-            : null
-      )}
+      ) : subcatLoading ? (
+        <div className={`text-center py-1`}>
+          <div className="spinner-border text-secondary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

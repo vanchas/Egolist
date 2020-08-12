@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import s from "./header.module.scss";
-import MainLogo from "../../assets/main-logo.png";
+import MainLogo from "../../assets/old/main-logo.png";
 import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
 import Router from "next/router";
@@ -78,14 +78,14 @@ const NavComponent = ({
     e.preventDefault();
     dispatch({ type: SEARCH_INFO, payload: [] });
     const searchString = !searchValue.length
-      ? ' '
+      ? " "
       : searchValue.includes("/")
-        ? searchValue.split("/").join("~slash~")
-        : searchValue;
+      ? searchValue.split("/").join("~slash~")
+      : searchValue;
     searchInfo(
       searchString,
       regionId ?? 1,
-      cityId ?? '',
+      cityId ?? "",
       selectedCategory ? JSON.stringify([selectedCategory]) : [1],
       selectedSubcategory ? JSON.stringify([selectedSubcategory]) : [1]
     );
@@ -93,44 +93,34 @@ const NavComponent = ({
   };
 
   const reloadPage = () => {
-    if (Router.pathname === '/') {
-      window.location.reload(true)
+    if (Router.pathname === "/") {
+      window.location.reload(true);
     }
-  }
+  };
 
   return (
     <div className={s.navbar_nav}>
-      <Link href="/">
-        <a className={`${s.navbar_brand}`} onClick={reloadPage}>
-          <img
-            src={MainLogo}
-            alt="EGOLIST"
-            className={`mx-auto ${s.main_logo}`}
-          />
-        </a>
-      </Link>
-
-      <Navbar color="" light expand="md" className="py-0">
+      <Navbar color="" light expand="md" className="">
         <NavbarToggler onClick={toggle} className={s.navbar_toggler} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className={`mr-auto pb-2`} navbar>
+          <Nav className={s.navbar_content} navbar>
             <NavItem
               className={`${s.nav_item} ${
-                router.pathname === "/" ? s.active_yellow : null
+                router.pathname === "/" ? s.active_link : null
               } nav-item`}
             >
               <Link href={`/`}>
-                <a className="font-weight-bold" onClick={reloadPage}>ЛЕНТА</a>
+                <a onClick={reloadPage}>ЛЕНТА</a>
               </Link>
             </NavItem>
             {user && user.token ? (
               <NavItem
                 className={`${s.nav_item} ${
-                  router.pathname === "/my-desires" ? s.active_red : null
+                  router.pathname === "/my-desires" ? s.active_link : null
                 } nav-item`}
               >
                 <Link href={`/my-desires`}>
-                  <a className="font-weight-bold">ХОЧУ КУПИТЬ</a>
+                  <a>ХОЧУ КУПИТЬ</a>
                 </Link>
               </NavItem>
             ) : null}
@@ -138,14 +128,14 @@ const NavComponent = ({
               <>
                 <NavItem
                   className={`${s.nav_item} ${
-                    router.pathname === "/my-offers" ? s.active_blue : null
+                    router.pathname === "/my-offers" ? s.active_link : null
                   } nav-item`}
                 >
                   <Link href={`/my-offers`}>
-                    <a className="font-weight-bold">МОИ ПРЕДЛОЖЕНИЯ</a>
+                    <a>МОИ ПРЕДЛОЖЕНИЯ</a>
                   </Link>
                 </NavItem>
-                <NavItem className={`${s.nav_item}`}>
+                <NavItem className={`${s.nav_item} ${s.nav_item_double}`}>
                   <Link href={`/comparison`}>
                     <a>
                       <img src={Libra} alt="" className={s.libra} />
@@ -154,8 +144,6 @@ const NavComponent = ({
                       </small>
                     </a>
                   </Link>
-                </NavItem>
-                <NavItem className={`${s.nav_item}`}>
                   <Link href={`/favorites`}>
                     <a>
                       <img src={Heart} alt="" className={s.libra} />
@@ -168,32 +156,38 @@ const NavComponent = ({
         </Collapse>
       </Navbar>
       <form className={`${s.header_form}`}>
-        <input
-          className={`font-weight-bold border-0 form-control text-dark ${s.search_input}`}
-          type="search"
-          placeholder="Начните вводить поисковый запрос"
-          aria-label="Search"
-          onChange={(e) => setSearchValue(e.target.value)}
-          value={searchValue}
-        />
-        <select
-          className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
-          onChange={(e) => filterByLocationHandler(e)}
-        >
-          <option value="default" hidden>
-            Вся украина
-          </option>
-          {locations && locations.length
-            ? locations.map((l, i) => (
+        <div className={s.input_holder}>
+          <i className={`${s.search_icon} fas fa-search`} />
+          <input
+            className={`${s.search_input}`}
+            type="search"
+            placeholder="Начните вводить поисковый запрос"
+            aria-label="Search"
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
+          />
+        </div>
+        <div className={s.select_holder}>
+          <span>&#x276F;</span>
+          <select
+            className={s.search_select}
+            onChange={(e) => filterByLocationHandler(e)}
+          >
+            <option value="default" hidden>
+              Вся украина
+            </option>
+            {locations && locations.length
+              ? locations.map((l, i) => (
                 <option value={l.id} key={i}>
                   {l.name_ru}
                 </option>
               ))
-            : null}
-        </select>
+              : null}
+          </select>
+        </div>
         {cities && cities.length && cities[0] && !cityLoading ? (
           <select
-            className={`font-weight-bold ${s.search_select} border-0 form-control text-dark`}
+            className={s.search_select}
             onChange={(e) => filterByCityHandler(e)}
           >
             <option value="default" hidden>
@@ -215,7 +209,7 @@ const NavComponent = ({
           <small></small>
         )}
         <button
-          className={`font-weight-bold btn text-dark ${s.search_btn}`}
+          className={s.search_btn}
           type="submit"
           onClick={(e) => searchByStringHandler(e)}
         >

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import VerifyExample from "../../assets/verification.png";
+import VerifyExample from "../../assets/old/verification.png";
 import {
   getPhotoVerifyExample,
   verifyMyProfile,

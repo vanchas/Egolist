@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Categories from '../components/categories/Categories';
 import MainDesiresList from '../components/main-list/MainDesiresList';
 import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/appActions'
 import MainListControl from '../components/main-list/MainListControl'
@@ -22,7 +21,6 @@ function App(props) {
 
 	return (
 		<div >
-			<Categories />
 			<MainListControl
 				changeComponent={changeComponent}
 				visibleComponent={visibleComponent}

@@ -3,7 +3,7 @@ import s from "./user.module.scss";
 import Location from "../../assets/sidebar/Location.png";
 import moment from "moment";
 import Rating from "../helpers/Rating";
-import Placeholder from "../../assets/user-placeholder.jpg";
+import Placeholder from "../../assets/old/user-placeholder.jpg";
 
 export default function UserCard({ user, locations }) {
   const [daysOnEgolist, setDaysOnEgolist] = useState(0);

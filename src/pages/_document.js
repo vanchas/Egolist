@@ -11,7 +11,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>EGOLIST</title>
+        {/*  <title>EGOLIST</title>*/}
         </Head>
         <body>
           <Main />
