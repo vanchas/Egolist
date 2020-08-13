@@ -91,7 +91,7 @@ function Categories({
         </>
       ) : (
         <div className={`text-center py-1`}>
-          <div className="spinner-border text-secondary" role="status">
+          <div className="spinner-grow text-secondary" role="status">
             <span className="sr-only">Loading...</span>
           </div>
         </div>
@@ -133,7 +133,7 @@ function Categories({
         </>
       ) : subcatLoading ? (
         <div className={`text-center py-1`}>
-          <div className="spinner-border text-secondary" role="status">
+          <div className="spinner-grow text-secondary" role="status">
             <span className="sr-only">Loading...</span>
           </div>
         </div>

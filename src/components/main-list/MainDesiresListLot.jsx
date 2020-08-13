@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import s from "./desires-list.module.scss";
-import Burger from "../../assets/header/burger.png";
-import Heart from "../../assets/header/Heart.png";
-import Libra from "../../assets/header/libra.png";
 import { authenticationService } from "../../_services/authentication.service";
 import Router from "next/router";
 import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import formatNumber from "../../utils/format-price-string";
 
 export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
   const [showToast, setShowToast] = useState(false);
@@ -35,10 +33,6 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
     }
   };
 
-  function formatNumber(num) {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
-  }
-
   return (
     <div className={`shadow ${s.card}`}>
       <div className={s.card_header}>
@@ -46,14 +40,17 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
           {user && (
             <>
               {loading ? (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
+                <div className={`pl-3 pr-2 py-1`}>
+                  <div className="spinner-grow text-light" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </div>
               ) : (
                 <>
                   {user && user.user.id !== desire.user_id ? (
                     <span onClick={() => likeClickHandler(desire.id)}>
-                      <img src={Heart} alt="" />
+                      {/*<i className="far fa-heart" />*/}
+                      <i className="fas fa-heart" />
                     </span>
                   ) : (
                     <span />
@@ -61,7 +58,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                 </>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                <span className={s.menu}>
+                <span className={`${s.menu} ${showToast ? s.activeToast : ''}`}>
                   <i />
                   <i />
                   <i />
@@ -93,11 +90,12 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
         </div>
         <div className={s.lot_img_holder}>
           {desire.photo || desire.video ? (
-            <Carousel
-              desireId={desire.id}
-              photo={JSON.parse(desire.photo)}
-              video={desire.video}
-            />
+            // <Carousel
+            //   desireId={desire.id}
+            //   photo={JSON.parse(desire.photo)}
+            //   video={desire.video}
+            // />
+            <img src={JSON.parse(desire.photo)[0]} alt={``} />
           ) : (
             <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
               <a className={`w-100 h-100`}>

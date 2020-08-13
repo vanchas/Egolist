@@ -81,7 +81,7 @@ if (!self.define) {
     });
   };
 }
-define("./sw.js",['./workbox-1291bbaa'], function (workbox) { 'use strict';
+define("./sw.js",['./workbox-ff34be65'], function (workbox) { 'use strict';
 
   /**
   * Welcome to your Workbox-powered service worker!
@@ -98,18 +98,18 @@ define("./sw.js",['./workbox-1291bbaa'], function (workbox) { 'use strict';
   importScripts();
   workbox.skipWaiting();
   workbox.clientsClaim();
+  workbox.registerRoute("/", new workbox.NetworkFirst({
+    "cacheName": "start-url",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 1,
+      maxAgeSeconds: 86400,
+      purgeOnQuotaError: true
+    })]
+  }), 'GET');
   workbox.registerRoute(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i, new workbox.CacheFirst({
     "cacheName": "google-fonts",
     plugins: [new workbox.ExpirationPlugin({
       maxEntries: 4,
-      maxAgeSeconds: 31536000,
-      purgeOnQuotaError: true
-    })]
-  }), 'GET');
-  workbox.registerRoute(/^https:\/\/use\.fontawesome\.com\/releases\/.*/i, new workbox.CacheFirst({
-    "cacheName": "font-awesome",
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 1,
       maxAgeSeconds: 31536000,
       purgeOnQuotaError: true
     })]
@@ -133,7 +133,7 @@ define("./sw.js",['./workbox-1291bbaa'], function (workbox) { 'use strict';
   workbox.registerRoute(/\.(?:js)$/i, new workbox.StaleWhileRevalidate({
     "cacheName": "static-js-assets",
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 16,
+      maxEntries: 32,
       maxAgeSeconds: 86400,
       purgeOnQuotaError: true
     })]
@@ -141,15 +141,15 @@ define("./sw.js",['./workbox-1291bbaa'], function (workbox) { 'use strict';
   workbox.registerRoute(/\.(?:css|less)$/i, new workbox.StaleWhileRevalidate({
     "cacheName": "static-style-assets",
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 16,
+      maxEntries: 32,
       maxAgeSeconds: 86400,
       purgeOnQuotaError: true
     })]
   }), 'GET');
-  workbox.registerRoute(/\.(?:json|xml|csv)$/i, new workbox.StaleWhileRevalidate({
+  workbox.registerRoute(/\.(?:json|xml|csv)$/i, new workbox.NetworkFirst({
     "cacheName": "static-data-assets",
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 16,
+      maxEntries: 32,
       maxAgeSeconds: 86400,
       purgeOnQuotaError: true
     })]
@@ -163,19 +163,11 @@ define("./sw.js",['./workbox-1291bbaa'], function (workbox) { 'use strict';
       purgeOnQuotaError: true
     })]
   }), 'GET');
-  workbox.registerRoute(/\/api\/.*$/i, new workbox.NetworkFirst({
-    "cacheName": "apis",
-    "networkTimeoutSeconds": 10,
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 16,
-      maxAgeSeconds: 86400,
-      purgeOnQuotaError: true
-    })]
-  }), 'POST');
-  workbox.registerRoute(/.*/i, new workbox.StaleWhileRevalidate({
+  workbox.registerRoute(/.*/i, new workbox.NetworkFirst({
     "cacheName": "others",
+    "networkTimeoutSeconds": 10,
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 16,
+      maxEntries: 32,
       maxAgeSeconds: 86400,
       purgeOnQuotaError: true
     })]

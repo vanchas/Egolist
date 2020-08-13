@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./chat.module.scss";
 
-export default function (props) {
+export default function MessagesList(props) {
   return (
     <>
       {props.loading ? (

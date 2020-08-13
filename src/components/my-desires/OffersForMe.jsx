@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "./offers-for-me.module.scss";
 import OfferForMeItem from "./OfferForMeItem";
 import HttpRequest from "../../_helpers/HttpRequest";
+import MyOffersSortControl from "./MyOffersSortControl";
 
 export default function OffersForMe({
   locations,
@@ -41,48 +42,11 @@ export default function OffersForMe({
   };
 
   return (
-    <div className={s.blue_list}>
-      <div className={s.blue_list_sort}>
-        <span>Сортировка</span>
-        {sortingValues ? (
-          <select
-            onChange={(e) => sortOffersByDesireId(desire_id, e.target.value)}
-          >
-            <option value="default" hidden>
-              По рейтингу
-            </option>
-            {sortingValues && sortingValues.length
-              ? sortingValues.map((val, i) => {
-                  if (val.search_by.includes("idc")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                  if (val.search_by.includes("price")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                  if (val.search_by.includes("rating")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                })
-              : null}
-          </select>
-        ) : (
-          <div className="spinner-border text-primary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        )}
-      </div>
+    <div className={s.offers_list}>
+      <MyOffersSortControl
+        sortOffersByDesireId={sortOffersByDesireId}
+        sortingValues={sortingValues}
+      />
 
       <div className={s.blue_list_items}>
         {offersForCurrentDesire && offersForCurrentDesire.length ? (

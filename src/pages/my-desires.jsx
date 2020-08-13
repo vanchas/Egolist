@@ -10,6 +10,7 @@ import {
 import { getCities, getSortingValues } from "../redux/actions/appActions";
 import Router from "next/router";
 import { authenticationService } from "../_services/authentication.service";
+import s from '../components/my-desires/my-desire.module.scss'
 
 function MyDesires({
   sortMyDesires,
@@ -35,7 +36,7 @@ function MyDesires({
   }, []);
 
   return (
-    <div>
+    <div className={s.my_desires_page}>
       {showPage && (
         <MyDesiresList
           deleteDesire={deleteDesire}

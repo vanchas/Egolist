@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import s from "./header.module.scss";
-import MainLogo from "../../assets/old/main-logo.png";
 import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
 import Router from "next/router";
@@ -12,7 +11,6 @@ import {
   NavbarToggler,
   Nav,
   NavItem,
-  NavLink,
 } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import {
@@ -137,16 +135,18 @@ const NavComponent = ({
                 </NavItem>
                 <NavItem className={`${s.nav_item} ${s.nav_item_double}`}>
                   <Link href={`/comparison`}>
-                    <a>
+                    <a className={s.tooltip}>
                       <img src={Libra} alt="" className={s.libra} />
-                      <small className={`text-danger ml-1`}>
-                        {comparisonOffers ? comparisonOffers : null}
-                      </small>
+                      {/*<small className={`text-danger ml-1`}>*/}
+                      {/*  {comparisonOffers ? comparisonOffers : null}*/}
+                      {/*</small>*/}
+                      <span className={s.tooltiptext}>Сравнение</span>
                     </a>
                   </Link>
                   <Link href={`/favorites`}>
-                    <a>
+                    <a className={s.tooltip}>
                       <img src={Heart} alt="" className={s.libra} />
+                      <span className={s.tooltiptext}>Избранное</span>
                     </a>
                   </Link>
                 </NavItem>
@@ -205,8 +205,8 @@ const NavComponent = ({
             </select>
           </div>
         ) : cityLoading ? (
-          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-3`}>
-            <div className="spinner-border text-primary" role="status">
+          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-5`}>
+            <div className="spinner-border text-secondary" role="status">
               <span className="sr-only">Loading...</span>
             </div>
           </div>

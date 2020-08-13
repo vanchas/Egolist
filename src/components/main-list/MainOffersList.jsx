@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import s from "./offers-list.module.scss";
 import MainOffersListLot from "./MainOffersListLot";
-import Success from "../helpers/Success";
 
 export default function MainOffersList({
   offers,
   addOfferToFavorites,
-  success,
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -14,7 +12,7 @@ export default function MainOffersList({
     if (offers && offers.length) {
       setLoading(false);
     } else setLoading(true)
-    setTimeout(() => setLoading(false), 5000);
+    setTimeout(() => setLoading(false), 10000);
   }, [offers]);
 
   return (
@@ -34,12 +32,12 @@ export default function MainOffersList({
         ) : (
           <div className={`text-center py-5`}>
             {loading ? (
-              <div className="spinner-border text-primary" role="status">
+              <div className="spinner-grow text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
-              <div className="py-5 h5 text-center">
-                Нет активных предложений...
+              <div className="py-5 h5 text-center text-white">
+                Нет активных предложений
               </div>
             )}
           </div>

@@ -1,10 +1,13 @@
-const withPWA = require('next-pwa')
+// const withPWA = require('next-pwa')
 const withImages = require('next-images')
-const runtimeCaching = require('next-pwa/cache')
+// const withOffline = require('next-offline')
+// const runtimeCaching = require('next-pwa/cache')
 
-module.exports = withImages({
-    pwa: {
-        runtimeCaching,
-        dest: 'public'
-    }
-})
+const nextConfig = {
+    // pwa: {
+    //     runtimeCaching,
+    //     dest: 'public'
+    // }
+}
+
+module.exports = withImages(nextConfig)

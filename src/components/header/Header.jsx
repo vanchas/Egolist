@@ -6,8 +6,11 @@ import {
   getLocations,
 } from "../../redux/actions/appActions";
 import Categories from "../categories/Categories";
+import { useRouter } from "next/router";
 
 function Header(props) {
+  const router = useRouter()
+
   useEffect(() => {
     props.getLocations();
   }, []);
@@ -15,7 +18,7 @@ function Header(props) {
   return (
     <header className={`header ${s.header}`}>
       <NavComponent  />
-      <Categories />
+      {router.pathname === '/' && <Categories/>}
     </header>
   );
 }

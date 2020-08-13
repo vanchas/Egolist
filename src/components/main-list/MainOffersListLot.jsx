@@ -11,6 +11,7 @@ import ReportModal from "../helpers/ReportModal";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import formatNumber from "../../utils/format-price-string";
 
 function MainOffersListLot({
   offer,
@@ -50,35 +51,39 @@ function MainOffersListLot({
         <div className={s.card_header_control}>
           {user && (
             <>
-              {!loading ? (
-                <>
-                  {loadingComparison ? (
-                    <div className="spinner-border text-warning" role="status">
-                      <span className="sr-only">Loading...</span>
-                    </div>
-                  ) : (
-                    <span
-                      onClick={() => {
-                        setLoadingComparison(true)
-                        addOfferToComparison(offer.id);
-                      }}
-                    >
+              {loadingComparison ? (
+                <div className={`pl-3 pr-2 py-1`}>
+                  <div className="spinner-grow text-light" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <span
+                  onClick={() => {
+                    setLoadingComparison(true)
+                    addOfferToComparison(offer.id);
+                  }}
+                >
                       <img src={Libra} alt="" />
                     </span>
-                  )}
+              )}
+              {!loading ? (
+                <>
                   {user.user.id !== offer.user_id && (
                     <span onClick={() => likeClickHandler(offer.id)}>
-                      <img src={Heart} alt="" />
+                      <i className="fas fa-heart" />
                     </span>
                   )}
                 </>
               ) : (
-                <div className="spinner-border text-warning" role="status">
-                  <span className="sr-only">Loading...</span>
+                <div className={`pl-3 pr-2 py-1`}>
+                  <div className="spinner-grow text-light" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </div>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                 <span className={s.menu}>
+                 <span className={`${s.menu} ${showToast ? s.activeToast : ''}`}>
                   <i />
                   <i />
                   <i />
@@ -110,12 +115,13 @@ function MainOffersListLot({
         </div>
         <div className={s.lot_img_holder}>
           {offer.photo || offer.video ? (
-            <Carousel
-              desireId={offer.desire_id}
-              offerId={offer.id}
-              photo={JSON.parse(offer.photo)}
-              video={offer.video}
-            />
+            // <Carousel
+            //   desireId={offer.desire_id}
+            //   offerId={offer.id}
+            //   photo={JSON.parse(offer.photo)}
+            //   video={offer.video}
+            // />
+            <img src={JSON.parse(offer.photo)[0]} alt={``} />
           ) : (
             <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
               <a className={`w-100 h-100`}>
@@ -136,7 +142,7 @@ function MainOffersListLot({
             <a>{offer.header}</a>
           </Link>
         </h5>
-        <span className={s.card_price}>{offer.price} ГРН</span>
+        <span className={s.card_price}>{formatNumber(parseInt(offer.price))} ГРН</span>
         <div className={s.progress_bar}>
           <div className="progress border border-dark rounded">
             <div

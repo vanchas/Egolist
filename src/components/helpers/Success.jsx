@@ -13,25 +13,23 @@ const styles = {
 };
 
 const ModalExample = (props) => {
-  const [modal, setModal] = useState(props.success ? true : false);
+  const [modal, setModal] = useState(!!props.success);
 
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
-    setModal(props.success ? true : false);
+    setModal(!!props.success);
     setTimeout(() => toggle, 4000);
   }, [props.success]);
 
   return (
-    <div>
-      <Modal isOpen={modal} toggle={toggle} style={styles.center}>
-        <ModalBody style={styles.body}>
-          <div className="alert alert-success" role="alert">
-            {props.success}
-          </div>
-        </ModalBody>
-      </Modal>
-    </div>
+    <Modal isOpen={modal} toggle={toggle} style={styles.center}>
+      <ModalBody style={styles.body}>
+        <div className="alert alert-success" role="alert">
+          {props.success}
+        </div>
+      </ModalBody>
+    </Modal>
   );
 };
 

@@ -36,7 +36,9 @@ export default function Sidebar(props) {
   return (
     <aside className={`${s.sidebar}`}>
       <div className={s.sidebar_logo}>
-        <img src={Logo} alt={`EGOLIST`} />
+        <Link href={`/`}><a>
+          <img src={Logo} alt={`EGOLIST`} />
+        </a></Link>
       </div>
       {user ? (
         <>
