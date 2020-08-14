@@ -1,8 +1,10 @@
 .my_desires_page {
   border-radius: 1em;
   background: linear-gradient(to right, #373b42, #2e3137);
+  //background: linear-gradient(to right, #383d43, #31353b);
   padding: 3rem 5%;
   font-family: "Montserrat", sans-serif;
+  height: 100%;
 }
 
 .red_list {
@@ -36,6 +38,11 @@
       padding: 0.6em 2.5em;
       display: inline-block;
     }
+    @media screen and (max-width: 1300px) {
+      a {
+        padding: 0.6em 1.5em;
+      }
+    }
   }
   .sort_select {
     display: flex;
@@ -68,6 +75,11 @@
       }
     }
   }
+  @media screen and (max-width: 1200px) {
+    display: grid;
+    justify-items: start;
+    gap: 1em;
+  }
 }
 
 .red_list_items {
@@ -81,11 +93,16 @@
 
 .card {
   border-radius: 1em;
-  background-color: #3a3f46;
   color: #383b42;
   display: grid;
   grid-template-columns: 38% 42% 20%;
   overflow: hidden;
+  @media screen and (max-width: 1550px) {
+    grid-template-columns: 2fr 1fr;
+  }
+  @media screen and (max-width: 750px) {
+   grid-template-columns: 1fr;
+  }
 }
 
 .card_image {
@@ -94,6 +111,14 @@
   overflow: hidden;
   height: 22em;
   border-radius: 1em;
+  @media screen and (max-width: 1550px) {
+    grid-row: span 1;
+    grid-column: span 2;
+    margin-bottom: 1em;
+  }
+  @media screen and (max-width: 750px) {
+    grid-column: span 1;
+  }
 
   img {
     width: 100%;
@@ -112,6 +137,7 @@
 }
 
 .card_info_block {
+  background-color: #3a3f46;
   padding: 1.3em 1.5em 1em 1.5em;
   color: #ffffff;
   display: grid;
@@ -138,6 +164,9 @@
       display: block;
       position: absolute;
       bottom: -2px;
+      @media screen and (max-width: 1550px) {
+        background: linear-gradient(to top, #32363c, transparent);
+      }
     }
   }
   .user_block {
@@ -173,6 +202,9 @@
         margin-right: .5em;
       }
     }
+  }
+  @media screen and (max-width: 1550px) {
+    background: none;
   }
 }
 
@@ -235,7 +267,13 @@
 
 .card_footer {
   grid-column: span 2;
-  background-color: #31343a;
+  //background-color: #31343a;
+  @media screen and (max-width: 1550px) {
+    padding-top: .7em;
+  }
+  @media screen and (max-width: 750px) {
+    grid-column: span 1;
+  }
 }
 .not_published {
   height: calc(100% - 7px);
@@ -290,6 +328,16 @@
     }
     &:hover {
       text-shadow: 0 0 10px rgba(255, 255, 255, .7);
+    }
+  }
+  @media screen and (max-width: 750px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    grid-row-gap: 1em;
+    .offers {
+      grid-column: span 3;
+      justify-self: start;
     }
   }
 }

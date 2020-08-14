@@ -10,6 +10,7 @@ import Link from "next/link";
 import SidebarControl from "./SidebarControl";
 import { showSidebar } from "../../redux/actions/appActions";
 import { connect } from "react-redux";
+import Logo from "../../assets/header/main-logo.png";
 
 function MobSidebar(props) {
   const [component, setComponent] = useState();
@@ -36,25 +37,27 @@ function MobSidebar(props) {
 
   return (
     <aside className={s.sidebar}>
+      <div className={s.sidebar_logo}>
+        <span className={s.switch_sidebar} onClick={() => props.showSidebar(false)}>
+          <i className="fas fa-times" />
+        </span>
+        <Link href={`/`}>
+          <a>
+            <img src={Logo} alt={`EGOLIST`} />
+          </a>
+        </Link>
+      </div>
       {user ? (
         <>
           <UserBar />
-          <SidebarControl
-            activeLink={activeLink}
-            changeComponent={changeComponent}
-          />
+          <SidebarControl changeComponent={changeComponent} />
 
-          <div>{component}</div>
+          <div className={s.sidebar_component}>{component}</div>
         </>
       ) : (
         <span>
           <Link href={`/login`}>
-            <a
-              className={`btn btn-primary m-2 mr-auto`}
-              onClick={() => props.showSidebar(!showSidebar)}
-            >
-              Вход
-            </a>
+            <a className={`btn btn-primary m-2 mr-auto`}>Вход</a>
           </Link>
         </span>
       )}

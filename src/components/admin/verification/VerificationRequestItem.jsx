@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import s from "./verification.module.scss";
 import VerificationMessageForm from "./VerificationMessageForm";
+import formatDate from "../../../utils/format-date-string";
 
 
 export default function ({user}) {
@@ -13,9 +14,7 @@ export default function ({user}) {
                 <span>пользователь: {user.name}</span><br />
                 <small className={`text-secondary`}>
                     подано: &nbsp;
-                    {new Date(user.updated_at).getDate()}.
-                    {new Date(user.updated_at).getMonth() + 1}.
-                    {new Date(user.updated_at).getFullYear()}, &nbsp;
+                    {formatDate(user.updated_at)}, &nbsp;
                     {new Date(user.updated_at).getHours()}:
                     {new Date(user.updated_at).getMinutes()}
                 </small>

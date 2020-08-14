@@ -2,6 +2,8 @@
 
 .main_page {
   padding: 2rem 4.5rem;
+  background: linear-gradient(to right, #383d43, #31353b);
+  height: 100%;
 }
 
 .main_list_wrap {
@@ -21,14 +23,12 @@
   align-items: center;
   font-weight: 700;
   color: #000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1500px) {
     grid-template-columns: 1fr;
-    grid-gap: 1em;
+    justify-content: start;
   }
   label {
-    display: grid;
-    grid-auto-flow: column;
-    grid-gap: 1em;
+    display: flex;
     align-items: center;
     align-content: center;
     margin: 0;
@@ -39,7 +39,7 @@
       font-weight: 400;
       .select_arrow {
         margin-left: 1em;
-        margin-right: .3em;
+        margin-right: 1em;
         font-weight: 800;
       }
     }
@@ -72,8 +72,7 @@
     }
   }
   div {
-    display: grid;
-    grid-auto-flow: column;
+    display: flex;
     span {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
@@ -100,9 +99,15 @@
     padding: 0;
     list-style: none;
     display: grid;
-    grid-template-columns: 24% 24% 24% 24%;
-    grid-column-gap: 1.3%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 1em;
     grid-row-gap: 2em;
+    @media screen and (max-width: 1850px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    @media screen and (max-width: 1550px) {
+      grid-template-columns: 1fr 1fr;
+    }
     @media screen and (max-width: 768px) {
       grid-template-columns: 1fr;
     }
@@ -187,8 +192,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    //width: auto;
-    height: 100%;
+    width: 100%;
   }
 }
 .card_info {

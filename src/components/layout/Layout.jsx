@@ -14,13 +14,6 @@ const Layout = (props) => {
       {props.success && <Success />}
       {props.alert && <Alert />}
 
-      <span
-        className={s.sidebar_toggler}
-        onClick={() => props.showSidebar(!props.sidebar)}
-      >
-        &gt;&gt;&gt;
-      </span>
-
       <div className={s.sidebar_holder}>
         {props.sidebar && <MobSidebar showSidebar={props.showSidebar} />}
         <Sidebar />

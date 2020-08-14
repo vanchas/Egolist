@@ -1,4 +1,3 @@
-
 .sidebar_user_control {
   transform: translateY(-4rem);
   background-color: #3a3f46;
@@ -11,15 +10,15 @@
   }
   .arrow {
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 19px;
     font-weight: 900;
-    padding: .5em 5%;
+    padding: 0.5em 5%;
     display: inline-block;
   }
   .link {
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 19px;
     font-weight: 700;
     width: 8em;
@@ -27,16 +26,21 @@
     }
   }
   .aside_btn_active {
-
+  }
+  @media screen and (max-width: 1550px) {
+    transform: translateY(-2.5rem);
+    grid-template-columns: 0 1fr;
+    text-align: center;
+    padding: .5em;
   }
 }
 
 .bell {
-  margin-left: .3em;
+  margin-left: 0.3em;
 }
 
 .notifications_number {
-    position: absolute;
+  position: absolute;
   border-radius: 50%;
   background-color: red;
   color: #fff;
@@ -45,5 +49,5 @@
   height: 17px;
   top: 0;
   transform: translate(-50%, -20%);
-  font-size: .8em;
+  font-size: 0.8em;
 }

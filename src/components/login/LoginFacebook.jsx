@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-export default function (props) {
+export default function FacebookLoginComponent(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +42,6 @@ export default function (props) {
       .then((data) => {
         if (data && data.token) {
           Cookies.set("currentUser", JSON.stringify(data), { expires: 1 });
-          Router.push('/')
           return data
         } else {
           props.setErrorFromBackend('К сожалению войти не удалось')
@@ -50,6 +49,7 @@ export default function (props) {
         }
       })
       .then(data => {
+        Router.push('/')
         if (data) window.location.reload(true)
       })
       .catch((err) => console.error(err));

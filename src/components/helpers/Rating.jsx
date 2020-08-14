@@ -23,8 +23,8 @@ export default function Rating({ rating }) {
     <div className="text-center">
       {Object.entries(ratingObj).map(([key, val], i) => (
         val ?
-            <span key={i}>&#x2605;</span>
-            : <span key={i} style={{color: '#c78550'}}>&#x2605;</span>
+            <span key={i} style={{color: '#fff'}}>&#x2605;</span>
+            : <span key={i} style={{color: '#999'}}>&#x2605;</span>
       ))}
     </div>
   )

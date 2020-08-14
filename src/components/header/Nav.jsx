@@ -25,6 +25,7 @@ import {
   getCities,
   getLocations,
   searchInfo,
+  showSidebar
 } from "../../redux/actions/appActions";
 
 const NavComponent = ({
@@ -37,6 +38,8 @@ const NavComponent = ({
   cities,
   selectedSubcategory,
   comparisonOffers,
+  showSidebar,
+  sidebar
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -55,6 +58,7 @@ const NavComponent = ({
   }, [cities]);
 
   const filterByLocationHandler = (e) => {
+    if (Router.pathname !== '/') Router.push('/')
     setCityLoading(true);
     getCities(e.target.value);
     setRegionId(e.target.value);
@@ -65,6 +69,7 @@ const NavComponent = ({
   };
 
   const filterByCityHandler = (e) => {
+    if (Router.pathname !== '/') Router.push('/')
     setCityId(e.target.value);
     dispatch({ type: FILTER_DESIRES, payload: [] });
     dispatch({ type: FILTER_OFFERS, payload: [] });
@@ -74,6 +79,7 @@ const NavComponent = ({
 
   const searchByStringHandler = (e) => {
     e.preventDefault();
+    if (Router.pathname !== '/') Router.push('/')
     dispatch({ type: SEARCH_INFO, payload: [] });
     const searchString = !searchValue.length
       ? " "
@@ -98,8 +104,11 @@ const NavComponent = ({
 
   return (
     <div className={s.navbar_nav}>
-      <Navbar color="" light expand="md" className="">
+      <Navbar color="" dark expand="lg" className="">
         <NavbarToggler onClick={toggle} className={s.navbar_toggler} />
+        <button onClick={() => showSidebar(!sidebar)} className={s.sidebar_toggler}>
+          <span className="navbar-toggler-icon" />
+        </button>
         <Collapse isOpen={isOpen} navbar>
           <Nav className={s.navbar_content} navbar>
             <NavItem
@@ -108,7 +117,7 @@ const NavComponent = ({
               } nav-item`}
             >
               <Link href={`/`}>
-                <a onClick={reloadPage}>ЛЕНТА</a>
+                <a onClick={reloadPage} className={`pr-3`}>ЛЕНТА</a>
               </Link>
             </NavItem>
             {user && user.token ? (
@@ -118,7 +127,7 @@ const NavComponent = ({
                 } nav-item`}
               >
                 <Link href={`/my-desires`}>
-                  <a>ХОЧУ КУПИТЬ</a>
+                  <a className={`pr-3`}>ХОЧУ КУПИТЬ</a>
                 </Link>
               </NavItem>
             ) : null}
@@ -157,7 +166,7 @@ const NavComponent = ({
       </Navbar>
       <form className={`${s.header_form} shadow-sm`}>
         <div className={s.input_holder} suppressHydrationWarning={true}>
-          <i className={`${s.search_icon} fas fa-search`} />
+          {/*<i className={`${s.search_icon} fas fa-search`} />*/}
           <input
             className={`${s.search_input}`}
             type="search"
@@ -205,7 +214,7 @@ const NavComponent = ({
             </select>
           </div>
         ) : cityLoading ? (
-          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-5`}>
+          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-5 ${s.city_loader}`}>
             <div className="spinner-border text-secondary" role="status">
               <span className="sr-only">Loading...</span>
             </div>
@@ -225,16 +234,14 @@ const NavComponent = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  const comparisonOffers = state.user.comparisonOffers.length;
-  return {
+const mapStateToProps = (state) => ({
     locations: state.app.locations,
     selectedCategory: state.app.selectedCategory,
     selectedSubcategory: state.app.selectedSubcategory,
     cities: state.app.cities,
-    comparisonOffers,
-  };
-};
+    comparisonOffers: state.user.comparisonOffers.length,
+    sidebar: state.app.sidebar
+})
 
 const mapDispatchToProps = {
   getLocations,
@@ -242,6 +249,7 @@ const mapDispatchToProps = {
   filterOffers,
   filterDesires,
   getCities,
+  showSidebar
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavComponent);

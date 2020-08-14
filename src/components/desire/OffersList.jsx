@@ -9,7 +9,8 @@ function OffersList({ offers, locations, showSuccess, addOfferToFavorites, addOf
 
   useEffect(() => {
     if (offers && offers.length) setLoading(false);
-    setTimeout(() => setLoading(false), 5000);
+    const timer = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

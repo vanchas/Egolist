@@ -2,6 +2,7 @@ import React from "react";
 import UpdateComplaint from "./UpdateComplaint";
 import { connect } from "react-redux";
 import { deleteComplaint } from "../../../redux/actions/adminActions";
+import formatDate from "../../../utils/format-date-string";
 
 function ComplaintsItem(props) {
   return (
@@ -17,17 +18,13 @@ function ComplaintsItem(props) {
       </div>
       <div className={`small text-muted`}>Создано:
         &nbsp;
-        {new Date(props.complaint.created_at).getDate()}.
-        {new Date(props.complaint.created_at).getMonth()+1}.
-        {new Date(props.complaint.created_at).getFullYear()}
+        {formatDate(props.complaint.created_at)}
         &nbsp;
         {new Date(props.complaint.created_at).getHours()}:
         {new Date(props.complaint.created_at).getMinutes()};
         Обновлено:
         &nbsp;
-        {new Date(props.complaint.updated_at).getDate()}.
-        {new Date(props.complaint.updated_at).getMonth()+1}.
-        {new Date(props.complaint.updated_at).getFullYear()}
+        {formatDate(props.complaint.updated_at)}
         &nbsp;
         {new Date(props.complaint.updated_at).getHours()}:
         {new Date(props.complaint.updated_at).getMinutes()};

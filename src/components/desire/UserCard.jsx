@@ -4,6 +4,11 @@ import Location from "../../assets/sidebar/Location.png";
 import moment from "moment";
 import Rating from "../helpers/Rating";
 import Placeholder from "../../assets/old/user-placeholder.jpg";
+import Messenger from "../../assets/social/messenger.png";
+import Whatsup from "../../assets/social/whatsup.png";
+import Telegram from "../../assets/social/telegram.png";
+import Skype from "../../assets/social/skype.png";
+import Mail from "../../assets/social/email.png";
 
 export default function UserCard({ user, locations }) {
   const [daysOnEgolist, setDaysOnEgolist] = useState(0);
@@ -52,81 +57,64 @@ export default function UserCard({ user, locations }) {
     <>
       {user ? (
         <div className={s.user_card}>
-          <div className="h6 text-center">{user.status}</div>
-          <div className={s.user_ava}>
-            {user && user.avatar ? (
-              <img src={user.avatar} alt={user.name} />
-            ) : (
-              <img src={Placeholder} alt="" />
-            )}
-          </div>
-          <div className="h5 text-center">
-            {user.name} <small>(Автор)</small>
-          </div>
-          {user.active ? (
-            <div className={`text-center`}>
-              Статус: <span className={`text-success`}>Верифицирован</span>
+          <div className={s.header}>
+            <div className={s.user_ava}>
+              {user && user.avatar ? (
+                <img src={user.avatar} alt={user.name} />
+              ) : (
+                <img src={Placeholder} alt="" />
+              )}
             </div>
-          ) : (
-            <div className={`text-center`}>
-              Статус: <span className={`text-danger`}>Не верифицирован</span>
+            <div className={s.name}>{user.name.split(' ')[0]}</div>
+            <div className={s.rating}>
+              <Rating rating={user.rating} />
             </div>
-          )}
-          <Rating rating={user.rating} />
-          <div className={s.location}>
-            <img src={Location} alt="" />
-            <span>
-              {userLocation.length ? userLocation : "город не указан"}
-            </span>
           </div>
-          <div className={s.days_on_egolist}>
-            <span>{daysOnEgolist}</span>
-            <span>{daysText} на EGOLIST</span>
-          </div>
-          <div className={s.complains_desires}>
-            <div className="h5 text-center">Жалобы ...</div>
-            <div className="h5 text-center">Желания ...</div>
-          </div>
-          <div className={s.contacts}>
-            <a className="btn text-center" href={`tel:+${user.phone}`}>
-              {user.phone}
-            </a>
-            <a className="btn text-center" href={`mailto:${user.email}`}>
-              {user.email}
-            </a>
-          </div>
-          <div className={s.links}>
-            {user && user.telegram && user.telegram !== "null" ? (
-              // <a href={`https://telegram.me/${user.telegram}`}  target="_blank">{user.telegram}</a>
-              <span>
-                telegram:
-                <a
-                  href={`https://telegram.im/${user.telegram}`}
-                  className={`btn`}
-                  target="_blank"
-                >
-                  {user.telegram}
-                </a>
-              </span>
-            ) : null}
-            {user && user.phone && user.phone !== 'null'
-                ? <span>viber:
-                  <a href={`viber://chat?number=+${user.phone}`}
-                  target={`_blank`}
-                  className={`btn`}>@{user.phone}</a>
-                </span> : null}
-            {/*{user && user.phone && user.phone !== 'null'*/}
-            {/*    ? <span>whatsapp:*/}
-            {/*      <a href={`whatsapp://send?phone=${user.phone}`}*/}
-            {/*         target={`_blank`}*/}
-            {/*         className={`btn`}>@{user.phone}</a>*/}
-            {/*    </span> : null}*/}
+
+          <div className={s.content}>
+            <div className={s.status}>{user.status}</div>
+            <div className={s.location}>
+              <img src={Location} alt="" />
+              <span>{userLocation.length ? userLocation : "Не указано"}</span>
+            </div>
+            <div className={s.user_info}>
+              <div className={s.days}>
+                <span><b>{daysOnEgolist} </b> </span>
+                <span>{daysText} на EGOLIST</span>
+              </div>
+              <div><b>{user.complaint_counter}</b> Жалоб</div>
+              <div><b>{user.offer_counter}</b> Объявлений</div>
+            </div>
+            <div className={s.write_to_author}>Написать автору</div>
+            <div className={s.links_title}>Медальки</div>
+            <div className={s.links}>
+              <a href={`tel:+${user.phone}`} target="_blank">
+                <img src={Messenger} alt={``} />
+                Messenger
+              </a>
+              <a href={`whatsapp://send?phone=${user.phone}`} target="_blank">
+                <img src={Whatsup} alt={``} />
+                Whatsup
+              </a>
+              <a href={`skype:${user.skype}?userinfo`} target="_blank">
+                <img src={Skype} alt={``} />
+                Skype
+              </a>
+              <a href={`https://telegram.im/${user.telegram}`} target="_blank">
+                <img src={Telegram} alt={``} />
+                Telegram
+              </a>
+              <a href={`mailto:${user.email}`} target="_blank">
+                <img src={Mail} alt={``} />
+                E-Mail
+              </a>
+            </div>
           </div>
         </div>
       ) : (
         <div className={`text-center py-5`}>
           {loading ? (
-            <div className="spinner-border text-primary" role="status">
+            <div className="spinner-border text-secondary" role="status">
               <span className="sr-only">Loading...</span>
             </div>
           ) : (

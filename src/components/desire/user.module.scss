@@ -1,66 +1,124 @@
 .user_card {
-	display: grid;
-	padding: 1em;
-	grid-gap: 0.5em;
-	background-color: #fff;
-	@media screen and (max-width: 767px) {
-		order: -1;
-		border-bottom: 1px solid #ccc;
-	}
-}
-.user_ava {
-	border: 1px solid #ccc;
-	border-radius: 50%;
-	overflow: hidden;
-	height: 10em;
-	width: 10em;
-	margin: 0 auto 1em auto;
-	display: grid;
-	justify-content: center;
-	align-items: center;
-	img {
-		width: 100%;
-		height: 100%;
-	}
-}
-.location {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	img {
-		width: 1em;
-	}
-	span {
-		padding-left: 0.5em;
-		font-weight: 500;
-		font-size: 1em;
-		// white-space: nowrap;
-	}
+  background: linear-gradient(to bottom, #373b42, #2e3137);
+  border-radius: 1em;
+  padding: 3rem 12%;
+  color: #fff;
+  display: grid;
+  align-content: stretch;
 }
 
-.complains_desires, .contacts, .links {
-	display: grid;
-	justify-items: center;
-	@media screen and (max-width: 767px) {
-		grid-template-columns: 1fr 1fr;
-	}
+.header {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 1fr 3fr;
+  align-items: center;
+  .user_ava {
+    align-self: start;
+    grid-row: span 2;
+    margin-left: -1em;
+    width: 9em;
+    height: 9em;
+    border: 4px solid #c78550;
+    border-radius: 50%;
+    position: relative;
+    padding: 0.5em;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .name {
+    align-self: end;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .rating {
+    align-self: start;
+  }
 }
 
-.days_on_egolist {
-	display: flex;
-	font-weight: 800;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	span:nth-child(1) {
-		font-size: 2.2em;
-		margin-right: 0.1em;
-	}
-	span:nth-child(2) {
-		font-size: 1em;
-	}
-	@media screen and (max-width: 767px) {
-		align-items: center;
-		justify-content: center;
-	}
+.content {
+  border-radius: 1em;
+  padding: 1em;
+  background-color: #3a3f46;
+  margin-top: -14rem;
+  display: grid;
+
+  .status {
+    text-align: end;
+    color: #79b972;
+    font-size: 17px;
+    font-weight: 700;
+    height: 1em;
+  }
+  .location {
+    height: 1em;
+    text-align: end;
+    img {
+      width: 18px;
+      height: 23px;
+      filter: invert(1);
+      margin-right: .5em;
+    }
+    span {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+  .user_info {
+    margin-top: 1em;
+    border-radius: 1em;
+    background-color: #22262a;
+    padding: 1.5em;
+    display: grid;
+    div {
+      white-space: nowrap;
+      b {
+        font-size: 19px;
+        font-weight: 700;
+        padding-right: .5em;
+      }
+    }
+  }
+  .write_to_author {
+    border-radius: .8em;
+    background-image: linear-gradient(to top, #3c855b 0%, #3c855b 1%, #7ab972 100%);
+    text-align: center;
+    padding: .2em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .links_title {
+    font-size: 34px;
+    font-weight: 400;
+    text-align: center;
+    padding: 1em 0;
+  }
+  .links {
+    border-radius: 1em;
+    background-color: #22262a;
+    display: grid;
+    padding: 1em 0;
+    a {
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 400;
+      padding: .5em 1.5em;
+      img {
+        width: 35px;
+        height: 35px;
+        margin-right: 1em;
+      }
+    }
+  }
 }

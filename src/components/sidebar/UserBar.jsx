@@ -30,7 +30,7 @@ function UserBar({ locations }) {
       </div>
       <div className={s.user_info}>
         <span className={s.username}>
-          {user.user.name || 'USERNAME'}
+          {user.user.name.split(' ')[0]}
         </span>
         {/*<div className={`text-center`}>{user.user.active*/}
         {/*    ? <div>Статус: <span>Верифицирован</span></div>*/}

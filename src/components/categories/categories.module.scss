@@ -7,7 +7,6 @@
 			display: block;
 		}
 	}
-
 	ul {
 		padding: 2.7em 0;
 		list-style: none;
@@ -16,6 +15,12 @@
 		grid-template-columns: repeat(4, 1fr);
 		grid-column-gap: 1.2em;
 		grid-row-gap: .5em;
+		@media screen and (max-width: 1700px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		@media screen and (max-width: 850px) {
+			grid-template-columns: repeat(2, 1fr);
+		}
 		@media screen and (max-width: 768px) {
 			display: none;
 		}
