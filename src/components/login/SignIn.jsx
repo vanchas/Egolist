@@ -12,8 +12,10 @@ export default function SignIn(props) {
   return (
     <div>
       <div className="alert alert-info" role="alert">
-        User: Login - client@client, password - client <br />
-        Admin: Login - admin@admin, password - admin
+        admin : admin@admin, admin <br />
+        user с проверенным телефоном и имейлом: client@client.com, client <br />
+        user с проверенным телефоном и имейлом, верифицирован: client@client.verify, client
+
       </div>
       <h2>Логин</h2>
       <Formik
