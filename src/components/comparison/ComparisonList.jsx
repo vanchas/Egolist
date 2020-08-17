@@ -12,7 +12,7 @@ const ComparisonList = SortableContainer(({ offers }) => {
           <ComparisonItem key={index} index={index} offer={offer} />
         ))
       ) : (
-        <div className={`text-center py-5 h5`}>
+        <div className={`text-center text-white py-5 h5`}>
           Список предложений для сравнения пуст
         </div>
       )}

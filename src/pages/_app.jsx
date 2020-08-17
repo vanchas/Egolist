@@ -8,6 +8,8 @@ import "./styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-image-crop/dist/ReactCrop.css";
 
+import 'antd/dist/antd.css';
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

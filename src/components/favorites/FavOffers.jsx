@@ -25,11 +25,11 @@ export default function FavOffers({
             ) : (
                 <div className={`text-center py-5`}>
                     {loading ? (
-                        <div className="spinner-border text-primary" role="status">
+                        <div className="spinner-border text-secondary" role="status">
                             <span className="sr-only">Loading...</span>
                         </div>
                     ) : (
-                        <div className="py-5 text-center h5">
+                        <div className="py-5 text-center h5 text-white">
                             Нет избанных предложений...
                         </div>
                     )}

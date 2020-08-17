@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
 import inputValidateHandler from "../helpers/FieldsValidator";
 import Router from "next/router";
+import { Upload } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function CreateDesireForm({
   desiresInfo,
@@ -133,6 +135,28 @@ export default function CreateDesireForm({
     getCities(e.target.value);
   };
 
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+      previewTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+  };
+
+  const handleChange = ({ fileList }) => setPhotos(fileList);
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+
   return (
     <div className={s.add_lot_form}>
       {warning && (
@@ -159,14 +183,26 @@ export default function CreateDesireForm({
               if (inputValidateHandler(e, setWarning)) setTitle(e.target.value);
             }}
           />
-          <label>Фото</label>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
-            <input
-              key={i}
-              type="file"
-              onChange={(e) => setPhotos([...photos, e.target.files[0]])}
-            />
-          ))}
+          <div>Фото</div>
+          <Upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={photos}
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            {photos.length >= 8 ? null : uploadButton}
+          </Upload>
+          {/*{[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (*/}
+          {/*  <label key={i}>*/}
+          {/*    <input*/}
+          {/*      type="file"*/}
+          {/*      onChange={(e) => {*/}
+          {/*        setPhotos([...photos, e.target.files[0]])*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </label>*/}
+          {/*))}*/}
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"

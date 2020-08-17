@@ -70,7 +70,7 @@ export default function MyOffersList({
                 : null}
             </select>
           ) : (
-            <div className="spinner-border text-primary" role="status">
+            <div className="spinner-border text-secondary" role="status">
               <span className="sr-only">Loading...</span>
             </div>
           )}
@@ -94,11 +94,11 @@ export default function MyOffersList({
           ) : (
             <div className={`text-center py-5`}>
               {loading ? (
-                <div className="spinner-border text-primary" role="status">
+                <div className="spinner-border text-secondary" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : (
-                <div className="h5 py-5 text-center">
+                <div className="h5 py-5 text-center text-white">
                   У Вас нет активных предложений...
                 </div>
               )}

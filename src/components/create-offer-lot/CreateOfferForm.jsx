@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import s from "./add-form.module.scss";
 import { useRouter } from "next/router";
 import inputValidateHandler from "../helpers/FieldsValidator";
+import { Upload } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function AddLotForm({
   createOffer,
@@ -115,18 +117,39 @@ export default function AddLotForm({
     getCities(e.target.value);
   };
 
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+      previewTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+  };
+
+  const handleChange = ({ fileList }) => setPhotos(fileList);
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+
   return (
     <div className={s.add_lot_form}>
+      <span className={s.btn_back} onClick={() => router.back()}>
+        &lt; Назад
+      </span>
       <h3>Создание предложения</h3>
       {warning && (
         <div className="alert alert-danger" role="alert">
           {warning}
         </div>
       )}
-
-      <span className={s.btn_back} onClick={() => router.back()}>
-        &lt; Назад
-      </span>
       <form onSubmit={submitHandler}>
         <div>
           <label>Заголовок</label>
@@ -142,13 +165,22 @@ export default function AddLotForm({
             }}
           />
           <label>Фото</label>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (
-            <input
-              key={i}
-              type="file"
-              onChange={(e) => setPhotos([...photos, e.target.files[0]])}
-            />
-          ))}
+          <Upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={photos}
+            onPreview={handlePreview}
+            onChange={handleChange}
+          >
+            {photos.length >= 8 ? null : uploadButton}
+          </Upload>
+          {/*{[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (*/}
+          {/*  <input*/}
+          {/*    key={i}*/}
+          {/*    type="file"*/}
+          {/*    onChange={(e) => setPhotos([...photos, e.target.files[0]])}*/}
+          {/*  />*/}
+          {/*))}*/}
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"

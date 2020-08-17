@@ -5,6 +5,7 @@ import { getCities, getSubcategories, getCategories, showAlert } from '../redux/
 import { createOffer } from '../redux/actions/userActions'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
+import s from '../components/create-offer-lot/add-form.module.scss'
 
 function CreateOffer(props) {
   const [showPage, setShowPage] = useState(false)
@@ -18,7 +19,7 @@ function CreateOffer(props) {
   }, []);
 
   return (
-    <div>
+    <div className={s.add_lot_page}>
       {showPage &&
     <AddOfferForm
         createOffer={props.createOffer}

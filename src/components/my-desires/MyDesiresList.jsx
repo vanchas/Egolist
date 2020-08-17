@@ -79,11 +79,11 @@ export default function MyDesireList({
         ) : (
           <div className={`text-center py-5`}>
             {loading ? (
-              <div className="spinner-border text-primary" role="status">
+              <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
-              <div className="py-5 h5 text-center">
+              <div className="py-5 h5 text-center text-white">
                 Вы еще не создали ни одного желания...
               </div>
             )}
