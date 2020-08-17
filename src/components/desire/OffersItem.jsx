@@ -10,17 +10,23 @@ import ReportModal from "../helpers/ReportModal";
 import Carousel from "../helpers/Carousel";
 import { authenticationService } from "../../_services/authentication.service";
 import Router from "next/router";
+import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import UserPlaceholder from "../../assets/sidebar/user.jpeg";
+import OfferRating from "../helpers/OfferRating";
+import formatNumber from "../../utils/format-price-string";
+import SlickSlider from "../helpers/SlickSlider";
 
 export default function OffersItem({
   offer,
   locations,
-  showSuccess,
   addOfferToFavorites,
   addOfferToComparison,
 }) {
   const [userLocation, setUserLocation] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
+  const [favLoading, setFavLoading] = useState(false);
+  const [compLoading, setCompLoading] = useState(false);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -37,103 +43,173 @@ export default function OffersItem({
     });
   }, []);
 
-  const addToFav = (id) => {
+  const addToFav = (e, id) => {
+    e.preventDefault()
+    setFavLoading(true);
     addOfferToFavorites(id);
-    showSuccess("Предложение добавлено в избранные");
+    setTimeout(() => setFavLoading(false), 3000);
+  };
+
+  const addToComp = (e, id) => {
+    e.preventDefault()
+    setCompLoading(true);
+    addOfferToComparison(id);
+    setTimeout(() => setCompLoading(false), 3000);
   };
 
   return (
-    <li
-      className={s.card}
-      style={
-        parseInt(Router.query.offer) === parseInt(offer.id)
-          ? { border: "2px solid red" }
-          : {}
-      }
-    >
-      {offer.user && (
-        <>
-          <div className={s.card_image}>
-            {offer.photo || offer.video ? (
-              <Carousel
-                offerId={null}
-                desireId={offer.desire_id}
-                photo={JSON.parse(offer.photo)}
-                video={offer.video}
-              />
-            ) : null}
-          </div>
+    <div className={s.card}>
+      <div
+        className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
+      >
+        {offer.photo ? (
+          // <Carousel
+          //   desireId={desire.id}
+          //   photo={JSON.parse(desire.photo)}
+          //   video={desire.video}
+          // />
+          <SlickSlider photo={JSON.parse(offer.photo)} />
+          // <img src={JSON.parse(offer.photo)[0]} alt={``} />
+        ) : (
+          <Link
+            href={{
+              pathname: `/desire`,
+              query: { id: offer.desire_id, offer: offer.id },
+            }}
+          >
+            <a className={`w-100 h-100`}>
+              <img src={Placeholder} alt={``} className={s.placeholder} />
+            </a>
+          </Link>
+        )}
+      </div>
 
-          <div className={s.card_info_block}>
-            <h5>{offer.header}</h5>
-            <p>{offer.description}</p>
-            <div className={s.progress_bar}>
-              <div className="progress border border-dark rounded">
+      <div className={s.card_info_block}>
+        <h5>
+          <Link
+            href={{
+              pathname: "/desire",
+              query: { id: offer.desire_id, offer: offer.id },
+            }}
+          >
+            <a>{offer.header}</a>
+          </Link>
+        </h5>
+        <p>{offer.description}</p>
+        <div className={s.user_block}>
+          <span
+            className={`${!offer.is_active ? s.disableColor : ""} ${s.elips}`}
+          >
+            {offer.user.avatar ? (
+              <img src={offer.user.avatar} alt={``} />
+            ) : (
+              <img src={UserPlaceholder} alt={``} />
+            )}
+          </span>
+          <span className={s.user_name}>{offer.user.name}</span>
+          <div className={s.location}>
+            <i className="fas fa-map-marker-alt" />
+            <span>{offer.city ? offer.city.name_ru : "не указано"}</span>
+          </div>
+        </div>
+        <div className={s.progress_bar}>
+          <div className="progress rounded">
+            <div
+              className="progress-bar rounded"
+              role="progressbar"
+              style={{ width: `${offer.rating}%` }}
+              aria-valuenow={offer.rating}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            />
+          </div>
+          <span>
+            <OfferRating rating={offer.rating} />
+            {offer.rating}%
+          </span>
+        </div>
+      </div>
+
+      <div className={s.card_control_block}>
+        <p className={!offer.is_active ? "text-dark" : ""}>ПРЕДЛОЖЕНИЕ</p>
+        <div className={s.price}>
+          <span style={{ fontSize: "30px" }}>
+            {formatNumber(parseInt(offer.price))}
+          </span>{" "}
+          ГРН
+        </div>
+        <div className={s.open}>
+          <Link
+            href={{
+              pathname: "/desire",
+              query: { id: offer.desire_id, offer: offer.id },
+            }}
+          >
+            <a>Открыть</a>
+          </Link>
+        </div>
+      </div>
+
+      <div className={s.card_footer}>
+        {offer.is_active ? (
+          <div
+            className={`${!offer.is_active ? s.disableColor : ""} ${
+              s.card_footer_content
+            }`}
+          >
+            <div className={`d-flex align-items-center`}>
+              {compLoading ? (
+                <div className={`px-4`}>
+                  <div className="spinner-grow text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
                 <div
-                  className="progress-bar bg-secondary rounded"
-                  role="progressbar"
-                  style={{ width: `${offer.rating}%` }}
-                  aria-valuenow={offer.rating}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                />
-              </div>
-              <span>{offer.rating}%</span>
-            </div>
-            <div className={s.card_info_block_footer}>
-              <div>
-                <span className={s.elips} />
-                <span>{offer.user.name}</span>
-              </div>
-              <div>
-                <img src={Location} alt="" className={s.location_img} />
-                <span>{userLocation}</span>
-              </div>
-              <div>
-                <Rating rating={offer.rating} />
-              </div>
-            </div>
-          </div>
-
-          <div className={s.card_control_block}>
-            <div className={s.card_control_header}>
-              <div>
-                <span onClick={() => addOfferToComparison(offer.id)}>
-                  <img src={Libra} alt="" />
-                </span>
-                {user && user.user && user.user.id !== offer.user_id ? (
-                  <span onClick={() => addToFav(offer.id)}>
-                    <img src={Heart} alt="" />
-                  </span>
-                ) : null}
-              </div>
-              <span onClick={(e) => toastHandler(e)}>
-                <img src={Burger} alt="" />
-              </span>
-              {showToast && (
-                <div className={`${s.toast}`}>
-                  <span>Сравнить</span>
-                  {user && user.user && user.user.id === offer.user_id ? (
-                    <Link
-                      href={{
-                        pathname: "/update-offer",
-                        query: { id: offer.id, desire_id: offer.desire_id },
-                      }}
-                    >
-                      <a>Изменить</a>
-                    </Link>
-                  ) : null}
-                  <ReportModal
-                    userId={offer.user_id}
-                    setShowToast={setShowToast}
-                  />
+                  className={s.card_footer_item}
+                  onClick={(e) => addToComp(e, offer.id)}
+                >
+                  <img src={Libra} alt={``} />
+                  <span>В сравнение</span>
+                </div>
+              )}
+              {favLoading ? (
+                <div className={`px-4`}>
+                  <div className="spinner-grow text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className={s.card_footer_item}
+                  onClick={(e) => addToFav(e, offer.id)}
+                >
+                  <img src={Heart} alt={``} />
+                  <span>В избранное</span>
                 </div>
               )}
             </div>
-            <div className={s.price}>{offer.price} ГРН</div>
+            <div onClick={(e) => toastHandler(e)}>
+              {!showToast ? (
+                <img src={Burger} alt={``} />
+              ) : (
+                <span className={s.active_burger}>&#x269F;</span>
+              )}
+            </div>
+
+            {showToast && (
+              <div className={`${s.toast}`}>
+                <ReportModal
+                  userId={offer.user_id}
+                  setShowToast={setShowToast}
+                />
+              </div>
+            )}
           </div>
-        </>
-      )}
-    </li>
+        ) : (
+          <div className={s.not_published}>НЕ ОПУБЛИКОВАНО</div>
+        )}
+      </div>
+    </div>
   );
 }

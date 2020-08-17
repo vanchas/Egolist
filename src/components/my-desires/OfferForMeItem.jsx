@@ -16,6 +16,7 @@ import Heart from "../../assets/header/Heart.png";
 import Burger from "../../assets/header/burger-white.png";
 import ReportModal from "../helpers/ReportModal";
 import OfferRating from "../helpers/OfferRating";
+import SlickSlider from "../helpers/SlickSlider";
 
 function OfferForMeItem({
   offer,
@@ -25,6 +26,8 @@ function OfferForMeItem({
 }) {
   const [region, setRegion] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [favLoading, setFavLoading] = useState(false);
+  const [compLoading, setCompLoading] = useState(false);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -41,6 +44,20 @@ function OfferForMeItem({
     }
   }, [offer, locations]);
 
+  const addToFav = (e, id) => {
+    e.preventDefault();
+    setFavLoading(true);
+    addOfferToFavorites(id);
+    setTimeout(() => setFavLoading(false), 3000);
+  };
+
+  const addToComp = (e, id) => {
+    e.preventDefault();
+    setCompLoading(true);
+    addOfferToComparison(id);
+    setTimeout(() => setCompLoading(false), 3000);
+  };
+
   return (
     <div className={s.card}>
       <div
@@ -52,8 +69,9 @@ function OfferForMeItem({
           //   photo={JSON.parse(desire.photo)}
           //   video={desire.video}
           // />
-          <img src={JSON.parse(offer.photo)[0]} alt={``} />
+          <SlickSlider photo={JSON.parse(offer.photo)} />
         ) : (
+          // <img src={JSON.parse(offer.photo)[0]} alt={``} />
           <Link
             href={{
               pathname: `/desire`,
@@ -141,33 +159,44 @@ function OfferForMeItem({
             }`}
           >
             <div className={`d-flex align-items-center`}>
-              <div onClick={() => addOfferToComparison(offer.id)}>
-                <img src={Libra} alt={``} />
-                <span>В сравнение</span>
-              </div>
-              <div onClick={() => addOfferToFavorites(offer.id)}>
-                <img src={Heart} alt={``} />
-                <span>В избранное</span>
-              </div>
+              {compLoading ? (
+                <div className={`px-4`}>
+                  <div className="spinner-grow text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div className={s.card_footer_item} onClick={(e) => addToComp(e, offer.id)}>
+                  <img src={Libra} alt={``} />
+                  <span>В сравнение</span>
+                </div>
+              )}
+              {favLoading ? (
+                <div className={`px-4`}>
+                  <div className="spinner-grow text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div className={s.card_footer_item} onClick={(e) => addToFav(e, offer.id)}>
+                  <img src={Heart} alt={``} />
+                  <span>В избранное</span>
+                </div>
+              )}
             </div>
             <div onClick={(e) => toastHandler(e)}>
-              {!showToast ?
-                <img src={Burger} alt={``}/>
-                : <span className={s.active_burger}>&#x269F;</span>}
+              {!showToast ? (
+                <img src={Burger} alt={``} />
+              ) : (
+                <span className={s.active_burger}>&#x269F;</span>
+              )}
             </div>
 
             {showToast && (
               <div className={`${s.toast}`}>
-                <Link
-                  href={{
-                    pathname: "/comparison",
-                    query: { id: offer.id },
-                  }}
-                >
-                  <a className={`btn`}>
-                    <span>Сравнить</span>
-                  </a>
-                </Link>
+                <span onClick={() => addOfferToComparison(offer.id)}>
+                  Сравнить
+                </span>
                 <ReportModal
                   userId={offer.user_id}
                   setShowToast={setShowToast}

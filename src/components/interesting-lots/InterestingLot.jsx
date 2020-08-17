@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import s from "./interesting-lots.module.scss";
-import Burger from "../../assets/header/burger.png";
+import Burger from "../../assets/header/burger-white.png";
 import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import { connect } from "react-redux";

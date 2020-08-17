@@ -7,6 +7,7 @@ import Carousel from "../helpers/Carousel";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import formatNumber from "../../utils/format-price-string";
+import SlickSlider from "../helpers/SlickSlider";
 
 export default function MyDesireItem({
   hideShowDesire,
@@ -36,7 +37,8 @@ export default function MyDesireItem({
           //   photo={JSON.parse(desire.photo)}
           //   video={desire.video}
           // />
-          <img src={JSON.parse(desire.photo)[0]} alt={``} />
+          <SlickSlider photo={JSON.parse(desire.photo)} />
+          // <img src={JSON.parse(desire.photo)[0]} alt={``} />
         ) : (
           <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
             <a className={`w-100 h-100`}>

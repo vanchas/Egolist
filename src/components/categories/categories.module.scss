@@ -38,8 +38,12 @@
 			align-items: center;
 			justify-content: space-between;
 			line-height: 1.4em;
+			transition: .3s;
 			span {
 				font-weight: 700;
+			}
+			&:hover {
+				background-color: #222529;
 			}
 		}
 	}

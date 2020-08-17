@@ -80,8 +80,8 @@ function InterestingLotsList(props) {
                 "ОТПРАВИТЬ"
               )}
             </span>
-            <span></span>
-            <span></span>
+            <span/>
+            <span/>
             {showMoreLoader ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>

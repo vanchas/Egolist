@@ -7,6 +7,10 @@ import store from "../redux/store.ts";
 import "./styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-image-crop/dist/ReactCrop.css";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import Router from "next/router";
 // import NProgress from "nprogress"; //nprogress module
 // import "nprogress/nprogress.css";
