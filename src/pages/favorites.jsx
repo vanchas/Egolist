@@ -20,6 +20,7 @@ import {
 } from "../redux/actions/types";
 import Router from "next/router";
 import s from "../components/favorites/fav.module.scss";
+import FavoritePageControl from "../components/favorites/FavoritePageControl";
 
 function Favorites({
   getUserFavoritePosts,
@@ -70,104 +71,17 @@ function Favorites({
   };
 
   return (
-    <div>
+    <div className={s.favorites_page}>
       {showPage && (
         <>
-          <div className={s.favorite_page_control}>
-            <span
-              onClick={() => changeVisibleComponent("desires")}
-              className={`btn ${
-                visibleComponent === "desires" ? "btn-dark" : "btn-secondary"
-              }`}
-            >
-              Избранные желания
-            </span>
-            <span
-              className={`btn ${
-                visibleComponent === "desires" ? "btn-secondary" : "btn-dark"
-              }`}
-              onClick={() => changeVisibleComponent("offers")}
-            >
-              Избранные предложения
-            </span>
-            <label className={`form-group ${s.favorites_sort}`}>
-              <span className="mr-3">Сортировка</span>
-              {visibleComponent === "desires" ? (
-                sortingValues ? (
-                  <select
-                    className={`form-control`}
-                    onChange={(e) => sortDesiresHandler(userId, e.target.value)}
-                  >
-                    {sortingValues && sortingValues.length
-                      ? sortingValues.map((val, i) => {
-                          if (val.search_by.includes("idc")) {
-                            return (
-                              <option key={i} value={val.id}>
-                                {val.value}
-                              </option>
-                            );
-                          }
-                          if (val.search_by.includes("price")) {
-                            return (
-                              <option key={i} value={val.id}>
-                                {val.value}
-                              </option>
-                            );
-                          }
-                          if (val.search_by.includes("priority")) {
-                            return (
-                              <option key={i} value={val.id}>
-                                {val.value}
-                              </option>
-                            );
-                          }
-                        })
-                      : null}
-                  </select>
-                ) : (
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                )
-              ) : sortingValues ? (
-                <select
-                  className={`form-control`}
-                  onChange={(e) => sortOffersHandler(userId, e.target.value)}
-                >
-                  <option value="default" hidden></option>
-                  {sortingValues && sortingValues.length
-                    ? sortingValues.map((val, i) => {
-                        if (val.search_by.includes("idc")) {
-                          return (
-                            <option key={i} value={val.id}>
-                              {val.value}
-                            </option>
-                          );
-                        }
-                        if (val.search_by.includes("price")) {
-                          return (
-                            <option key={i} value={val.id}>
-                              {val.value}
-                            </option>
-                          );
-                        }
-                        if (val.search_by.includes("rating")) {
-                          return (
-                            <option key={i} value={val.id}>
-                              {val.value}
-                            </option>
-                          );
-                        }
-                      })
-                    : null}
-                </select>
-              ) : (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
-            </label>
-          </div>
+          <FavoritePageControl
+            visibleComponent={visibleComponent}
+            changeVisibleComponent={changeVisibleComponent}
+            sortDesiresHandler={sortDesiresHandler}
+            sortOffersHandler={sortOffersHandler}
+            sortingValues={sortingValues}
+            userId={userId}
+          />
           {visibleComponent === "desires" ? (
             <FavDesires
               favoriteDesires={favoriteDesires}

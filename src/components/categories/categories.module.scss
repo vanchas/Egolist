@@ -3,6 +3,13 @@
 .categories {
 	select {
 		display: none;
+		background-color: #3a3f46;
+		color: #ffffff;
+		border: none;
+		&:focus {
+			background-color: #3a3f46;
+			color: #ffffff;
+		}
 		@media screen and (max-width: 768px) {
 			display: block;
 		}

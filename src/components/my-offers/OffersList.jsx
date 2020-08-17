@@ -31,7 +31,10 @@ export default function MyOffersList({
   return (
     <div className={s.offers_list_wrap}>
       <div className={s.offers_list}>
+
         <div className={s.offers_list_sort}>
+          <span className={s.btn_back} onClick={Router.back}>Назад</span>
+
           {sortingValues ? (
             <select
               className="form-control"

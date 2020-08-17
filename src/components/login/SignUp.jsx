@@ -212,14 +212,14 @@ export default function SignUp({ showAlert }) {
             <div className="form-group">
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-secondary"
                 disabled={isSubmitting}
               >
                 Продолжить
               </button>
               {isSubmitting && (
                 <div
-                  className="spinner-border spinner-border-sm text-primary ml-3"
+                  className="spinner-border spinner-border-sm text-warning ml-3"
                   role="status"
                 >
                   <span className="sr-only">Loading...</span>

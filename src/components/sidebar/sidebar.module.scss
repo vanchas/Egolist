@@ -95,10 +95,11 @@
   min-height: 100vh;
   height: 100%;
   display: grid;
-  margin-top: -5rem;
+  //margin-top: -5rem;
   padding: 1em;
   border-radius: 0 0 1em 1em;
   @media screen and (max-width: 1550px) {
-    margin-top: -3rem;
+    //margin-top: -3rem;
+    margin-top: -1rem;
   }
 }

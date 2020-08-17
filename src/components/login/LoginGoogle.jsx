@@ -13,6 +13,7 @@ const styles = {
     margin: "auto",
     backgroundColor: "#f4f4f4",
     padding: "2em 1em",
+    color: '#444'
   },
 };
 

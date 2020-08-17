@@ -3,6 +3,7 @@ import ComparisonList from "../components/comparison/ComparisonList";
 import s from "../components/comparison/comparison.module.scss";
 import { connect } from "react-redux";
 import arrayMove from "array-move";
+import Router from "next/router";
 
 const ComparisonPage = (props) => {
   const [offers, setOffers] = useState([]);
@@ -17,6 +18,7 @@ const ComparisonPage = (props) => {
 
   return (
     <div className={s.comparison_page}>
+      <span className={s.btn_back} onClick={Router.back}>Назад</span>
       <ComparisonList
         offers={offers}
         onSortEnd={onSortEnd}

@@ -29,7 +29,7 @@ function CabinetVerification(props) {
   };
 
   return (
-    <div>
+    <div className={`text-white`}>
       {user && user.active ? (
         <div>
           <span className={`h5`}>Ваша личность подтверждена</span>

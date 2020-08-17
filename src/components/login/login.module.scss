@@ -1,6 +1,17 @@
 .login_page {
-  background-color: #fff;
+  background-color: #3a3f46;
   min-height: 100vh;
+  color: #fff;
+
+  input {
+    background-color: #3a3f46;
+    border: 1px solid #999;
+    color: #fff;
+    &:focus {
+      color: #fff;
+      background-color: #3a3f46;
+    }
+  }
 }
 
 .facebook_icon, .google_icon {
@@ -17,6 +28,7 @@
   width: 1em;
   top: 2.4em;
   right: 1em;
+  filter: invert(1);
 }
 
 .login_with_google_facebook_block {

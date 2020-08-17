@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export default function MyComplaints(props) {
     const [loading, setLoading] = useState(true)
@@ -9,7 +9,7 @@ export default function MyComplaints(props) {
     }, [props.myComplaints])
 
   return (
-    <div>
+    <div className={`text-white`}>
       <h3>Мои Жалобы</h3>
       {props.myComplaints && props.myComplaints.length ? (
         <ul>

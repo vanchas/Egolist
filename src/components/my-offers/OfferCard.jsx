@@ -42,16 +42,7 @@ function OfferCard({
   };
 
   return (
-    <div
-      className={s.card}
-      style={
-        offer.is_active
-          ? {}
-          : {
-              filter: "grayscale(100%)",
-            }
-      }
-    >
+    <div className={s.card}>
       <div
         className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
       >

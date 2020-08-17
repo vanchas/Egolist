@@ -26,7 +26,7 @@ export default function () {
   };
 
   return (
-    <div>
+    <div className={`text-white`}>
       {user && user.active ? (
         <div>
           Статус: <span className={`text-success`}>Верифицирован</span>

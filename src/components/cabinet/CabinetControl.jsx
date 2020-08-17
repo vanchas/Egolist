@@ -23,7 +23,7 @@ export default function (props) {
         <div className={`py-3 ${s.cabinet_control_buttons}`}>
             <span
                 className={`btn m-1 ${
-                    props.activeBtn === "update info" ? "btn-outline-secondary" : "btn-outline-dark"
+                    props.activeBtn === "update info" ? "btn-outline-light" : "btn-outline-light"
                 }`}
                 onClick={() => changeVisibleComponent("complaints")}
             >
@@ -31,7 +31,7 @@ export default function (props) {
             </span>
             <span
                 className={`btn m-1 ${
-                    props.activeBtn === "complaints" ? "btn-outline-secondary" : "btn-outline-dark"
+                    props.activeBtn === "complaints" ? "btn-outline-light" : "btn-outline-light"
                 }`}
                 onClick={() => changeVisibleComponent("update info")}
             >
@@ -39,7 +39,7 @@ export default function (props) {
             </span>
             <span
                 className={`btn m-1 ${
-                    props.activeBtn === "verification" ? "btn-outline-secondary" : "btn-outline-dark"
+                    props.activeBtn === "verification" ? "btn-outline-light" : "btn-outline-light"
                 }`}
                 onClick={() => changeVisibleComponent("verification")}
             >

@@ -6,14 +6,31 @@
 	min-height: 100%;
 }
 
-.offers_list_sort select {
-	background-color: #33373d;
-	color: #fff;
-	display: inline-block;
-	width: fit-content;
-	&:focus {
-		color: #fff;
+.btn_back {
+	cursor: pointer;
+	border-radius: 0 1em;
+	background-color: #3a3f46;
+	padding: .7em 2em;
+	text-align: center;
+	color: #ffffff;
+	font-size: 21px;
+	font-weight: 700;
+}
+
+.offers_list_sort {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	select {
 		background-color: #33373d;
+		color: #fff;
+		display: inline-block;
+		width: fit-content;
+
+		&:focus {
+			color: #fff;
+			background-color: #33373d;
+		}
 	}
 }
 

@@ -4,6 +4,9 @@
   padding: 2rem 4.5rem;
   background: linear-gradient(to right, #383d43, #31353b);
   height: 100%;
+  @media screen and (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
 }
 
 .main_list_wrap {
@@ -70,6 +73,10 @@
         text-align: center;
       }
     }
+    @media screen and (max-width: 550px) {
+      display: grid;
+      justify-content: center;
+    }
   }
   div {
     display: flex;
@@ -88,6 +95,12 @@
       }
       &:last-child {
         padding: .5em 0 .5em 1em;
+      }
+    }
+    @media screen and (max-width: 450px) {
+      display: grid;
+      span {
+        padding: .5em 1em !important;
       }
     }
   }
@@ -134,7 +147,7 @@
   z-index: 5;
   width: 100%;
   position: absolute;
-  min-height: 45px;
+  min-height: 45px !important;
   top: 0;
   left: 0;
   display: grid;

@@ -24,7 +24,7 @@ export default function MainListControl({
   return (
     <div className={s.main_list_control}>
       <div className={s.list_control}>
-        <div>
+        <div className={s.list_control_btns}>
           <span
             onClick={() => {
               changeComponent("desires");

@@ -76,7 +76,7 @@ function Categories({
 
           {/* MOBILE */}
           <select
-            className={`form-control`}
+            className={`form-control shadow-sm`}
             onChange={(e) => filterByCategoryHandler(e.target.value)}
           >
             <option value="default" hidden>
@@ -117,7 +117,7 @@ function Categories({
           {/* MOBILE */}
           {subcategories && subcategories.length && !subcatLoading ? (
             <select
-              className={`form-control`}
+              className={`form-control shadow-sm mt-2`}
               onChange={(e) => filterBySubcategoryHandler(e.target.value)}
             >
               <option value="default" hidden>
