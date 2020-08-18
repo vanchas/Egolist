@@ -4,6 +4,7 @@ import inputValidateHandler from "../helpers/FieldsValidator";
 import Router from "next/router";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import SpinnerGrow from "../helpers/SpinnerGrow"
 
 export default function CreateDesireForm({
   desiresInfo,
@@ -39,6 +40,9 @@ export default function CreateDesireForm({
   const [subcat2Loading, setSubcat2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -135,17 +139,24 @@ export default function CreateDesireForm({
     getCities(e.target.value);
   };
 
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-      previewTitle:
-        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
-    });
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
 
   const handleChange = ({ fileList }) => setPhotos(fileList);
@@ -153,7 +164,7 @@ export default function CreateDesireForm({
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div className="ant-upload-text">Upload</div>
+      <div className="ant-upload-text">Загрузить</div>
     </div>
   );
 
@@ -230,9 +241,7 @@ export default function CreateDesireForm({
           <fieldset>
             <legend>Выберите категорию *</legend>
             {!categories.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : category1 ? (
               <div>
                 Выбрана категория {category1.name}
@@ -266,9 +275,7 @@ export default function CreateDesireForm({
               </select>
             )}
             {subcat1Loading && !subcategories.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : (
               showSubSelect1 &&
               (subcategory1 ? (
@@ -302,9 +309,7 @@ export default function CreateDesireForm({
             )}
             <br />
             {!categories.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : category2 ? (
               <div>
                 Выбрана категория {category2.name}{" "}
@@ -337,9 +342,7 @@ export default function CreateDesireForm({
               </select>
             )}
             {subcat2Loading && !subcategories.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : (
               showSubSelect2 &&
               (subcategory2 ? (
@@ -375,9 +378,7 @@ export default function CreateDesireForm({
           <fieldset>
             <legend>Выберите область *</legend>
             {!locations.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : (
               <select
                 required
@@ -406,9 +407,7 @@ export default function CreateDesireForm({
               </select>
             )}
             {regionLoading && !cities.length ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             ) : (
               <select
                 required
@@ -443,9 +442,7 @@ export default function CreateDesireForm({
                 </label>
               ))
             ) : (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <SpinnerGrow color="secondary" />
             )}
           </div>
           <label htmlFor="price">Цена *</label>
@@ -463,9 +460,7 @@ export default function CreateDesireForm({
           />
           <label htmlFor="priority">Приоритет *</label>
           {!desiresInfo.priorities || !desiresInfo.priorities.length ? (
-            <div className="spinner-border text-primary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
+            <SpinnerGrow color="secondary" />
           ) : (
             <select
               id="priority"
@@ -473,7 +468,7 @@ export default function CreateDesireForm({
               onChange={(e) => setPriority(e.target.value)}
               className="form-control"
             >
-              <option value="default" hidden></option>
+              <option value="default" hidden/>
               {desiresInfo.priorities && desiresInfo.priorities.length
                 ? desiresInfo.priorities.map((p, i) => (
                     <option key={i} value={p.id}>
@@ -500,9 +495,7 @@ export default function CreateDesireForm({
             </button>
             {loading && (
               <div className="text-center py-2 pl-4">
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
+                <SpinnerGrow color="secondary" />
               </div>
             )}
           </div>
