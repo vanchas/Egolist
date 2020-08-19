@@ -44,6 +44,7 @@ export default function OffersForMe({
   return (
     <div className={s.offers_list}>
       <MyOffersSortControl
+        offers={offersForCurrentDesire}
         sortOffersByDesireId={sortOffersByDesireId}
         sortingValues={sortingValues}
       />

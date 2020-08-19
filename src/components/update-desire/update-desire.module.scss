@@ -1,18 +1,34 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .update_page {
+	box-shadow: $shadow;
 	height: 100%;
-	background-color: #fff;
-	padding: 1em;
+	background: linear-gradient(135deg, #3d4249, #31353b);
+	padding: 2em 1em 1em 1em;
+	color: #fff;
 }
 
 .btn_back {
-	border: 1px solid black;
-	padding: .3em 1em;
+	box-shadow: $shadow;
+	cursor: pointer;
+	border-radius: 0 1em;
+	background-color: #2f3135;
+	padding: .7em 2em;
+	text-align: center;
+	color: #ffffff;
+	font-size: 21px;
+	font-weight: 700;
 }
 
 .update_form {
 	display: grid;
 	grid-template-columns: 5fr 3fr;
 	gap: 1em;
+	input, textarea, select {
+		color: #fff;
+		background-color: #3a3f46;
+	}
 	label,
 	legend {
 		font-weight: bold;

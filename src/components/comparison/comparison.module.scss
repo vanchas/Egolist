@@ -1,4 +1,8 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .comparison_page {
+  box-shadow: $shadow;
   //background: linear-gradient(#33373d ,#2b2e33 );
   background-color: #373b42;
   border-radius: 1em;
@@ -7,6 +11,7 @@
 }
 
 .btn_back {
+  box-shadow: $shadowSm;
   cursor: pointer;
   border-radius: 0 1em;
   background-color: #3a3f46;
@@ -54,7 +59,7 @@
   grid-row: span 2;
   position: relative;
   overflow: hidden;
-  height: 22em;
+  height: 25em;
   border-radius: 1em;
 
   img {
@@ -251,6 +256,9 @@
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
+  img {
+    cursor: pointer;
+  }
   .card_footer_item {
     font-size: 15px;
     padding: 0.3em 0;
@@ -262,6 +270,7 @@
       height: 1.5em;
       margin-right: 1em;
       transition: 0.3s;
+      cursor: pointer;
     }
     svg {
       transition: 0.3s;
@@ -324,6 +333,7 @@
 }
 
 .active_burger {
+  cursor: pointer;
   font-size: 2.7em;
   line-height: 0;
   color: #fff;

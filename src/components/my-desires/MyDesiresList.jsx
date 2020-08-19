@@ -54,6 +54,7 @@ export default function MyDesireList({
   return (
     <div className={s.red_list}>
         <MyDesiresSortControl
+          desires={desires}
           allowToCreateDesires={allowToCreateDesires}
           sortDesiresHandler={sortDesiresHandler}
           sortingValues={sortingValues}

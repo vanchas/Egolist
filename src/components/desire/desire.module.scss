@@ -1,3 +1,6 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .desire_page {
 	.desire_view {
 		display: grid;
@@ -6,6 +9,7 @@
 	}
 }
 .card {
+	box-shadow: $shadow;
 	display: grid;
 	gap: 1.5em;
 	border-radius: 1em;
@@ -107,6 +111,7 @@
 	}
 	.com, .fav {
 		cursor: pointer;
+		white-space: nowrap;
 		img {
 			width: 1.5em;
 			margin-right: 1em;
@@ -130,10 +135,12 @@
 		}
 	}
 	.categories {
+		align-self: end;
 		margin-top: 2em;
 		display: grid;
 		gap: .5em;
 		span {
+			height: fit-content;
 			padding: .4em;
 			color: #fff;
 			text-align: center;

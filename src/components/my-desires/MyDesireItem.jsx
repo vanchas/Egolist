@@ -3,11 +3,11 @@ import s from "./my-desire.module.scss";
 import StatArrow from "../../assets/lot/stat-arrow.png";
 import OffersForMe from "./OffersForMe";
 import Link from "next/link";
-import Carousel from "../helpers/Carousel";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import formatNumber from "../../utils/format-price-string";
 import SlickSlider from "../helpers/SlickSlider";
+import SpinnerGrow from "../helpers/SpinnerGrow";
 
 export default function MyDesireItem({
   hideShowDesire,
@@ -17,6 +17,8 @@ export default function MyDesireItem({
   deleteDesire,
 }) {
   const [showCurrentOffers, setShowCurrOffers] = useState(false);
+  const [deleteLoader, setDeleteLoader] = useState(false);
+  const [hideLoader, setHideLoader] = useState(false);
   const [region, setRegion] = useState("");
 
   useEffect(() => {
@@ -27,18 +29,25 @@ export default function MyDesireItem({
     });
   }, [locations]);
 
+  const hideShowHandler = (id) => {
+    setHideLoader(true)
+    hideShowDesire(id)
+    setTimeout(() => setHideLoader(false), 3000)
+  }
+
+  const deleteHandler = (id) => {
+    setDeleteLoader(true)
+    deleteDesire(id)
+    setTimeout(() => setDeleteLoader(false), 3000)
+  }
+
   return (
-    <div
-      className={s.card}>
-      <div className={`${s.card_image} ${!desire.is_active ? s.disableColor : ''}`}>
+    <div className={s.card}>
+      <div
+        className={`${s.card_image} ${!desire.is_active ? s.disableColor : ""}`}
+      >
         {desire.photo ? (
-          // <Carousel
-          //   desireId={desire.id}
-          //   photo={JSON.parse(desire.photo)}
-          //   video={desire.video}
-          // />
           <SlickSlider photo={JSON.parse(desire.photo)} />
-          // <img src={JSON.parse(desire.photo)[0]} alt={``} />
         ) : (
           <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
             <a className={`w-100 h-100`}>
@@ -56,10 +65,14 @@ export default function MyDesireItem({
         </h5>
         <p>{desire.description}</p>
         <div className={s.user_block}>
-          <span className={`${!desire.is_active ? s.disableColor : ''} ${s.elips}`}>
-            {desire.user.avatar ?
+          <span
+            className={`${!desire.is_active ? s.disableColor : ""} ${s.elips}`}
+          >
+            {desire.user.avatar ? (
               <img src={desire.user.avatar} alt={``} />
-            : <img src={UserPlaceholder} alt={``} />}
+            ) : (
+              <img src={UserPlaceholder} alt={``} />
+            )}
           </span>
           <span className={s.user_name}>{desire.user.name}</span>
           <div className={s.location}>
@@ -70,11 +83,12 @@ export default function MyDesireItem({
       </div>
 
       <div className={s.card_control_block}>
-        <p className={!desire.is_active ? 'text-dark' : ''}>ХОЧУ КУПИТЬ</p>
+        <p className={!desire.is_active ? "text-dark" : ""}>ХОЧУ КУПИТЬ</p>
         <div className={s.price}>
           <span style={{ fontSize: "30px" }}>
             {formatNumber(parseInt(desire.price))}
-          </span> ГРН
+          </span>{" "}
+          ГРН
         </div>
         <div className={s.edit}>
           <Link href={{ pathname: "/update-desire", query: { id: desire.id } }}>
@@ -82,37 +96,49 @@ export default function MyDesireItem({
           </Link>
         </div>
         <div
-          className={`${s.post} ${!desire.is_active ? s.greenBtn : ''}`}
-          onClick={(e) => {
-            e.preventDefault();
-            hideShowDesire(desire.id);
-          }}
+          className={`${s.post} ${!desire.is_active ? s.greenBtn : ""}`}
+          onClick={() => hideShowHandler(desire.id)}
         >
-          {desire.is_active ? "Скрыть" : "Опубликовать"}
+          {hideLoader ? (
+            <SpinnerGrow color={`secondary`} />
+          ) : desire.is_active ? (
+            "Скрыть"
+          ) : (
+            "Опубликовать"
+          )}
         </div>
         <div
           className={s.delete}
-          onClick={(e) => {
-            e.preventDefault();
-            deleteDesire(desire.id);
-          }}
+          onClick={() => deleteHandler(desire.id)}
         >
-          Удалить
+          {deleteLoader ? <SpinnerGrow color={`secondary`} /> : "Удалить"}
         </div>
       </div>
 
       <div className={s.card_footer}>
-        {desire.is_active ?
-          <div className={`${!desire.is_active ? s.disableColor : ""} ${s.card_footer_content}`}>
-          <div className={s.views}><i className="far fa-eye"/> &nbsp; {desire.views}</div>
-          <div className={s.statistics}><img src={StatArrow} alt={``}/> &nbsp; Статистика</div>
-          <div className={s.lots}>СТАВОК: {desire.count_offers}</div>
-          <div className={s.offers}
-               onClick={() => setShowCurrOffers(!showCurrentOffers)}>
-            ПОКАЗАТЬ ПРЕДЛОЖЕНИЯ &nbsp; <span>&#x276D;</span>
+        {desire.is_active ? (
+          <div
+            className={`${!desire.is_active ? s.disableColor : ""} ${
+              s.card_footer_content
+            }`}
+          >
+            <div className={s.views}>
+              <i className="far fa-eye" /> &nbsp; {desire.views}
+            </div>
+            <div className={s.statistics}>
+              <img src={StatArrow} alt={``} /> &nbsp; Статистика
+            </div>
+            <div className={s.lots}>СТАВОК: {desire.count_offers}</div>
+            <div
+              className={s.offers}
+              onClick={() => setShowCurrOffers(!showCurrentOffers)}
+            >
+              ПОКАЗАТЬ ПРЕДЛОЖЕНИЯ &nbsp; <span>&#x276D;</span>
+            </div>
           </div>
-        </div>
-          : <div className={s.not_published}>НЕ ОПУБЛИКОВАНО</div>}
+        ) : (
+          <div className={s.not_published}>НЕ ОПУБЛИКОВАНО</div>
+        )}
       </div>
       {showCurrentOffers && (
         <OffersForMe

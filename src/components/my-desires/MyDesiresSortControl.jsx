@@ -13,46 +13,48 @@ function MyDesiresSortControl(props) {
         )}
       </span>
 
-      <div className={s.sort_select}>
-        <span className={s.sort_title}>
-          Сортировка <span className={s.select_arrow}>&#x276D;</span>
-        </span>
-        {props.sortingValues ? (
-          <select onChange={(e) => props.sortDesiresHandler(e.target.value)}>
-            {props.sortingValues && props.sortingValues.length
-              ? props.sortingValues.map((val, i) => {
-                  if (val.search_by.includes("idc")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                  if (val.search_by.includes("price")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                  if (val.search_by.includes("priority")) {
-                    return (
-                      <option key={i} value={val.id}>
-                        {val.value}
-                      </option>
-                    );
-                  }
-                })
-              : null}
-          </select>
-        ) : (
-          <div className={`pt-2 text-center px-5`}>
-            <div className="spinner-grow text-warning" role="status">
-              <span className="sr-only">Loading...</span>
+      {props.desires && props.desires.length ? (
+        <div className={s.sort_select}>
+          <span className={s.sort_title}>
+            Сортировка <span className={s.select_arrow}>&#x276D;</span>
+          </span>
+          {props.sortingValues ? (
+            <select onChange={(e) => props.sortDesiresHandler(e.target.value)}>
+              {props.sortingValues && props.sortingValues.length
+                ? props.sortingValues.map((val, i) => {
+                    if (val.search_by.includes("idc")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                    if (val.search_by.includes("price")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                    if (val.search_by.includes("priority")) {
+                      return (
+                        <option key={i} value={val.id}>
+                          {val.value}
+                        </option>
+                      );
+                    }
+                  })
+                : null}
+            </select>
+          ) : (
+            <div className={`pt-2 text-center px-5`}>
+              <div className="spinner-grow text-warning" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }

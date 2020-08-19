@@ -1,6 +1,11 @@
 //@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
+$shadowSm: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .sidebar {
+  //background: linear-gradient(to bottom, #383d43, #31353b);
+  box-shadow: $shadow;
   background: linear-gradient(135deg, #3d4249, #31353b);
   min-height: 100vh;
   height: 100%;

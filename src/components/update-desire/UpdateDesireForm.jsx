@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Alert from "../helpers/Alert";
-import Success from "../helpers/Success";
 import { useRouter } from "next/router";
 import s from "./update-desire.module.scss";
 import inputValidateHandler from "../helpers/FieldsValidator";
 import $ from "jquery";
+import SpinnerGrow from "../helpers/SpinnerGrow"
 
 export default function UpdateForm({
   locations,
@@ -127,11 +126,9 @@ export default function UpdateForm({
     <div>
       {stateDesire ? (
         <>
-          <span className={s.btn_back} onClick={() => router.back()}>
-            &lt; Назад
-          </span>
+          <span className={s.btn_back} onClick={router.back}>Назад</span>
 
-          <h3 className={`mt-3`}>Редактировать желание</h3>
+          <h3 className={`mt-3 text-white`}>Редактировать желание</h3>
           {warning && (
             <div className="alert alert-danger" role="alert">
               {warning}
@@ -264,9 +261,7 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <label>Подкатегория #1</label>
@@ -292,9 +287,7 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div className={`w-100 py-1`}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <label>Категория #2</label>
@@ -320,9 +313,7 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div className={`w-100 py-1`}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <label>Подкатегория #2</label>
@@ -350,9 +341,7 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div className={`w-100 py-1`}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <label>Регион</label>
@@ -376,9 +365,7 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div className={`w-100 py-1`}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <label>Город</label>
@@ -402,17 +389,16 @@ export default function UpdateForm({
                 </select>
               ) : (
                 <div className={`w-100 py-1`}>
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               )}
               <div className={s.types}>
                 <legend>Состояние</legend>
                 {types
                   ? types.map((type, i) => (
-                      <label key={i}>
+                      <label key={i} className={`mr-3`}>
                         <input
+                          className={`mr-2`}
                           defaultChecked={
                             !!(
                               stateDesire &&
@@ -436,8 +422,9 @@ export default function UpdateForm({
                 <legend>Приоритет</legend>
                 {priorities
                   ? priorities.map((priority, i) => (
-                      <label key={i}>
+                      <label key={i} className={`mr-3`}>
                         <input
+                          className={`mr-2`}
                           defaultChecked={
                             !!(
                               stateDesire &&
@@ -488,14 +475,12 @@ export default function UpdateForm({
               </label>
               <div>
                 {!submitLoading ? (
-                  <button type="submit" className="btn btn-primary mt-2">
+                  <button type="submit" className="btn btn-outline-primary mt-2">
                     Сохранить
                   </button>
                 ) : (
                   <div className={`w-100 py-1`}>
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="sr-only">Loading...</span>
-                    </div>
+                    <SpinnerGrow color={`secondary`} />
                   </div>
                 )}
               </div>
@@ -504,9 +489,7 @@ export default function UpdateForm({
         </>
       ) : (
         <div className={`w-100 py-5 text-center`}>
-          <div className="spinner-border text-primary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+          <SpinnerGrow color={`secondary`} />
         </div>
       )}
     </div>

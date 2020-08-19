@@ -217,7 +217,7 @@ export default function userReducer(state = initialState, action: any) {
     case HIDE_SHOW_DESIRE:
       const newMyDesires = state.myDesires.map((des: any) => {
         if (des.id === action.payload) {
-          des.is_active = !des.is_active;
+          des.is_active === 1 ? des.is_active = 0 : des.is_active = 1
         }
         return des;
       });
@@ -226,7 +226,7 @@ export default function userReducer(state = initialState, action: any) {
     case HIDE_SHOW_OFFER:
       const newMyOffers = state.myOffers.map((off: any) => {
         if (off.id === action.payload) {
-          off.is_active = !off.is_active;
+          off.is_active === 1 ? off.is_active = 0 : off.is_active = 1
         }
         return off;
       });

@@ -13,7 +13,6 @@ import Router from "next/router";
 
 function MyOffers({
   getMyOffers,
-  myOffers,
   hideShowOffer,
   sortMyOffers,
   getSortingValues,
@@ -37,7 +36,6 @@ function MyOffers({
         <OffersList
           deleteOffer={deleteOffer}
           sortingValues={sortingValues}
-          myOffers={myOffers}
           hideShowOffer={hideShowOffer}
           sortMyOffers={sortMyOffers}
         />
@@ -47,7 +45,6 @@ function MyOffers({
 }
 
 const mapStateToProps = (state) => ({
-  myOffers: state.user.myOffers,
   sortingValues: state.app.sortingValues,
 });
 

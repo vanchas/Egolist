@@ -1,11 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap");
 
+$shadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+
 .header {
   background: linear-gradient(to right, #383d43, #31353b);
   height: fit-content;
   padding: 1.5rem 4%;
   position: relative;
   border-radius: 1em;
+  box-shadow: $shadow;
 }
 
 .navbar_nav {
@@ -27,8 +31,8 @@
   border-radius: 0.3em;
   //border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0.4em 0.8em;
-  color: rgba(255,255,255,.5);
-  border-color: rgba(255,255,255,.1);
+  color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
   background: none;
   font-weight: 600;
   display: none;
@@ -95,7 +99,13 @@
       width: 100%;
       transition: 0.3s;
       &::placeholder {
+        transition: .3s;
         color: #3a3f46;
+      }
+      &:hover {
+        &::placeholder {
+          color: #888;
+        }
       }
       &:focus {
         transition: 0.3s;
@@ -129,7 +139,7 @@
     padding-left: 2rem;
     min-width: 14em;
     overflow: hidden;
-    transition: .3s;
+    transition: 0.3s;
     @media screen and (min-width: 751px) {
       &:hover {
         background-color: #222529;
@@ -141,11 +151,11 @@
     @media screen and (max-width: 550px) {
       padding-left: 2em;
     }
-      span {
+    span {
       position: absolute;
       top: 50%;
       left: 0;
-      transition: .3s;
+      transition: 0.3s;
       transform: translate(0.9em, -50%);
       user-select: none;
       color: #fff;
@@ -156,7 +166,7 @@
     }
     .search_select {
       //z-index: 1;
-      transition: .3s;
+      transition: 0.3s;
       user-select: none;
       max-width: 10em;
       cursor: pointer;
@@ -180,7 +190,6 @@
       &:focus {
         outline: none;
       }
-
     }
     @media screen and (max-width: 750px) {
       order: 3;
@@ -245,15 +254,17 @@
       grid-column: span 4;
       border-radius: 0 0 1.5em 0;
       width: 100%;
-      padding: .8em;
+      padding: 0.8em;
     }
   }
 }
-.heart {
-  cursor: pointer;
-}
+.heart,
 .libra {
   cursor: pointer;
+  transition: 0.1s;
+  &:hover {
+    filter: drop-shadow(2px 4px 6px black);
+  }
 }
 .nav_item {
   &:nth-child(1) {
@@ -277,6 +288,7 @@
     &:hover {
       text-decoration: none;
       color: #f6e3ce;
+      text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
     }
   }
   &.active_link {
@@ -308,6 +320,10 @@
 .tooltip {
   position: relative;
   display: inline-block;
+  transition: 0.3s;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 /* Tooltip text */
@@ -326,7 +342,8 @@
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
-  right: 2em;
+  right: 3em;
+  top: -2.5em;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */

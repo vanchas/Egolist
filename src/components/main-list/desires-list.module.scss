@@ -46,15 +46,24 @@
         font-weight: 800;
       }
     }
+    &:hover {
+      span {
+        .select_arrow {
+          transform: rotate(90deg);
+        }
+      }
+    }
     select {
       padding: .5em 1em .5em 0;
       background: none;
       border: none;
       appearance: none;
       -webkit-appearance: none;
+      cursor: pointer;
       -moz-appearance: none;
       color: #ffffff;
       width: 10em;
+      transition: .3s;
       font-size: 21px;
       option {
         color: #ffffff;
@@ -62,6 +71,9 @@
         //font-size: 21px;
         font-weight: 400;
         background-color: #383d43;
+      }
+      &:hover {
+        //background-color: #222529;
       }
       &:focus {
         outline: none;
@@ -87,6 +99,7 @@
       font-weight: 700;
       text-transform: uppercase;
       cursor: pointer;
+      transition: .3s;
       &.active_link {
         color: #f5c99e;
       }
@@ -95,6 +108,9 @@
       }
       &:last-child {
         padding: .5em 0 .5em 1em;
+      }
+      &:hover {
+        text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
       }
     }
     @media screen and (max-width: 450px) {
@@ -256,30 +272,37 @@
 
 .toast {
   position: absolute;
-  padding: .5em;
   top: 0.5em;
   left: 50%;
-  transform: translateX(-40%);
+  transform: translateX(-20%);
   z-index: 10;
-  background-color: #fff;
+  background-color: #404854;
   border-radius: 0.3em;
-  border: 1px solid #ccc;
+  overflow: hidden;
+  //border: 1px solid #ccc;
   display: grid;
-  box-shadow: 0 0 10px 2px rgba(53, 53, 53, 0.27);
-  span, button {
-    color: #000;
-    background-color: #fff;
+  box-shadow: 0 0 10px 5px rgba(53, 53, 53, 0.5);
+  div {
+    width: 100%;
+    display: block;
+    color: #fff;
+    background-color: #404854;
     border: none;
-    border-bottom: 1px solid #eee;
-    padding: 0.1em 0.5em;
+    padding: 0.5em 1em;
     border-radius: 0;
+    text-align: center;
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
     &:hover {
-      border-radius: 0;
       color: #000;
       border: none;
-      border-bottom: 1px solid #999;
       transition: 0.3s;
       background-color: #fafafa;
+      a {
+        color: #000;
+      }
     }
   }
 }

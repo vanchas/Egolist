@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import s from "./update-offer.module.scss";
-import Alert from "../helpers/Alert";
-import Success from "../helpers/Success";
 import { useRouter } from "next/router";
 import inputValidateHandler from "../helpers/FieldsValidator";
 
@@ -133,11 +131,9 @@ export default function UpdateOfferForm({
     <div className={s.add_lot_form}>
       {stateOffer ? (
         <>
-          <span className={s.btn_back} onClick={() => router.back()}>
-            &lt; Назад
-          </span>
+          <span className={s.btn_back} onClick={router.back}>Назад</span>
 
-          <h3 className={`mt-3`}>Редактирование предложения</h3>
+          <h3 className={`mt-3 text-white`}>Редактирование предложения</h3>
           {warning && (
             <div className="alert alert-danger" role="alert">
               {warning}
@@ -430,8 +426,8 @@ export default function UpdateOfferForm({
                     </div>
                   </div>
                 ) : (
-                  <button type="submit" className="ml-2 btn btn-secondary">
-                    Опубликовать
+                  <button type="submit" className="ml-2 btn btn-outline-warning">
+                    Применить
                   </button>
                 )}
                 {loading && (

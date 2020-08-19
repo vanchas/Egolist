@@ -41,7 +41,7 @@ function OffersList({
                 <span className="sr-only">Loading...</span>
               </div>
             ) : (
-              <div className="h5 text-center py-5">
+              <div className="h5 text-center text-white py-5">
                 К этому желанию еще нет предложений...
               </div>
             )}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Location from "../../assets/sidebar/Location.png";
-import Burger from "../../assets/header/burger.png";
+import Burger from "../../assets/header/burger-white.png";
 import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import s from "./offers.module.scss";
@@ -191,7 +191,7 @@ export default function OffersItem({
             </div>
             <div onClick={(e) => toastHandler(e)}>
               {!showToast ? (
-                <img src={Burger} alt={``} />
+                <img src={Burger} alt={``} className={`mr-2`} />
               ) : (
                 <span className={s.active_burger}>&#x269F;</span>
               )}

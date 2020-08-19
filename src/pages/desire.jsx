@@ -53,7 +53,7 @@ const Desire = ({
         <UserCard user={desire && desire.user ? desire.user : null} locations={locations} />
         {desire.header && (
           <div className={s.show_offers}>
-            <span className="btn text-light" onClick={() => showOffersList(desire.id)}>
+            <span className="btn text-light btn-outline-secondary" onClick={() => showOffersList(desire.id)}>
               ПОКАЗАТЬ ПРЕДЛОЖЕНИЯ
             </span>
           </div>

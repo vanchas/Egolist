@@ -1,4 +1,8 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .my_desires_page {
+  box-shadow: $shadow;
   border-radius: 1em;
   background: linear-gradient(to right, #373b42, #2e3137);
   //background: linear-gradient(to right, #383d43, #31353b);
@@ -27,6 +31,7 @@
   justify-content: space-between;
   padding-bottom: 2em;
   .create_btn {
+    box-shadow: $shadowSm;
     border-radius: 1em 0 1em 0;
     background-image: linear-gradient(to top, #c78550 0%, #f5c99e 100%);
     a {
@@ -109,7 +114,7 @@
   grid-row: span 2;
   position: relative;
   overflow: hidden;
-  height: 22em;
+  height: 25em;
   border-radius: 1em;
   @media screen and (max-width: 1550px) {
     grid-row: span 1;

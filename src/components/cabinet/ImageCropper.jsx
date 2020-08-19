@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactCrop from "react-image-crop";
+import s from './update.module.scss'
 
 // Setting a high pixel ratio avoids blurriness in the canvas crop preview.
 const pixelRatio = 4;
@@ -101,7 +102,7 @@ export default function ImageCropper({ setCompletedCropImage }) {
       <div>
         <input type="file" accept="image/*" onChange={onSelectFile} disabled={disableInput} />
       </div>
-      <div>
+      <div className={s.cropped_image_preview}>
         <canvas
           ref={previewCanvasRef}
           style={{

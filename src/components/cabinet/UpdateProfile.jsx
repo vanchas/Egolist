@@ -94,7 +94,7 @@ function UpdateProfile(props) {
         <>
           {stateUser ? (
             <>
-              <h3> Редактировать информацию о пользователе</h3>
+              <h3 className={`text-white`}> Редактировать информацию о пользователе</h3>
               <form
                 encType={`multipart/form-data`}
                 onSubmit={submitHandler}
@@ -113,7 +113,9 @@ function UpdateProfile(props) {
                   {/*    setAvatar(e.target.files[0]);*/}
                   {/*  }}*/}
                   {/*/>*/}
-                  <ImageCropper setCompletedCropImage={setAvatar} />
+                  <div className={s.image_cropper}>
+                    <ImageCropper setCompletedCropImage={setAvatar} />
+                  </div>
                 </label>
                 <label>
                   Имя

@@ -1,4 +1,8 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .offers_list_wrap {
+	box-shadow: $shadow;
 	//background: linear-gradient( #33373d ,#2b2e33 );
 	background-color: #33373d;
 	border-radius: 1em;
@@ -7,6 +11,7 @@
 }
 
 .btn_back {
+	box-shadow: $shadowSm;
 	cursor: pointer;
 	border-radius: 0 1em;
 	background-color: #3a3f46;
@@ -62,7 +67,7 @@
 	grid-row: span 2;
 	position: relative;
 	overflow: hidden;
-	height: 22em;
+	height: 25em;
 	border-radius: 1em;
 
 	img {
@@ -174,10 +179,10 @@
 		font-size: 21px;
 		align-self: center;
 	}
-	.open {
+	.offer_btn {
 		color: #ffffff;
 		width: 100%;
-		font-size: 17px;
+		font-size: 16px;
 		font-weight: 700;
 		border-radius: 0.6em;
 		background-color: #3a3f46;
@@ -186,7 +191,7 @@
 		align-items: center;
 		justify-content: center;
 		transition: 0.3s;
-		height: 2.7em;
+		height: 2.3em;
 		align-self: end;
 		a {
 			width: 100%;
@@ -312,21 +317,23 @@
 
 .toast {
 	position: absolute;
-	bottom: 0.5em;
+	bottom: 2em;
 	right: 10%;
 	z-index: 10;
-	background-color: #fff;
+	background: none;
 	border-radius: 0.3em;
-	border: 1px solid #ccc;
+	overflow: hidden;
+	//border: 1px solid #ccc;
 	display: grid;
-	box-shadow: 0 0 10px 2px rgba(53, 53, 53, 0.27);
+	box-shadow: 0 0 10px 5px rgba(53, 53, 53, 0.27);
 	span {
-		padding: 0.3em 1em;
-		border-bottom: 1px solid #fff;
-		padding: 0.1em 0.5em;
+		padding: 0.5em 1.5em;
+		background-color: #474c54;
+		cursor: pointer;
 		&:hover {
 			transition: 0.3s;
-			background-color: #eee;
+			color: #1e1f1e;
+			background-color: #fff;
 		}
 	}
 }

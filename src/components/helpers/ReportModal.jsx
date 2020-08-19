@@ -31,7 +31,7 @@ const ModalReport = (props) => {
 
     return (
         <div>
-            <Button className={`p-0`} onClick={toggle}>Пожаловаться</Button>
+            <span className={`p-0 bg-none`} onClick={toggle}>Пожаловаться</span>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Заполните форму жалобы</ModalHeader>
                 <ModalBody>

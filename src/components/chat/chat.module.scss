@@ -65,7 +65,7 @@ Chat
   z-index: 2;
   overflow: hidden;
   box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
-  background: rgba(0, 0, 0, .5);
+  background: linear-gradient(135deg, #3d4249, #31353b);
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
@@ -80,7 +80,7 @@ Chat Title
   flex: 0 1 45px;
   position: relative;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.2);
+  background: #292c32;
   color: #fff;
   text-transform: uppercase;
   text-align: left;
@@ -91,6 +91,7 @@ Chat Title
     font-size: 10px;
     margin: 0;
     padding: 0;
+    color: #fff;
   }
 
   h2 {
@@ -276,7 +277,7 @@ Message Box
 .message_box {
   flex: 0 1 40px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: #222327;
   padding: 10px;
   position: relative;
 

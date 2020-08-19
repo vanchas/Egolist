@@ -12,6 +12,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -58,26 +59,26 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                 </>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                <span className={`${s.menu} ${showToast ? s.activeToast : ''}`}>
+                <span className={`${s.menu} ${showToast ? s.activeToast : ""}`}>
                   <i />
                   <i />
                   <i />
                 </span>
               </span>
-
+              
               {showToast && (
                 <div className={`${s.toast}`}>
                   {user && user.user && user.user.id === desire.user_id ? (
-                    <Link
-                      href={{
-                        pathname: "/update-desire",
-                        query: { id: desire.id },
-                      }}
-                    >
-                      <a className={`btn`}>
-                        <span>Изменить</span>
-                      </a>
-                    </Link>
+                    <div>
+                      <Link
+                        href={{
+                          pathname: "/update-desire",
+                          query: { id: desire.id },
+                        }}
+                      >
+                        <a>Изменить</a>
+                      </Link>
+                    </div>
                   ) : null}
                   <ReportModal
                     userId={desire.user_id}
@@ -89,13 +90,12 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
           )}
         </div>
         <div className={s.lot_img_holder}>
-          {desire.photo || desire.video ? (
-            // <Carousel
-            //   desireId={desire.id}
-            //   photo={JSON.parse(desire.photo)}
-            //   video={desire.video}
-            // />
-            <img src={JSON.parse(desire.photo)[0]} alt={``} />
+          {desire.photo && !showPlaceholder ? (
+            <img
+              src={JSON.parse(desire.photo)[0]}
+              alt={``}
+              onErrorCapture={() => setShowPlaceholder(true)}
+            />
           ) : (
             <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
               <a className={`w-100 h-100`}>

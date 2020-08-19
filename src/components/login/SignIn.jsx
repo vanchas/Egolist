@@ -16,7 +16,7 @@ export default function SignIn(props) {
         user с проверенным телефоном и имейлом: client@client.com, client <br />
         user с проверенным телефоном и имейлом, верифицирован: client@client.verify, client
       </div>
-      <h2>Логин</h2>
+      <h2 className={`text-white`}>Логин</h2>
       <Formik
         initialValues={{
           email: "",

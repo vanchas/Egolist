@@ -33,7 +33,7 @@ export default function SignUp({ showAlert }) {
 
   return (
     <div>
-      <h2>Регистрация</h2>
+      <h2 className={`text-white`}>Регистрация</h2>
       <Formik
         initialValues={{
           username: "",

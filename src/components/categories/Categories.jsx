@@ -30,6 +30,8 @@ function Categories({
   useEffect(() => {
     if (subcategories && subcategories.length) {
       setSubcatLoading(false);
+    } else {
+      setTimeout(() => setSubcatLoading(false), 3000)
     }
     getCategories();
   }, [subcategories]);

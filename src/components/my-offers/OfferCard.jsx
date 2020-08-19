@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./offers.module.scss";
 import Location from "../../assets/sidebar/Location.png";
 import Burger from "../../assets/header/burger-white.png";
@@ -18,16 +18,25 @@ import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
 import ReportModal from "../helpers/ReportModal";
 import HttpRequest from "../../_helpers/HttpRequest";
+import Router from "next/router";
+import SpinnerGrow from "../helpers/SpinnerGrow";
 
 function OfferCard({
   offer,
   hideShowOffer,
   deleteOffer,
   addOfferToComparison,
+  isActive,
 }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [compLoading, setCompLoading] = useState(false);
+  const [hideLoading, setHideLoader] = useState(false);
+  const [deleteLoading, setDeleteLoader] = useState(false);
+
+  useEffect(() => {
+    // console.log(isActive);
+  }, [isActive]);
 
   const toastHandler = (e) => {
     e.preventDefault();
@@ -40,6 +49,18 @@ function OfferCard({
     addOfferToComparison(id);
     setTimeout(() => setCompLoading(false), 3000);
   };
+
+  const hideShowHandler = (id) => {
+    setHideLoader(true)
+    hideShowOffer(id)
+    setTimeout(() => setHideLoader(false), 3000)
+  }
+
+  const deleteOfferHandler = (id) => {
+    setDeleteLoader(true)
+    deleteOffer(id)
+    setTimeout(() => setDeleteLoader(false), 3000)
+  }
 
   return (
     <div className={s.card}>
@@ -90,7 +111,11 @@ function OfferCard({
             <span>{offer.city ? offer.city.name_ru : "не указано"}</span>
           </div>
         </div>
-        <div className={s.progress_bar}>
+        <div
+          className={`${!offer.is_active ? s.disableColor : ""} ${
+            s.progress_bar
+          }`}
+        >
           <div className="progress rounded">
             <div
               className="progress-bar rounded"
@@ -116,7 +141,7 @@ function OfferCard({
           </span>{" "}
           ГРН
         </div>
-        <div className={s.open}>
+        <div className={s.offer_btn}>
           <Link
             href={{
               pathname: "/desire",
@@ -125,6 +150,26 @@ function OfferCard({
           >
             <a>Открыть</a>
           </Link>
+        </div>
+        <div className={s.offer_btn} onClick={() => hideShowHandler(offer.id)}>
+          {hideLoading ? (
+            <SpinnerGrow color={`secondary`} />
+          ) : offer.is_active ? (
+            "Скрыть"
+          ) : (
+            "Опубликовать"
+          )}
+        </div>
+        <div
+          className={s.offer_btn}
+          onClick={() =>
+            Router.push({ pathname: "/update-offer", query: { id: offer.id } })
+          }
+        >
+          Изменить
+        </div>
+        <div className={s.offer_btn} onClick={() => deleteOfferHandler(offer.id)}>
+          {deleteLoading ? <SpinnerGrow color={`secondary`} /> : "Удалить"}
         </div>
       </div>
 
@@ -173,10 +218,7 @@ function OfferCard({
 
             {showToast && (
               <div className={`${s.toast}`}>
-                <ReportModal
-                  userId={offer.user_id}
-                  setShowToast={setShowToast}
-                />
+                <span>тут ничего нет</span>
               </div>
             )}
           </div>

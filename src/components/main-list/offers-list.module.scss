@@ -38,18 +38,18 @@
 .card {
   color: #383b42;
   position: relative;
-  //height: 27em;
+  height: 29em;
   border-radius: 1em;
   background-color: #3a3f46;
-  display: grid;
-  grid-template-rows: 3fr 1fr;
+  //display: grid;
+  //grid-template-rows: 3fr 1fr;
   overflow: hidden;
-  position: relative;
 }
 .card_header {
   position: relative;
 }
 .card_header_control {
+  height: 2.8em;
   background-color: #3a3f46;
   z-index: 5;
   width: 100%;
@@ -127,6 +127,7 @@
   h5 {
     width: 75%;
     height: 2em;
+    margin: .5em 0 0 0;
     a {
       color: #ffffff;
       font-family: "Montserrat", sans-serif;
@@ -187,32 +188,35 @@
   position: absolute;
   top: 0.5em;
   left: 50%;
-  padding: 0.5em;
-  transform: translateX(-40%);
+  transform: translateX(-20%);
   z-index: 10;
-  background-color: #fff;
+  background-color: #404854;
   border-radius: 0.3em;
-  border: 1px solid #ccc;
+  overflow: hidden;
+  //border: 1px solid #ccc;
   display: grid;
-  box-shadow: 0 0 10px 2px rgba(53, 53, 53, 0.27);
-  span,
-  button,
-  a {
-    text-align: center;
-    text-decoration: none;
-    color: #000;
-    background-color: #fff;
+  box-shadow: 0 0 10px 5px rgba(53, 53, 53, 0.5);
+  div {
+    width: 100%;
+    display: block;
+    color: #fff;
+    background-color: #404854;
     border: none;
-    border-bottom: 1px solid #eee;
-    padding: 0.1em 0.5em;
+    padding: 0.5em 1em;
     border-radius: 0;
+    text-align: center;
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
     &:hover {
-      border-radius: 0;
       color: #000;
       border: none;
-      border-bottom: 1px solid #999;
       transition: 0.3s;
       background-color: #fafafa;
+      a {
+        color: #000;
+      }
     }
   }
 }

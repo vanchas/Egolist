@@ -5,13 +5,14 @@ import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 
 export default function SimpleSlider({ photo }) {
   const [curr, setCurr] = useState(0)
+  const [showPlaceholder, setShowPlaceholder] = useState(null);
 
   useEffect(() => {
     // console.log(photo);
   }, [])
 
   const settings = {
-    dots: true,
+    dots: false,
     arrows: false,
     infinite: true,
     speed: 500,
@@ -26,11 +27,13 @@ export default function SimpleSlider({ photo }) {
         {photo ? (
           photo.map((p, i) => (
             <div className={s.item} key={i}>
-              <img src={p} alt={``} />
+              <img src={!showPlaceholder ? p : showPlaceholder === i ? Placeholder : p} alt={``} onErrorCapture={() => setShowPlaceholder(i)} />
             </div>
           ))
         ) : (
-          <img src={Placeholder} alt={``} />
+          <div className={s.item}>
+            <img src={Placeholder} alt={``} />
+          </div>
         )}
       </Slider>
 

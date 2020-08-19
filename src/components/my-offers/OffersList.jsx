@@ -3,9 +3,10 @@ import s from "./offers.module.scss";
 import OfferCard from "./OfferCard";
 import Router from "next/router";
 import { SORT_MY_OFFERS } from "../../redux/actions/types";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import MyOffersListSort from "./MyOffersListSort";
 
-export default function MyOffersList({
+function MyOffersList({
   myOffers,
   hideShowOffer,
   sortMyOffers,
@@ -31,51 +32,10 @@ export default function MyOffersList({
   return (
     <div className={s.offers_list_wrap}>
       <div className={s.offers_list}>
-
-        <div className={s.offers_list_sort}>
-          <span className={s.btn_back} onClick={Router.back}>Назад</span>
-
-          {sortingValues ? (
-            <select
-              className="form-control"
-              onChange={(e) => sortOffersHandler(e.target.value)}
-            >
-              <option value="default" hidden>
-                Сортировка
-              </option>
-              {sortingValues && sortingValues.length
-                ? sortingValues.map((val, i) => {
-                    if (val.search_by.includes("idc")) {
-                      return (
-                        <option key={i} value={val.id}>
-                          {val.value}
-                        </option>
-                      );
-                    }
-                    if (val.search_by.includes("price")) {
-                      return (
-                        <option key={i} value={val.id}>
-                          {val.value}
-                        </option>
-                      );
-                    }
-                    if (val.search_by.includes("rating")) {
-                      return (
-                        <option key={i} value={val.id}>
-                          {val.value}
-                        </option>
-                      );
-                    }
-                  })
-                : null}
-            </select>
-          ) : (
-            <div className="spinner-border text-secondary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          )}
-        </div>
-
+        <MyOffersListSort
+          sortingValues={sortingValues}
+          sortOffersHandler={sortOffersHandler}
+        />
         <div className={s.offers_list}>
           {myOffers && myOffers.length ? (
             <ul>
@@ -83,6 +43,7 @@ export default function MyOffersList({
                 return (
                   <li key={i}>
                     <OfferCard
+                      isActive={offer.is_active}
                       deleteOffer={deleteOffer}
                       hideShowOffer={hideShowOffer}
                       offer={offer}
@@ -109,3 +70,8 @@ export default function MyOffersList({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  myOffers: state.user.myOffers,
+});
+export default connect(mapStateToProps, null)(MyOffersList);

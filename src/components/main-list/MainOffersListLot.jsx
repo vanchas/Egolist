@@ -21,6 +21,7 @@ function MainOffersListLot({
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
   const [loadingComparison, setLoadingComparison] = useState(false);
   const router = useRouter();
 
@@ -93,35 +94,29 @@ function MainOffersListLot({
               {showToast && (
                 <div className={`${s.toast}`}>
                   {user && user.user && user.user.id === offer.user_id ? (
-                    <Link
-                      href={{
-                        pathname: "/update-offer",
-                        query: { id: offer.id, desire_id: offer.desire_id },
-                      }}
-                    >
-                      <a>Изменить</a>
-                    </Link>
+                    <div>
+                      <Link
+                        href={{
+                          pathname: "/update-offer",
+                          query: { id: offer.id, desire_id: offer.desire_id },
+                        }}
+                      >
+                        <a>Изменить</a>
+                      </Link>
+                    </div>
                   ) : null}
-                  <span>
                     <ReportModal
                       userId={offer.user_id}
                       setShowToast={setShowToast}
                     />
-                  </span>
                 </div>
               )}
             </>
           )}
         </div>
         <div className={s.lot_img_holder}>
-          {offer.photo || offer.video ? (
-            // <Carousel
-            //   desireId={offer.desire_id}
-            //   offerId={offer.id}
-            //   photo={JSON.parse(offer.photo)}
-            //   video={offer.video}
-            // />
-            <img src={JSON.parse(offer.photo)[0]} alt={``} />
+          {offer.photo && !showPlaceholder ? (
+            <img src={JSON.parse(offer.photo)[0]} alt={``} onErrorCapture={() => setShowPlaceholder(true)} />
           ) : (
             <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
               <a className={`w-100 h-100`}>

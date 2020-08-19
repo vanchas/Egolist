@@ -1,7 +1,12 @@
+$shadowSm: 0 .125rem .25rem rgba(0, 0, 0, 0.07) !important;
+$shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
+
 .layout {
 	max-width: 2020px;
 	margin: 0 auto;
-	min-height: 100vh;
+	//min-height: 100vh;
+	min-height: 100%;
+	height: auto !important;
 	width: 100%;
 	display: grid;
 	grid-template-rows: auto 1fr;
@@ -18,6 +23,7 @@
 	main {
 		overflow: auto;
 		border-radius: 1em;
+		//box-shadow: $shadow;
 		//background: linear-gradient(to right, #383d43, #31353b);
 	}
 }

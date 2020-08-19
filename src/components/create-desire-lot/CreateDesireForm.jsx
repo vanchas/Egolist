@@ -176,9 +176,7 @@ export default function CreateDesireForm({
         </div>
       )}
 
-      <span className={s.btn_back} onClick={Router.back}>
-        &lt; Назад
-      </span>
+      <span className={s.btn_back} onClick={Router.back}>Назад</span>
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>
