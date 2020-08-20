@@ -5,6 +5,7 @@ import { authenticationService } from "../../_services";
 import Eye from "../../assets/svg/eye.svg";
 import EyeSlash from "../../assets/svg/eye-slash.svg";
 import s from './login.module.scss'
+import Spinner from "../helpers/Spinner";
 
 export default function SignIn(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -95,11 +96,8 @@ export default function SignIn(props) {
                 Войти
               </button>
               {isSubmitting && (
-                <div
-                  className="spinner-border spinner-border-sm text-warning ml-3"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
+                <div className="ml-3">
+                  <Spinner color={`warning`} size={`sm`} />
                 </div>
               )}
             </div>

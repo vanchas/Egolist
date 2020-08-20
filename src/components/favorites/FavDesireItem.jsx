@@ -37,7 +37,7 @@ export default function FavDesireItem({ deleteFavorite, post }) {
         }`}
       >
         {post.desire.photo ? (
-          <SlickSlider photo={JSON.parse(post.desire.photo)} />
+          <SlickSlider height={'25em'} photo={JSON.parse(post.desire.photo)} />
         ) : (
           // <img src={JSON.parse(desire.photo)[0]} alt={``} />
           <Link href={{ pathname: `/desire`, query: { id: post.desire.id } }}>

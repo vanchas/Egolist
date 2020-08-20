@@ -68,7 +68,7 @@ function OfferCard({
         className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
       >
         {offer.photo ? (
-          <SlickSlider photo={JSON.parse(offer.photo)} />
+          <SlickSlider height={'25em'} photo={JSON.parse(offer.photo)} />
         ) : (
           <Link
             href={{

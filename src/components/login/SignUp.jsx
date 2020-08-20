@@ -6,6 +6,7 @@ import MaskedInput from "react-text-mask";
 import Eye from "../../assets/svg/eye.svg";
 import EyeSlash from "../../assets/svg/eye-slash.svg";
 import s from "./login.module.scss";
+import Spinner from "../helpers/Spinner";
 
 const phoneNumberMask = [
   // /[1-9]/,
@@ -218,11 +219,8 @@ export default function SignUp({ showAlert }) {
                 Продолжить
               </button>
               {isSubmitting && (
-                <div
-                  className="spinner-border spinner-border-sm text-warning ml-3"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
+                <div className="ml-3">
+                  <Spinner color={`warning`} size={`sm`} />
                 </div>
               )}
             </div>

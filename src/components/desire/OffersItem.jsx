@@ -15,6 +15,7 @@ import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import OfferRating from "../helpers/OfferRating";
 import formatNumber from "../../utils/format-price-string";
 import SlickSlider from "../helpers/SlickSlider";
+import SpinnerGrow from "../helpers/SpinnerGrow";
 
 export default function OffersItem({
   offer,
@@ -68,7 +69,7 @@ export default function OffersItem({
           //   photo={JSON.parse(desire.photo)}
           //   video={desire.video}
           // />
-          <SlickSlider photo={JSON.parse(offer.photo)} />
+          <SlickSlider photo={JSON.parse(offer.photo)} height={'25em'} />
           // <img src={JSON.parse(offer.photo)[0]} alt={``} />
         ) : (
           <Link
@@ -160,9 +161,7 @@ export default function OffersItem({
             <div className={`d-flex align-items-center`}>
               {compLoading ? (
                 <div className={`px-4`}>
-                  <div className="spinner-grow text-secondary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               ) : (
                 <div
@@ -175,9 +174,7 @@ export default function OffersItem({
               )}
               {favLoading ? (
                 <div className={`px-4`}>
-                  <div className="spinner-grow text-secondary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <SpinnerGrow color={`secondary`} />
                 </div>
               ) : (
                 <div

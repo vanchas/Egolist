@@ -49,7 +49,7 @@ function FavOfferItem({ deleteFavorite, post, addOfferToComparison }) {
         }`}
       >
         {post.sentense.photo ? (
-          <SlickSlider photo={JSON.parse(post.sentense.photo)} />
+          <SlickSlider height={'25em'} photo={JSON.parse(post.sentense.photo)} />
         ) : (
           <Link
             href={{

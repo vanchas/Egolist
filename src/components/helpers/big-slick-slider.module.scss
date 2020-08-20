@@ -1,5 +1,4 @@
 .item {
-  height: 27em;
   position: relative;
   img {
     min-width: 100%;
@@ -20,6 +19,7 @@
   transform: translateX(-50%);
   display: flex;
   span {
+    cursor: pointer;
     padding: .2em;
     display: inline-block;
     opacity: .5;

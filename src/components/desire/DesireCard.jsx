@@ -5,7 +5,7 @@ import Libra from "../../assets/header/libra.png";
 import Burger from "../../assets/header/burger-white.png";
 import Link from "next/link";
 import { authenticationService } from "../../_services";
-import BigSlickSlider from "../helpers/BigSlickSlider";
+import SlickSlider from "../helpers/SlickSlider";
 import {
   addDesireToFavorites,
   getMyOffers,
@@ -15,6 +15,8 @@ import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 import formatNumber from "../../utils/format-price-string";
 import formatDate from "../../utils/format-date-string";
 import moment from "moment";
+import ReportModal from "../helpers/ReportModal";
+import Spinner from "../helpers/Spinner";
 
 function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
   const [user, setUser] = useState(null);
@@ -74,7 +76,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
         <div className={s.card}>
           <div className={s.main_image}>
             {desire.photo ? (
-              <BigSlickSlider photo={JSON.parse(desire.photo)} />
+              <SlickSlider photo={JSON.parse(desire.photo)} height={'30em'} />
             ) : (
               // <img src={JSON.parse(desire.photo)[0]} alt={``} />
               <img src={Placeholder} alt={``} />
@@ -114,9 +116,15 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
                           }}
                         >
                           <a className={s.add_offer_btn}>
-                            Добавить предложение
+                            Сделать предложение
                           </a>
                         </Link>
+                      </span>
+                      <span>
+                        <ReportModal
+                          userId={desire.user_id}
+                          setShowToast={setShowToast}
+                        />
                       </span>
                     </div>
                   )}
@@ -157,9 +165,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
       ) : (
         <div className={`text-center py-5`}>
           {loading ? (
-            <div className="spinner-border text-secondary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
+            <Spinner color={`secondary`} />
           ) : (
             <div className="h5 text-center py-5">
               Нет информации по желанию...

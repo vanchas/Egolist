@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import s from "./interesting-lots.module.scss";
 import Burger from "../../assets/header/burger-white.png";
 import Heart from "../../assets/header/Heart.png";
-import Libra from "../../assets/header/libra.png";
 import { connect } from "react-redux";
 import { addDesireToFavorites } from "../../redux/actions/userActions";
 import { showAlert } from "../../redux/actions/appActions";
 import ReportModal from "../helpers/ReportModal";
 import Link from "next/link";
 import { authenticationService } from "../../_services/authentication.service";
+import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import SignNew from "../../assets/lot/sign-new.png";
+import moment from "moment";
 
 function InterestingLot({
   desire,
@@ -17,9 +19,6 @@ function InterestingLot({
   selectedDesires,
 }) {
   const [showToast, setShowToast] = useState(false);
-  const [btnSign, setBtnSign] = useState(
-    <span className={`text-white`}>&#x2b;</span>
-  );
   const [selectedLot, setSelectedLot] = useState(false);
 
   const toastHandler = (e) => {
@@ -32,18 +31,42 @@ function InterestingLot({
     setSelectedDesires(filteredSelectDesires);
   };
 
+  const imageErrorHandler = (e) => {
+    e.target.src = Placeholder;
+  };
+
+  const cardEllipsHandler = () => {
+    if (selectedLot) {
+      setSelectedLot(false);
+      removeSelectDesires(desire.id);
+    } else {
+      if (selectedDesires.length === 10) {
+        showAlert(
+          "Вы можете отправить свое предложение максимум 10-ти желаниям"
+        );
+      } else {
+        setSelectedLot(true);
+        setSelectedDesires([...selectedDesires, desire.id]);
+      }
+    }
+  };
+
+  const isNewChecker = (date) => {
+    const date1 = moment(date)._i;
+    const date2 = moment();
+    const days = Math.abs(moment(date1).diff(moment(date2), "days"));
+    if (days < 2) {
+      return  true
+    }
+    return false
+  };
+
   return (
     <div className={s.card}>
+      {isNewChecker(desire.created_at) && <img src={SignNew} alt="" className={s.interesting_img}/>}
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           <div>
-            {/*<span>*/}
-            {/*  <Link href={`/comparison`}>*/}
-            {/*        <a>*/}
-            {/*          <img src={Libra} alt="" />*/}
-            {/*        </a>*/}
-            {/*      </Link>*/}
-            {/*</span>*/}
             {authenticationService.currentUserValue ? (
               authenticationService.currentUserValue.user.id !==
               desire.user_id ? (
@@ -81,32 +104,27 @@ function InterestingLot({
             <span className={s.green_sign}>СТАВОК {desire.count_offers}</span>
             <div className={s.lot_img_holder}>
               {desire.photo && JSON.parse(desire.photo).length ? (
-                <img src={JSON.parse(desire.photo)[0]} alt={desire.header} />
-              ) : null}
+                <img
+                  src={JSON.parse(desire.photo)[0]}
+                  alt={desire.header}
+                  onError={imageErrorHandler}
+                  onErrorCapture={imageErrorHandler}
+                />
+              ) : (
+                <img src={Placeholder} alt={``} />
+              )}
             </div>
           </a>
         </Link>
       </div>
       <div className={s.card_info}>
-        <div
-          className={s.card_elipse}
-          onClick={() => {
-            if (selectedLot) {
-              setBtnSign(<span className={`text-white`}>&#x2b;</span>);
-              setSelectedLot(false);
-              removeSelectDesires(desire.id);
-            } else {
-              if (selectedDesires.length === 10) {
-                showAlert('Вы можете отправить свое предложение максимум 10-ти желаниям')
-              } else {
-                setBtnSign(<span className={`text-danger`}>&#xd7;</span>);
-                setSelectedLot(true);
-                setSelectedDesires([...selectedDesires, desire.id]);
-              }
-            }
-          }}
-        >
-          {btnSign}
+        <div className={s.card_elipse} onClick={cardEllipsHandler}>
+          {selectedLot ? (
+            <span className={`text-danger`}>&#xd7;</span>
+          ) : (
+            <span className={`text-white`}>&#x2b;</span>
+          )}
+          {/*{btnSign}*/}
         </div>
         <Link href={`/desire?id=${desire.id}`}>
           <a className={`text-dark`}>

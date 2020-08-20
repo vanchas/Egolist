@@ -1,13 +1,13 @@
 .item {
-  height: 25em;
   position: relative;
+  //min-height: 100%;
   img {
     min-width: 100%;
     min-height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -25%);
   }
 }
 
@@ -20,6 +20,7 @@
   transform: translateX(-50%);
   display: flex;
   span {
+    cursor: pointer;
     padding: .2em;
     display: inline-block;
     opacity: .5;

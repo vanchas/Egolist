@@ -47,7 +47,7 @@ const ComparisonItem = SortableElement(({ offer, addOfferToFavorites }) => {
           }`}
         >
           {offer.photo ? (
-            <SlickSlider photo={JSON.parse(offer.photo)} />
+            <SlickSlider height={'25em'} photo={JSON.parse(offer.photo)} />
           ) : (
             <Link
               href={{

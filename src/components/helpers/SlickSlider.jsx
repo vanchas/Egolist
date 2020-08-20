@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import s from "./slick-slider.module.scss";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 
-export default function SimpleSlider({ photo }) {
-  const [curr, setCurr] = useState(0)
-  const [showPlaceholder, setShowPlaceholder] = useState(null);
-
-  useEffect(() => {
-    // console.log(photo);
-  }, [])
+export default function SimpleSlider({ photo, height }) {
+  const [curr, setCurr] = useState(0);
+  const slider = useRef();
 
   const settings = {
     dots: false,
@@ -21,26 +17,48 @@ export default function SimpleSlider({ photo }) {
     beforeChange: (oldIndex, newIndex) => setCurr(newIndex),
   };
 
+  const dotClickHandler = (ind) => {
+    slider.current.slickGoTo(ind);
+    setCurr(ind);
+  };
+
+  const blockenImageHandler = (e) => {
+    e.target.src = Placeholder;
+  };
+
   return (
-    <div>
-      <Slider {...settings}>
-        {photo ? (
+    <div className={`h-100`}>
+      <Slider {...settings} ref={slider}>
+        {photo && photo.length ? (
           photo.map((p, i) => (
-            <div className={s.item} key={i}>
-              <img src={!showPlaceholder ? p : showPlaceholder === i ? Placeholder : p} alt={``} onErrorCapture={() => setShowPlaceholder(i)} />
+            <div className={s.item} key={i} style={{ height }}>
+              <img
+                src={p}
+                alt={``}
+                onErrorCapture={blockenImageHandler}
+                onError={blockenImageHandler}
+              />
             </div>
           ))
         ) : (
-          <div className={s.item}>
+          <div className={s.item} style={{ height }}>
             <img src={Placeholder} alt={``} />
           </div>
         )}
       </Slider>
 
       <div className={s.dots}>
-        {photo && photo.length > 1 ? photo.map((p, i) => (
-          <span key={i} style={curr === i ? {opacity: 1} : {}} onClick={() => setCurr(i)}>&#x26AA;</span>
-        )) : null}
+        {photo && photo.length > 1
+          ? photo.map((p, i) => (
+              <span
+                key={i}
+                style={curr === i ? { opacity: 1 } : {}}
+                onClick={() => dotClickHandler(i)}
+              >
+                &#x26AA;
+              </span>
+            ))
+          : null}
       </div>
     </div>
   );

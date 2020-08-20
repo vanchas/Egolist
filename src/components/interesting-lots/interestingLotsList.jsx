@@ -5,6 +5,7 @@ import SignNew from "../../assets/lot/sign-new.png";
 import { connect } from "react-redux";
 import { showSuccess, showAlert } from "../../redux/actions/appActions";
 import HttpRequest from "../../_helpers/HttpRequest";
+import Spinner from "../helpers/Spinner";
 
 function InterestingLotsList(props) {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,6 @@ function InterestingLotsList(props) {
       {interestingLots && interestingLots.length ? (
         <>
           <ul>
-            <img src={SignNew} alt="" className={s.interesting_img} />
             {interestingLots.map((desire, i) => (
               <li
                 key={i}
@@ -73,9 +73,7 @@ function InterestingLotsList(props) {
           <div className={s.interesting_lots_list_control}>
             <span onClick={() => sentMyOfferToInterestingDesires()}>
               {sentMyOfferLoader ? (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
+                <Spinner color={`secondary`} />
               ) : (
                 "ОТПРАВИТЬ"
               )}
@@ -83,9 +81,7 @@ function InterestingLotsList(props) {
             <span/>
             <span/>
             {showMoreLoader ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <Spinner color={`secondary`} />
             ) : (
               <span onClick={() => showLots(showPage + 1)}>ПОКАЗАТЬ ЕЩЕ</span>
             )}
@@ -95,9 +91,7 @@ function InterestingLotsList(props) {
         <>
           {loading && (
             <div className="text-center py-4">
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <Spinner color={`secondary`} />
             </div>
           )}
           {!loading && (

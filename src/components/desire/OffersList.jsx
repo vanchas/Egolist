@@ -3,6 +3,7 @@ import OffersItem from "./OffersItem";
 import s from "./offers.module.scss";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
+import Spinner from "../helpers/Spinner";
 
 function OffersList({
   offers,
@@ -37,9 +38,7 @@ function OffersList({
         ) : (
           <div className={`text-center py-5`}>
             {loading ? (
-              <div className="spinner-border text-secondary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
+              <Spinner color={`secondary`} />
             ) : (
               <div className="h5 text-center text-white py-5">
                 К этому желанию еще нет предложений...

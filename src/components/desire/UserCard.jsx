@@ -9,6 +9,7 @@ import Whatsup from "../../assets/social/whatsup.png";
 import Telegram from "../../assets/social/telegram.png";
 import Skype from "../../assets/social/skype.png";
 import Mail from "../../assets/social/email.png";
+import Spinner from "../helpers/Spinner";
 
 export default function UserCard({ user, locations }) {
   const [daysOnEgolist, setDaysOnEgolist] = useState(0);
@@ -65,7 +66,7 @@ export default function UserCard({ user, locations }) {
                 <img src={Placeholder} alt="" />
               )}
             </div>
-            <div className={s.name}>{user.name.split(' ')[0]}</div>
+            <div className={s.name}>{user.name}</div>
             <div className={s.rating}>
               <Rating rating={user.rating} />
             </div>
@@ -114,9 +115,7 @@ export default function UserCard({ user, locations }) {
       ) : (
         <div className={`text-center py-5`}>
           {loading ? (
-            <div className="spinner-border text-secondary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
+            <Spinner color={`secondary`} />
           ) : (
             <div className="h5 text-center py-5">
               Нет информации о пользователе...

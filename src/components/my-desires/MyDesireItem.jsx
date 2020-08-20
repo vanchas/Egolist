@@ -47,7 +47,7 @@ export default function MyDesireItem({
         className={`${s.card_image} ${!desire.is_active ? s.disableColor : ""}`}
       >
         {desire.photo ? (
-          <SlickSlider photo={JSON.parse(desire.photo)} />
+          <SlickSlider height={'25em'} photo={JSON.parse(desire.photo)} />
         ) : (
           <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
             <a className={`w-100 h-100`}>

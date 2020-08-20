@@ -69,7 +69,7 @@ function OfferForMeItem({
           //   photo={JSON.parse(desire.photo)}
           //   video={desire.video}
           // />
-          <SlickSlider photo={JSON.parse(offer.photo)} />
+          <SlickSlider height={'25em'} photo={JSON.parse(offer.photo)} />
         ) : (
           // <img src={JSON.parse(offer.photo)[0]} alt={``} />
           <Link
