@@ -6,6 +6,9 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		display: grid;
 		grid-template-columns: 3fr 1fr;
 		gap: 1.5em;
+		//@media screen and (max-width: 1200px) {
+		//	grid-template-columns: 100% 0;
+		//}
 	}
 }
 .card {
@@ -52,14 +55,20 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		}
 	}
 	h3 {
-		font-size: 17px;
+		font-size: 1.3vw;
 		font-weight: 700;
+		@media screen and (max-width: 1100px) {
+			font-size: 1em;
+		}
 	}
 	p {
 		word-break: break-word;
-		font-size: 17px;
+		font-size: 1.3vw;
 		font-weight: 400;
 		min-height: 8em;
+		@media screen and (max-width: 1100px) {
+			font-size: 1em;
+		}
 	}
 	.date {
 		font-size: 20px;
@@ -109,10 +118,13 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		text-align: center;
 		white-space: nowrap;
 		color: #4cb26b;
-		font-size: 21px;
+		font-size: 1vw;
 		font-weight: 900;
 		text-transform: uppercase;
 		margin: 0;
+		@media screen and (max-width: 1100px) {
+			font-size: 1em;
+		}
 	}
 	.com, .fav {
 		cursor: pointer;

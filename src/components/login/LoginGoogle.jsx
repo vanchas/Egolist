@@ -11,10 +11,13 @@ const styles = {
     width: "100%",
     maxWidth: "400px",
     margin: "auto",
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#2e3137",
     padding: "2em 1em",
-    color: '#444'
+    color: '#fff'
   },
+  header: {
+    color: '#fff'
+  }
 };
 
 export default function (props) {
@@ -71,7 +74,7 @@ export default function (props) {
     googleContent = (
       <div style={styles.error}>
         <img src={picture} alt={givenName + " " + familyName} />
-        <h2>
+        <h2 style={styles.header}>
           Добро пожаловать, {givenName} {familyName}
         </h2>
         <p>Email: {email}</p>

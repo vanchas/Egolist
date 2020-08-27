@@ -12,10 +12,13 @@ const styles = {
     width: "100%",
     maxWidth: "400px",
     margin: "auto",
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#2e3137",
     padding: "2em 1em",
-    color: '#444'
+    color: '#fff'
   },
+  header: {
+    color: '#fff'
+  }
 };
 
 export default function FacebookLoginComponent(props) {
@@ -62,7 +65,7 @@ export default function FacebookLoginComponent(props) {
     fbContent = (
       <div style={styles.error}>
         <img src={picture} alt={name} />
-        <h2>Добро пожаловать, {name}</h2>
+        <h2 style={styles.header}>Добро пожаловать, {name}</h2>
         <p>Email: {email}</p>
       </div>
     );

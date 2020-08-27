@@ -1,6 +1,11 @@
 .error_page, .not_found_page {
-  background-color: #fff;
+  background-color: #3a3f46;
   text-align: center;
   padding-top: 20%;
   min-height: 100vh;
+  height: 100%;
+  color: #ffffff;
+  h2 {
+    color: #fff;
+  }
 }

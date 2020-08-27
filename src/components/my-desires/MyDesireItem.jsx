@@ -8,6 +8,7 @@ import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import formatNumber from "../../utils/format-price-string";
 import SlickSlider from "../helpers/SlickSlider";
 import SpinnerGrow from "../helpers/SpinnerGrow";
+import Rating from "../helpers/Rating";
 
 export default function MyDesireItem({
   hideShowDesire,
@@ -74,7 +75,10 @@ export default function MyDesireItem({
               <img src={UserPlaceholder} alt={``} />
             )}
           </span>
-          <span className={s.user_name}>{desire.user.name}</span>
+          <span className={s.user_name}>
+            {desire.user.name}
+            <Rating rating={desire.user.rating} />
+          </span>
           <div className={s.location}>
             <i className="fas fa-map-marker-alt" />
             <span>{region}</span>

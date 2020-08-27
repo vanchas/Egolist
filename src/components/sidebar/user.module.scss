@@ -6,3 +6,43 @@
 		border-radius: .5em;
 	}
 }
+
+.chats_list {
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 1em;
+	li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 1em;
+		div {
+			width: 3em;
+			height: 3em;
+			position: relative;
+			border-radius: 50%;
+			border: 2px solid #c78550;
+			img {
+				border-radius: 50%;
+				width: 100%;
+				height: 100%;
+			}
+			span {
+				display: inline-block;
+				position: absolute;
+				width: .6em;
+				height: .6em;
+				border-radius: 50%;
+				background-color: #4cb26b;
+				top: 0.1em;
+				right: 0.1em;
+				z-index: 1;
+			}
+		}
+		span {
+			color: #fff;
+			font-weight: 500;
+		}
+	}
+}

@@ -31,7 +31,7 @@ function MyOffers({
   }, []);
 
   return (
-    <div>
+    <div className={`h-100`}>
       {showPage && (
         <OffersList
           deleteOffer={deleteOffer}

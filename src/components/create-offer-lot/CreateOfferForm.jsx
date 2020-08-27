@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./add-form.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler from "../helpers/FieldsValidator";
+import inputValidateHandler from "../../utils/FieldsValidator";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";

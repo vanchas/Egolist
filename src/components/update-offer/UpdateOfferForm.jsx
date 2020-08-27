@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./update-offer.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler from "../helpers/FieldsValidator";
+import inputValidateHandler from "../../utils/FieldsValidator";
 
 export default function UpdateOfferForm({
   updateOffer,

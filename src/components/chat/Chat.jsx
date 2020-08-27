@@ -71,7 +71,7 @@ function Chat(props) {
           <h1>Админ Админович</h1>
           <h2>администратор</h2>
           <figure className={s.avatar}>
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" />
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg"  alt={``}/>
           </figure>
         </div>
         <div className={s.messages}

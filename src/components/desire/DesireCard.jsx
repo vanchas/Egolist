@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import s from "./desire.module.scss";
 import Heart from "../../assets/header/Heart.png";
-import Libra from "../../assets/header/libra.png";
 import Burger from "../../assets/header/burger-white.png";
 import Link from "next/link";
 import { authenticationService } from "../../_services";
@@ -18,7 +17,7 @@ import moment from "moment";
 import ReportModal from "../helpers/ReportModal";
 import Spinner from "../helpers/Spinner";
 
-function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
+function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allowToCreateOffers, setAllowToCreateOffers] = useState(false);
@@ -72,20 +71,23 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
 
   return (
     <>
-      {desire.header && !loading ? (
+      {desire && !loading ? (
         <div className={s.card}>
           <div className={s.main_image}>
             {desire.photo ? (
-              <SlickSlider photo={JSON.parse(desire.photo)} height={'30em'} />
+              <SlickSlider photo={JSON.parse(desire.photo)} height={"30em"} />
             ) : (
-              // <img src={JSON.parse(desire.photo)[0]} alt={``} />
               <img src={Placeholder} alt={``} />
             )}
           </div>
           <div className={s.card_info}>
             <div className={s.card_info_header}>
               <div className={s.price}>
-                {formatNumber(desire.price)} <span>ГРН</span>
+                {desire.price ? (
+                  <>
+                    {formatNumber(desire.price)} <span>ГРН</span>
+                  </>
+                ) : null}
               </div>
               {user &&
               user.token &&
@@ -115,9 +117,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
                             query: { desire_id: desire.id },
                           }}
                         >
-                          <a className={s.add_offer_btn}>
-                            Сделать предложение
-                          </a>
+                          <a className={s.add_offer_btn}>Сделать предложение</a>
                         </Link>
                       </span>
                       <span>
@@ -129,7 +129,9 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
                     </div>
                   )}
                 </div>
-              ) : message ? <small>{message}</small> : null}
+              ) : message ? (
+                <small>{message}</small>
+              ) : null}
             </div>
             <div>
               <h3 className={`text-white`}>{desire.header}</h3>
@@ -155,10 +157,12 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
             </div>
             <div className={s.categories}>
               {!isNew && <span>Новое</span>}
-              {desire.category && desire.category.length ? <>
-                <span>{desire.category[0].name}</span>
-                {desire.category[1] && <span>{desire.category[1].name}</span>}
-              </> : null}
+              {desire.category && desire.category.length ? (
+                <>
+                  <span>{desire.category[0].name}</span>
+                  {desire.category[1] && <span>{desire.category[1].name}</span>}
+                </>
+              ) : null}
             </div>
           </div>
         </div>
@@ -167,7 +171,7 @@ function DesireCard({ desire, addDesireToFavorites, getMyOffers, myOffers }) {
           {loading ? (
             <Spinner color={`secondary`} />
           ) : (
-            <div className="h5 text-center py-5">
+            <div className="h5 text-center text-white py-5">
               Нет информации по желанию...
             </div>
           )}

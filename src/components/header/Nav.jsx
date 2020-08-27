@@ -27,6 +27,7 @@ import {
   searchInfo,
   showSidebar
 } from "../../redux/actions/appActions";
+import Spinner from "../helpers/Spinner";
 
 const NavComponent = ({
   locations,
@@ -183,7 +184,7 @@ const NavComponent = ({
             onChange={(e) => filterByLocationHandler(e)}
           >
             <option value="default" hidden>
-              Вся украина
+              Вся Украина
             </option>
             {locations && locations.length
               ? locations.map((l, i) => (
@@ -214,10 +215,8 @@ const NavComponent = ({
             </select>
           </div>
         ) : cityLoading ? (
-          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-3 px-5 ${s.city_loader}`}>
-            <div className="spinner-border text-secondary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
+          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-2 px-5 ${s.city_loader}`}>
+            <Spinner color={`secondary`} />
           </div>
         ) : (
           <small />

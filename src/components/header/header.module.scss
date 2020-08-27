@@ -17,6 +17,12 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
 .navbar_content {
   justify-content: space-between;
   width: 100%;
+  li {
+    @media screen and (max-width: 992px) {
+      text-align: center;
+      padding: .5em 0;
+    }
+  }
 }
 .navbar_toggler {
   &:focus {
@@ -52,7 +58,6 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   display: flex;
   margin: 1.3em 0;
   width: 100%;
-  min-height: 71px;
 
   @media screen and (max-width: 750px) {
     display: grid;
@@ -70,7 +75,7 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
     width: 100%;
     &:before {
       content: "\26B2";
-      font-size: 2em;
+      font-size: 2vw;
       color: #1e1f1e;
       transform: translateY(-50%) rotate(-45deg);
       display: inline-block;
@@ -78,6 +83,9 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
       left: 1em;
       top: 50%;
       z-index: 2;
+      @media screen and (max-width: 1100px) {
+        font-size: 1.2em;
+      }
     }
     //svg {
     //  font-size: 1.8em;
@@ -89,15 +97,20 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
     //}
     .search_input {
       border: none;
+      height: 41px;
       border-radius: 0 0 0 1.5em;
       background-color: #ffffff;
       padding: 0.95em 1em 0.95em 4em;
       font-weight: 700;
       color: #3a3f46;
       font-family: "Montserrat", sans-serif;
-      font-size: 21px;
+      font-size: 1vw;
       width: 100%;
       transition: 0.3s;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+        padding: 0.95em 1em 0.95em 3em;
+      }
       &::placeholder {
         transition: .3s;
         color: #3a3f46;
@@ -159,12 +172,16 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
       transform: translate(0.9em, -50%);
       user-select: none;
       color: #fff;
-      font-size: 1.5em;
+      font-size: 1.1vw;
       cursor: pointer;
       transition: 0.3s;
       //z-index: -1;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
     .search_select {
+      height: 42px;
       //z-index: 1;
       transition: 0.3s;
       user-select: none;
@@ -175,15 +192,17 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
       -webkit-appearance: none;
       -moz-appearance: none;
       background: none;
-      height: 100%;
       border: none;
       color: #ffffff;
       font-family: "Montserrat", sans-serif;
-      font-size: 21px;
+      font-size: 1vw;
       font-weight: 700;
       transition: 1s;
       animation: growing 1s ease-in;
       position: relative;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
       option {
         background-color: #3a3f46;
       }
@@ -217,10 +236,13 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
     color: #c78550;
     text-align: center;
     font-family: "Montserrat", sans-serif;
-    font-size: 21px;
+    font-size: 1vw;
     font-weight: 700;
     position: relative;
     transition: 0.3s;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
     &:before {
       content: "";
       position: absolute;
@@ -279,12 +301,15 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   a {
     color: #fff;
     font-family: "Montserrat", sans-serif;
-    font-size: 21px;
+    font-size: 1vw;
     font-weight: 900;
     text-transform: uppercase;
     white-space: nowrap;
     text-decoration: none;
     transition: 0.3s;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
     &:hover {
       text-decoration: none;
       color: #f6e3ce;
@@ -311,6 +336,9 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   a:last-child {
     padding-left: 1em;
   }
+  @media screen and (max-width: 992px) {
+    justify-content: center;
+  }
   @media screen and (max-width: 768px) {
     justify-content: center;
   }
@@ -321,6 +349,9 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   position: relative;
   display: inline-block;
   transition: 0.3s;
+  img {
+    width: 60%;
+  }
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -344,6 +375,9 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   z-index: 1;
   right: 3em;
   top: -2.5em;
+  @media screen and (max-width: 1100px) {
+    font-size: 1em;
+  }
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */

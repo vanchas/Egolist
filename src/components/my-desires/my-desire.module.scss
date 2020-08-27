@@ -38,10 +38,13 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
       color: #22262a;
       font-family: "Montserrat", sans-serif;
       text-decoration: none;
-      font-size: 21px;
+      font-size: 1vw;
       font-weight: 700;
       padding: 0.6em 2.5em;
       display: inline-block;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
     @media screen and (max-width: 1300px) {
       a {
@@ -52,12 +55,19 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   .sort_select {
     display: flex;
     align-items: center;
+    @media screen and (max-width: 500px) {
+      display: grid;
+      gap: 1em;
+    }
     .sort_title,
     select {
       color: #ffffff;
       font-family: "Montserrat", sans-serif;
-      font-size: 21px;
+      font-size: 1vw;
       font-weight: 400;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
       .select_arrow {
         margin: 0 0.6em 0 1.2em;
         font-weight: bold;
@@ -101,7 +111,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   color: #383b42;
   display: grid;
   grid-template-columns: 38% 42% 20%;
-  overflow: hidden;
+  //overflow-x: hidden;
   @media screen and (max-width: 1550px) {
     grid-template-columns: 2fr 1fr;
   }
@@ -151,16 +161,22 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     color: #ffffff;
     font-family: "Montserrat", sans-serif;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 1.3vw;
     font-weight: 700;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
   }
   p {
     height: 7em;
     overflow: hidden;
     position: relative;
-    font-size: 17px;
+    font-size: 1.3vw;
     font-weight: 400;
     line-height: 1.4em;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
     &:after {
       content: '';
       background: linear-gradient(to top, #3a3f46, transparent);
@@ -176,7 +192,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   }
   .user_block {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
     align-items: center;
     .elips {
       grid-row: span 2;
@@ -195,16 +211,25 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
       }
     }
     .user_name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       color: #ffffff;
       font-family: "Montserrat", sans-serif;
-      font-size: 17px;
+      font-size: 1.3vw;
       font-weight: 700;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
     .location {
       svg {
         font-size: 1.3em;
         color: #fff;
         margin-right: .5em;
+        @media screen and (max-width: 1100px) {
+          font-size: 1em;
+        }
       }
     }
   }
@@ -225,21 +250,27 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   p {
     white-space: nowrap;
     color: #c78550;
-    font-size: 21px;
+    font-size: 1vw;
     font-weight: 900;
     text-transform: uppercase;
     margin: 0;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
   }
   .price {
     color: #ffffff;
     //font-size: 34px;
     font-weight: 700;
-    font-size: 21px;
+    font-size: 1vw;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
   }
   .edit, .post, .delete {
     color: #ffffff;
     width: 100%;
-    font-size: 17px;
+    font-size: 1.3vw;
     font-weight: 700;
     border-radius: .6em;
     background-color: #3a3f46;
@@ -248,6 +279,9 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     align-items: center;
     justify-content: center;
     transition: .3s;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
     a {
       width: 100%;
       color: #ffffff;
@@ -291,8 +325,11 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   background-color: #3a3f46;
   align-items: center;
   color: #ffffff;
-  font-size: 21px;
+  font-size: 1vw;
   font-weight: 700;
+  @media screen and (max-width: 1100px) {
+    font-size: 1em;
+  }
 }
 .card_footer_content {
   height: calc(100% - 7px);
@@ -310,10 +347,16 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     font-weight: 700;
     display: flex;
     align-items: center;
+    @media screen and (max-width: 1100px) {
+      font-size: 1em;
+    }
   }
   .views {
     svg {
       font-size: 1.3em;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
   }
   .statistics {
@@ -330,6 +373,9 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
       font-size: 1.2em;
       line-height: 0;
       margin-top: -.2em;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
     &:hover {
       text-shadow: 0 0 10px rgba(255, 255, 255, .7);
@@ -343,6 +389,14 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     .offers {
       grid-column: span 3;
       justify-self: start;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1em;
+    justify-items: start;
+    .offers {
+      grid-column: span 1;
     }
   }
 }

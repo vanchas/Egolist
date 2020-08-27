@@ -38,8 +38,11 @@
     span {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
-      font-size: 21px;
+      font-size: 1vw;
       font-weight: 400;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
       .select_arrow {
         margin-left: 1em;
         margin-right: 1em;
@@ -64,11 +67,14 @@
       color: #ffffff;
       width: 10em;
       transition: .3s;
-      font-size: 21px;
+      font-size: 1vw;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
       option {
         color: #ffffff;
         font-family: 'Montserrat', sans-serif;
-        //font-size: 21px;
+        //font-size: 1vw;
         font-weight: 400;
         background-color: #383d43;
       }
@@ -95,11 +101,14 @@
     span {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
-      font-size: 21px;
+      font-size: 1vw;
       font-weight: 700;
       text-transform: uppercase;
       cursor: pointer;
       transition: .3s;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
       &.active_link {
         color: #f5c99e;
       }
@@ -179,18 +188,21 @@
     }
     svg {
       color: #ffffff;
-      font-size: 1.4em;
+      font-size: 1.5vw;
+      @media screen and (max-width: 1100px) {
+        font-size: 1.5em;
+      }
     }
   }
   .menu {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
     padding-right: 0;
     i {
       display: inline-block;
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       background-color: #ffffff;
       border-radius: 50%;
       transition: .3s;
@@ -199,10 +211,10 @@
       i {
         transition: .3s;
         &:nth-child(1) {
-          transform: translate(15px, -10px);
+          transform: translate(12px, -10px);
         }
         &:nth-child(3) {
-          transform: translate(-15px, 10px);
+          transform: translate(-12px, 10px);
         }
       }
     }
@@ -235,12 +247,16 @@
   background-color: #3a3f46;
   h5 {
     height: 2em;
+    margin-bottom: 0;
     width: 75%;
     a {
       color: #ffffff;
       font-family: 'Montserrat', sans-serif;
-      font-size: 17px;
+      font-size: 1.3vw;
       font-weight: 700;
+      @media screen and (max-width: 1100px) {
+        font-size: 1em;
+      }
     }
   }
 }
@@ -248,10 +264,16 @@
   white-space: nowrap;
   color: #ffffff;
   font-family: 'Montserrat', sans-serif;
-  font-size: 21px;
+  font-size: 1vw;
   font-weight: 700;
+  @media screen and (max-width: 1100px) {
+    font-size: 1em;
+  }
   span {
-    font-size: 29px;
+    font-size: 1.5vw;
+    @media screen and (max-width: 1100px) {
+      font-size: 1.5em;
+    }
   }
 }
 

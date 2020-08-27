@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import s from "./update-desire.module.scss";
-import inputValidateHandler from "../helpers/FieldsValidator";
+import inputValidateHandler from "../../utils/FieldsValidator";
 import $ from "jquery";
 import SpinnerGrow from "../helpers/SpinnerGrow"
 

@@ -27,7 +27,7 @@ export default function UserCard({ user, locations }) {
         }
       });
     }
-    setTimeout(() => setLoading(false), 5000);
+    setTimeout(() => setLoading(false), 10000);
   }, [user]);
 
   const daysCounter = (user) => {
@@ -117,7 +117,7 @@ export default function UserCard({ user, locations }) {
           {loading ? (
             <Spinner color={`secondary`} />
           ) : (
-            <div className="h5 text-center py-5">
+            <div className="h5 text-center text-white py-5">
               Нет информации о пользователе...
             </div>
           )}

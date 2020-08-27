@@ -18,7 +18,7 @@ import {
 
 const Desire = ({
   getDesireById,
-  desire,
+  desire = null,
   locations,
   getOffersByDesireId,
   offers,
@@ -28,11 +28,21 @@ const Desire = ({
   const dispatch = useDispatch();
   const [showOffers, setShowOffers] = useState(true);
 
-  useEffect(() => {
-    dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
+  const fetchData = () => {
     getDesireById(Router.query.id);
     showOffersList(Router.query.id);
+  }
+
+  useEffect(() => {
+    // dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
+    let timer
+    if (Router.query.id) {
+      fetchData()
+    } else {
+      timer = setTimeout(() => fetchData(), 1000)
+    }
     return () => {
+      clearTimeout(timer)
       dispatch({ type: GET_OFFERS_BY_DESIRE_ID, payload: [] });
       dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
     };
@@ -59,14 +69,14 @@ const Desire = ({
           </div>
         )}
       </div>
-      {showOffers && (
+      {showOffers && desire ? (
         <OffersList
           addOfferToFavorites={addOfferToFavorites}
           offers={offers}
           locations={locations}
           showSuccess={showSuccess}
         />
-      )}
+      ) : null}
     </div>
   );
 };

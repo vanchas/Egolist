@@ -64,13 +64,7 @@ export default function OffersItem({
         className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
       >
         {offer.photo ? (
-          // <Carousel
-          //   desireId={desire.id}
-          //   photo={JSON.parse(desire.photo)}
-          //   video={desire.video}
-          // />
           <SlickSlider photo={JSON.parse(offer.photo)} height={'25em'} />
-          // <img src={JSON.parse(offer.photo)[0]} alt={``} />
         ) : (
           <Link
             href={{

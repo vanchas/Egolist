@@ -14,7 +14,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 .heading {
 	color: #ffffff;
 	font-family: "Montserrat", sans-serif;
-	font-size: 21px;
+	font-size: 1vw;
 	font-weight: 800;
 	text-transform: uppercase;
 	margin-bottom: 2em;
@@ -42,6 +42,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 }
 
 .card_image {
+	background-color: #2f343a;
 	grid-row: span 2;
 	position: relative;
 	overflow: hidden;
@@ -84,14 +85,14 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		color: #ffffff;
 		font-family: "Montserrat", sans-serif;
 		text-decoration: none;
-		font-size: 17px;
+		font-size: 1.3vw;
 		font-weight: 700;
 	}
 	p {
 		min-height: 7em;
 		overflow: hidden;
 		position: relative;
-		font-size: 17px;
+		font-size: 1.3vw;
 		font-weight: 400;
 		line-height: 1.4em;
 	}
@@ -118,7 +119,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		.user_name {
 			color: #ffffff;
 			font-family: "Montserrat", sans-serif;
-			font-size: 17px;
+			font-size: 1.3vw;
 			font-weight: 700;
 		}
 		.location {
@@ -145,7 +146,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 	p {
 		white-space: nowrap;
 		color: #79b972;
-		font-size: 21px;
+		font-size: 1vw;
 		font-weight: 900;
 		text-transform: uppercase;
 		margin: 0;
@@ -154,13 +155,13 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		color: #ffffff;
 		//font-size: 34px;
 		font-weight: 700;
-		font-size: 21px;
+		font-size: 1vw;
 		align-self: center;
 	}
 	.open {
 		color: #ffffff;
 		width: 100%;
-		font-size: 17px;
+		font-size: 1.3vw;
 		font-weight: 700;
 		border-radius: 0.6em;
 		background-color: #3a3f46;
@@ -228,7 +229,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 	background-color: #3a3f46;
 	align-items: center;
 	color: #ffffff;
-	font-size: 21px;
+	font-size: 1vw;
 	font-weight: 700;
 }
 .card_footer_content {
