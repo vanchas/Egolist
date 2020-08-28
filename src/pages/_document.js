@@ -10,9 +10,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-        {/*  <title>EGOLIST</title>*/}
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />
