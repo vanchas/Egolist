@@ -13,27 +13,6 @@ const linkButtons = [
 function SidebarControl(props) {
   const dropDown = useRef(null);
   const [currentLink, setCurrentLink] = useState(linkButtons[1])
-  // const [curIndex, setCurIndex] = useState(1);
-  //
-  // const controlHandler = (n) => {
-  //     if (n === -1) {
-  //       if (curIndex === 0) {
-  //         props.changeComponent(linkButtons[3].name_en)
-  //         setCurIndex(3);
-  //       } else {
-  //         props.changeComponent(linkButtons[curIndex + n].name_en)
-  //         setCurIndex((curIndex) => curIndex + n);
-  //       }
-  //     } else if (n === 1) {
-  //       if (curIndex === linkButtons.length - 1) {
-  //         props.changeComponent(linkButtons[0].name_en)
-  //         setCurIndex(0);
-  //       } else {
-  //         props.changeComponent(linkButtons[curIndex + n].name_en)
-  //         setCurIndex((curIndex) => curIndex + n);
-  //       }
-  //     }
-  // };
 
   const dropDownToggler = () => {
     dropDown.current.classList.contains("show")
@@ -49,11 +28,14 @@ function SidebarControl(props) {
 
   return (
     <div className={`shadow ${s.sidebar_user_control}`}>
-      {/*<select>*/}
-      {/*  {linkButtons.map((link, i) => (*/}
-      {/*    <option key={i}>{link.name_ru}</option>*/}
-      {/*  ))}*/}
-      {/*</select>*/}
+      {/*        {props.messagesCount && props.messagesCount > 0 ? (*/}
+      {/*          <>*/}
+      {/*            <img src={NotificationBell} alt={``} className={s.bell} />*/}
+      {/*            <span className={s.notifications_number}>*/}
+      {/*              {props.messagesCount}*/}
+      {/*            </span>*/}
+      {/*          </>*/}
+      {/*        ) : null}*/}
 
       <div className="dropdown">
         <span
@@ -79,33 +61,6 @@ function SidebarControl(props) {
           ))}
         </div>
       </div>
-
-      {/*<div />*/}
-      {/*<div>*/}
-      {/*  <span onClick={() => controlHandler(1)} className={s.arrow}>*/}
-      {/*    &#x276C;*/}
-      {/*  </span>*/}
-      {/*  <span*/}
-      {/*    className={`btn ${s.link}`}*/}
-      {/*  >*/}
-      {/*    {linkButtons[curIndex].name_ru}*/}
-      {/*    {linkButtons[curIndex].id === 1 ? (*/}
-      {/*      <>*/}
-      {/*        {props.messagesCount && props.messagesCount > 0 ? (*/}
-      {/*          <>*/}
-      {/*            <img src={NotificationBell} alt={``} className={s.bell} />*/}
-      {/*            <span className={s.notifications_number}>*/}
-      {/*              {props.messagesCount}*/}
-      {/*            </span>*/}
-      {/*          </>*/}
-      {/*        ) : null}*/}
-      {/*      </>*/}
-      {/*    ) : null}*/}
-      {/*  </span>*/}
-      {/*  <span onClick={() => controlHandler(-1)} className={s.arrow}>*/}
-      {/*    &#x276D;*/}
-      {/*  </span>*/}
-      {/*</div>*/}
     </div>
   );
 }

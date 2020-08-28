@@ -171,7 +171,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     height: 7em;
     overflow: hidden;
     position: relative;
-    font-size: 1.3vw;
+    font-size: 1vw;
     font-weight: 400;
     line-height: 1.4em;
     @media screen and (max-width: 1100px) {
@@ -250,7 +250,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   p {
     white-space: nowrap;
     color: #c78550;
-    font-size: 1vw;
+    font-size: 1.2vw;
     font-weight: 900;
     text-transform: uppercase;
     margin: 0;
@@ -260,7 +260,6 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   }
   .price {
     color: #ffffff;
-    //font-size: 34px;
     font-weight: 700;
     font-size: 1vw;
     @media screen and (max-width: 1100px) {
@@ -270,7 +269,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   .edit, .post, .delete {
     color: #ffffff;
     width: 100%;
-    font-size: 1.3vw;
+    font-size: 1.2vw;
     font-weight: 700;
     border-radius: .6em;
     background-color: #3a3f46;
@@ -281,6 +280,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     transition: .3s;
     @media screen and (max-width: 1100px) {
       font-size: 1em;
+      padding: .3em 0;
     }
     a {
       width: 100%;
@@ -343,7 +343,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   align-items: center;
   div {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -353,10 +353,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   }
   .views {
     svg {
-      font-size: 1.3em;
-      @media screen and (max-width: 1100px) {
-        font-size: 1em;
-      }
+      font-size: 1.2em;
     }
   }
   .statistics {

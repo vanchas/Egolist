@@ -58,6 +58,7 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
   display: flex;
   margin: 1.3em 0;
   width: 100%;
+  transition: 0.3s;
 
   @media screen and (max-width: 750px) {
     display: grid;
@@ -72,6 +73,7 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
 
   .input_holder {
     position: relative;
+    transition: 0.3s;
     width: 100%;
     &:before {
       content: "\26B2";
@@ -87,17 +89,9 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
         font-size: 1.2em;
       }
     }
-    //svg {
-    //  font-size: 1.8em;
-    //  position: absolute;
-    //  top: 50%;
-    //  left: 0;
-    //  transform: translate(100%, -50%);
-    //  color: #3a3f46;
-    //}
     .search_input {
       border: none;
-      height: 41px;
+      height: 4em;
       border-radius: 0 0 0 1.5em;
       background-color: #ffffff;
       padding: 0.95em 1em 0.95em 4em;
@@ -175,14 +169,12 @@ $shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
       font-size: 1.1vw;
       cursor: pointer;
       transition: 0.3s;
-      //z-index: -1;
       @media screen and (max-width: 1100px) {
         font-size: 1em;
       }
     }
     .search_select {
-      height: 42px;
-      //z-index: 1;
+      height: 4em;
       transition: 0.3s;
       user-select: none;
       max-width: 10em;

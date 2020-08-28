@@ -35,7 +35,7 @@ const Login = (props) => {
           onClick={loginRegistrationToggle}
           className="text-white btn btn-secondary float-right"
         >
-          {showLoginForm ? "Регистрация" : "Вход"}
+          {showLoginForm ? "К регистрации" : "К входу"}
         </a>
       </div>
 

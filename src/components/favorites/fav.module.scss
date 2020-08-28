@@ -42,8 +42,12 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 			background: linear-gradient(to top, #a2693c 0%, #d2a980 100%);
 		}
 	}
-	@media screen and (max-width: 1500px) {
-		grid-auto-flow: row;
+	@media screen and (max-width: 1300px) {
+		display: grid;
+		gap: 1em;
+		justify-content: center;
+	}
+	@media screen and (max-width: 560px) {
 		.posts_toggler {
 			width: 100%;
 			display: block;
@@ -54,11 +58,6 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 				border-radius: 0 0 0 1em;
 			}
 		}
-	}
-	@media screen and (max-width: 767px) {
-		display: grid;
-		gap: 1em;
-		justify-content: center;
 	}
 }
 
@@ -143,14 +142,14 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -10%);
 	}
 	.placeholder {
 		width: 100%;
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -20%);
 	}
 	@media screen and (max-width: 1550px) {
 		grid-column: span 2;
@@ -193,7 +192,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		}
 	}
 	p {
-		height: 8em;
+		height: 7em;
 		overflow: hidden;
 		position: relative;
 		font-size: 1.3vw;
@@ -207,9 +206,12 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			background: linear-gradient(to bottom, transparent, #373b42);
+			background: linear-gradient(to bottom, transparent, #3a3f46);
 			display: block;
 			height: 2em;
+			@media screen and (max-width: 1550px) {
+				background: linear-gradient(to bottom, transparent, #373b42);
+			}
 		}
 	}
 	.user_block {

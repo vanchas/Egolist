@@ -84,5 +84,8 @@ async function logout(): Promise<any> {
     .then(() => Router.push('/login'))
     .then(() => Cookies.remove('currentUser'))
     .then(() => window.location.reload(true))
-    .catch(err => console.error('Error: ', err));
+    .catch(err => {
+      Router.push('/login')
+      console.error('Error: ', err)
+    });
 }

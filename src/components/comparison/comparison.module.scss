@@ -61,16 +61,16 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 .card_image {
   grid-row: span 2;
   position: relative;
-  overflow: hidden;
   height: 25em;
-  border-radius: 1em;
 
   img {
+    overflow: hidden;
+    border-radius: 1em;
     width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -35%) !important;
   }
   .placeholder {
     width: 100%;
@@ -352,17 +352,18 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   bottom: 0.5em;
   right: 10%;
   z-index: 10;
-  background-color: #fff;
+  background-color: #3a3f46;
   border-radius: 0.3em;
-  border: 1px solid #ccc;
+  overflow: hidden;
+  border: 1px solid #3a3f46;
   display: grid;
   box-shadow: 0 0 10px 2px rgba(53, 53, 53, 0.27);
-  span {
-    padding: 0.3em 1em;
-    border-bottom: 1px solid #fff;
-    padding: 0.1em 0.5em;
+  .toast_item {
+    display: block;
+    padding: 0.4em 1em;
+    transition: 0.3s;
     &:hover {
-      transition: 0.3s;
+      color: #000;
       background-color: #eee;
     }
   }

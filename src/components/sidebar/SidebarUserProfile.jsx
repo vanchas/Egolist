@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import s from "./user.module.scss";
 import { authenticationService } from "../../_services";
+import Spinner from "../helpers/Spinner";
 
 export default function SidebarUserProfile(props) {
   const [windowWidth, setWindowWidth] = useState(null);
   const [user, setUser] = useState(null);
+  const [logoutLoading, setLogLoading] = useState(false);
 
   useEffect(() => {
     const userData = authenticationService.currentUserValue;
@@ -13,8 +15,9 @@ export default function SidebarUserProfile(props) {
     setWindowWidth(window.innerWidth);
   }, []);
 
-  const logout = () => {
+  const logout = (e) => {
     authenticationService.logout();
+    setLogLoading(true);
     if (windowWidth < 769) {
       props.showSidebar(false);
     }
@@ -65,9 +68,13 @@ export default function SidebarUserProfile(props) {
             </li>
           ) : null}
           <li>
-            <button className="btn btn-dark" onClick={logout}>
-              Выйти
-            </button>
+            {logoutLoading ? (
+              <Spinner color={`warning`} />
+            ) : (
+              <button className="btn btn-dark" onClick={logout}>
+                Выйти
+              </button>
+            )}
           </li>
         </ul>
       ) : null}

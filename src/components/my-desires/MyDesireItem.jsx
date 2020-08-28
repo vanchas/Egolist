@@ -89,7 +89,7 @@ export default function MyDesireItem({
       <div className={s.card_control_block}>
         <p className={!desire.is_active ? "text-dark" : ""}>ХОЧУ КУПИТЬ</p>
         <div className={s.price}>
-          <span style={{ fontSize: "30px" }}>
+          <span style={{ fontSize: "28px" }}>
             {formatNumber(parseInt(desire.price))}
           </span>{" "}
           ГРН

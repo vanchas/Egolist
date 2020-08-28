@@ -8,12 +8,22 @@ import "./styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-image-crop/dist/ReactCrop.css";
 
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import Router from "next/router";
+import { css } from "@emotion/core";
+import SyncLoader from "react-spinners/SyncLoader";
+
+const override = css`
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0, -50%);
+`;
+
 // import NProgress from "nprogress"; //nprogress module
 // import "nprogress/nprogress.css";
 import Head from "next/head"; //styles of nprogress
@@ -26,6 +36,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 class MyApp extends App {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 500);
+  }
+
   static async getInitialProps(props) {
     const pageProps = props.Component.getInitialProps
       ? await props.Component.getInitialProps(props.ctx)
@@ -38,10 +61,22 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, store } = this.props;
 
-    return (
+    return this.state.loading ? (
+      <div className="sweet-loading">
+        <SyncLoader
+          css={override}
+          size={20}
+          color={"#c78550"}
+          loading={this.state.loading}
+        />
+      </div>
+    ) : (
       <Provider store={store}>
         <Head>
-          <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" />
+          <script
+            defer
+            src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+          />
           <title>EGOLIST</title>
         </Head>
         <Layout>

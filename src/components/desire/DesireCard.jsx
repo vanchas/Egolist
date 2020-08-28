@@ -110,7 +110,7 @@ function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers
                   )}
                   {showToast && (
                     <div className={`shadow ${s.toast}`}>
-                      <span>
+                      <div className={s.toast_item}>
                         <Link
                           href={{
                             pathname: "/create-offer",
@@ -119,13 +119,13 @@ function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers
                         >
                           <a className={s.add_offer_btn}>Сделать предложение</a>
                         </Link>
-                      </span>
-                      <span>
+                      </div>
+                      <div className={s.toast_item}>
                         <ReportModal
                           userId={desire.user_id}
                           setShowToast={setShowToast}
                         />
-                      </span>
+                      </div>
                     </div>
                   )}
                 </div>

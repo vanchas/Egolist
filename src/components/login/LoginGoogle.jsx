@@ -4,7 +4,8 @@ import { GoogleLogin } from "react-google-login";
 import GoogleIcon from "../../assets/svg/google.svg";
 import HttpRequest from "../../_helpers/HttpRequest";
 import Cookies from "js-cookie";
-import Router from 'next/router'
+import Router from "next/router";
+import SpinnerGrow from "../helpers/SpinnerGrow";
 
 const styles = {
   error: {
@@ -13,11 +14,11 @@ const styles = {
     margin: "auto",
     backgroundColor: "#2e3137",
     padding: "2em 1em",
-    color: '#fff'
+    color: "#fff",
   },
   header: {
-    color: '#fff'
-  }
+    color: "#fff",
+  },
 };
 
 export default function (props) {
@@ -55,15 +56,17 @@ export default function (props) {
       .then((data) => {
         if (data && data.token) {
           Cookies.set("currentUser", JSON.stringify(data), { expires: 1 });
-          return data
+          return data;
         } else {
-          props.setErrorFromBackend('К сожалению войти не удалось')
-          setTimeout(() => props.setErrorFromBackend(null), 4000)
+          props.setErrorFromBackend("К сожалению войти не удалось");
+          setTimeout(() => props.setErrorFromBackend(null), 4000);
         }
       })
-      .then(data => {
-        Router.push('/')
-        if (data) window.location.reload(true)
+      .then((data) => {
+        if (data) {
+          Router.push("/");
+          setTimeout(() => window.location.reload(), 500);
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -74,6 +77,9 @@ export default function (props) {
     googleContent = (
       <div style={styles.error}>
         <img src={picture} alt={givenName + " " + familyName} />
+        <span className={`float-right`}>
+          <SpinnerGrow color={`danger`} />
+        </span>
         <h2 style={styles.header}>
           Добро пожаловать, {givenName} {familyName}
         </h2>
@@ -82,25 +88,26 @@ export default function (props) {
     );
   } else {
     googleContent = (
-      <GoogleLogin
-        clientId="55483991239-46omfdl4med6t1nbel7if57u605ae55i.apps.googleusercontent.com"
-        render={(renderProps) => (
-          <button
-            className={`btn btn-danger`}
-            onClick={() => {
-              renderProps.onClick();
-            }}
-            disabled={renderProps.disabled}
-          >
-            Google
-            <img src={GoogleIcon} alt={`google`} className={s.google_icon} />
-          </button>
-        )}
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        // onFailure={responseGoogle}
-        // cookiePolicy={"single_host_origin"}
-      />
+      <>
+        <div className={`pb-2`}>Вход с помощью Google</div>
+        <GoogleLogin
+          clientId="55483991239-46omfdl4med6t1nbel7if57u605ae55i.apps.googleusercontent.com"
+          render={(renderProps) => (
+            <button
+              className={`btn btn-danger`}
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Google
+              <img src={GoogleIcon} alt={`google`} className={s.google_icon} />
+            </button>
+          )}
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          // onFailure={responseGoogle}
+          // cookiePolicy={"single_host_origin"}
+        />
+      </>
     );
   }
 
@@ -109,7 +116,6 @@ export default function (props) {
 
   return (
     <div className={`text-center`}>
-      <div>Вход с помощью Google</div>
       {error ? (
         <div className="alert alert-danger" role="alert">
           {error}

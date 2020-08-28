@@ -5,25 +5,24 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   box-shadow: $shadow;
   background: linear-gradient(to bottom, #373b42, #2e3137);
   border-radius: 1em;
-  padding: 10rem 1.5rem 3rem 1.5rem;
+  padding: 3rem 1.5rem 3rem 1.5rem;
   width: 100%;
   color: #fff;
   display: grid;
-  align-content: stretch;
+  //align-content: stretch;
 }
 
 .header {
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 3em 7em;
   align-items: center;
   z-index: 1;
-  transform: translateY(-8rem);
+  //transform: translateY(-8rem);
   .user_ava {
     align-self: start;
     grid-row: span 2;
     margin-left: -.5em;
-    //margin-top: -10em;
     width: 9em;
     height: 9em;
     border: 4px solid #c78550;
@@ -56,7 +55,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
   border-radius: 1em;
   padding: 1em;
   background-color: #3a3f46;
-  margin-top: -11rem;
+  transform: translateY(-17em);
   display: grid;
   gap: .8em;
 
@@ -100,11 +99,12 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     border-radius: .8em;
     background-image: linear-gradient(to top, #3c855b 0%, #3c855b 1%, #7ab972 100%);
     text-align: center;
-    padding: .5em 1em;
+    padding: 0em 1em;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 0em;
+    white-space: nowrap;
+    margin-top: 0;
     font-size: 1.3vw;
     font-weight: 700;
   }
@@ -125,6 +125,7 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
       font-weight: 400;
       padding: .5em 1.5em;
       transition: .3s;
+      white-space: nowrap;
       img {
         width: 35px;
         height: 35px;

@@ -160,67 +160,18 @@ const ComparisonItem = SortableElement(({ offer, addOfferToFavorites }) => {
             </div>
 
             {showToast && (
-              <div className={`${s.toast}`}>
-                <ReportModal
-                  userId={offer.user_id}
-                  setShowToast={setShowToast}
-                />
+              <div className={`${s.toast} shadow`}>
+                <div className={s.toast_item}>
+                  <ReportModal
+                    userId={offer.user_id}
+                    setShowToast={setShowToast}
+                  />
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
-      // <li className={`shadow ${s.list_item}`}>
-      //   <div className={s.image_block}>
-      //     {props.offer.photo || props.offer.video ? (
-      //       <Carousel
-      //         desireId={props.offer.desire_id}
-      //         photo={JSON.parse(props.offer.photo)}
-      //         video={props.offer.video}
-      //       />
-      //     ) : (
-      //       <Link href={{pathname: `/desire`, query: { id: props.offer.desire_id, offer: props.offer.id }}}>
-      //         <a className={`w-100 h-100`} />
-      //       </Link>
-      //     )}
-      //   </div>
-      //   <div className={s.content_block}>
-      //     <h6 className={`h4`}>
-      //       <b>{props.offer.header}</b>
-      //     </h6>
-      //     <div>
-      //       Цена: {props.offer.price} грн
-      //       <span>
-      //         <Rating rating={props.offer.rating} />
-      //       </span>
-      //     </div>
-      //     <p className={`m-0`}>Описание: {props.offer.description}</p>
-      //     <div>
-      //       <img src={Location} alt="" className={s.location_img} />
-      //       {props.offer.region.name_ru}{" "}
-      //       {props.offer.city && props.offer.city.name_ru !== "Не важно"
-      //         ? ", " + props.offer.city.name_ru
-      //         : null}
-      //     </div>
-      //   </div>
-      //   <span
-      //     className={s.remove_btn}
-      //     onClick={() => props.removeOfferFromComparison(props.offer.id)}
-      //   >
-      //     X
-      //   </span>
-      //   {authenticationService.currentUserValue &&
-      //   authenticationService.currentUserValue.token &&
-      //   authenticationService.currentUserValue.user.id !==
-      //     props.offer.user_id ? (
-      //     <span
-      //       className={s.favorite_btn}
-      //       onClick={() => props.addOfferToFavorites(props.offer.id)}
-      //     >
-      //       <img src={Heart} alt="" />
-      //     </span>
-      //   ) : null}
-      // </li>
     )
   );
 });
