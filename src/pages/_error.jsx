@@ -1,4 +1,4 @@
-import s from '../components/helpers/error.module.scss'
+import s from '../components/helpers/errors.module.scss'
 
 export default function ErrorPage() {
 

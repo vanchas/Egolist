@@ -1,4 +1,4 @@
-import s from '../components/helpers/error.module.scss'
+import s from '../components/helpers/errors.module.scss'
 import {useRouter} from "next/router";
 
 export default function NotFoundPage() {
