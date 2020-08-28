@@ -16,7 +16,7 @@ function ComplainsList(props) {
 
   return (
     <div>
-      <h2>Все жалобы</h2>
+      <h2 className={`text-white`}>Все жалобы</h2>
       {complaints && complaints.length ? (
         <ul className={`list-group`} style={{ listStyle: "none" }}>
           {complaints.map((c, i) => (

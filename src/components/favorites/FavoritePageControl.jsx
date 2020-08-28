@@ -24,7 +24,7 @@ function FavoritePageControl(props) {
             props.visibleComponent === "desires" ? s.active_toggler : ""
           } ${s.posts_toggler}`}
         >
-          Избранные желания
+          Желания
         </span>
         <span
           className={`${
@@ -32,7 +32,7 @@ function FavoritePageControl(props) {
           } ${s.posts_toggler}`}
           onClick={() => props.changeVisibleComponent("offers")}
         >
-          Избранные предложения
+          Предложения
         </span>
       </div>
       <label className={s.favorites_sort}>

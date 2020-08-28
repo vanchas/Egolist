@@ -89,7 +89,7 @@ function UpdateProfile(props) {
   };
 
   return (
-    <div className={`text-white`}>
+    <div className={`text-white ${s.update_profile}`}>
       {showPage && (
         <>
           {stateUser ? (

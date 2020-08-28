@@ -3,9 +3,9 @@ import Link from "next/link";
 import s from "./desires-list.module.scss";
 import { authenticationService } from "../../_services/authentication.service";
 import Router from "next/router";
-import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import UserPlaceholder from "../../assets/old/user-placeholder.jpg";
 import formatNumber from "../../utils/format-price-string";
 
 export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
@@ -50,7 +50,6 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                 <>
                   {user && user.user.id !== desire.user_id ? (
                     <span onClick={() => likeClickHandler(desire.id)}>
-                      {/*<i className="far fa-heart" />*/}
                       <i className="fas fa-heart" />
                     </span>
                   ) : (
@@ -109,7 +108,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
         <div className={s.card_elipse}>
           {desire.user && desire.user.avatar ? (
             <img className={`h-100`} src={desire.user.avatar} alt={``} />
-          ) : null}
+          ) : <img className={`h-100`} src={UserPlaceholder} alt={``} />}
         </div>
         <h5>
           <Link href={{ pathname: "/desire", query: { id: desire.id } }}>

@@ -15,7 +15,7 @@ export default function (props) {
           &#x2630;
             {toast && (
                 <span
-                    className={`${s.toast_item} btn btn-outline-secondary ml-2`}
+                    className={`${s.toast_item} btn btn-outline-dark ml-2`}
                     onClick={() => props.setUserToUpdate(props.user)}
                 >
             Редактировать профиль

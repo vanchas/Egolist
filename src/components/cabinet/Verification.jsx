@@ -36,8 +36,8 @@ function CabinetVerification(props) {
         </div>
       ) : (
         <>
-          <h4>Подтверждение личности</h4>
-          <h5>
+          <h4 className={`text-white`}>Подтверждение личности</h4>
+          <h5 className={`text-white`}>
             Для получения статуса проверенный пожалуйста отправьте 1 селфи фото
             с кодом подтверждения{" "}
             {user && <b>{user.activation_token_cabinet}</b>} (пример на фото). И

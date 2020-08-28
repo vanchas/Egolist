@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import s from "./offers-list.module.scss";
-import Burger from "../../assets/header/burger.png";
-import Heart from "../../assets/header/Heart.png";
 import Libra from "../../assets/header/libra.png";
 import { authenticationService } from "../../_services/authentication.service";
 import { useRouter } from "next/router";
-import Carousel from "../helpers/Carousel";
 import ReportModal from "../helpers/ReportModal";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
+import UserPlaceholder from "../../assets/old/user-placeholder.jpg";
 import formatNumber from "../../utils/format-price-string";
 
 function MainOffersListLot({
@@ -130,7 +128,7 @@ function MainOffersListLot({
         <div className={s.card_elipse}>
           {offer.user && offer.user.avatar ? (
             <img className={`h-100`} src={offer.user.avatar} alt={``} />
-          ) : null}
+          ) : <img className={`h-100`} src={UserPlaceholder} alt={``} />}
         </div>
         <h5>
           <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>

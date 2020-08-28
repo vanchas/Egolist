@@ -25,11 +25,11 @@ function UserBar({ locations }) {
     <div className={s.user_bar}>{user && user.token ? <>
       <div className={s.user_ava}>
         {user && user.user && user.user.avatar
-          ? <img src={user.user.avatar} alt={user.user.name} />
+          ? <img src={user.user.avatar} alt={user.user.name} title={user.user.name} />
           : <img src={Placeholder} alt="" />}
       </div>
       <div className={s.user_info}>
-        <span className={s.username}>
+        <span className={s.username} title={user.user.name}>
           {user.user.name.split(' ')[0]}
         </span>
         {/*<div className={`text-center`}>{user.user.active*/}
