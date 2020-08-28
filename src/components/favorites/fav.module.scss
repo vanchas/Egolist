@@ -142,14 +142,14 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -25%);
+		transform: translate(-50%, -15%) !important;
 	}
 	.placeholder {
 		width: 100%;
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) !important;
 	}
 	@media screen and (max-width: 1550px) {
 		grid-column: span 2;

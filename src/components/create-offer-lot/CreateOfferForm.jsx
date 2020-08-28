@@ -36,9 +36,6 @@ export default function AddLotForm({
   const [subcategory2Loading, setSubcategory2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
 
   const videoValidator = (videoValue) => {
     const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
@@ -103,40 +100,28 @@ export default function AddLotForm({
   }, [warning, subcategories]);
 
   const category1Handler = (category) => {
-    setSubcategory1Loading(true);
+    if (JSON.parse(category).id !== 1) {
+      setSubcategory1Loading(true);
+      setShowSubSelect1(true);
+    }
     setCategory1(JSON.parse(category));
     getSubcategories(JSON.parse(category).id);
-    setShowSubSelect1(true);
   };
   const category2Handler = (category) => {
-    setSubcategory2Loading(true);
+    if (JSON.parse(category).id !== 1) {
+      setSubcategory2Loading(true);
+      setShowSubSelect2(true);
+    }
     getSubcategories(JSON.parse(category).id);
     setCategory2(JSON.parse(category));
-    setShowSubSelect2(true);
   };
 
   const locationSelectHandler = (e) => {
-    setRegionLoading(true);
-    setRegion(e.target.value);
-    getCities(e.target.value);
-  };
-
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  }
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+    if (+e.target.value !== 1) {
+      setRegionLoading(true);
+      getCities(e.target.value);
     }
-    setPreviewImage(file.url || file.preview)
-    setPreviewVisible(true)
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf("/") + 1))
+    setRegion(e.target.value);
   };
 
   const handleChange = ({ fileList }) => setPhotos(fileList);
@@ -161,7 +146,7 @@ export default function AddLotForm({
       )}
       <form onSubmit={submitHandler}>
         <div>
-          <label>Заголовок</label>
+          <label>Заголовок *</label>
           <input
             name={`header`}
             type="text"
@@ -178,7 +163,6 @@ export default function AddLotForm({
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture-card"
             fileList={photos}
-            onPreview={handlePreview}
             onChange={handleChange}
           >
             {photos.length >= 8 ? null : uploadButton}
@@ -199,7 +183,7 @@ export default function AddLotForm({
             className="form-control"
             onChange={(e) => setVideo(e.target.value)}
           />
-          <label>Описание</label>
+          <label>Описание *</label>
           <textarea
             name={`description`}
             required
@@ -215,7 +199,7 @@ export default function AddLotForm({
         </div>
         <div>
           <fieldset>
-            <legend>Выберите категорию</legend>
+            <legend>Выберите категорию *</legend>
             {!categories || !categories.length ? (
               <SpinnerGrow color="secondary" />
             ) : category1 ? (
@@ -355,7 +339,7 @@ export default function AddLotForm({
             )}
           </fieldset>
           <fieldset>
-            <legend>Выберите область</legend>
+            <legend>Выберите область*</legend>
             {!locations || !locations.length ? (
               <SpinnerGrow color="secondary" />
             ) : (
@@ -385,7 +369,7 @@ export default function AddLotForm({
                 <option value="default" hidden>
                   Города
                 </option>
-                {cities && cities.length
+                {cities && cities.length && +region !== 1
                   ? cities.map((s, i) => (
                       <option key={i} value={s.id}>
                         {s.name_ru}
@@ -395,7 +379,7 @@ export default function AddLotForm({
               </select>
             )}
           </fieldset>
-          <label htmlFor="price">Цена</label>
+          <label htmlFor="price">Цена *</label>
           <input
             type="number"
             id="price"

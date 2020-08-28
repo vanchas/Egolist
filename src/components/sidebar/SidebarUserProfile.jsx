@@ -69,7 +69,7 @@ export default function SidebarUserProfile(props) {
           ) : null}
           <li>
             {logoutLoading ? (
-              <Spinner color={`warning`} />
+              <Spinner color={`light`} />
             ) : (
               <button className="btn btn-dark" onClick={logout}>
                 Выйти

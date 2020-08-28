@@ -40,9 +40,6 @@ export default function CreateDesireForm({
   const [subcat2Loading, setSubcat2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -121,42 +118,28 @@ export default function CreateDesireForm({
   };
 
   const category1Handler = (category) => {
-    setSubcat1Loading(true);
+    if (JSON.parse(category).id === 1) {
+      setSubcat1Loading(true);
+      setShowSubSelect1(true);
+    }
     setCategory1(JSON.parse(category));
     getSubcategories(JSON.parse(category).id);
-    setShowSubSelect1(true);
   };
   const category2Handler = (category) => {
-    setSubcat2Loading(true);
+    if (JSON.parse(category).id === 1) {
+      setSubcat2Loading(true);
+      setShowSubSelect2(true);
+    }
     getSubcategories(JSON.parse(category).id);
     setCategory2(JSON.parse(category));
-    setShowSubSelect2(true);
   };
 
   const locationSelectHandler = (e) => {
-    setRegionLoading(true);
-    setRegion(e.target.value);
-    getCities(e.target.value);
-  };
-
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+    if (+e.target.value !== 1) {
+      setRegionLoading(true);
+      getCities(e.target.value);
     }
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
+    setRegion(e.target.value);
   };
 
   const handleChange = ({ fileList }) => setPhotos(fileList);
@@ -197,7 +180,6 @@ export default function CreateDesireForm({
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture-card"
             fileList={photos}
-            onPreview={handlePreview}
             onChange={handleChange}
           >
             {photos.length >= 8 ? null : uploadButton}

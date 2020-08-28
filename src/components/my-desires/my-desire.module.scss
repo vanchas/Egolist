@@ -140,14 +140,14 @@ $shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important;
     //position: absolute;
     //top: 50%;
     //left: 50%;
-    //transform: translate(-50%, -50%);
+    transform: translate(-50%, -10%) !important;
   }
   .placeholder {
     width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) !important;
   }
 }
 

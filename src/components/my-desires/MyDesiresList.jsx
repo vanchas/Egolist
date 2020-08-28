@@ -41,7 +41,6 @@ export default function MyDesireList({
       setUser(user);
       allowToCreateDesiresHandler(user.user);
     }
-    console.log(user.user)
     setTimeout(() => setLoading(false), 5000);
   }, []);
 

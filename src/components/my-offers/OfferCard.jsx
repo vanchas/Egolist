@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import s from "./offers.module.scss";
-import Location from "../../assets/sidebar/Location.png";
 import Burger from "../../assets/header/burger-white.png";
-import ArrowDown from "../../assets/lot/arrow-btn.png";
 import InterestingLotsList from "../interesting-lots/interestingLotsList";
 import Link from "next/link";
-import Rating from "../helpers/Rating";
-import Carousel from "../helpers/Carousel";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
 import SlickSlider from "../helpers/SlickSlider";
@@ -15,9 +11,6 @@ import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import OfferRating from "../helpers/OfferRating";
 import formatNumber from "../../utils/format-price-string";
 import Libra from "../../assets/header/libra.png";
-import Heart from "../../assets/header/Heart.png";
-import ReportModal from "../helpers/ReportModal";
-import HttpRequest from "../../_helpers/HttpRequest";
 import Router from "next/router";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 
@@ -33,10 +26,6 @@ function OfferCard({
   const [compLoading, setCompLoading] = useState(false);
   const [hideLoading, setHideLoader] = useState(false);
   const [deleteLoading, setDeleteLoader] = useState(false);
-
-  useEffect(() => {
-    // console.log(isActive);
-  }, [isActive]);
 
   const toastHandler = (e) => {
     e.preventDefault();

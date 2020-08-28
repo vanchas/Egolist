@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { authenticationService } from "../../_services";
 import Eye from "../../assets/svg/eye.svg";
 import EyeSlash from "../../assets/svg/eye-slash.svg";
-import s from './login.module.scss'
+import s from "./login.module.scss";
 import Spinner from "../helpers/Spinner";
 
 export default function SignIn(props) {
@@ -15,7 +15,8 @@ export default function SignIn(props) {
       <div className="alert alert-info" role="alert">
         admin : admin@admin, admin <br />
         user с проверенным телефоном и имейлом: client@client.com, client <br />
-        user с проверенным телефоном и имейлом, верифицирован: client@client.verify, client
+        user с проверенным телефоном и имейлом, верифицирован:
+        client@client.verify, client
       </div>
       <h2 className={`text-white`}>Логин</h2>
       <Formik
@@ -68,16 +69,20 @@ export default function SignIn(props) {
                   "form-control" +
                   (errors.password && touched.password ? " is-invalid" : "")
                 }
-                style={{backgroundImage: 'none'}}
+                style={{ backgroundImage: "none" }}
               />
               {showPassword ? (
-                <span className={s.input_eye}
-                    onClick={() => setShowPassword(false)}>
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(false)}
+                >
                   <img src={Eye} alt={``} />
                 </span>
               ) : (
-                <span className={s.input_eye}
-                      onClick={() => setShowPassword(true)}>
+                <span
+                  className={s.input_eye}
+                  onClick={() => setShowPassword(true)}
+                >
                   <img src={EyeSlash} alt={``} />
                 </span>
               )}
@@ -93,13 +98,12 @@ export default function SignIn(props) {
                 className="btn btn-secondary"
                 disabled={isSubmitting}
               >
-                Войти
+                {isSubmitting ? (
+                  <Spinner color={`light`} size={`sm`} />
+                ) : (
+                  "Войти"
+                )}
               </button>
-              {isSubmitting && (
-                <div className="ml-3">
-                  <Spinner color={`warning`} size={`sm`} />
-                </div>
-              )}
             </div>
             {status && <div className={"alert alert-danger"}>{status}</div>}
           </Form>

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import Carousel from "../helpers/Carousel";
 import Link from "next/link";
 import s from "./comparison.module.scss";
-import Location from "../../assets/sidebar/Location.png";
-import Rating from "../helpers/Rating";
 import Heart from "../../assets/header/Heart.png";
 import { connect } from "react-redux";
 
