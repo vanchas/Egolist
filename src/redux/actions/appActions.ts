@@ -21,7 +21,7 @@ import {
   SELECT_HEADING_CATEGORY,
   SELECT_HEADING_SUBCATEGORY,
   GET_SORT_VALUES,
-  SHOW_SIDEBAR,
+  SHOW_SIDEBAR, GET_CURRENCUIES
 } from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
 
@@ -68,8 +68,16 @@ export const searchInfo = (
 
 export const getLocations = () => async (dispatch: Function) => {
   HttpRequest.execute(`/location`)
-    .then((res) => {
-      return dispatch({ type: GET_LOCATIONS, payload: res });
+    .then((data) => {
+      return dispatch({ type: GET_LOCATIONS, payload: data });
+    })
+    .catch((err) => console.error("Error: ", err));
+};
+
+export const getCurrencies = () => async (dispatch: Function) => {
+  HttpRequest.execute(`/info/currencies`)
+    .then((data) => {
+      return dispatch({ type: GET_CURRENCUIES, payload: data.currencies });
     })
     .catch((err) => console.error("Error: ", err));
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import OffersList from "../components/my-offers/OffersList";
 import { connect } from "react-redux";
-import { getSortingValues } from "../redux/actions/appActions";
+import { getSortingValues, getCurrencies } from "../redux/actions/appActions";
 import {
   getMyOffers,
   hideShowOffer,
@@ -18,10 +18,12 @@ function MyOffers({
   getSortingValues,
   sortingValues,
   deleteOffer,
+  getCurrencies,
 }) {
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
+    getCurrencies();
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
       setShowPage(true);
@@ -54,6 +56,7 @@ const mapDispatchToProps = {
   sortMyOffers,
   getSortingValues,
   deleteOffer,
+  getCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyOffers);

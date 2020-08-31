@@ -12,7 +12,12 @@ import ReportModal from "../helpers/ReportModal";
 import { connect } from "react-redux";
 import { addOfferToComparison } from "../../redux/actions/userActions";
 
-function FavOfferItem({ deleteFavorite, post, addOfferToComparison }) {
+function FavOfferItem({
+  deleteFavorite,
+  post,
+  addOfferToComparison,
+  currencies,
+}) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [compLoading, setCompLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -44,7 +49,10 @@ function FavOfferItem({ deleteFavorite, post, addOfferToComparison }) {
         }`}
       >
         {post.sentense.photo ? (
-          <SlickSlider height={'25em'} photo={JSON.parse(post.sentense.photo)} />
+          <SlickSlider
+            height={"25em"}
+            photo={JSON.parse(post.sentense.photo)}
+          />
         ) : (
           <Link
             href={{
@@ -117,7 +125,12 @@ function FavOfferItem({ deleteFavorite, post, addOfferToComparison }) {
           <span style={{ fontSize: "30px" }}>
             {formatNumber(parseInt(post.sentense.price))}
           </span>{" "}
-          ГРН
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === post.sentense.currency_id) {
+                return cur.name;
+              }
+            })}
         </div>
         <div className={s.open}>
           <Link
@@ -189,7 +202,9 @@ function FavOfferItem({ deleteFavorite, post, addOfferToComparison }) {
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
 const mapDispatchToProps = {
   addOfferToComparison,
 };

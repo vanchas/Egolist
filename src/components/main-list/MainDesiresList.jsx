@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import s from "./desires-list.module.scss";
 import MainDesiresListLot from "./MainDesiresListLot";
-import Success from "../helpers/Success";
-import { addComplaint } from "../../redux/actions/userActions";
 
 export default function MainDesiresList({
   desires,

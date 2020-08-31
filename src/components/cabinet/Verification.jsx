@@ -38,7 +38,7 @@ function CabinetVerification(props) {
 
   return (
     <div className={`text-white position-relative`}>
-      <ReportProblem />
+      <ReportProblem position={`left`} />
       {user && user.active ? (
         <div>
           <span className={`h5`}>Ваша личность подтверждена</span>

@@ -138,7 +138,8 @@ export const updateDesire = (
   subcategory_ids: any,
   region_id: any,
   city_id: string,
-  is_active: any
+  is_active: any,
+  currency_id: any
 ) => async (dispatch: Function) => {
   const formData = new FormData();
   if (!photo) {
@@ -163,6 +164,7 @@ export const updateDesire = (
   formData.append("region_id", region_id);
   formData.append("city_id", city_id);
   formData.append("is_active", is_active);
+  formData.append("currency_id", currency_id);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`${target}/desires/edit/${id}`, {
@@ -288,7 +290,8 @@ export const createDesire = (
   subcategory_ids: any,
   region_id: string,
   city_id: string,
-  is_active: any
+  is_active: any,
+  currency: any
 ) => async (dispatch: Function) => {
   const formData = new FormData();
   for (let p of photo) {
@@ -305,6 +308,7 @@ export const createDesire = (
   formData.append("region_id", region_id);
   formData.append("city_id", city_id);
   formData.append("is_active", is_active);
+  formData.append("currency_id", currency);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`${target}/desires/create`, {

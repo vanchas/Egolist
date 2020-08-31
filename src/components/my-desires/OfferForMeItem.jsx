@@ -23,6 +23,7 @@ function OfferForMeItem({
   locations,
   addOfferToComparison,
   addOfferToFavorites,
+                          currencies
 }) {
   const [region, setRegion] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -64,14 +65,8 @@ function OfferForMeItem({
         className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
       >
         {offer.photo ? (
-          // <Carousel
-          //   desireId={desire.id}
-          //   photo={JSON.parse(desire.photo)}
-          //   video={desire.video}
-          // />
-          <SlickSlider height={'25em'} photo={JSON.parse(offer.photo)} />
+          <SlickSlider height={"25em"} photo={JSON.parse(offer.photo)} />
         ) : (
-          // <img src={JSON.parse(offer.photo)[0]} alt={``} />
           <Link
             href={{
               pathname: `/desire`,
@@ -137,7 +132,12 @@ function OfferForMeItem({
           <span style={{ fontSize: "30px" }}>
             {formatNumber(parseInt(offer.price))}
           </span>{" "}
-          ГРН
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === offer.currency_id) {
+                return cur.name;
+              }
+            })}
         </div>
         <div className={s.open}>
           <Link
@@ -166,7 +166,10 @@ function OfferForMeItem({
                   </div>
                 </div>
               ) : (
-                <div className={s.card_footer_item} onClick={(e) => addToComp(e, offer.id)}>
+                <div
+                  className={s.card_footer_item}
+                  onClick={(e) => addToComp(e, offer.id)}
+                >
                   <img src={Libra} alt={``} />
                   <span>В сравнение</span>
                 </div>
@@ -178,7 +181,10 @@ function OfferForMeItem({
                   </div>
                 </div>
               ) : (
-                <div className={s.card_footer_item} onClick={(e) => addToFav(e, offer.id)}>
+                <div
+                  className={s.card_footer_item}
+                  onClick={(e) => addToFav(e, offer.id)}
+                >
                   <img src={Heart} alt={``} />
                   <span>В избранное</span>
                 </div>
@@ -212,7 +218,9 @@ function OfferForMeItem({
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
 const mapDispatchToProps = {
   addOfferToComparison,
   addOfferToFavorites,

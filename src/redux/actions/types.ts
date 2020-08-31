@@ -16,6 +16,7 @@ export const GET_OFFERS_BY_DESIRE_ID: string = 'GET_OFFERS_BY_DESIRE_ID';
 export const SEARCH_INFO: string = 'SEARCH_INFO';
 export const GET_SORT_VALUES: string = 'GET_SORT_VALUES';
 export const SHOW_SIDEBAR: string = 'SHOW_SIDEBAR';
+export const GET_CURRENCUIES: string = 'GET_CURRENCUIES';
 
 // user
 export const SET_PESISTED_STATE: string = 'SET_PESISTED_STATE';

@@ -20,6 +20,7 @@ function OfferCard({
   deleteOffer,
   addOfferToComparison,
   isActive,
+  currencies,
 }) {
   const [showBottomBlock, setShowBottomBlock] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -40,16 +41,16 @@ function OfferCard({
   };
 
   const hideShowHandler = (id) => {
-    setHideLoader(true)
-    hideShowOffer(id)
-    setTimeout(() => setHideLoader(false), 3000)
-  }
+    setHideLoader(true);
+    hideShowOffer(id);
+    setTimeout(() => setHideLoader(false), 3000);
+  };
 
   const deleteOfferHandler = (id) => {
-    setDeleteLoader(true)
-    deleteOffer(id)
-    setTimeout(() => setDeleteLoader(false), 3000)
-  }
+    setDeleteLoader(true);
+    deleteOffer(id);
+    setTimeout(() => setDeleteLoader(false), 3000);
+  };
 
   return (
     <div className={s.card}>
@@ -57,7 +58,7 @@ function OfferCard({
         className={`${s.card_image} ${!offer.is_active ? s.disableColor : ""}`}
       >
         {offer.photo ? (
-          <SlickSlider height={'25em'} photo={JSON.parse(offer.photo)} />
+          <SlickSlider height={"25em"} photo={JSON.parse(offer.photo)} />
         ) : (
           <Link
             href={{
@@ -128,7 +129,12 @@ function OfferCard({
           <span style={{ fontSize: "30px" }}>
             {formatNumber(parseInt(offer.price))}
           </span>{" "}
-          ГРН
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === offer.currency_id) {
+                return cur.name;
+              }
+            })}
         </div>
         <div className={s.offer_btn}>
           <Link
@@ -157,7 +163,10 @@ function OfferCard({
         >
           Изменить
         </div>
-        <div className={s.offer_btn} onClick={() => deleteOfferHandler(offer.id)}>
+        <div
+          className={s.offer_btn}
+          onClick={() => deleteOfferHandler(offer.id)}
+        >
           {deleteLoading ? <SpinnerGrow color={`secondary`} /> : "Удалить"}
         </div>
       </div>
@@ -221,7 +230,9 @@ function OfferCard({
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
 const mapDispatchToProps = {
   addOfferToComparison,
 };

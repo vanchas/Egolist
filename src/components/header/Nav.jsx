@@ -5,13 +5,7 @@ import s from "./header.module.scss";
 import Libra from "../../assets/header/libra.png";
 import Heart from "../../assets/header/Heart.png";
 import Router from "next/router";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem,
-} from "reactstrap";
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import {
   FILTER_DESIRES,
@@ -25,9 +19,11 @@ import {
   getCities,
   getLocations,
   searchInfo,
-  showSidebar
+  showSidebar,
 } from "../../redux/actions/appActions";
 import Spinner from "../helpers/Spinner";
+import ReportProblem from "../cabinet/ReportProblem";
+import { badWordsChecker } from "../../utils/FieldsValidator";
 
 const NavComponent = ({
   locations,
@@ -40,7 +36,7 @@ const NavComponent = ({
   selectedSubcategory,
   comparisonOffers,
   showSidebar,
-  sidebar
+  sidebar,
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +55,7 @@ const NavComponent = ({
   }, [cities]);
 
   const filterByLocationHandler = (e) => {
-    if (Router.pathname !== '/') Router.push('/')
+    if (Router.pathname !== "/") Router.push("/");
     setCityLoading(true);
     getCities(e.target.value);
     setRegionId(e.target.value);
@@ -70,7 +66,7 @@ const NavComponent = ({
   };
 
   const filterByCityHandler = (e) => {
-    if (Router.pathname !== '/') Router.push('/')
+    if (Router.pathname !== "/") Router.push("/");
     setCityId(e.target.value);
     dispatch({ type: FILTER_DESIRES, payload: [] });
     dispatch({ type: FILTER_OFFERS, payload: [] });
@@ -80,13 +76,16 @@ const NavComponent = ({
 
   const searchByStringHandler = (e) => {
     e.preventDefault();
-    if (Router.pathname !== '/') Router.push('/')
+    if (Router.pathname !== "/") Router.push("/");
     dispatch({ type: SEARCH_INFO, payload: [] });
-    const searchString = !searchValue.length
-      ? " "
-      : searchValue.includes("/")
-      ? searchValue.split("/").join("~slash~")
-      : searchValue;
+    const searchString =
+      badWordsChecker(searchValue)
+        ? !searchValue.length
+            ? " "
+            : searchValue.includes("/")
+              ? searchValue.split("/").join("~slash~")
+              : searchValue
+        : ''
     searchInfo(
       searchString,
       regionId ?? 1,
@@ -107,7 +106,10 @@ const NavComponent = ({
     <div className={s.navbar_nav}>
       <Navbar color="" dark expand="lg" className="">
         <NavbarToggler onClick={toggle} className={s.navbar_toggler} />
-        <button onClick={() => showSidebar(!sidebar)} className={s.sidebar_toggler}>
+        <button
+          onClick={() => showSidebar(!sidebar)}
+          className={s.sidebar_toggler}
+        >
           <span className="navbar-toggler-icon" />
         </button>
         <Collapse isOpen={isOpen} navbar>
@@ -118,7 +120,9 @@ const NavComponent = ({
               } nav-item`}
             >
               <Link href={`/`}>
-                <a onClick={reloadPage} className={`pr-3`}>ЛЕНТА</a>
+                <a onClick={reloadPage} className={`pr-3`}>
+                  ЛЕНТА
+                </a>
               </Link>
             </NavItem>
             {user && user.token ? (
@@ -215,7 +219,10 @@ const NavComponent = ({
             </select>
           </div>
         ) : cityLoading ? (
-          <div style={{ backgroundColor: "#3a3f46" }} className={`text-center pt-2 px-5 ${s.city_loader}`}>
+          <div
+            style={{ backgroundColor: "#3a3f46" }}
+            className={`text-center pt-2 px-5 ${s.city_loader}`}
+          >
             <Spinner color={`secondary`} />
           </div>
         ) : (
@@ -234,13 +241,13 @@ const NavComponent = ({
 };
 
 const mapStateToProps = (state) => ({
-    locations: state.app.locations,
-    selectedCategory: state.app.selectedCategory,
-    selectedSubcategory: state.app.selectedSubcategory,
-    cities: state.app.cities,
-    comparisonOffers: state.user.comparisonOffers.length,
-    sidebar: state.app.sidebar
-})
+  locations: state.app.locations,
+  selectedCategory: state.app.selectedCategory,
+  selectedSubcategory: state.app.selectedSubcategory,
+  cities: state.app.cities,
+  comparisonOffers: state.user.comparisonOffers.length,
+  sidebar: state.app.sidebar,
+});
 
 const mapDispatchToProps = {
   getLocations,
@@ -248,7 +255,7 @@ const mapDispatchToProps = {
   filterOffers,
   filterDesires,
   getCities,
-  showSidebar
+  showSidebar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavComponent);

@@ -7,8 +7,9 @@ import UserPlaceholder from "../../assets/sidebar/user.jpeg";
 import formatNumber from "../../utils/format-price-string";
 import Burger from "../../assets/header/burger-white.png";
 import ReportModal from "../helpers/ReportModal";
+import { connect } from "react-redux";
 
-export default function FavDesireItem({ deleteFavorite, post }) {
+function FavDesireItem({ deleteFavorite, post, currencies }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -32,7 +33,7 @@ export default function FavDesireItem({ deleteFavorite, post }) {
         }`}
       >
         {post.desire.photo ? (
-          <SlickSlider height={'25em'} photo={JSON.parse(post.desire.photo)} />
+          <SlickSlider height={"25em"} photo={JSON.parse(post.desire.photo)} />
         ) : (
           <Link href={{ pathname: `/desire`, query: { id: post.desire.id } }}>
             <a className={`w-100 h-100`}>
@@ -77,7 +78,12 @@ export default function FavDesireItem({ deleteFavorite, post }) {
           <span style={{ fontSize: "30px" }}>
             {formatNumber(parseInt(post.desire.price))}
           </span>{" "}
-          ГРН
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === post.desire.currency_id) {
+                return cur.name;
+              }
+            })}
         </div>
         <div className={s.delete} onClick={(e) => deleteFormFav(e, post.id)}>
           {deleteLoading ? (
@@ -122,3 +128,8 @@ export default function FavDesireItem({ deleteFavorite, post }) {
     </li>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
+export default connect(mapStateToProps, null)(FavDesireItem);

@@ -3,6 +3,7 @@ import rootReducer from "./reducers/rootReducer";
 import thunk from "redux-thunk";
 import { saveState } from "./localStorage";
 import { setPersistedState } from "./actions/userActions";
+// import { checkStringsMiddlewar } from "./checkStringsMiddlewar";
 
 // const persistedState = loadState();
 
@@ -20,7 +21,7 @@ store.subscribe(() => {
 });
 
 setTimeout(() => {
-  store.dispatch(setPersistedState())
-}, 300)
+  store.dispatch(setPersistedState());
+}, 300);
 
 export default store;

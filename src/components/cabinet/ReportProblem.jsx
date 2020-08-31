@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal } from "reactstrap";
 import { connect } from "react-redux";
 import s from "./verify.module.scss";
@@ -38,7 +38,7 @@ const ReportProblem = (props) => {
     <>
       <span className={s.report} onClick={toggle}>
         <i className="fas fa-exclamation" />
-        <span className="tooltiptext">Сообщить об ошибке</span>
+        <span className={`${s.tooltiptext} ${props.position ? s[props.position] : ''}`}>Сообщить об ошибке</span>
       </span>
 
       <Modal isOpen={modal} toggle={toggle} style={styles.center}>

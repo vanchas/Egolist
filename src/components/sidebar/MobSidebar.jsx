@@ -11,6 +11,7 @@ import SidebarControl from "./SidebarControl";
 import { showSidebar } from "../../redux/actions/appActions";
 import { connect } from "react-redux";
 import Logo from "../../assets/header/main-logo.png";
+import ReportProblem from "../cabinet/ReportProblem";
 
 function MobSidebar(props) {
   const [component, setComponent] = useState();
@@ -38,7 +39,10 @@ function MobSidebar(props) {
   return (
     <aside className={s.sidebar}>
       <div className={s.sidebar_logo}>
-        <span className={s.switch_sidebar} onClick={() => props.showSidebar(false)}>
+        <span
+          className={s.switch_sidebar}
+          onClick={() => props.showSidebar(false)}
+        >
           <i className="fas fa-times" />
         </span>
         <Link href={`/`}>
@@ -49,6 +53,9 @@ function MobSidebar(props) {
       </div>
       {user ? (
         <>
+          <span className={s.report_btn}>
+            <ReportProblem position={`right`} />
+          </span>
           <UserBar />
           <SidebarControl changeComponent={changeComponent} />
 

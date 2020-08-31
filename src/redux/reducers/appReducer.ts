@@ -24,7 +24,7 @@ import {
   SELECT_HEADING_CATEGORY,
   SELECT_HEADING_SUBCATEGORY,
   GET_SORT_VALUES,
-  SHOW_SIDEBAR,
+  SHOW_SIDEBAR, GET_CURRENCUIES
 } from "../actions/types";
 
 interface IState {
@@ -43,6 +43,7 @@ interface IState {
   selectedSubcategory: any;
   sortingValues: null | any[];
   sidebar: boolean;
+  currencies: null | any[];
 }
 
 const initialState: IState = {
@@ -61,10 +62,15 @@ const initialState: IState = {
   selectedSubcategory: null,
   sortingValues: null,
   sidebar: false,
+  currencies: null
 };
 
 export default function counterReducer(state = initialState, action: any) {
   switch (action.type) {
+
+    case GET_CURRENCUIES:
+      return { ...state, currencies: action.payload };
+
     case GET_LOCATIONS:
       return { ...state, locations: action.payload };
 

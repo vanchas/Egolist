@@ -4,13 +4,15 @@ import s from "../components/comparison/comparison.module.scss";
 import { connect } from "react-redux";
 import arrayMove from "array-move";
 import Router from "next/router";
+import { getCurrencies } from "../redux/actions/appActions";
 
 const ComparisonPage = (props) => {
   const [offers, setOffers] = useState([]);
 
   useEffect(() => {
-    setOffers(props.offers ?? [])
-  }, [props.offers])
+    props.getCurrencies();
+    setOffers(props.offers ?? []);
+  }, [props.offers]);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     return setOffers((items) => arrayMove(items, oldIndex, newIndex));
@@ -18,7 +20,9 @@ const ComparisonPage = (props) => {
 
   return (
     <div className={s.comparison_page}>
-      <span className={s.btn_back} onClick={Router.back}>Назад</span>
+      <span className={s.btn_back} onClick={Router.back}>
+        Назад
+      </span>
       <ComparisonList
         offers={offers}
         onSortEnd={onSortEnd}
@@ -32,5 +36,7 @@ const ComparisonPage = (props) => {
 const mapStateToProps = (state) => ({
   offers: state.user.comparisonOffers,
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getCurrencies,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(ComparisonPage);

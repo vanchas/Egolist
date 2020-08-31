@@ -9,6 +9,7 @@ import { authenticationService } from "../../_services/authentication.service";
 import Link from "next/link";
 import SidebarControl from "./SidebarControl";
 import Logo from "../../assets/header/main-logo.png";
+import ReportProblem from "../cabinet/ReportProblem";
 
 export default function Sidebar(props) {
   const [component, setComponent] = useState(<SidebarMessages />);
@@ -42,6 +43,7 @@ export default function Sidebar(props) {
       </div>
       {user ? (
         <>
+          <span className={s.report_btn}><ReportProblem position={`right`} /></span>
           <UserBar />
           <SidebarControl changeComponent={changeComponent} />
 

@@ -4,9 +4,11 @@ import inputValidateHandler from "../../utils/FieldsValidator";
 import Router from "next/router";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import SpinnerGrow from "../helpers/SpinnerGrow"
+import SpinnerGrow from "../helpers/SpinnerGrow";
+import { getCurrencies } from "../../redux/actions/appActions";
+import { connect } from "react-redux";
 
-export default function CreateDesireForm({
+function CreateDesireForm({
   desiresInfo,
   createDesire,
   showAlert,
@@ -17,6 +19,8 @@ export default function CreateDesireForm({
   cities,
   getCities,
   currentGeoPosition,
+  getCurrencies,
+  currencies,
 }) {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -40,6 +44,7 @@ export default function CreateDesireForm({
   const [subcat2Loading, setSubcat2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
+  const [currency, setCurrency] = useState(1);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -67,7 +72,8 @@ export default function CreateDesireForm({
           ],
           region,
           city ? city : cities[0].id,
-          isActive
+          isActive,
+          currency ? currency : 1
         );
         setTitle("");
         setPhotos([]);
@@ -81,6 +87,7 @@ export default function CreateDesireForm({
         setPrice("");
         setPriority("");
         setIsActive(1);
+        setCurrency(1)
         setTimeout(() => setLoading(false), 2000);
       } else {
         showAlert("Bce поля должны быть заполнены");
@@ -89,6 +96,7 @@ export default function CreateDesireForm({
   };
 
   useEffect(() => {
+    getCurrencies();
     setTimeout(() => setWarning(null), 10000);
     if (
       location.length &&
@@ -118,17 +126,18 @@ export default function CreateDesireForm({
   };
 
   const category1Handler = (category) => {
+    setShowSubSelect1(true);
     if (JSON.parse(category).id === 1) {
       setSubcat1Loading(true);
-      setShowSubSelect1(true);
+      setShowSubSelect1(false);
     }
     setCategory1(JSON.parse(category));
     getSubcategories(JSON.parse(category).id);
   };
   const category2Handler = (category) => {
+    setShowSubSelect2(true);
     if (JSON.parse(category).id === 1) {
-      setSubcat2Loading(true);
-      setShowSubSelect2(true);
+      setSubcat2Loading(false);
     }
     getSubcategories(JSON.parse(category).id);
     setCategory2(JSON.parse(category));
@@ -159,7 +168,9 @@ export default function CreateDesireForm({
         </div>
       )}
 
-      <span className={s.btn_back} onClick={Router.back}>Назад</span>
+      <span className={s.btn_back} onClick={Router.back}>
+        Назад
+      </span>
       <h3>Создание желания</h3>
       <form onSubmit={submitHandler}>
         <div>
@@ -224,7 +235,7 @@ export default function CreateDesireForm({
               <SpinnerGrow color="secondary" />
             ) : category1 ? (
               <div>
-                Выбрана категория {category1.name}
+                Выбрана категория {category1.name}{console.log(subcat1Loading, showSubSelect1, subcategory1, subcategories.length)}
                 <span
                   className={`btn btn-danger ml-2 px-1 py-0`}
                   onClick={() => {
@@ -425,13 +436,20 @@ export default function CreateDesireForm({
               <SpinnerGrow color="secondary" />
             )}
           </div>
-          <label htmlFor="price">Цена{" "}
-            <select>
-              <option>UAH</option>
-              <option>USD</option>
-              <option>EUR</option>
-            </select>
-            {" "}*
+          <label htmlFor="price">
+            Цена{" "}
+            {currencies && currencies.length ? (
+              <select onChange={e => setCurrency(e.target.value)}>
+                {currencies.map((cur, i) => (
+                  <option key={i} value={cur.id}>
+                    {cur.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <SpinnerGrow color={`secondary`} />
+            )}{" "}
+            *
           </label>
           <input
             name={`price`}
@@ -445,7 +463,6 @@ export default function CreateDesireForm({
             className="form-control"
             required
           />
-          {/*UAH | USD | EUR*/}
           <label htmlFor="priority">Приоритет *</label>
           {!desiresInfo.priorities || !desiresInfo.priorities.length ? (
             <SpinnerGrow color="secondary" />
@@ -456,7 +473,7 @@ export default function CreateDesireForm({
               onChange={(e) => setPriority(e.target.value)}
               className="form-control"
             >
-              <option value="default" hidden/>
+              <option value="default" hidden />
               {desiresInfo.priorities && desiresInfo.priorities.length
                 ? desiresInfo.priorities.map((p, i) => (
                     <option key={i} value={p.id}>
@@ -492,3 +509,11 @@ export default function CreateDesireForm({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
+const mapDispatchToProps = {
+  getCurrencies,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CreateDesireForm);

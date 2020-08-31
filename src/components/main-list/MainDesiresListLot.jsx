@@ -7,8 +7,13 @@ import ReportModal from "../helpers/ReportModal";
 import Placeholder from "../../assets/lot/placeholder-vertical.jpg";
 import UserPlaceholder from "../../assets/old/user-placeholder.jpg";
 import formatNumber from "../../utils/format-price-string";
+import { connect } from "react-redux";
 
-export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
+function MainDesiresListLot({
+  desire,
+  addDesireToFavorites,
+  currencies,
+}) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -64,7 +69,7 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
                   <i />
                 </span>
               </span>
-              
+
               {showToast && (
                 <div className={`${s.toast}`}>
                   {user && user.user && user.user.id === desire.user_id ? (
@@ -108,7 +113,9 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
         <div className={s.card_elipse}>
           {desire.user && desire.user.avatar ? (
             <img className={`h-100`} src={desire.user.avatar} alt={``} />
-          ) : <img className={`h-100`} src={UserPlaceholder} alt={``} />}
+          ) : (
+            <img className={`h-100`} src={UserPlaceholder} alt={``} />
+          )}
         </div>
         <h5>
           <Link href={{ pathname: "/desire", query: { id: desire.id } }}>
@@ -116,9 +123,20 @@ export default function MainDesiresListLot({ desire, addDesireToFavorites }) {
           </Link>
         </h5>
         <span className={s.card_price}>
-          <span>{formatNumber(parseInt(desire.price))}</span> ГРН
+          <span>{formatNumber(parseInt(desire.price))}</span>{" "}
+          {currencies &&
+          currencies.map((cur, i) => {
+            if (cur.id === desire.currency_id) {
+              return cur.name
+            }
+          })}
         </span>
       </div>
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
+export default connect(mapStateToProps, null)(MainDesiresListLot);

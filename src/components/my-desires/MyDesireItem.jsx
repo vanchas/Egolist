@@ -9,13 +9,15 @@ import formatNumber from "../../utils/format-price-string";
 import SlickSlider from "../helpers/SlickSlider";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import Rating from "../helpers/Rating";
+import { connect } from "react-redux";
 
-export default function MyDesireItem({
+function MyDesireItem({
   hideShowDesire,
   desire,
   locations,
   sortingValues,
   deleteDesire,
+  currencies,
 }) {
   const [showCurrentOffers, setShowCurrOffers] = useState(false);
   const [deleteLoader, setDeleteLoader] = useState(false);
@@ -31,16 +33,16 @@ export default function MyDesireItem({
   }, [locations]);
 
   const hideShowHandler = (id) => {
-    setHideLoader(true)
-    hideShowDesire(id)
-    setTimeout(() => setHideLoader(false), 3000)
-  }
+    setHideLoader(true);
+    hideShowDesire(id);
+    setTimeout(() => setHideLoader(false), 3000);
+  };
 
   const deleteHandler = (id) => {
-    setDeleteLoader(true)
-    deleteDesire(id)
-    setTimeout(() => setDeleteLoader(false), 3000)
-  }
+    setDeleteLoader(true);
+    deleteDesire(id);
+    setTimeout(() => setDeleteLoader(false), 3000);
+  };
 
   return (
     <div className={s.card}>
@@ -48,7 +50,7 @@ export default function MyDesireItem({
         className={`${s.card_image} ${!desire.is_active ? s.disableColor : ""}`}
       >
         {desire.photo ? (
-          <SlickSlider height={'25em'} photo={JSON.parse(desire.photo)} />
+          <SlickSlider height={"25em"} photo={JSON.parse(desire.photo)} />
         ) : (
           <Link href={{ pathname: `/desire`, query: { id: desire.id } }}>
             <a className={`w-100 h-100`}>
@@ -92,7 +94,12 @@ export default function MyDesireItem({
           <span style={{ fontSize: "28px" }}>
             {formatNumber(parseInt(desire.price))}
           </span>{" "}
-          ГРН
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === desire.currency_id) {
+                return cur.name;
+              }
+            })}
         </div>
         <div className={s.edit}>
           <Link href={{ pathname: "/update-desire", query: { id: desire.id } }}>
@@ -111,10 +118,7 @@ export default function MyDesireItem({
             "Опубликовать"
           )}
         </div>
-        <div
-          className={s.delete}
-          onClick={() => deleteHandler(desire.id)}
-        >
+        <div className={s.delete} onClick={() => deleteHandler(desire.id)}>
           {deleteLoader ? <SpinnerGrow color={`secondary`} /> : "Удалить"}
         </div>
       </div>
@@ -154,3 +158,8 @@ export default function MyDesireItem({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
+export default connect(mapStateToProps, null)(MyDesireItem);

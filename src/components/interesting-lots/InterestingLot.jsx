@@ -17,6 +17,7 @@ function InterestingLot({
   addDesireToFavorites,
   setSelectedDesires,
   selectedDesires,
+  currencies,
 }) {
   const [showToast, setShowToast] = useState(false);
   const [selectedLot, setSelectedLot] = useState(false);
@@ -56,14 +57,16 @@ function InterestingLot({
     const date2 = moment();
     const days = Math.abs(moment(date1).diff(moment(date2), "days"));
     if (days < 2) {
-      return  true
+      return true;
     }
-    return false
+    return false;
   };
 
   return (
     <div className={s.card}>
-      {isNewChecker(desire.created_at) && <img src={SignNew} alt="" className={s.interesting_img}/>}
+      {isNewChecker(desire.created_at) && (
+        <img src={SignNew} alt="" className={s.interesting_img} />
+      )}
       <div className={s.card_header}>
         <div className={s.card_header_control}>
           <div>
@@ -129,7 +132,15 @@ function InterestingLot({
         <Link href={`/desire?id=${desire.id}`}>
           <a className={`text-dark`}>
             <h5 className="h6 font-weight-bold">{desire.header}</h5>
-            <span className={s.card_price}>{desire.price} ГРН</span>
+            <span className={s.card_price}>
+              {desire.price}
+              {currencies &&
+                currencies.map((cur, i) => {
+                  if (cur.id === desire.currency_id) {
+                    return cur.name;
+                  }
+                })}
+            </span>
           </a>
         </Link>
       </div>
@@ -137,7 +148,9 @@ function InterestingLot({
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
 
 const mapDispatchToProps = {
   addDesireToFavorites,

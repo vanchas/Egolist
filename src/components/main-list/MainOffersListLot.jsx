@@ -15,6 +15,7 @@ function MainOffersListLot({
   offer,
   addOfferToComparison,
   addOfferToFavorites,
+  currencies,
 }) {
   const [showToast, setShowToast] = useState(false);
   const [user, setUser] = useState(null);
@@ -31,7 +32,7 @@ function MainOffersListLot({
   useEffect(() => {
     const userData = authenticationService.currentUserValue;
     if (userData.token) setUser(userData);
-    setTimeout(() => setLoadingComparison(false), 3000)
+    setTimeout(() => setLoadingComparison(false), 3000);
   }, [loadingComparison]);
 
   const likeClickHandler = (id) => {
@@ -59,12 +60,12 @@ function MainOffersListLot({
               ) : (
                 <span
                   onClick={() => {
-                    setLoadingComparison(true)
+                    setLoadingComparison(true);
                     addOfferToComparison(offer.id);
                   }}
                 >
-                      <img src={Libra} alt="" />
-                    </span>
+                  <img src={Libra} alt="" />
+                </span>
               )}
               {!loading ? (
                 <>
@@ -82,7 +83,7 @@ function MainOffersListLot({
                 </div>
               )}
               <span onClick={(e) => toastHandler(e)}>
-                 <span className={`${s.menu} ${showToast ? s.activeToast : ''}`}>
+                <span className={`${s.menu} ${showToast ? s.activeToast : ""}`}>
                   <i />
                   <i />
                   <i />
@@ -103,10 +104,10 @@ function MainOffersListLot({
                       </Link>
                     </div>
                   ) : null}
-                    <ReportModal
-                      userId={offer.user_id}
-                      setShowToast={setShowToast}
-                    />
+                  <ReportModal
+                    userId={offer.user_id}
+                    setShowToast={setShowToast}
+                  />
                 </div>
               )}
             </>
@@ -114,9 +115,18 @@ function MainOffersListLot({
         </div>
         <div className={s.lot_img_holder}>
           {offer.photo && !showPlaceholder ? (
-            <img src={JSON.parse(offer.photo)[0]} alt={``} onErrorCapture={() => setShowPlaceholder(true)} />
+            <img
+              src={JSON.parse(offer.photo)[0]}
+              alt={``}
+              onErrorCapture={() => setShowPlaceholder(true)}
+            />
           ) : (
-            <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
+            <Link
+              href={{
+                pathname: "/desire",
+                query: { id: offer.desire_id, offer: offer.id },
+              }}
+            >
               <a className={`w-100 h-100`}>
                 <img src={Placeholder} alt={``} className={`w-100`} />
               </a>
@@ -128,14 +138,29 @@ function MainOffersListLot({
         <div className={s.card_elipse}>
           {offer.user && offer.user.avatar ? (
             <img className={`h-100`} src={offer.user.avatar} alt={``} />
-          ) : <img className={`h-100`} src={UserPlaceholder} alt={``} />}
+          ) : (
+            <img className={`h-100`} src={UserPlaceholder} alt={``} />
+          )}
         </div>
         <h5>
-          <Link href={{ pathname: "/desire", query: { id: offer.desire_id, offer: offer.id } }}>
+          <Link
+            href={{
+              pathname: "/desire",
+              query: { id: offer.desire_id, offer: offer.id },
+            }}
+          >
             <a>{offer.header}</a>
           </Link>
         </h5>
-        <span className={s.card_price}>{formatNumber(parseInt(offer.price))} ГРН</span>
+        <span className={s.card_price}>
+          {formatNumber(parseInt(offer.price))}{" "}
+          {currencies &&
+            currencies.map((cur, i) => {
+              if (cur.id === offer.currency_id) {
+                return cur.name;
+              }
+            })}
+        </span>
         <div className={s.progress_bar}>
           <div className="progress border border-dark rounded">
             <div
@@ -154,7 +179,9 @@ function MainOffersListLot({
   );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
 const mapDispatchToProps = {
   addOfferToComparison,
 };

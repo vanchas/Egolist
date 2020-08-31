@@ -7,12 +7,17 @@ import {
   sortMyDesires,
   deleteDesire,
 } from "../redux/actions/userActions";
-import { getCities, getSortingValues } from "../redux/actions/appActions";
+import {
+  getCities,
+  getSortingValues,
+  getCurrencies,
+} from "../redux/actions/appActions";
 import Router from "next/router";
 import { authenticationService } from "../_services/authentication.service";
-import s from '../components/my-desires/my-desire.module.scss'
+import s from "../components/my-desires/my-desire.module.scss";
 
 function MyDesires({
+  getCurrencies,
   sortMyDesires,
   getMyDesires,
   hideShowDesire,
@@ -27,6 +32,7 @@ function MyDesires({
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
+    getCurrencies();
     getMyDesires();
     getSortingValues();
     const user = authenticationService.currentUserValue;
@@ -67,6 +73,7 @@ const mapDispatchToProps = {
   sortMyDesires,
   getSortingValues,
   deleteDesire,
+  getCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDesires);

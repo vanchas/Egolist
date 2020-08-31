@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import MainDesiresList from '../components/main-list/MainDesiresList';
-import { getAllDesires, getAllOffers, getSortingValues } from '../redux/actions/appActions'
+import { getAllDesires, getAllOffers, getSortingValues, getCurrencies } from '../redux/actions/appActions'
 import MainListControl from '../components/main-list/MainListControl'
 import MainOffersList from '../components/main-list/MainOffersList'
 import { hideShowDesire,addComplaint, hideShowOffer, sortDesires, sortOffers, addDesireToFavorites, addOfferToFavorites, deleteFavorite } from '../redux/actions/userActions'
 import s from '../components/main-list/desires-list.module.scss'
-import desire from "./desire";
 
 function App(props) {
 	const [visibleComponent, setVisibleComponent] = React.useState('desires');
 
 	React.useEffect(() => {
+		props.getCurrencies()
 		props.getAllDesires();
 		props.getAllOffers();
 		props.getSortingValues();
@@ -66,7 +66,8 @@ const mapDispatchToProps = {
 	addOfferToFavorites,
 	deleteFavorite,
 	addComplaint,
-	getSortingValues
+	getSortingValues,
+	getCurrencies
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

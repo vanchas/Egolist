@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import s from "./update-desire.module.scss";
 import inputValidateHandler from "../../utils/FieldsValidator";
 import $ from "jquery";
-import SpinnerGrow from "../helpers/SpinnerGrow"
+import SpinnerGrow from "../helpers/SpinnerGrow";
+import { getCurrencies } from "../../redux/actions/appActions";
+import { connect } from "react-redux";
 
-export default function UpdateForm({
+function UpdateForm({
   locations,
   updateDesire,
   categories,
@@ -18,6 +20,8 @@ export default function UpdateForm({
   getDesireById,
   desire,
   deleteDesirePhoto,
+  getCurrencies,
+  currencies,
 }) {
   const router = useRouter();
   const [header, setHeader] = useState(null);
@@ -40,8 +44,10 @@ export default function UpdateForm({
   const [subcategory1, setSubcategory1] = useState(null);
   const [subcategory2, setSubcategory2] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(true);
+  const [currency, setCurrency] = useState(null);
 
   useEffect(() => {
+    getCurrencies();
     if (desire && desire.id) {
       setSubmitLoading(false);
       setStateDesire(desire);
@@ -99,7 +105,8 @@ export default function UpdateForm({
           : [stateDesire.subcategory[0].id, stateDesire.subcategory[2].id],
         region_id ? region_id : stateDesire.region_id,
         city_id ? city_id : stateDesire.city_id,
-        is_active ? is_active : stateDesire.is_active
+        is_active ? is_active : stateDesire.is_active,
+        currency ? currency : stateDesire.currency_id
       );
     }
     setTimeout(() => setSubmitLoading(false), 3000);
@@ -126,7 +133,9 @@ export default function UpdateForm({
     <div>
       {stateDesire ? (
         <>
-          <span className={s.btn_back} onClick={router.back}>Назад</span>
+          <span className={s.btn_back} onClick={router.back}>
+            Назад
+          </span>
 
           <h3 className={`mt-3 text-white`}>Редактировать желание</h3>
           {warning && (
@@ -354,7 +363,9 @@ export default function UpdateForm({
                     <option value={stateDesire.region.id} hidden>
                       {stateDesire.region.name_ru}
                     </option>
-                  ) : <option hidden></option>}
+                  ) : (
+                    <option hidden></option>
+                  )}
                   {locations
                     ? locations.map((loc, i) => (
                         <option value={loc.id} key={i}>
@@ -446,11 +457,26 @@ export default function UpdateForm({
               </div>
               <label htmlFor="price">
                 Цена{" "}
-                <select>
-                  <option>UAH</option>
-                  <option>USD</option>
-                  <option>EUR</option>
-                </select>
+                {currencies && currencies.length ? (
+                  <select onChange={(e) => setCurrency(e.target.value)}>
+                    {currencies.map((cur, i) => {
+                      if (cur.id === desire.currency_id) {
+                        return (
+                          <option key={i} value={cur.id} hidden>
+                            {cur.name}
+                          </option>
+                        );
+                      }
+                    })}
+                    {currencies.map((cur, i) => (
+                      <option key={i} value={cur.id}>
+                        {cur.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <SpinnerGrow color={`secondary`} />
+                )}{" "}
               </label>
               <input
                 className="form-control"
@@ -482,7 +508,10 @@ export default function UpdateForm({
               </label>
               <div>
                 {!submitLoading ? (
-                  <button type="submit" className="btn btn-outline-primary mt-2">
+                  <button
+                    type="submit"
+                    className="btn btn-outline-primary mt-2"
+                  >
                     Сохранить
                   </button>
                 ) : (
@@ -502,3 +531,11 @@ export default function UpdateForm({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+});
+const mapDispatchToProps = {
+  getCurrencies,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateForm);

@@ -12,6 +12,7 @@ import {
   getCities,
   showSuccess,
   getSortingValues,
+  getCurrencies,
 } from "../redux/actions/appActions";
 import { authenticationService } from "../_services/authentication.service";
 import {
@@ -31,6 +32,7 @@ function Favorites({
   getSortingValues,
   favoriteDesires,
   favoriteOffers,
+  getCurrencies,
 }) {
   const [visibleComponent, setVisibleComponent] = useState("desires");
   const [userId, setUserId] = useState(null);
@@ -54,6 +56,7 @@ function Favorites({
   };
 
   useEffect(() => {
+    getCurrencies();
     getSortingValues();
     showPageResolver();
   }, []);
@@ -117,6 +120,7 @@ const mapDispatchToProps = {
   sortFavoriteOffers,
   showSuccess,
   getSortingValues,
+  getCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
