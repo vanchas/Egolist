@@ -444,7 +444,14 @@ export default function UpdateForm({
                     ))
                   : null}
               </div>
-              <label htmlFor="price">Цена</label>
+              <label htmlFor="price">
+                Цена{" "}
+                <select>
+                  <option>UAH</option>
+                  <option>USD</option>
+                  <option>EUR</option>
+                </select>
+              </label>
               <input
                 className="form-control"
                 type="number"

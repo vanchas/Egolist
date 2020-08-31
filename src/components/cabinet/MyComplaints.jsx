@@ -10,7 +10,7 @@ export default function MyComplaints(props) {
 
   return (
     <div className={`text-white`}>
-      <h3 className={`text-white`}>Мои Жалобы</h3>
+      <h3 className={`text-white text-center`}>Мои Жалобы</h3>
       {props.myComplaints && props.myComplaints.length ? (
         <ul>
           {props.myComplaints.map((c, i) => (

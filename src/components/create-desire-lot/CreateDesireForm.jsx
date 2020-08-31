@@ -425,7 +425,14 @@ export default function CreateDesireForm({
               <SpinnerGrow color="secondary" />
             )}
           </div>
-          <label htmlFor="price">Цена *</label>
+          <label htmlFor="price">Цена{" "}
+            <select>
+              <option>UAH</option>
+              <option>USD</option>
+              <option>EUR</option>
+            </select>
+            {" "}*
+          </label>
           <input
             name={`price`}
             type="number"
@@ -438,6 +445,7 @@ export default function CreateDesireForm({
             className="form-control"
             required
           />
+          {/*UAH | USD | EUR*/}
           <label htmlFor="priority">Приоритет *</label>
           {!desiresInfo.priorities || !desiresInfo.priorities.length ? (
             <SpinnerGrow color="secondary" />

@@ -1,31 +1,14 @@
 import React from 'react'
-import MyComplaints from "./MyComplaints";
-import UpdateProfile from "./UpdateProfile";
 import s from "./cabinet.module.scss";
-import Verification from "./Verification";
 
 export default function (props) {
-
-    const changeVisibleComponent = (ref) => {
-        if (ref === "complaints") {
-            props.setActiveBtn("complaints");
-            props.setVisibleComponent(<MyComplaints myComplaints={props.myComplaints} />);
-        } else if (ref === "update info") {
-            props.setActiveBtn("update info");
-            props.setVisibleComponent(<UpdateProfile />);
-        } else if (ref === "verification") {
-            props.setActiveBtn("verification");
-            props.setVisibleComponent(<Verification />);
-        }
-    };
-
     return (
         <div className={`py-3 ${s.cabinet_control_buttons}`}>
             <span
                 className={`btn m-1 ${
                     props.activeBtn === "update info" ? "btn-outline-light" : "btn-outline-light"
                 }`}
-                onClick={() => changeVisibleComponent("complaints")}
+                onClick={() => props.changeVisibleComponent("complaints")}
             >
               Мои жалобы
             </span>
@@ -33,7 +16,7 @@ export default function (props) {
                 className={`btn m-1 ${
                     props.activeBtn === "complaints" ? "btn-outline-light" : "btn-outline-light"
                 }`}
-                onClick={() => changeVisibleComponent("update info")}
+                onClick={() => props.changeVisibleComponent("update info")}
             >
               Редактировать информацию о себе
             </span>
@@ -41,7 +24,7 @@ export default function (props) {
                 className={`btn m-1 ${
                     props.activeBtn === "verification" ? "btn-outline-light" : "btn-outline-light"
                 }`}
-                onClick={() => changeVisibleComponent("verification")}
+                onClick={() => props.changeVisibleComponent("verification")}
             >
               Верификация
             </span>

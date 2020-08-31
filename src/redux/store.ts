@@ -15,7 +15,7 @@ store.subscribe(() => {
       comparisonOffers: store.getState().user.comparisonOffers,
     },
   });
-  // console.log("updated state: ", store.getState());
+  console.log("updated state: ", store.getState());
   // console.log('local: ', loadState());
 });
 

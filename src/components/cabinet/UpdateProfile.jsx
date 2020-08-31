@@ -94,7 +94,7 @@ function UpdateProfile(props) {
         <>
           {stateUser ? (
             <>
-              <h3 className={`text-white`}> Редактировать информацию о пользователе</h3>
+              <h3 className={`text-white text-center`}> Редактировать информацию о пользователе</h3>
               <form
                 encType={`multipart/form-data`}
                 onSubmit={submitHandler}

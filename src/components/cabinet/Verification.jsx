@@ -4,9 +4,12 @@ import {
   getPhotoVerifyExample,
   verifyMyProfile,
 } from "../../redux/actions/userActions";
+import { showAlert } from "../../redux/actions/appActions";
 import s from "./verify.module.scss";
 import { connect } from "react-redux";
 import { authenticationService } from "../../_services/authentication.service";
+import Spinner from "../helpers/Spinner";
+import ReportProblem from "./ReportProblem";
 
 function CabinetVerification(props) {
   const [photo, setPhoto] = useState(null);
@@ -15,34 +18,45 @@ function CabinetVerification(props) {
 
   useEffect(() => {
     const userData = authenticationService.currentUserValue;
-    console.log(userData.user);
-    if (userData && userData.user) setUser(userData.user);
+    // console.log(userData.user);
+    if (userData && userData.user) {
+      setUser(userData.user);
+    }
     props.getPhotoVerifyExample();
-  }, []);
+  }, [loading]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (photo) {
+    if (photo && user.name && user.second_name && user.phone && user.region_id && user.city_id) {
       setLoading(true);
       props.verifyMyProfile(photo);
+    } else {
+      props.showAlert('Заполните, пожалуйста, поля: "имя", "фамилия", "номер телефона", "город"')
+      props.changeVisibleComponent('update info')
     }
   };
 
   return (
-    <div className={`text-white`}>
+    <div className={`text-white position-relative`}>
+      <ReportProblem />
       {user && user.active ? (
         <div>
           <span className={`h5`}>Ваша личность подтверждена</span>
         </div>
       ) : (
         <>
-          <h4 className={`text-white`}>Подтверждение личности</h4>
-          <h5 className={`text-white`}>
+          <h4 className={`text-white text-center`}>Подтверждение личности</h4>
+          <p className={`text-white container h5`}>
             Для получения статуса проверенный пожалуйста отправьте 1 селфи фото
             с кодом подтверждения{" "}
             {user && <b>{user.activation_token_cabinet}</b>} (пример на фото). И
             1 селфи фото любым документом подтверждающим Вашу личность
-          </h5>
+          </p>
+          <p className={`text-white container h5`}>
+            Tакже
+            должны быть корректно заполненны поля: "имя", "фамилия", "номер
+            телефона", "город".
+          </p>
           {props.photoVerifyExample ? (
             <div>
               <img
@@ -68,20 +82,20 @@ function CabinetVerification(props) {
           !user.active &&
           !user.is_admin &&
           user.verify_progress !== "В процессе проверки" ? (
-            <form onSubmit={submitHandler}>
+
+            <form onSubmit={submitHandler} className={s.veification_form} encType={`multipart/form-data`}>
               <label>
-                Загрузите свое фото
+                Загрузите свое фото для верификации
                 <input
                   type={`file`}
                   className={`my-2 d-block`}
                   multiple
+                  required
                   onChange={(e) => setPhoto(e.target.files)}
                 />
               </label>
               {loading ? (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
+                <Spinner color={`primary`} />
               ) : (
                 <div>
                   <button className={`btn btn-primary`}>
@@ -105,6 +119,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getPhotoVerifyExample,
   verifyMyProfile,
+  showAlert
 };
 export default connect(
   mapStateToProps,
