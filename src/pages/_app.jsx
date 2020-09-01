@@ -21,7 +21,7 @@ const override = css`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(0, -50%);
+  transform: translate(-50%, -50%);
 `;
 
 // import NProgress from "nprogress"; //nprogress module
@@ -45,7 +45,7 @@ class MyApp extends App {
 
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ loading: false });
+      // this.setState({ loading: false });
     }, 500);
   }
 
