@@ -17,7 +17,7 @@ import moment from "moment";
 import ReportModal from "../helpers/ReportModal";
 import Spinner from "../helpers/Spinner";
 
-function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers }) {
+function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers, currencies }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allowToCreateOffers, setAllowToCreateOffers] = useState(false);
@@ -85,7 +85,13 @@ function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers
               <div className={s.price}>
                 {desire.price ? (
                   <>
-                    {formatNumber(desire.price)} <span>ГРН</span>
+                    {formatNumber(desire.price)} <span>
+                    {currencies && currencies.map((cur, i) => {
+                      if (cur.id === desire.currency_id) {
+                        return cur.name
+                      }
+                    })}
+                  </span>
                   </>
                 ) : null}
               </div>
@@ -183,6 +189,7 @@ function DesireCard({ desire = null, addDesireToFavorites, getMyOffers, myOffers
 
 const mapStateToProps = (state) => ({
   myOffers: state.user.myOffers,
+  currencies: state.app.currencies
 });
 
 const mapDispatchToProps = {

@@ -5,6 +5,7 @@ import {
   getDesireById,
   getOffersByDesireId,
   showSuccess,
+  getCurrencies,
 } from "../redux/actions/appActions";
 import { addOfferToFavorites } from "../redux/actions/userActions";
 import Router from "next/router";
@@ -24,6 +25,7 @@ const Desire = ({
   offers,
   showSuccess,
   addOfferToFavorites,
+  getCurrencies,
 }) => {
   const dispatch = useDispatch();
   const [showOffers, setShowOffers] = useState(true);
@@ -31,18 +33,19 @@ const Desire = ({
   const fetchData = () => {
     getDesireById(Router.query.id);
     showOffersList(Router.query.id);
-  }
+  };
 
   useEffect(() => {
+    getCurrencies();
     // dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
-    let timer
+    let timer;
     if (Router.query.id) {
-      fetchData()
+      fetchData();
     } else {
-      timer = setTimeout(() => fetchData(), 1000)
+      timer = setTimeout(() => fetchData(), 1000);
     }
     return () => {
-      clearTimeout(timer)
+      clearTimeout(timer);
       dispatch({ type: GET_OFFERS_BY_DESIRE_ID, payload: [] });
       dispatch({ type: GET_DESIRE_BY_ID, payload: {} });
     };
@@ -60,10 +63,16 @@ const Desire = ({
     <div className={s.desire_page}>
       <div className={s.desire_view}>
         <DesireCard desire={desire} />
-        <UserCard user={desire && desire.user ? desire.user : null} locations={locations} />
+        <UserCard
+          user={desire && desire.user ? desire.user : null}
+          locations={locations}
+        />
         {desire.header && (
           <div className={s.show_offers}>
-            <span className="btn text-light btn-outline-secondary" onClick={() => showOffersList(desire.id)}>
+            <span
+              className="btn text-light btn-outline-secondary"
+              onClick={() => showOffersList(desire.id)}
+            >
               ПОКАЗАТЬ ПРЕДЛОЖЕНИЯ
             </span>
           </div>
@@ -92,6 +101,7 @@ const mapDispatchToProps = {
   getOffersByDesireId,
   showSuccess,
   addOfferToFavorites,
+  getCurrencies,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Desire);
