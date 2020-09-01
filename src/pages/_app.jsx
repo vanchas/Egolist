@@ -1,6 +1,8 @@
 import App from "next/app";
 import { Provider } from "react-redux";
+import Head from "next/head"; //styles of nprogress
 import React from "react";
+import Router from "next/router";
 import Layout from "../components/layout/Layout";
 import withRedux from "next-redux-wrapper";
 import store from "../redux/store.ts";
@@ -16,6 +18,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import NProgress from "nprogress"; //nprogress module
+import "nprogress/nprogress.css";
+//Binding events.
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+
 const override = css`
   display: block;
   position: absolute;
@@ -23,17 +35,6 @@ const override = css`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
-// import NProgress from "nprogress"; //nprogress module
-// import "nprogress/nprogress.css";
-import Head from "next/head"; //styles of nprogress
-//Binding events.
-// Router.events.on("routeChangeStart", () => NProgress.start());
-// Router.events.on("routeChangeComplete", () => NProgress.done());
-// Router.events.on("routeChangeError", () => NProgress.done());
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 class MyApp extends App {
   constructor(props) {
@@ -87,8 +88,6 @@ class MyApp extends App {
   }
 }
 
-//makeStore function that returns a new store for every request
 const makeStore = () => store;
 
-//withRedux wrapper that passes the store to the App Component
 export default withRedux(makeStore)(MyApp);
