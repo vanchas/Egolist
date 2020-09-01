@@ -1,0 +1,16 @@
+.header {
+  color: #fff;
+}
+
+.body {
+
+  select, textarea, textarea:focus, select:focus, select:active {
+    color: #fff;
+    background: linear-gradient(-37deg, #22262a 0%, #383b42 100%);
+    margin-bottom: 1em;
+    option {
+      color: #fff;
+      background: linear-gradient(-37deg, #22262a 0%, #383b42 100%) !important;
+    }
+  }
+}

@@ -22,6 +22,8 @@ export default function inputValidateHandler(e, setWarning) {
 }
 
 export function badWordsChecker(string) {
+    if (!string) return true
+
     const validateSchema =
       string.toLowerCase().includes(' хуй') ||
       string.toLowerCase() === 'хуй' ||

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
-import inputValidateHandler from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
 import Router from "next/router";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -8,7 +8,6 @@ import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
 import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
 import { connect } from "react-redux";
-import Progress from "reactstrap/lib/Progress";
 
 function CreateDesireForm({
   desiresInfo,
@@ -52,49 +51,51 @@ function CreateDesireForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (videoValidator(video)) {
-      if (
-        title.trim().length &&
-        description.trim().length &&
-        category1 &&
-        subcategory1 &&
-        price > 0
-      ) {
-        setLoading(true);
-        createDesire(
-          photos,
-          video,
-          description,
-          title,
-          price,
-          priority,
-          condition,
-          [category1 ? category1.id : null, category2 ? category2.id : null],
-          [
-            subcategory1 ? subcategory1.id : null,
-            subcategory2 ? subcategory2.id : null,
-          ],
-          region,
-          city ? city : cities[0].id,
-          isActive,
-          currency ? currency : 1
-        );
-        setTitle("");
-        setPhotos([]);
-        setVideo("");
-        setDescription("");
-        setCategory1(null);
-        setCategory2(null);
-        setSubcategory1(null);
-        setSubcategory2(null);
-        setCondition("");
-        setPrice("");
-        setPriority("");
-        setIsActive(1);
-        setCurrency(1);
-        setTimeout(() => setLoading(false), 2000);
-      } else {
-        showAlert("Bce поля должны быть заполнены");
+    if (badWordsChecker(title) && badWordsChecker(description)) {
+      if (videoValidator(video)) {
+        if (
+          title.trim().length &&
+          description.trim().length &&
+          category1 &&
+          subcategory1 &&
+          price > 0
+        ) {
+          setLoading(true);
+          createDesire(
+            photos,
+            video,
+            description,
+            title,
+            price,
+            priority,
+            condition,
+            [category1 ? category1.id : null, category2 ? category2.id : null],
+            [
+              subcategory1 ? subcategory1.id : null,
+              subcategory2 ? subcategory2.id : null,
+            ],
+            region,
+            city ? city : cities[0].id,
+            isActive,
+            currency ? currency : 1
+          );
+          setTitle("");
+          setPhotos([]);
+          setVideo("");
+          setDescription("");
+          setCategory1(null);
+          setCategory2(null);
+          setSubcategory1(null);
+          setSubcategory2(null);
+          setCondition("");
+          setPrice("");
+          setPriority("");
+          setIsActive(1);
+          setCurrency(1);
+          setTimeout(() => setLoading(false), 2000);
+        } else {
+          showAlert("Bce поля должны быть заполнены");
+        }
       }
     }
   };

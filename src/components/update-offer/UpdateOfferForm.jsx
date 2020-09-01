@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./update-offer.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
 import { connect } from "react-redux";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
@@ -69,52 +69,54 @@ function UpdateOfferForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (videoValidator(video ? video : stateOffer.video)) {
-      setLoading(true);
-      updateOffer(
-        router.query.desire_id,
-        router.query.id,
-        photos ? photos : stateOffer.photos,
-        video ? video : stateOffer.video,
-        description ? description : stateOffer.description,
-        title ? title : stateOffer.header,
-        price ? price : stateOffer.price,
-        category1 && category2
-          ? [category1, category2]
-          : category1 && !category2
-          ? [category1]
-          : category2 && !category1
-          ? [category2]
-          : stateOffer.category.length === 1
-          ? [stateOffer.category[0].id]
-          : [stateOffer.category[0].id, stateOffer.category[2].id],
-        subcategory1 && subcategory2
-          ? [subcategory1, subcategory2]
-          : subcategory1 && !subcategory2
-          ? [subcategory1]
-          : subcategory2 && !subcategory1
-          ? [subcategory2]
-          : stateOffer.subcategory.length === 1
-          ? [stateOffer.subcategory[0].id]
-          : [stateOffer.subcategory[0].id, stateOffer.subcategory[2].id],
-        region ? region : stateOffer.region_id,
-        city ? city : stateOffer.city_id,
-        isActive ? isActive : stateOffer.is_active,
-        currency ? currency : stateDesire.currency_id
-      );
-      setTitle("");
-      setPhotos([]);
-      setVideo("");
-      setDescription("");
-      setCategory1(null);
-      setCategory2(null);
-      setSubcategory1(null);
-      setSubcategory2(null);
-      setPrice("");
-      setIsActive(1);
-      setTimeout(() => setLoading(false), 5000);
-    } else {
-      showAlert("Видео должно быть из YouTube");
+    if (badWordsChecker(title) && badWordsChecker(description)) {
+      if (videoValidator(video ? video : stateOffer.video)) {
+        setLoading(true);
+        updateOffer(
+          router.query.desire_id,
+          router.query.id,
+          photos ? photos : stateOffer.photos,
+          video ? video : stateOffer.video,
+          description ? description : stateOffer.description,
+          title ? title : stateOffer.header,
+          price ? price : stateOffer.price,
+          category1 && category2
+            ? [category1, category2]
+            : category1 && !category2
+            ? [category1]
+            : category2 && !category1
+              ? [category2]
+              : stateOffer.category.length === 1
+                ? [stateOffer.category[0].id]
+                : [stateOffer.category[0].id, stateOffer.category[2].id],
+          subcategory1 && subcategory2
+            ? [subcategory1, subcategory2]
+            : subcategory1 && !subcategory2
+            ? [subcategory1]
+            : subcategory2 && !subcategory1
+              ? [subcategory2]
+              : stateOffer.subcategory.length === 1
+                ? [stateOffer.subcategory[0].id]
+                : [stateOffer.subcategory[0].id, stateOffer.subcategory[2].id],
+          region ? region : stateOffer.region_id,
+          city ? city : stateOffer.city_id,
+          isActive ? isActive : stateOffer.is_active,
+          currency ? currency : stateDesire.currency_id
+        );
+        setTitle("");
+        setPhotos([]);
+        setVideo("");
+        setDescription("");
+        setCategory1(null);
+        setCategory2(null);
+        setSubcategory1(null);
+        setSubcategory2(null);
+        setPrice("");
+        setIsActive(1);
+        setTimeout(() => setLoading(false), 5000);
+      } else {
+        showAlert("Видео должно быть из YouTube");
+      }
     }
   };
 

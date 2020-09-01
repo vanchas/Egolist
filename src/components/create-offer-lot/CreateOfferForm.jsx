@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import s from "./add-form.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";
@@ -55,46 +55,48 @@ function AddLotForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (videoValidator(video)) {
-      if (
-        title.trim().length &&
-        description.trim().length &&
-        category1 &&
-        subcategory1 &&
-        price > 0
-      ) {
-        setLoading(true);
-        createOffer(
-          router.query.desire_id,
-          photos,
-          video,
-          description,
-          title,
-          price,
-          [category1 ? category1.id : null, category2 ? category2.id : null],
-          [
-            subcategory1 ? subcategory1.id : null,
-            subcategory2 ? subcategory2.id : null,
-          ],
-          region,
-          city ? city : cities[0].id,
-          isActive,
-          currency ? currency : 1
-        );
-        setTitle("");
-        setPhotos([]);
-        setVideo("");
-        setDescription("");
-        setCategory1(null);
-        setCategory2(null);
-        setSubcategory1(null);
-        setSubcategory2(null);
-        setPrice("");
-        setIsActive(1);
-        setCurrency(1);
-        setTimeout(() => setLoading(false), 10000);
-      } else {
-        showAlert("Bce поля должны быть заполнены");
+    if (badWordsChecker(title) && badWordsChecker(description)) {
+      if (videoValidator(video)) {
+        if (
+          title.trim().length &&
+          description.trim().length &&
+          category1 &&
+          subcategory1 &&
+          price > 0
+        ) {
+          setLoading(true);
+          createOffer(
+            router.query.desire_id,
+            photos,
+            video,
+            description,
+            title,
+            price,
+            [category1 ? category1.id : null, category2 ? category2.id : null],
+            [
+              subcategory1 ? subcategory1.id : null,
+              subcategory2 ? subcategory2.id : null,
+            ],
+            region,
+            city ? city : cities[0].id,
+            isActive,
+            currency ? currency : 1
+          );
+          setTitle("");
+          setPhotos([]);
+          setVideo("");
+          setDescription("");
+          setCategory1(null);
+          setCategory2(null);
+          setSubcategory1(null);
+          setSubcategory2(null);
+          setPrice("");
+          setIsActive(1);
+          setCurrency(1);
+          setTimeout(() => setLoading(false), 10000);
+        } else {
+          showAlert("Bce поля должны быть заполнены");
+        }
       }
     }
   };

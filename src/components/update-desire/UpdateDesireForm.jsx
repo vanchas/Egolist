@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import s from "./update-desire.module.scss";
-import inputValidateHandler from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
 import $ from "jquery";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
@@ -77,40 +77,42 @@ function UpdateForm({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (videoValidator(video ? video : stateDesire.video)) {
-      setSubmitLoading(true);
-      updateDesire(
-        router.query.id,
-        photo ? photo : stateDesire.photo,
-        video ? video : stateDesire.video,
-        description ? description : stateDesire.description,
-        header ? header : stateDesire.header,
-        price ? price : stateDesire.price,
-        priority_id ? priority_id : stateDesire.priority.id,
-        type_id ? type_id : stateDesire.type.id,
-        category1 && category2
-          ? [category1, category2]
-          : category1 && !category2
-          ? [category1]
-          : category2 && !category1
-          ? [category2]
-          : stateDesire.category.length === 1
-          ? [stateDesire.category[0].id]
-          : [stateDesire.category[0].id, stateDesire.category[2].id],
-        subcategory1 && subcategory2
-          ? [subcategory1, subcategory2]
-          : subcategory1 && !subcategory2
-          ? [subcategory1]
-          : subcategory2 && !subcategory1
-          ? [subcategory2]
-          : stateDesire.subcategory.length === 1
-          ? [stateDesire.subcategory[0].id]
-          : [stateDesire.subcategory[0].id, stateDesire.subcategory[2].id],
-        region_id ? region_id : stateDesire.region_id,
-        city_id ? city_id : stateDesire.city_id,
-        is_active ? is_active : stateDesire.is_active,
-        currency ? currency : stateDesire.currency_id
-      );
+    if (badWordsChecker(header) && badWordsChecker(description)) {
+      if (videoValidator(video ? video : stateDesire.video)) {
+        setSubmitLoading(true);
+        updateDesire(
+          router.query.id,
+          photo ? photo : stateDesire.photo,
+          video ? video : stateDesire.video,
+          description ? description : stateDesire.description,
+          header ? header : stateDesire.header,
+          price ? price : stateDesire.price,
+          priority_id ? priority_id : stateDesire.priority.id,
+          type_id ? type_id : stateDesire.type.id,
+          category1 && category2
+            ? [category1, category2]
+            : category1 && !category2
+            ? [category1]
+            : category2 && !category1
+              ? [category2]
+              : stateDesire.category.length === 1
+                ? [stateDesire.category[0].id]
+                : [stateDesire.category[0].id, stateDesire.category[2].id],
+          subcategory1 && subcategory2
+            ? [subcategory1, subcategory2]
+            : subcategory1 && !subcategory2
+            ? [subcategory1]
+            : subcategory2 && !subcategory1
+              ? [subcategory2]
+              : stateDesire.subcategory.length === 1
+                ? [stateDesire.subcategory[0].id]
+                : [stateDesire.subcategory[0].id, stateDesire.subcategory[2].id],
+          region_id ? region_id : stateDesire.region_id,
+          city_id ? city_id : stateDesire.city_id,
+          is_active ? is_active : stateDesire.is_active,
+          currency ? currency : stateDesire.currency_id
+        );
+      }
     }
     setTimeout(() => setSubmitLoading(false), 3000);
   };
