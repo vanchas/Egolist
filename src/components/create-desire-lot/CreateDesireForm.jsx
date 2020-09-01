@@ -6,7 +6,9 @@ import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
+import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
 import { connect } from "react-redux";
+import Progress from "reactstrap/lib/Progress";
 
 function CreateDesireForm({
   desiresInfo,
@@ -21,6 +23,8 @@ function CreateDesireForm({
   currentGeoPosition,
   getCurrencies,
   currencies,
+  checkUniquenessOfLotDescription,
+  uniqueDescriptionRate,
 }) {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -87,7 +91,7 @@ function CreateDesireForm({
         setPrice("");
         setPriority("");
         setIsActive(1);
-        setCurrency(1)
+        setCurrency(1);
         setTimeout(() => setLoading(false), 2000);
       } else {
         showAlert("Bce поля должны быть заполнены");
@@ -214,7 +218,25 @@ function CreateDesireForm({
             className="form-control"
             onChange={(e) => setVideo(e.target.value)}
           />
-          <label>Описание *</label>
+          <label className={`d-flex justify-content-between`}>
+            Описание * &nbsp;
+            {Number.isInteger(uniqueDescriptionRate) ? (
+              <b>
+                Уникальность текста
+                <div className="progress">
+                  <div
+                    className="progress-bar bg-info"
+                    role="progressbar"
+                    style={{ width: uniqueDescriptionRate + "%" }}
+                    aria-valuenow={uniqueDescriptionRate}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  />
+                </div>
+                {uniqueDescriptionRate}%
+              </b>
+            ) : null}
+          </label>
           <textarea
             name={`description`}
             maxLength={`1000`}
@@ -226,6 +248,9 @@ function CreateDesireForm({
               if (inputValidateHandler(e, setWarning))
                 setDescription(e.target.value);
             }}
+            onBlur={(e) => {
+              checkUniquenessOfLotDescription(e.target.value);
+            }}
           />
         </div>
         <div>
@@ -235,7 +260,13 @@ function CreateDesireForm({
               <SpinnerGrow color="secondary" />
             ) : category1 ? (
               <div>
-                Выбрана категория {category1.name}{console.log(subcat1Loading, showSubSelect1, subcategory1, subcategories.length)}
+                Выбрана категория {category1.name}
+                {console.log(
+                  subcat1Loading,
+                  showSubSelect1,
+                  subcategory1,
+                  subcategories.length
+                )}
                 <span
                   className={`btn btn-danger ml-2 px-1 py-0`}
                   onClick={() => {
@@ -439,7 +470,7 @@ function CreateDesireForm({
           <label htmlFor="price">
             Цена{" "}
             {currencies && currencies.length ? (
-              <select onChange={e => setCurrency(e.target.value)}>
+              <select onChange={(e) => setCurrency(e.target.value)}>
                 {currencies.map((cur, i) => (
                   <option key={i} value={cur.id}>
                     {cur.name}
@@ -512,8 +543,10 @@ function CreateDesireForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
+  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
 });
 const mapDispatchToProps = {
   getCurrencies,
+  checkUniquenessOfLotDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateDesireForm);

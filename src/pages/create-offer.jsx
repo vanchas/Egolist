@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import AddOfferForm from '../components/create-offer-lot/CreateOfferForm'
-import { getCities, getSubcategories, getCategories, showAlert } from '../redux/actions/appActions'
+import { getCities, getCurrencies, getSubcategories, getCategories, showAlert } from '../redux/actions/appActions'
 import { createOffer } from '../redux/actions/userActions'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
@@ -11,6 +11,7 @@ function CreateOffer(props) {
   const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
+    props.getCurrencies()
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
       setShowPage(true)
@@ -47,7 +48,8 @@ const mapDispatchToProps = {
   createOffer,
   getSubcategories,
   getCategories,
-  showAlert
+  showAlert,
+  getCurrencies
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateOffer)

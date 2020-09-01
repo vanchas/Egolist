@@ -6,6 +6,7 @@ import $ from "jquery";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
 import { connect } from "react-redux";
+import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
 
 function UpdateForm({
   locations,
@@ -22,6 +23,8 @@ function UpdateForm({
   deleteDesirePhoto,
   getCurrencies,
   currencies,
+  uniqueDescriptionRate,
+  checkUniquenessOfLotDescription,
 }) {
   const router = useRouter();
   const [header, setHeader] = useState(null);
@@ -44,7 +47,7 @@ function UpdateForm({
   const [subcategory1, setSubcategory1] = useState(null);
   const [subcategory2, setSubcategory2] = useState(null);
   const [submitLoading, setSubmitLoading] = useState(true);
-  const [currency, setCurrency] = useState(null);
+  const [currency, setCurrency] = useState(1);
 
   useEffect(() => {
     getCurrencies();
@@ -229,7 +232,25 @@ function UpdateForm({
                   setVideo(e.target.value);
                 }}
               />
-              <label htmlFor="description">Описание</label>
+              <label htmlFor="description">
+                Описание &nbsp;{" "}
+                {Number.isInteger(uniqueDescriptionRate) ? (
+                  <b className={`float-right`}>
+                    Уникальность текста
+                    <div className="progress">
+                      <div
+                        className="progress-bar bg-info"
+                        role="progressbar"
+                        style={{ width: uniqueDescriptionRate + "%" }}
+                        aria-valuenow={uniqueDescriptionRate}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      />
+                    </div>
+                    {uniqueDescriptionRate}%
+                  </b>
+                ) : null}
+              </label>
               <textarea
                 className="form-control"
                 name="description"
@@ -245,6 +266,9 @@ function UpdateForm({
                   if (inputValidateHandler(e, setWarning)) {
                     setDescription(e.target.value);
                   }
+                }}
+                onBlur={(e) => {
+                  checkUniquenessOfLotDescription(e.target.value);
                 }}
               />
             </div>
@@ -534,8 +558,10 @@ function UpdateForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
+  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
 });
 const mapDispatchToProps = {
   getCurrencies,
+  checkUniquenessOfLotDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateForm);

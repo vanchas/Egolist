@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import UpdateOfferForm from '../components/update-offer/UpdateOfferForm'
 import { connect } from "react-redux";
 import { updateOffer, getOffer, deleteOfferPhoto } from "../redux/actions/userActions";
-import { getLocations, showAlert, getCategories, getSubcategories, getCities, getOfferById } from '../redux/actions/appActions'
+import { getLocations, showAlert, getCategories, getSubcategories, getCities, getCurrencies, getOfferById } from '../redux/actions/appActions'
 import {authenticationService} from "../_services/authentication.service";
 import Router from "next/router";
 import s from '../components/update-offer/update-offer.module.scss'
@@ -11,6 +11,7 @@ const UpdateOffer = (props) => {
   const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
+    props.getCurrencies()
     const user = authenticationService.currentUserValue;
     if (user && user.user) {
       setShowPage(true)
@@ -55,7 +56,8 @@ const mapDispatchToProps = {
   getSubcategories,
   getCities,
   getOfferById,
-  deleteOfferPhoto
+  deleteOfferPhoto,
+  getCurrencies
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateOffer);

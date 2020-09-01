@@ -5,8 +5,10 @@ import inputValidateHandler from "../../utils/FieldsValidator";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";
+import { connect } from "react-redux";
+import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
 
-export default function AddLotForm({
+function AddLotForm({
   createOffer,
   showAlert,
   categories,
@@ -15,6 +17,9 @@ export default function AddLotForm({
   locations,
   cities,
   getCities,
+  currencies,
+  checkUniquenessOfLotDescription,
+  uniqueDescriptionRate,
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -36,13 +41,11 @@ export default function AddLotForm({
   const [subcategory2Loading, setSubcategory2Loading] = useState(false);
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
+  const [currency, setCurrency] = useState(1);
 
   const videoValidator = (videoValue) => {
     const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (
-        !videoValue || videoValue === 'null' ||
-        videoValue.match(regExp)
-    ) {
+    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
       return true;
     } else {
       return false;
@@ -54,25 +57,29 @@ export default function AddLotForm({
     e.preventDefault();
     if (videoValidator(video)) {
       if (
-          title.trim().length &&
-          description.trim().length &&
-          category1 &&
-          subcategory1 &&
-          price > 0
+        title.trim().length &&
+        description.trim().length &&
+        category1 &&
+        subcategory1 &&
+        price > 0
       ) {
         setLoading(true);
         createOffer(
-            router.query.desire_id,
-            photos,
-            video,
-            description,
-            title,
-            price,
-            [category1 ? category1.id : null, category2 ? category2.id : null],
-            [subcategory1 ? subcategory1.id : null, subcategory2 ? subcategory2.id : null],
-            region,
-            city ? city : cities[0].id,
-            isActive
+          router.query.desire_id,
+          photos,
+          video,
+          description,
+          title,
+          price,
+          [category1 ? category1.id : null, category2 ? category2.id : null],
+          [
+            subcategory1 ? subcategory1.id : null,
+            subcategory2 ? subcategory2.id : null,
+          ],
+          region,
+          city ? city : cities[0].id,
+          isActive,
+          currency ? currency : 1
         );
         setTitle("");
         setPhotos([]);
@@ -84,6 +91,7 @@ export default function AddLotForm({
         setSubcategory2(null);
         setPrice("");
         setIsActive(1);
+        setCurrency(1);
         setTimeout(() => setLoading(false), 10000);
       } else {
         showAlert("Bce поля должны быть заполнены");
@@ -183,7 +191,25 @@ export default function AddLotForm({
             className="form-control"
             onChange={(e) => setVideo(e.target.value)}
           />
-          <label>Описание *</label>
+          <label>
+            Описание * &nbsp;{" "}
+            {Number.isInteger(uniqueDescriptionRate) ? (
+              <b className={`float-right`}>
+                Уникальность текста
+                <div className="progress">
+                  <div
+                    className="progress-bar bg-info"
+                    role="progressbar"
+                    style={{ width: uniqueDescriptionRate + "%" }}
+                    aria-valuenow={uniqueDescriptionRate}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  />
+                </div>
+                {uniqueDescriptionRate}%
+              </b>
+            ) : null}
+          </label>
           <textarea
             name={`description`}
             required
@@ -194,6 +220,9 @@ export default function AddLotForm({
             onChange={(e) => {
               if (inputValidateHandler(e, setWarning))
                 setDescription(e.target.value);
+            }}
+            onBlur={(e) => {
+              checkUniquenessOfLotDescription(e.target.value);
             }}
           />
         </div>
@@ -379,7 +408,21 @@ export default function AddLotForm({
               </select>
             )}
           </fieldset>
-          <label htmlFor="price">Цена *</label>
+          <label htmlFor="price">
+            Цена{" "}
+            {currencies && currencies.length ? (
+              <select onChange={(e) => setCurrency(e.target.value)}>
+                {currencies.map((cur, i) => (
+                  <option key={i} value={cur.id}>
+                    {cur.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <SpinnerGrow color={`secondary`} />
+            )}{" "}
+            *
+          </label>
           <input
             type="number"
             id="price"
@@ -417,3 +460,12 @@ export default function AddLotForm({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+});
+const mapDispatchToProps = {
+  checkUniquenessOfLotDescription,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AddLotForm);

@@ -39,7 +39,7 @@ import {
   // ADD_OFFER_TO_COMPARISON,
   SET_PESISTED_STATE,
   REMOVE_OFFER_FROM_COMPARISON,
-  ADD_OFFER_TO_COMPARISON,
+  ADD_OFFER_TO_COMPARISON, CHECK_UNIQUENESS_OF_LOT_DESCRIPTION
 } from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
 import { showAlert, showSuccess } from "./appActions";
@@ -483,9 +483,9 @@ export const updateOffer = (
   subcategory_ids: any,
   region_id: string,
   city_id: string,
-  is_active: any
+  is_active: any,
+  currency: any
 ) => async (dispatch: Function) => {
-  // console.log(category_ids, subcategory_ids, desireId, description, header, city_id, region_id, price, is_active, photo, video, id)
   const formData = new FormData();
   if (!photo.length) {
     formData.append("photo", "");
@@ -503,6 +503,7 @@ export const updateOffer = (
   formData.append("region_id", region_id);
   formData.append("city_id", city_id);
   formData.append("is_active", is_active);
+  formData.append("currency_id", currency);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(
@@ -551,7 +552,8 @@ export const createOffer = (
   subcategory_ids: any,
   region_id: string,
   city_id: string,
-  is_active: any
+  is_active: any,
+  currency: any
 ) => async (dispatch: Function) => {
   const formData = new FormData();
 
@@ -567,6 +569,7 @@ export const createOffer = (
   formData.append("category_ids", category_ids);
   formData.append("subcategory_ids", subcategory_ids);
   formData.append("is_active", is_active);
+  formData.append("currency_id", currency);
 
   const user = authenticationService.currentUserValue;
   const response = await fetch(`${target}/desires/offers/create/${desireId}`, {
@@ -598,6 +601,14 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
     .then((res) => res.json())
     .then((data) => {
       return dispatch({ type: GET_CURRENT_GEO_POSITION, payload: data });
+    })
+    .catch((err) => err);
+};
+
+export const checkUniquenessOfLotDescription = (string: string) => async (dispatch: Function) => {
+  HttpRequest.execute(`/search/${string}`)
+    .then((data) => {
+      return dispatch({ type: CHECK_UNIQUENESS_OF_LOT_DESCRIPTION, payload: data });
     })
     .catch((err) => err);
 };

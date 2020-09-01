@@ -24,7 +24,7 @@ import {
   DELETE_DESIRE,
   ADD_OFFER_TO_COMPARISON,
   SET_PESISTED_STATE,
-  REMOVE_OFFER_FROM_COMPARISON,
+  REMOVE_OFFER_FROM_COMPARISON, CHECK_UNIQUENESS_OF_LOT_DESCRIPTION
 } from "../actions/types";
 import { loadState } from "../localStorage";
 
@@ -42,6 +42,7 @@ interface IState {
   myMessages: null | any[];
   photoVerifyExample: any;
   comparisonOffers: any[];
+  uniqueDescriptionRate: any;
 }
 
 const initialState: IState = {
@@ -58,10 +59,15 @@ const initialState: IState = {
   myMessages: [],
   photoVerifyExample: null,
   comparisonOffers: [],
+  uniqueDescriptionRate: null
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
+
+    case CHECK_UNIQUENESS_OF_LOT_DESCRIPTION:
+      return { ...state, uniqueDescriptionRate: action.payload };
+
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
 

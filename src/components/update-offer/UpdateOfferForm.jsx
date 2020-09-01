@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import s from "./update-offer.module.scss";
 import { useRouter } from "next/router";
 import inputValidateHandler from "../../utils/FieldsValidator";
+import { connect } from "react-redux";
+import SpinnerGrow from "../helpers/SpinnerGrow";
+import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
 
-export default function UpdateOfferForm({
+function UpdateOfferForm({
   updateOffer,
   showAlert,
   categories,
@@ -15,6 +18,9 @@ export default function UpdateOfferForm({
   deleteOfferPhoto,
   offer,
   getOfferById,
+  currencies,
+  uniqueDescriptionRate,
+  checkUniquenessOfLotDescription,
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -35,6 +41,7 @@ export default function UpdateOfferForm({
   const [cityLoading, setCityLoading] = useState(false);
   const [stateOffer, setStateOffer] = useState(null);
   const [warning, setWarning] = useState(null);
+  const [currency, setCurrency] = useState(null);
 
   useEffect(() => {
     setTimeout(() => setWarning(null), 10000);
@@ -91,8 +98,9 @@ export default function UpdateOfferForm({
           ? [stateOffer.subcategory[0].id]
           : [stateOffer.subcategory[0].id, stateOffer.subcategory[2].id],
         region ? region : stateOffer.region_id,
-          city ? city : stateOffer.city_id,
-        isActive ? isActive : stateOffer.is_active
+        city ? city : stateOffer.city_id,
+        isActive ? isActive : stateOffer.is_active,
+        currency ? currency : stateDesire.currency_id
       );
       setTitle("");
       setPhotos([]);
@@ -131,7 +139,9 @@ export default function UpdateOfferForm({
     <div className={s.add_lot_form}>
       {stateOffer ? (
         <>
-          <span className={s.btn_back} onClick={router.back}>Назад</span>
+          <span className={s.btn_back} onClick={router.back}>
+            Назад
+          </span>
 
           <h3 className={`mt-3 text-white`}>Редактирование предложения</h3>
           {warning && (
@@ -149,7 +159,9 @@ export default function UpdateOfferForm({
               <label>Заголовок</label>
               <input
                 type="text"
-                defaultValue={stateOffer && stateOffer.header ? stateOffer.header : ""}
+                defaultValue={
+                  stateOffer && stateOffer.header ? stateOffer.header : ""
+                }
                 name={`header`}
                 maxLength={`50`}
                 className="form-control"
@@ -208,7 +220,25 @@ export default function UpdateOfferForm({
                   setVideo(e.target.value);
                 }}
               />
-              <label>Описание</label>
+              <label>
+                Описание &nbsp;{" "}
+                {Number.isInteger(uniqueDescriptionRate) ? (
+                  <b className={`float-right`}>
+                    Уникальность текста
+                    <div className="progress">
+                      <div
+                        className="progress-bar bg-info"
+                        role="progressbar"
+                        style={{ width: uniqueDescriptionRate + "%" }}
+                        aria-valuenow={uniqueDescriptionRate}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      />
+                    </div>
+                    {uniqueDescriptionRate}%
+                  </b>
+                ) : null}
+              </label>
               <textarea
                 defaultValue={
                   stateOffer && stateOffer.description
@@ -223,6 +253,9 @@ export default function UpdateOfferForm({
                   if (inputValidateHandler(e, setWarning)) {
                     setDescription(e.target.value);
                   }
+                }}
+                onBlur={(e) => {
+                  checkUniquenessOfLotDescription(e.target.value);
                 }}
               />
             </div>
@@ -349,7 +382,9 @@ export default function UpdateOfferForm({
                     <option value={stateOffer.region.id} hidden>
                       {stateOffer.region.name_ru}
                     </option>
-                  ) : <option hidden></option>}
+                  ) : (
+                    <option hidden></option>
+                  )}
                   {locations
                     ? locations.map((loc, i) => (
                         <option value={loc.id} key={i}>
@@ -391,14 +426,38 @@ export default function UpdateOfferForm({
                   </div>
                 </div>
               )}
-              <label htmlFor="price">Цена</label>
+              <label htmlFor="price">
+                Цена{" "}
+                {currencies && currencies.length ? (
+                  <select onChange={(e) => setCurrency(e.target.value)}>
+                    {currencies.map((cur, i) => {
+                      if (cur.id === offer.currency_id) {
+                        return (
+                          <option key={i} value={cur.id} hidden>
+                            {cur.name}
+                          </option>
+                        );
+                      }
+                    })}
+                    {currencies.map((cur, i) => (
+                      <option key={i} value={cur.id}>
+                        {cur.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <SpinnerGrow color={`secondary`} />
+                )}{" "}
+              </label>
               <input
                 type="number"
                 id="price"
                 min={`1`}
                 max={`999999999999`}
                 maxLength={`12`}
-                defaultValue={stateOffer && stateOffer.price ? stateOffer.price : ""}
+                defaultValue={
+                  stateOffer && stateOffer.price ? stateOffer.price : ""
+                }
                 onChange={(e) => {
                   setPrice(e.target.value);
                 }}
@@ -426,7 +485,10 @@ export default function UpdateOfferForm({
                     </div>
                   </div>
                 ) : (
-                  <button type="submit" className="ml-2 btn btn-outline-warning">
+                  <button
+                    type="submit"
+                    className="ml-2 btn btn-outline-warning"
+                  >
                     Применить
                   </button>
                 )}
@@ -451,3 +513,12 @@ export default function UpdateOfferForm({
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  currencies: state.app.currencies,
+  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+});
+const mapDispatchToProps = {
+  checkUniquenessOfLotDescription,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateOfferForm);
