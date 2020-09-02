@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "reactstrap";
 import { connect } from "react-redux";
 import s from "./verify.module.scss";
+import {sendReportMessage} from "../../redux/actions/userActions";
 
 const styles = {
   center: {
@@ -26,12 +27,15 @@ const styles = {
 
 const ReportProblem = (props) => {
   const [modal, setModal] = useState(false);
+  const [message, setMessage] = useState('');
 
   const toggle = () => setModal(!modal);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    //
+    props.sendReportMessage(message)
+    setMessage('')
+    setTimeout(() => toggle(), 1000)
   };
 
   return (
@@ -54,6 +58,9 @@ const ReportProblem = (props) => {
               className={`form-control mt-2`}
               required
               style={styles.textarea}
+              minLength={'3'}
+              maxLength={'1000'}
+              onChange={e => setMessage(e.target.value)}
             />
           </label>
           <div>
@@ -69,6 +76,8 @@ const ReportProblem = (props) => {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  sendReportMessage
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportProblem);

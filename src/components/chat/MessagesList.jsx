@@ -1,5 +1,6 @@
 import React from "react";
 import s from "./chat.module.scss";
+import { authenticationService } from "../../_services/authentication.service";
 
 export default function MessagesList(props) {
   return (
@@ -12,9 +13,9 @@ export default function MessagesList(props) {
             <div
               key={i}
               className={
-                msg.author === "admin"
-                  ? s.message
-                  : `${s.message} ${s.message_personal}`
+                msg.user_id === authenticationService.currentUserValue.user.id
+                  ? `${s.message} ${s.message_personal}`
+                  : s.message
               }
             >
               {msg.message}

@@ -26,7 +26,7 @@ import {
   SET_PESISTED_STATE,
   REMOVE_OFFER_FROM_COMPARISON,
   CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION,
-  CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION,
+  CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION, GET_CHATS_LIST
 } from "../actions/types";
 import { loadState } from "../localStorage";
 
@@ -46,6 +46,7 @@ interface IState {
   comparisonOffers: any[];
   uniqueDesireDescriptionRate: any;
   uniqueOfferDescriptionRate: any;
+  chats: any[];
 }
 
 const initialState: IState = {
@@ -64,10 +65,15 @@ const initialState: IState = {
   comparisonOffers: [],
   uniqueDesireDescriptionRate: null,
   uniqueOfferDescriptionRate: null,
+  chats: []
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
+
+    case GET_CHATS_LIST:
+      return { ...state, chats: action.payload };
+
     case CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION:
       return { ...state, uniqueDesireDescriptionRate: action.payload };
 

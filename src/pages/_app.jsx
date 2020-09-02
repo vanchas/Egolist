@@ -78,6 +78,7 @@ class MyApp extends App {
             defer
             src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
           />
+          <script src="https://js.pusher.com/7.0/pusher.min.js" />
           <title>EGOLIST</title>
         </Head>
         <Layout>

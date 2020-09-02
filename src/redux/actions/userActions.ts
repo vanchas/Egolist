@@ -39,7 +39,11 @@ import {
   // ADD_OFFER_TO_COMPARISON,
   SET_PESISTED_STATE,
   REMOVE_OFFER_FROM_COMPARISON,
-  ADD_OFFER_TO_COMPARISON, CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION, CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION
+  ADD_OFFER_TO_COMPARISON,
+  CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION,
+  CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION,
+  GET_CHATS_LIST,
+  SEND_REPORT_MESSAGE
 } from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
 import { showAlert, showSuccess } from "./appActions";
@@ -601,6 +605,23 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
     .then((res) => res.json())
     .then((data) => {
       return dispatch({ type: GET_CURRENT_GEO_POSITION, payload: data });
+    })
+    .catch((err) => err);
+};
+
+export const sendReportMessage = (message: string) => async (dispatch: Function) => {
+  HttpRequest.execute(`/send_report`, "POST", "application/json", { message })
+    .then((data) => {
+      dispatch({ type: SEND_REPORT_MESSAGE, payload: data });
+      dispatch(showSuccess(data.message))
+    })
+    .catch((err) => err);
+};
+
+export const getChatsList = () => async (dispatch: Function) => {
+  HttpRequest.execute(`/chats`)
+    .then((data) => {
+      return dispatch({ type: GET_CHATS_LIST, payload: data });
     })
     .catch((err) => err);
 };

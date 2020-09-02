@@ -33,13 +33,32 @@ function Chat(props) {
   };
 
   const fetchMessages = () => {
-    HttpRequest.execute(`/messages?page=${currentPage}`)
+    // Pusher.logToConsole = true;
+    //
+    // const pusher = new Pusher('abeaa19bc712bf37d872', {
+    //   cluster: 'eu'
+    // });
+    //
+    // const channel = pusher.subscribe('chat-channel');
+    // channel.bind('CreateMessageEvent', function(data) {
+    //   console.log(JSON.stringify(data));
+    // });
+
+    HttpRequest.execute(`/chats/messages/show/${props.id}?page=${currentPage}`)
         .then((data) => {
-          setLength(data.messages.per_page)
-          setLastPage(data.messages.last_page)
-          setMessages(messages.concat(data.messages.data))
+          setLength(data.per_page)
+          setLastPage(data.last_page)
+          setMessages(messages.concat(data.data))
           setScrollLoading(false)
         }).catch((err) => console.error("Error:", err));
+
+    // HttpRequest.execute(`/messages?page=${currentPage}`)
+    //     .then((data) => {
+    //       setLength(data.messages.per_page)
+    //       setLastPage(data.messages.last_page)
+    //       setMessages(messages.concat(data.messages.data))
+    //       setScrollLoading(false)
+    //     }).catch((err) => console.error("Error:", err));
   }
 
   useEffect(() => {
