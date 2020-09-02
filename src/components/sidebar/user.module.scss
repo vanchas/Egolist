@@ -17,6 +17,11 @@
 		grid-template-columns: auto 1fr;
 		align-items: center;
 		gap: 1em;
+		transition: .3s;
+		border-radius: 2em 0 0 2em;
+		&:hover {
+			background-color: #4e555b;
+		}
 		div {
 			width: 3em;
 			height: 3em;

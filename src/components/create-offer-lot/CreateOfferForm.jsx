@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import s from "./add-form.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker, videoValidator } from "../../utils/FieldsValidator";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { connect } from "react-redux";
-import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
+import { checkUniquenessOfOfferDescription } from "../../redux/actions/userActions";
 
 function AddLotForm({
   createOffer,
@@ -19,7 +19,7 @@ function AddLotForm({
   getCities,
   currencies,
   checkUniquenessOfLotDescription,
-  uniqueDescriptionRate,
+  uniqueOfferDescriptionRate,
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -42,16 +42,6 @@ function AddLotForm({
   const [regionLoading, setRegionLoading] = useState(false);
   const [warning, setWarning] = useState(null);
   const [currency, setCurrency] = useState(1);
-
-  const videoValidator = (videoValue) => {
-    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
-      return true;
-    } else {
-      return false;
-    }
-    return false;
-  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -195,20 +185,20 @@ function AddLotForm({
           />
           <label>
             Описание * &nbsp;{" "}
-            {Number.isInteger(uniqueDescriptionRate) ? (
+            {Number.isInteger(uniqueOfferDescriptionRate) ? (
               <b className={`float-right`}>
                 Уникальность текста
                 <div className="progress">
                   <div
                     className="progress-bar bg-info"
                     role="progressbar"
-                    style={{ width: uniqueDescriptionRate + "%" }}
-                    aria-valuenow={uniqueDescriptionRate}
+                    style={{ width: uniqueOfferDescriptionRate + "%" }}
+                    aria-valuenow={uniqueOfferDescriptionRate}
                     aria-valuemin="0"
                     aria-valuemax="100"
                   />
                 </div>
-                {uniqueDescriptionRate}%
+                {uniqueOfferDescriptionRate}%
               </b>
             ) : null}
           </label>
@@ -465,9 +455,9 @@ function AddLotForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
-  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+  uniqueOfferDescriptionRate: state.user.uniqueOfferDescriptionRate,
 });
 const mapDispatchToProps = {
-  checkUniquenessOfLotDescription,
+  checkUniquenessOfOfferDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddLotForm);

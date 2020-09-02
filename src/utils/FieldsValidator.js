@@ -48,3 +48,13 @@ export function badWordsChecker(string) {
     }
     return true
 }
+
+export const videoValidator = (videoValue) => {
+    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
+    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
+        return true;
+    } else {
+        return false;
+    }
+    return false;
+};

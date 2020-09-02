@@ -43,7 +43,8 @@ function Index(props) {
           cities={props.cities}
           getCities={props.getCities}
           currentGeoPosition={props.currentGeoPosition}
-        />}
+        />
+      }
     </div>
   );
 }

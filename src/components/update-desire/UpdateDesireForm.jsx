@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import s from "./update-desire.module.scss";
-import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker, videoValidator } from "../../utils/FieldsValidator";
 import $ from "jquery";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
 import { connect } from "react-redux";
-import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
+import { checkUniquenessOfDesireDescription } from "../../redux/actions/userActions";
 
 function UpdateForm({
   locations,
@@ -23,7 +23,7 @@ function UpdateForm({
   deleteDesirePhoto,
   getCurrencies,
   currencies,
-  uniqueDescriptionRate,
+  uniqueDesireDescriptionRate,
   checkUniquenessOfLotDescription,
 }) {
   const router = useRouter();
@@ -64,16 +64,6 @@ function UpdateForm({
     }
     setTimeout(() => setWarning(null), 10000);
   }, [warning, subcategories, cities, desire]);
-
-  const videoValidator = (videoValue) => {
-    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
-      return true;
-    } else {
-      return false;
-    }
-    return false;
-  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -236,20 +226,20 @@ function UpdateForm({
               />
               <label htmlFor="description">
                 Описание &nbsp;{" "}
-                {Number.isInteger(uniqueDescriptionRate) ? (
+                {Number.isInteger(uniqueDesireDescriptionRate) ? (
                   <b className={`float-right`}>
                     Уникальность текста
                     <div className="progress">
                       <div
                         className="progress-bar bg-info"
                         role="progressbar"
-                        style={{ width: uniqueDescriptionRate + "%" }}
-                        aria-valuenow={uniqueDescriptionRate}
+                        style={{ width: uniqueDesireDescriptionRate + "%" }}
+                        aria-valuenow={uniqueDesireDescriptionRate}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       />
                     </div>
-                    {uniqueDescriptionRate}%
+                    {uniqueDesireDescriptionRate}%
                   </b>
                 ) : null}
               </label>
@@ -270,7 +260,7 @@ function UpdateForm({
                   }
                 }}
                 onBlur={(e) => {
-                  checkUniquenessOfLotDescription(e.target.value);
+                  checkUniquenessOfDesireDescription(e.target.value);
                 }}
               />
             </div>
@@ -560,10 +550,10 @@ function UpdateForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
-  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+  uniqueDesireDescriptionRate: state.user.uniqueDesireDescriptionRate,
 });
 const mapDispatchToProps = {
   getCurrencies,
-  checkUniquenessOfLotDescription,
+  checkUniquenessOfDesireDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateForm);

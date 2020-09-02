@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import s from "./update-offer.module.scss";
 import { useRouter } from "next/router";
-import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
+import inputValidateHandler, { badWordsChecker, videoValidator } from "../../utils/FieldsValidator";
 import { connect } from "react-redux";
 import SpinnerGrow from "../helpers/SpinnerGrow";
-import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
+import { checkUniquenessOfOfferDescription } from "../../redux/actions/userActions";
 
 function UpdateOfferForm({
   updateOffer,
@@ -19,7 +19,7 @@ function UpdateOfferForm({
   offer,
   getOfferById,
   currencies,
-  uniqueDescriptionRate,
+  uniqueOfferDescriptionRate,
   checkUniquenessOfLotDescription,
 }) {
   const router = useRouter();
@@ -56,16 +56,6 @@ function UpdateOfferForm({
       setLoadingSubcategory2(false);
     }
   }, [offer, subcategories, cities]);
-
-  const videoValidator = (videoValue) => {
-    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
-      return true;
-    } else {
-      return false;
-    }
-    return false;
-  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -224,20 +214,20 @@ function UpdateOfferForm({
               />
               <label>
                 Описание &nbsp;{" "}
-                {Number.isInteger(uniqueDescriptionRate) ? (
+                {Number.isInteger(uniqueOfferDescriptionRate) ? (
                   <b className={`float-right`}>
                     Уникальность текста
                     <div className="progress">
                       <div
                         className="progress-bar bg-info"
                         role="progressbar"
-                        style={{ width: uniqueDescriptionRate + "%" }}
-                        aria-valuenow={uniqueDescriptionRate}
+                        style={{ width: uniqueOfferDescriptionRate + "%" }}
+                        aria-valuenow={uniqueOfferDescriptionRate}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       />
                     </div>
-                    {uniqueDescriptionRate}%
+                    {uniqueOfferDescriptionRate}%
                   </b>
                 ) : null}
               </label>
@@ -518,9 +508,9 @@ function UpdateOfferForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
-  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+  uniqueOfferDescriptionRate: state.user.uniqueOfferDescriptionRate,
 });
 const mapDispatchToProps = {
-  checkUniquenessOfLotDescription,
+  checkUniquenessOfOfferDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateOfferForm);

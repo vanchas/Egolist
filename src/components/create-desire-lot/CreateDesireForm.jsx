@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import s from "./add-form.module.scss";
-import inputValidateHandler, { badWordsChecker } from "../../utils/FieldsValidator";
+import inputValidateHandler, {
+  badWordsChecker, videoValidator
+} from "../../utils/FieldsValidator";
 import Router from "next/router";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import SpinnerGrow from "../helpers/SpinnerGrow";
 import { getCurrencies } from "../../redux/actions/appActions";
-import { checkUniquenessOfLotDescription } from "../../redux/actions/userActions";
+import { checkUniquenessOfDesireDescription } from "../../redux/actions/userActions";
 import { connect } from "react-redux";
 
 function CreateDesireForm({
@@ -22,8 +24,8 @@ function CreateDesireForm({
   currentGeoPosition,
   getCurrencies,
   currencies,
-  checkUniquenessOfLotDescription,
-  uniqueDescriptionRate,
+  checkUniquenessOfDesireDescription,
+  uniqueDesireDescriptionRate,
 }) {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -75,7 +77,8 @@ function CreateDesireForm({
               subcategory2 ? subcategory2.id : null,
             ],
             region,
-            city ? city : cities[0].id,
+            // city ? city : cities[0].id,
+            city ? city : null,
             isActive,
             currency ? currency : 1
           );
@@ -119,16 +122,6 @@ function CreateDesireForm({
       });
     }
   }, [warning]);
-
-  const videoValidator = (videoValue) => {
-    const regExp = /^(https:\/\/www\.)?youtube\.com\/[aA-zZ0-9\/+*.$^?=&-]*$/m;
-    if (!videoValue || videoValue === "null" || videoValue.match(regExp)) {
-      return true;
-    } else {
-      return false;
-    }
-    return false;
-  };
 
   const category1Handler = (category) => {
     setShowSubSelect1(true);
@@ -200,16 +193,6 @@ function CreateDesireForm({
           >
             {photos.length >= 8 ? null : uploadButton}
           </Upload>
-          {/*{[1, 2, 3, 4, 5, 6, 7, 8].map((input, i) => (*/}
-          {/*  <label key={i}>*/}
-          {/*    <input*/}
-          {/*      type="file"*/}
-          {/*      onChange={(e) => {*/}
-          {/*        setPhotos([...photos, e.target.files[0]])*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*  </label>*/}
-          {/*))}*/}
           <label htmlFor="video">Видео (YouTube)</label>
           <input
             type="url"
@@ -221,20 +204,20 @@ function CreateDesireForm({
           />
           <label className={`d-flex justify-content-between`}>
             Описание * &nbsp;
-            {Number.isInteger(uniqueDescriptionRate) ? (
+            {Number.isInteger(uniqueDesireDescriptionRate) ? (
               <b>
                 Уникальность текста
                 <div className="progress">
                   <div
                     className="progress-bar bg-info"
                     role="progressbar"
-                    style={{ width: uniqueDescriptionRate + "%" }}
-                    aria-valuenow={uniqueDescriptionRate}
+                    style={{ width: uniqueDesireDescriptionRate + "%" }}
+                    aria-valuenow={uniqueDesireDescriptionRate}
                     aria-valuemin="0"
                     aria-valuemax="100"
                   />
                 </div>
-                {uniqueDescriptionRate}%
+                {uniqueDesireDescriptionRate}%
               </b>
             ) : null}
           </label>
@@ -250,7 +233,7 @@ function CreateDesireForm({
                 setDescription(e.target.value);
             }}
             onBlur={(e) => {
-              checkUniquenessOfLotDescription(e.target.value);
+              checkUniquenessOfDesireDescription(e.target.value);
             }}
           />
         </div>
@@ -262,12 +245,6 @@ function CreateDesireForm({
             ) : category1 ? (
               <div>
                 Выбрана категория {category1.name}
-                {console.log(
-                  subcat1Loading,
-                  showSubSelect1,
-                  subcategory1,
-                  subcategories.length
-                )}
                 <span
                   className={`btn btn-danger ml-2 px-1 py-0`}
                   onClick={() => {
@@ -544,10 +521,10 @@ function CreateDesireForm({
 
 const mapStateToProps = (state) => ({
   currencies: state.app.currencies,
-  uniqueDescriptionRate: state.user.uniqueDescriptionRate,
+  uniqueDesireDescriptionRate: state.user.uniqueDesireDescriptionRate,
 });
 const mapDispatchToProps = {
   getCurrencies,
-  checkUniquenessOfLotDescription,
+  checkUniquenessOfDesireDescription,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateDesireForm);

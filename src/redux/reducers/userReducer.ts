@@ -24,7 +24,9 @@ import {
   DELETE_DESIRE,
   ADD_OFFER_TO_COMPARISON,
   SET_PESISTED_STATE,
-  REMOVE_OFFER_FROM_COMPARISON, CHECK_UNIQUENESS_OF_LOT_DESCRIPTION
+  REMOVE_OFFER_FROM_COMPARISON,
+  CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION,
+  CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION,
 } from "../actions/types";
 import { loadState } from "../localStorage";
 
@@ -42,7 +44,8 @@ interface IState {
   myMessages: null | any[];
   photoVerifyExample: any;
   comparisonOffers: any[];
-  uniqueDescriptionRate: any;
+  uniqueDesireDescriptionRate: any;
+  uniqueOfferDescriptionRate: any;
 }
 
 const initialState: IState = {
@@ -59,14 +62,17 @@ const initialState: IState = {
   myMessages: [],
   photoVerifyExample: null,
   comparisonOffers: [],
-  uniqueDescriptionRate: null
+  uniqueDesireDescriptionRate: null,
+  uniqueOfferDescriptionRate: null,
 };
 
 export default function userReducer(state = initialState, action: any) {
   switch (action.type) {
+    case CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION:
+      return { ...state, uniqueDesireDescriptionRate: action.payload };
 
-    case CHECK_UNIQUENESS_OF_LOT_DESCRIPTION:
-      return { ...state, uniqueDescriptionRate: action.payload };
+    case CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION:
+      return { ...state, uniqueOfferDescriptionRate: action.payload };
 
     case GET_MY_DESIRES:
       return { ...state, myDesires: action.payload };
@@ -90,11 +96,13 @@ export default function userReducer(state = initialState, action: any) {
       };
 
     case ADD_OFFER_TO_COMPARISON:
-      const newComparisonOffers = state.comparisonOffers
-      const index = newComparisonOffers.findIndex(offer => offer.id === action.payload.id)
+      const newComparisonOffers = state.comparisonOffers;
+      const index = newComparisonOffers.findIndex(
+        (offer) => offer.id === action.payload.id
+      );
 
-      if (index === -1){
-        newComparisonOffers.push(action.payload)
+      if (index === -1) {
+        newComparisonOffers.push(action.payload);
       }
       return {
         ...state,
@@ -223,7 +231,7 @@ export default function userReducer(state = initialState, action: any) {
     case HIDE_SHOW_DESIRE:
       const newMyDesires = state.myDesires.map((des: any) => {
         if (des.id === action.payload) {
-          des.is_active === 1 ? des.is_active = 0 : des.is_active = 1
+          des.is_active === 1 ? (des.is_active = 0) : (des.is_active = 1);
         }
         return des;
       });
@@ -232,7 +240,7 @@ export default function userReducer(state = initialState, action: any) {
     case HIDE_SHOW_OFFER:
       const newMyOffers = state.myOffers.map((off: any) => {
         if (off.id === action.payload) {
-          off.is_active === 1 ? off.is_active = 0 : off.is_active = 1
+          off.is_active === 1 ? (off.is_active = 0) : (off.is_active = 1);
         }
         return off;
       });

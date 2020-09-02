@@ -39,7 +39,7 @@ import {
   // ADD_OFFER_TO_COMPARISON,
   SET_PESISTED_STATE,
   REMOVE_OFFER_FROM_COMPARISON,
-  ADD_OFFER_TO_COMPARISON, CHECK_UNIQUENESS_OF_LOT_DESCRIPTION
+  ADD_OFFER_TO_COMPARISON, CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION, CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION
 } from "./types";
 import HttpRequest from "../../_helpers/HttpRequest";
 import { showAlert, showSuccess } from "./appActions";
@@ -605,10 +605,18 @@ export const getCurrentGeoPosition = () => async (dispatch: Function) => {
     .catch((err) => err);
 };
 
-export const checkUniquenessOfLotDescription = (string: string) => async (dispatch: Function) => {
-  HttpRequest.execute(`/search/${string}`)
+export const checkUniquenessOfDesireDescription = (string: string) => async (dispatch: Function) => {
+  HttpRequest.execute(`/search/desire/${string}`)
     .then((data) => {
-      return dispatch({ type: CHECK_UNIQUENESS_OF_LOT_DESCRIPTION, payload: data });
+      return dispatch({ type: CHECK_UNIQUENESS_OF_DESIRE_DESCRIPTION, payload: data });
+    })
+    .catch((err) => err);
+};
+
+export const checkUniquenessOfOfferDescription = (string: string) => async (dispatch: Function) => {
+  HttpRequest.execute(`/search/offer/${string}`)
+    .then((data) => {
+      return dispatch({ type: CHECK_UNIQUENESS_OF_OFFER_DESCRIPTION, payload: data });
     })
     .catch((err) => err);
 };
